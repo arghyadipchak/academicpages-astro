@@ -1,0 +1,258 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import AuthorProfile from '../components/AuthorProfile.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import Prose from '../components/Prose.astro';
+import ActionBadges from '../components/ActionBadges.astro';
+import TableOfContents from '../components/TableOfContents.astro';
+import { siteConfig } from '../data/siteConfig';
+import { Icon } from 'astro-icon/components';
+import { renderMath } from '../utils/math';
+
+export interface Props {
+  title: string;
+  description?: string;
+  date?: Date;
+  modified?: Date;
+  venue?: string;
+  location?: string;
+  talk_type?: string;
+  type?: string;
+  citation?: string;
+  paperurl?: string;
+  slidesurl?: string;
+  bibtexurl?: string;
+  link?: string;
+  author_profile?: boolean;
+  collection?: string;
+  read_time?: boolean;
+  toc?: boolean;
+  tags?: string[];
+  categories?: string[];
+}
+
+const {
+  title,
+  description,
+  date,
+  modified,
+  venue,
+  location,
+  talk_type,
+  type,
+  citation,
+  paperurl,
+  slidesurl,
+  bibtexurl,
+  link,
+  author_profile = true,
+  collection,
+  tags = [],
+  categories = [],
+} = Astro.props;
+
+const formattedDate = date
+  ? new Date(date).toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+    })
+  : undefined;
+
+const formattedYear = date
+  ? new Date(date).toLocaleDateString('en-US', { year: 'numeric' })
+  : undefined;
+
+const citationMetadata =
+  collection === 'publications'
+    ? {
+        title,
+        author: siteConfig.author.name,
+        publicationDate: date
+          ? new Date(date).toISOString().split('T')[0]
+          : undefined,
+        journalTitle: venue,
+        pdfUrl: paperurl
+          ? paperurl.startsWith('http')
+            ? paperurl
+            : new URL(paperurl, siteConfig.url).toString()
+          : undefined,
+      }
+    : undefined;
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  articleDate={date}
+  citation={citationMetadata}
+>
+  <div class="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+    <div class="grid grid-cols-1 gap-8 lg:grid-cols-12">
+      <!-- Left Sidebar: Author Profile -->
+      {
+        author_profile && (
+          <aside class="lg:col-span-3">
+            <div class="sticky top-24">
+              <AuthorProfile />
+            </div>
+          </aside>
+        )
+      }
+
+      <!-- Main Content Column -->
+      <main
+        class:list={[
+          author_profile ? 'lg:col-span-9' : 'lg:col-span-12',
+          'min-w-0',
+        ]}
+      >
+        <Breadcrumbs />
+
+        <article
+          class="page"
+          itemscope
+          itemtype="http://schema.org/CreativeWork"
+        >
+          <header class="mb-6">
+            <h1
+              class="text-2xl font-bold tracking-tight text-(--global-text-color) sm:text-3xl"
+              itemprop="headline"
+              set:html={renderMath(title)}
+            />
+
+            {/* Teaching metadata */}
+            {
+              collection === 'teaching' && venue && formattedYear && (
+                <p class="mt-2 text-sm text-(--global-text-color-light)">
+                  {type ? `${type}, ` : ''}
+                  <em>{venue}</em>, {formattedYear}
+                </p>
+              )
+            }
+
+            {/* Publication metadata */}
+            {
+              collection === 'publications' && venue && (
+                <p class="mt-2 text-sm text-(--global-text-color-light)">
+                  Published in <em>{venue}</em>
+                  {formattedYear ? `, ${formattedYear}` : ''}
+                </p>
+              )
+            }
+
+            {/* Talk metadata */}
+            {
+              collection === 'talks' && (
+                <div class="mt-2 space-y-1 text-sm text-(--global-text-color-light)">
+                  {formattedDate && (
+                    <p class="archive-date-line inline-flex items-center gap-1.5 leading-none font-medium">
+                      <Icon
+                        name="fa6-solid:calendar"
+                        class="h-3.5 w-3.5 shrink-0"
+                      />
+                      <span>Date: {formattedDate}</span>
+                    </p>
+                  )}
+                  {(talk_type || type || venue || location) && (
+                    <p>
+                      {talk_type || type} {venue ? `at ${venue}` : ''}
+                      {location ? `, ${location}` : ''}
+                    </p>
+                  )}
+                </div>
+              )
+            }
+
+            {/* Blog Post publish date */}
+            {
+              collection === 'blog' && formattedDate && (
+                <p class="mt-2 flex items-center gap-1.5 text-sm text-(--global-text-color-light)">
+                  <Icon name="fa6-solid:calendar" class="h-3.5 w-3.5" />
+                  <span>
+                    <strong>Published:</strong> {formattedDate}
+                  </span>
+                  {modified && (
+                    <span class="ml-2">
+                      (Updated:{' '}
+                      {new Date(modified).toLocaleDateString('en-US', {
+                        year: 'numeric',
+                        month: 'long',
+                        day: 'numeric',
+                      })}
+                      )
+                    </span>
+                  )}
+                </p>
+              )
+            }
+          </header>
+
+          <TableOfContents />
+
+          <!-- Main Article Body -->
+          <Prose>
+            <slot />
+          </Prose>
+
+          <!-- Citation and downloads for publications -->
+          {
+            (citation || paperurl || slidesurl || bibtexurl) && (
+              <div class="mt-6 border-t border-(--global-border-color) pt-4 text-xs text-(--global-text-color-light)">
+                {citation && (
+                  <p class="mb-2">
+                    <strong>Recommended citation:</strong>{' '}
+                    <span set:html={renderMath(citation)} />
+                  </p>
+                )}
+                <ActionBadges
+                  title={title}
+                  paperurl={paperurl}
+                  slidesurl={slidesurl}
+                  bibtexurl={bibtexurl}
+                  citation={citation}
+                  venue={venue}
+                  date={date}
+                />
+              </div>
+            )
+          }
+
+          {/* External link button if present */}
+          {
+            link && (
+              <div class="mt-6">
+                <a
+                  href={link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="inline-flex items-center gap-2 rounded-md bg-(--global-base-color) px-4 py-2 text-sm font-semibold text-white transition-opacity hover:opacity-90"
+                >
+                  Direct Link
+                </a>
+              </div>
+            )
+          }
+
+          {/* Tags and categories footer */}
+          {
+            (tags.length > 0 || categories.length > 0) && (
+              <footer class="mt-8 border-t border-(--global-border-color) pt-4 text-xs text-(--global-text-color-light)">
+                {tags.length > 0 && (
+                  <div class="flex flex-wrap items-center gap-2">
+                    <span class="font-semibold">Tags:</span>
+                    {tags.map((tag) => (
+                      <span class="rounded-sm bg-(--global-footer-bg-color) px-2 py-0.5">
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                )}
+              </footer>
+            )
+          }
+        </article>
+      </main>
+    </div>
+  </div>
+</BaseLayout>

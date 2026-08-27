@@ -1,0 +1,12 @@
+dist/
+.astro/
+.vite/
+node_modules/
+pnpm-lock.yaml
+public/files/
+test-results/
+playwright-report/
+blob-report/
+coverage/
+*.tar.gz
+*.zip

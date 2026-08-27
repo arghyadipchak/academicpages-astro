@@ -1,0 +1,69 @@
+---
+import { Icon } from 'astro-icon/components';
+import { renderMath } from '../utils/math';
+
+export interface Props {
+  title: string;
+  url: string;
+  date?: Date;
+  excerpt?: string;
+  readTime?: string;
+  type?: 'list' | 'grid';
+}
+
+const { title, url, date, excerpt, readTime } = Astro.props;
+
+const formattedDate = date
+  ? new Date(date).toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+    })
+  : undefined;
+---
+
+<div
+  class="archive__item border-b border-(--global-border-color) py-4 first:pt-0 last:border-b-0"
+>
+  <article itemscope itemtype="http://schema.org/CreativeWork">
+    <h2 class="text-xl font-bold tracking-tight" itemprop="headline">
+      <a
+        href={url}
+        rel="permalink"
+        class="text-(--global-link-color) hover:text-(--global-link-color-hover) hover:underline"
+        set:html={renderMath(title)}
+      />
+    </h2>
+
+    {
+      (formattedDate || readTime) && (
+        <div class="mt-1 flex flex-wrap items-center gap-3 text-xs text-(--global-text-color-light)">
+          {formattedDate && (
+            <p class="archive-date-line inline-flex items-center gap-1.5 leading-none">
+              <Icon name="fa6-solid:calendar" class="h-3 w-3 shrink-0" />
+              <time datetime={date ? new Date(date).toISOString() : undefined}>
+                {formattedDate}
+              </time>
+            </p>
+          )}
+          {readTime && (
+            <p class="archive-date-line inline-flex items-center gap-1.5 leading-none">
+              <Icon name="fa6-solid:clock" class="h-3 w-3 shrink-0" />
+              <span>{readTime}</span>
+            </p>
+          )}
+        </div>
+      )
+    }
+
+    {
+      excerpt && (
+        <p
+          class="mt-2 text-sm text-(--global-text-color)"
+          itemprop="description"
+          set:html={renderMath(excerpt)}
+        />
+      )
+    }
+  </article>
+</div>

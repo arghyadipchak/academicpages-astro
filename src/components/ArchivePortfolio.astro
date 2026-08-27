@@ -1,0 +1,36 @@
+---
+import { renderMath } from '../utils/math';
+
+export interface Props {
+  title: string;
+  url: string;
+  excerpt?: string;
+}
+
+const { title, url, excerpt } = Astro.props;
+---
+
+<div
+  class="archive__item border-b border-(--global-border-color) py-4 first:pt-0 last:border-b-0"
+>
+  <article itemscope itemtype="http://schema.org/CreativeWork">
+    <h3 class="text-lg font-bold tracking-tight" itemprop="headline">
+      <a
+        href={url}
+        rel="permalink"
+        class="text-(--global-link-color) hover:text-(--global-link-color-hover) hover:underline"
+        set:html={renderMath(title)}
+      />
+    </h3>
+
+    {
+      excerpt && (
+        <div
+          class="mt-2 text-sm text-(--global-text-color)"
+          itemprop="description"
+          set:html={renderMath(excerpt)}
+        />
+      )
+    }
+  </article>
+</div>

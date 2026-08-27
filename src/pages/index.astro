@@ -1,0 +1,18 @@
+---
+import SingleLayout from '../layouts/SingleLayout.astro';
+import { getEntry, render } from 'astro:content';
+
+const aboutPage = await getEntry('pages', 'about');
+if (!aboutPage) {
+  throw new Error("Missing 'about' page in content/pages");
+}
+
+const { Content } = await render(aboutPage);
+---
+
+<SingleLayout
+  title={aboutPage.data.title}
+  author_profile={aboutPage.data.author_profile}
+>
+  <Content />
+</SingleLayout>

@@ -1,0 +1,250 @@
+---
+import { Icon } from 'astro-icon/components';
+---
+
+<dialog
+  id="search-modal"
+  class="fixed inset-0 z-50 m-auto w-full max-w-2xl rounded-xl border border-(--global-border-color) bg-(--global-bg-color) p-0 text-(--global-text-color) shadow-2xl backdrop:bg-black/50 backdrop:backdrop-blur-xs"
+>
+  <div class="flex flex-col overflow-hidden">
+    {/* Search Input Bar */}
+    <div
+      class="flex items-center gap-3 border-b border-(--global-border-color) px-4 py-3"
+    >
+      <Icon
+        name="fa6-solid:magnifying-glass"
+        class="h-4 w-4 text-(--global-text-color-light)"
+      />
+      <input
+        type="text"
+        id="search-input"
+        placeholder="Search articles, publications, talks, courses..."
+        class="w-full bg-transparent text-sm text-(--global-text-color) placeholder-(--global-text-color-light) outline-none"
+        autocomplete="off"
+      />
+      <button
+        type="button"
+        id="search-close-btn"
+        class="rounded p-1 text-(--global-text-color-light) hover:bg-neutral-100 hover:text-(--global-text-color) dark:hover:bg-neutral-800"
+        aria-label="Close search"
+      >
+        <kbd class="text-xs">ESC</kbd>
+      </button>
+    </div>
+
+    {/* Search Results List */}
+    <div id="search-results" class="max-h-96 min-h-30 overflow-y-auto p-2">
+      <div
+        id="search-placeholder"
+        class="py-8 text-center text-xs text-(--global-text-color-light)"
+      >
+        Type something to search...
+      </div>
+      <div
+        id="search-no-results"
+        class="hidden py-8 text-center text-xs text-(--global-text-color-light)"
+      >
+        No results found.
+      </div>
+      <ul id="search-list" class="space-y-1"></ul>
+    </div>
+
+    {/* Footer Navigation Help */}
+    <div
+      class="flex items-center justify-between border-t border-(--global-border-color) bg-neutral-50 px-4 py-2 text-[11px] text-(--global-text-color-light) dark:bg-neutral-900"
+    >
+      <div class="flex items-center gap-3">
+        <span><kbd class="font-mono">↑↓</kbd> to navigate</span>
+        <span><kbd class="font-mono">↵</kbd> to select</span>
+        <span><kbd class="font-mono">ESC</kbd> to close</span>
+      </div>
+      <span>Instant Search</span>
+    </div>
+  </div>
+</dialog>
+
+<script>
+  interface SearchItem {
+    title: string;
+    url: string;
+    type: string;
+    excerpt?: string;
+    date?: string;
+  }
+
+  let searchData: SearchItem[] | null = null;
+  let selectedIndex = -1;
+
+  async function loadSearchData(): Promise<SearchItem[]> {
+    if (searchData) return searchData;
+    try {
+      const res = await fetch('/api/search.json');
+      searchData = await res.json();
+      return searchData || [];
+    } catch {
+      return [];
+    }
+  }
+
+  function setupSearchModal() {
+    const modal = document.getElementById(
+      'search-modal'
+    ) as HTMLDialogElement | null;
+    const input = document.getElementById(
+      'search-input'
+    ) as HTMLInputElement | null;
+    const closeBtn = document.getElementById('search-close-btn');
+    const searchList = document.getElementById('search-list');
+    const placeholder = document.getElementById('search-placeholder');
+    const noResults = document.getElementById('search-no-results');
+
+    if (!modal || !input || !searchList) return;
+
+    function openModal() {
+      if (!modal) return;
+      modal.showModal();
+      loadSearchData();
+      input?.focus();
+      input?.select();
+    }
+
+    function closeModal() {
+      if (!modal) return;
+      modal.close();
+      if (input) input.value = '';
+      if (searchList) searchList.innerHTML = '';
+      if (placeholder) placeholder.classList.remove('hidden');
+      if (noResults) noResults.classList.add('hidden');
+      selectedIndex = -1;
+    }
+
+    // Attach trigger buttons
+    document.querySelectorAll('.search-trigger-btn').forEach((btn) => {
+      btn.removeEventListener('click', openModal);
+      btn.addEventListener('click', openModal);
+    });
+
+    closeBtn?.addEventListener('click', closeModal);
+
+    // Close when clicking dialog backdrop
+    modal.addEventListener('click', (e) => {
+      const rect = modal.getBoundingClientRect();
+      const isInDialog =
+        rect.top <= e.clientY &&
+        e.clientY <= rect.top + rect.height &&
+        rect.left <= e.clientX &&
+        e.clientX <= rect.left + rect.width;
+      if (!isInDialog) {
+        closeModal();
+      }
+    });
+
+    // Keyboard Shortcuts
+    window.addEventListener('keydown', (e) => {
+      if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+        e.preventDefault();
+        if (modal.open) {
+          closeModal();
+        } else {
+          openModal();
+        }
+      }
+    });
+
+    // Handle Search Input Filtering
+    input.addEventListener('input', async () => {
+      const query = input.value.trim().toLowerCase();
+      selectedIndex = -1;
+
+      if (!query) {
+        searchList.innerHTML = '';
+        placeholder?.classList.remove('hidden');
+        noResults?.classList.add('hidden');
+        return;
+      }
+
+      placeholder?.classList.add('hidden');
+      const data = await loadSearchData();
+      const results = data.filter(
+        (item) =>
+          item.title.toLowerCase().includes(query) ||
+          (item.excerpt && item.excerpt.toLowerCase().includes(query)) ||
+          item.type.toLowerCase().includes(query)
+      );
+
+      if (results.length === 0) {
+        searchList.innerHTML = '';
+        noResults?.classList.remove('hidden');
+        return;
+      }
+
+      noResults?.classList.add('hidden');
+      searchList.innerHTML = results
+        .slice(0, 10)
+        .map(
+          (item, idx) => `
+          <li>
+            <a
+              href="${item.url}"
+              data-index="${idx}"
+              class="search-result-item flex items-center justify-between rounded-lg px-3 py-2 text-sm transition hover:bg-neutral-100 dark:hover:bg-neutral-800"
+            >
+              <div class="min-w-0 flex-1 pr-3">
+                <p class="font-medium text-(--global-text-color) truncate">${item.title}</p>
+                ${item.excerpt ? `<p class="text-xs text-(--global-text-color-light) truncate mt-0.5">${item.excerpt}</p>` : ''}
+              </div>
+              <span class="rounded bg-neutral-200 dark:bg-neutral-700 px-2 py-0.5 text-[10px] font-semibold text-(--global-text-color) shrink-0">
+                ${item.type}
+              </span>
+            </a>
+          </li>
+        `
+        )
+        .join('');
+    });
+
+    // Arrow navigation inside input
+    input.addEventListener('keydown', (e) => {
+      const items = modal.querySelectorAll('.search-result-item');
+      if (items.length === 0) return;
+
+      if (e.key === 'ArrowDown') {
+        e.preventDefault();
+        selectedIndex = (selectedIndex + 1) % items.length;
+        updateSelection(items);
+      } else if (e.key === 'ArrowUp') {
+        e.preventDefault();
+        selectedIndex = (selectedIndex - 1 + items.length) % items.length;
+        updateSelection(items);
+      } else if (e.key === 'Enter' && selectedIndex >= 0) {
+        e.preventDefault();
+        const activeLink = items[selectedIndex] as HTMLAnchorElement;
+        activeLink?.click();
+      }
+    });
+
+    function updateSelection(items: NodeListOf<Element>) {
+      items.forEach((item, idx) => {
+        if (idx === selectedIndex) {
+          item.classList.add(
+            'bg-neutral-100',
+            'dark:bg-neutral-800',
+            'ring-1',
+            'ring-(--global-link-color)'
+          );
+          item.scrollIntoView({ block: 'nearest' });
+        } else {
+          item.classList.remove(
+            'bg-neutral-100',
+            'dark:bg-neutral-800',
+            'ring-1',
+            'ring-(--global-link-color)'
+          );
+        }
+      });
+    }
+  }
+
+  setupSearchModal();
+  document.addEventListener('astro:page-load', setupSearchModal);
+</script>

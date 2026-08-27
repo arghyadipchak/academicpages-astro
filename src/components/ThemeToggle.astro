@@ -1,0 +1,49 @@
+---
+import { Icon } from 'astro-icon/components';
+---
+
+<button
+  type="button"
+  class="theme-toggle-btn inline-flex cursor-pointer items-center justify-center p-1.5 text-neutral-600 transition-colors hover:text-neutral-900 focus:outline-none dark:text-neutral-300 dark:hover:text-white"
+  aria-label="Toggle theme"
+  title="Toggle theme"
+>
+  <span class="dark:hidden">
+    <Icon name="fa6-solid:moon" class="h-4 w-4" aria-hidden="true" />
+  </span>
+  <span class="hidden dark:inline">
+    <Icon
+      name="fa6-solid:sun"
+      class="h-4 w-4 text-amber-400"
+      aria-hidden="true"
+    />
+  </span>
+</button>
+
+<script>
+  function setupThemeToggle() {
+    const buttons = document.querySelectorAll('.theme-toggle-btn');
+    buttons.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const isDark =
+          document.documentElement.getAttribute('data-theme') === 'dark';
+        const nextTheme = isDark ? 'light' : 'dark';
+
+        document.documentElement.setAttribute('data-theme', nextTheme);
+        if (nextTheme === 'dark') {
+          document.documentElement.classList.add('dark');
+        } else {
+          document.documentElement.classList.remove('dark');
+        }
+        localStorage.setItem('theme', nextTheme);
+        document.dispatchEvent(
+          new CustomEvent('theme-change', { detail: { theme: nextTheme } })
+        );
+      });
+    });
+  }
+
+  // Setup on initial load & after Astro view transitions if used
+  setupThemeToggle();
+  document.addEventListener('astro:page-load', setupThemeToggle);
+</script>

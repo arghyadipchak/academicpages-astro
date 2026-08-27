@@ -1,0 +1,198 @@
+---
+import SingleLayout from '../layouts/SingleLayout.astro';
+import { getCollection } from 'astro:content';
+
+const posts = await getCollection('blog');
+const publications = await getCollection('publications');
+const talks = await getCollection('talks');
+const teaching = await getCollection('teaching');
+const portfolio = await getCollection('portfolio');
+---
+
+<SingleLayout title="Sitemap">
+  <div class="sitemap-content space-y-6">
+    <section>
+      <h2
+        class="border-b border-(--global-border-color) pb-1 text-xl font-bold text-(--global-text-color)"
+      >
+        Pages
+      </h2>
+      <ul class="mt-2 list-disc space-y-1 pl-5 text-sm">
+        <li>
+          <a href="/" class="text-(--global-link-color) hover:underline"
+            >About</a
+          >
+        </li>
+        <li>
+          <a
+            href="/publications/"
+            class="text-(--global-link-color) hover:underline">Publications</a
+          >
+        </li>
+        <li>
+          <a href="/talks/" class="text-(--global-link-color) hover:underline"
+            >Talks</a
+          >
+        </li>
+        <li>
+          <a
+            href="/teaching/"
+            class="text-(--global-link-color) hover:underline">Teaching</a
+          >
+        </li>
+        <li>
+          <a
+            href="/portfolio/"
+            class="text-(--global-link-color) hover:underline">Portfolio</a
+          >
+        </li>
+        <li>
+          <a href="/posts/" class="text-(--global-link-color) hover:underline"
+            >Blog Posts</a
+          >
+        </li>
+        <li>
+          <a href="/cv/" class="text-(--global-link-color) hover:underline"
+            >CV</a
+          >
+        </li>
+        <li>
+          <a
+            href="/markdown/"
+            class="text-(--global-link-color) hover:underline">Guide</a
+          >
+        </li>
+        <li>
+          <a href="/terms/" class="text-(--global-link-color) hover:underline"
+            >Terms & Conditions</a
+          >
+        </li>
+      </ul>
+    </section>
+
+    {
+      posts.length > 0 && (
+        <section>
+          <h2 class="border-b border-(--global-border-color) pb-1 text-xl font-bold text-(--global-text-color)">
+            Blog Posts
+          </h2>
+          <ul class="mt-2 list-disc space-y-1 pl-5 text-sm">
+            {posts.map((post) => (
+              <li>
+                <a
+                  href={
+                    post.data.permalink ||
+                    `/posts/${post.id.replace(/\.md$/, '')}/`
+                  }
+                  class="text-(--global-link-color) hover:underline"
+                >
+                  {post.data.title}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )
+    }
+
+    {
+      publications.length > 0 && (
+        <section>
+          <h2 class="border-b border-(--global-border-color) pb-1 text-xl font-bold text-(--global-text-color)">
+            Publications
+          </h2>
+          <ul class="mt-2 list-disc space-y-1 pl-5 text-sm">
+            {publications.map((pub) => (
+              <li>
+                <a
+                  href={
+                    pub.data.permalink ||
+                    `/publications/${pub.id.replace(/\.md$/, '')}/`
+                  }
+                  class="text-(--global-link-color) hover:underline"
+                >
+                  {pub.data.title}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )
+    }
+
+    {
+      talks.length > 0 && (
+        <section>
+          <h2 class="border-b border-(--global-border-color) pb-1 text-xl font-bold text-(--global-text-color)">
+            Talks
+          </h2>
+          <ul class="mt-2 list-disc space-y-1 pl-5 text-sm">
+            {talks.map((talk) => (
+              <li>
+                <a
+                  href={
+                    talk.data.permalink ||
+                    `/talks/${talk.id.replace(/\.md$/, '')}/`
+                  }
+                  class="text-(--global-link-color) hover:underline"
+                >
+                  {talk.data.title}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )
+    }
+
+    {
+      teaching.length > 0 && (
+        <section>
+          <h2 class="border-b border-(--global-border-color) pb-1 text-xl font-bold text-(--global-text-color)">
+            Teaching
+          </h2>
+          <ul class="mt-2 list-disc space-y-1 pl-5 text-sm">
+            {teaching.map((item) => (
+              <li>
+                <a
+                  href={
+                    item.data.permalink ||
+                    `/teaching/${item.id.replace(/\.md$/, '')}/`
+                  }
+                  class="text-(--global-link-color) hover:underline"
+                >
+                  {item.data.title}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )
+    }
+
+    {
+      portfolio.length > 0 && (
+        <section>
+          <h2 class="border-b border-(--global-border-color) pb-1 text-xl font-bold text-(--global-text-color)">
+            Portfolio
+          </h2>
+          <ul class="mt-2 list-disc space-y-1 pl-5 text-sm">
+            {portfolio.map((item) => (
+              <li>
+                <a
+                  href={
+                    item.data.permalink ||
+                    `/portfolio/${item.id.replace(/\.md$/, '')}/`
+                  }
+                  class="text-(--global-link-color) hover:underline"
+                >
+                  {item.data.title}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )
+    }
+  </div>
+</SingleLayout>

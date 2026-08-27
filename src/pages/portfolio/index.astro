@@ -1,0 +1,35 @@
+---
+import { getCollection } from 'astro:content';
+import ArchiveLayout from '../../layouts/ArchiveLayout.astro';
+import ArchivePortfolio from '../../components/ArchivePortfolio.astro';
+
+const allPortfolio = await getCollection('portfolio');
+
+function getPortfolioUrl(item: (typeof allPortfolio)[0]): string {
+  if (item.data.permalink) {
+    return item.data.permalink;
+  }
+  const cleanId = item.id.replace(/\.md$/, '');
+  return `/portfolio/${cleanId}/`;
+}
+---
+
+<ArchiveLayout title="Portfolio">
+  <div class="space-y-4">
+    {
+      allPortfolio.length > 0 ? (
+        allPortfolio.map((item) => (
+          <ArchivePortfolio
+            title={item.data.title}
+            url={getPortfolioUrl(item)}
+            excerpt={item.data.excerpt}
+          />
+        ))
+      ) : (
+        <p class="text-sm text-(--global-text-color-light)">
+          No portfolio items published yet.
+        </p>
+      )
+    }
+  </div>
+</ArchiveLayout>

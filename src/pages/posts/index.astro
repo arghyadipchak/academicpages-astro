@@ -1,0 +1,69 @@
+---
+import { getCollection } from 'astro:content';
+import ArchiveLayout from '../../layouts/ArchiveLayout.astro';
+import ArchivePost from '../../components/ArchivePost.astro';
+
+const allPosts = await getCollection('blog', ({ data }) => !data.draft);
+allPosts.sort(
+  (a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime()
+);
+
+// Group posts by year
+const postsByYear = allPosts.reduce<Record<string, typeof allPosts>>(
+  (acc, post) => {
+    const year = new Date(post.data.date).getFullYear().toString();
+    if (!acc[year]) acc[year] = [];
+    acc[year].push(post);
+    return acc;
+  },
+  {}
+);
+
+const years = Object.keys(postsByYear).sort((a, b) => Number(b) - Number(a));
+
+function getPostUrl(post: (typeof allPosts)[0]): string {
+  if (post.data.permalink) {
+    return post.data.permalink;
+  }
+  const date = new Date(post.data.date);
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const shortId = post.id
+    .replace(/\.md$/, '')
+    .replace(/^\d{4}-\d{2}-\d{2}-/, '');
+  return `/posts/${year}/${month}/${shortId}/`;
+}
+---
+
+<ArchiveLayout title="Blog posts">
+  <div class="space-y-8">
+    {
+      years.length > 0 ? (
+        years.map((year) => (
+          <section>
+            <h2
+              id={year}
+              class="mb-3 border-b border-(--global-border-color) pb-1 text-xl font-bold text-(--global-text-color)"
+            >
+              {year}
+            </h2>
+            <div class="space-y-2">
+              {postsByYear[year].map((post) => (
+                <ArchivePost
+                  title={post.data.title}
+                  url={getPostUrl(post)}
+                  date={post.data.date}
+                  excerpt={post.data.excerpt}
+                />
+              ))}
+            </div>
+          </section>
+        ))
+      ) : (
+        <p class="text-sm text-(--global-text-color-light)">
+          No blog posts published yet. Check back soon!
+        </p>
+      )
+    }
+  </div>
+</ArchiveLayout>

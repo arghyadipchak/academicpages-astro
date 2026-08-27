@@ -1,0 +1,19 @@
+---
+import SingleLayout from '../layouts/SingleLayout.astro';
+---
+
+<SingleLayout title="Page Not Found">
+  <div class="space-y-4 py-8">
+    <p class="text-lg text-(--global-text-color)">
+      Sorry, but the page you were trying to view does not exist.
+    </p>
+    <p>
+      <a
+        href="/"
+        class="inline-flex items-center gap-2 font-medium text-(--global-link-color) hover:underline"
+      >
+        &larr; Return to Homepage
+      </a>
+    </p>
+  </div>
+</SingleLayout>

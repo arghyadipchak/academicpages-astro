@@ -1,0 +1,56 @@
+# Build output & caches
+dist/
+.astro/
+.vite/
+
+# Dependencies
+node_modules/
+
+# Logs & debug outputs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Test results & coverage reports
+coverage/
+.nyc_output/
+test-results/
+playwright-report/
+blob-report/
+
+# Archives & bundle exports
+*.tar.gz
+*.zip
+
+# Environment variables
+.env
+.env.*
+!.env.example
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Editor backup & temporary files
+*.swp
+*.swo
+*~
+*.bak
+
+# IDE settings (preserve team configs)
+.idea/
+.vscode/*
+!.vscode/extensions.json
+!.vscode/launch.json
+!.vscode/settings.json
+!.vscode/tasks.json
+.zed/*
+!.zed/settings.json
+!.zed/tasks.json

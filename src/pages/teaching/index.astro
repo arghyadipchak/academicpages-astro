@@ -1,0 +1,41 @@
+---
+import { getCollection } from 'astro:content';
+import ArchiveLayout from '../../layouts/ArchiveLayout.astro';
+import ArchiveTeaching from '../../components/ArchiveTeaching.astro';
+
+const allTeaching = await getCollection('teaching');
+allTeaching.sort(
+  (a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime()
+);
+
+function getTeachingUrl(item: (typeof allTeaching)[0]): string {
+  if (item.data.permalink) {
+    return item.data.permalink;
+  }
+  const cleanId = item.id.replace(/\.md$/, '');
+  return `/teaching/${cleanId}/`;
+}
+---
+
+<ArchiveLayout title="Teaching">
+  <div class="space-y-2">
+    {
+      allTeaching.length > 0 ? (
+        allTeaching.map((item) => (
+          <ArchiveTeaching
+            title={item.data.title}
+            url={getTeachingUrl(item)}
+            type={item.data.type}
+            venue={item.data.venue}
+            date={item.data.date}
+            excerpt={item.data.excerpt}
+          />
+        ))
+      ) : (
+        <p class="text-sm text-(--global-text-color-light)">
+          No teaching entries published yet.
+        </p>
+      )
+    }
+  </div>
+</ArchiveLayout>

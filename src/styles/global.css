@@ -1,0 +1,571 @@
+@import 'tailwindcss';
+@plugin '@tailwindcss/typography';
+@import 'katex/dist/katex.min.css';
+
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *, .dark, .dark *));
+
+@theme {
+  --font-sans:
+    -apple-system, BlinkMacSystemFont, 'Roboto', 'Segoe UI', 'Helvetica Neue',
+    'Lucida Grande', Arial, sans-serif;
+  --font-serif: Georgia, Times, serif;
+  --font-mono: Monaco, Consolas, 'Lucida Console', Menlo, monospace;
+
+  --color-brand-primary: #2f7f93;
+  --color-brand-primary-dark: #0ea1c5;
+  --color-brand-link: #52adc8;
+  --color-brand-link-hover: #235f6e;
+
+  --color-academic-gray: #7a8288;
+  --color-academic-dark-gray: #494e52;
+  --color-academic-darker-gray: #313436;
+  --color-academic-light-gray: #bdc1c4;
+  --color-academic-lighter-gray: #f2f3f3;
+
+  --color-global-base: var(--global-base-color);
+  --color-global-bg: var(--global-bg-color);
+  --color-global-footer-bg: var(--global-footer-bg-color);
+  --color-global-border: var(--global-border-color);
+  --color-global-dark-border: var(--global-dark-border-color);
+  --color-global-code-bg: var(--global-code-background-color);
+  --color-global-code-text: var(--global-code-text-color);
+  --color-global-link: var(--global-link-color);
+  --color-global-link-hover: var(--global-link-color-hover);
+  --color-global-masthead-link: var(--global-masthead-link-color);
+  --color-global-masthead-link-hover: var(--global-masthead-link-color-hover);
+  --color-global-text: var(--global-text-color);
+  --color-global-text-light: var(--global-text-color-light);
+}
+
+:root {
+  --global-base-color: #2f7f93;
+  --global-bg-color: #ffffff;
+  --global-footer-bg-color: #f2f3f3;
+  --global-border-color: #f2f3f3;
+  --global-dark-border-color: #bdc1c4;
+  --global-code-background-color: #fafafa;
+  --global-code-text-color: #313436;
+  --global-link-color: #52adc8;
+  --global-link-color-hover: #235f6e;
+  --global-masthead-link-color: #494e52;
+  --global-masthead-link-color-hover: #235f6e;
+  --global-text-color: #494e52;
+  --global-text-color-light: #7a8288;
+}
+
+html[data-theme='dark'],
+.dark {
+  --global-base-color: #0ea1c5;
+  --global-bg-color: #282c34;
+  --global-footer-bg-color: #21252b;
+  --global-border-color: #3e4451;
+  --global-dark-border-color: #4b5263;
+  --global-code-background-color: #21252b;
+  --global-code-text-color: #abb2bf;
+  --global-link-color: #0ea1c5;
+  --global-link-color-hover: #61afef;
+  --global-masthead-link-color: #e5e7eb;
+  --global-masthead-link-color-hover: #0ea1c5;
+  --global-text-color: #e5e7eb;
+  --global-text-color-light: #9ca3af;
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+  scroll-behavior: smooth;
+  scrollbar-gutter: stable;
+}
+
+body {
+  color: var(--global-text-color);
+  background-color: var(--global-bg-color);
+  font-family: var(--font-sans);
+  line-height: 1.6;
+  margin: 0;
+  padding: 0;
+  transition:
+    background-color 0.2s ease-in-out,
+    color 0.2s ease-in-out;
+}
+
+a {
+  color: var(--global-link-color);
+  text-decoration: none;
+  transition: color 0.15s ease-in-out;
+}
+
+a:hover {
+  color: var(--global-link-color-hover);
+  text-decoration: underline;
+}
+
+/* Custom typography & prose styling adjustments matching Academic Pages */
+.prose {
+  color: var(--global-text-color);
+  max-width: none;
+}
+
+.prose h1,
+.prose h2,
+.prose h3,
+.prose h4 {
+  color: var(--global-text-color);
+  font-weight: 700;
+}
+
+.prose h1 {
+  font-size: 1.75rem;
+  border-bottom: 1px solid var(--global-dark-border-color);
+  padding-bottom: 0.3em;
+  margin-top: 1.5em;
+  margin-bottom: 0.75em;
+}
+
+.prose h2 {
+  font-size: 1.35rem;
+  border-bottom: 1px solid var(--global-border-color);
+  padding-bottom: 0.2em;
+  margin-top: 1.25em;
+  margin-bottom: 0.5em;
+}
+
+.prose h3 {
+  font-size: 1.15rem;
+  margin-top: 1em;
+  margin-bottom: 0.4em;
+}
+
+.prose a {
+  color: var(--global-link-color);
+  text-decoration: none;
+}
+
+.prose a:hover {
+  color: var(--global-link-color-hover);
+  text-decoration: underline;
+}
+
+/* Inline code (not inside pre blocks) */
+.prose code::before,
+.prose code::after {
+  content: '' !important;
+}
+
+.prose :not(pre) > code {
+  background-color: var(--global-code-background-color);
+  color: var(--global-code-text-color);
+  padding: 0.2em 0.4em;
+  border-radius: 4px;
+  font-size: 0.875em;
+  font-family: var(--font-mono);
+}
+
+/* Shiki code blocks */
+.prose pre.astro-code {
+  padding: 1rem 1.25rem;
+  border: 1px solid var(--global-border-color);
+  border-radius: 6px;
+  overflow-x: auto;
+  line-height: 1.5;
+}
+
+.prose pre.astro-code code {
+  background-color: transparent !important;
+  color: inherit !important;
+  padding: 0 !important;
+  border-radius: 0 !important;
+  font-size: 0.875rem;
+}
+
+/* Shiki Dual Theme Light/Dark Synchronization */
+html[data-theme='dark'] .astro-code,
+html[data-theme='dark'] .astro-code span,
+.dark .astro-code,
+.dark .astro-code span {
+  color: var(--shiki-dark) !important;
+  background-color: var(--shiki-dark-bg) !important;
+  font-style: var(--shiki-dark-font-style) !important;
+  font-weight: var(--shiki-dark-font-weight) !important;
+  text-decoration: var(--shiki-dark-text-decoration) !important;
+}
+
+/* Subscript and Superscript Styling */
+sub,
+sup {
+  font-size: 75%;
+  line-height: 0;
+  position: relative;
+  vertical-align: baseline;
+}
+
+sub {
+  bottom: -0.25em;
+}
+
+sup {
+  top: -0.5em;
+}
+
+/* KaTeX Mathematics Styling & Dark Mode Contrast */
+.katex-mathml {
+  display: none !important;
+}
+
+.katex {
+  font-size: 1.1em;
+  text-rendering: auto;
+  line-height: 1.2;
+}
+
+.katex-display {
+  display: block;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 0.75em 0;
+  margin: 1.25em 0;
+  text-align: center;
+}
+
+.katex-display > .katex {
+  display: inline-block;
+  text-align: initial;
+  max-width: 100%;
+}
+
+/* Academic Pages Notices / Callout Boxes */
+.notice {
+  margin: 1.5em 0;
+  padding: 1em 1.25em;
+  border-left: 4px solid var(--global-base-color);
+  background-color: var(--global-footer-bg-color);
+  border-radius: 4px;
+  font-size: 0.9375rem;
+  line-height: 1.6;
+}
+
+.notice--info {
+  border-left-color: #3b82f6;
+  background-color: rgba(59, 130, 246, 0.08);
+}
+
+.notice--warning {
+  border-left-color: #f59e0b;
+  background-color: rgba(245, 158, 11, 0.08);
+}
+
+.notice--success {
+  border-left-color: #10b981;
+  background-color: rgba(16, 185, 129, 0.08);
+}
+
+.notice--danger {
+  border-left-color: #ef4444;
+  background-color: rgba(239, 68, 68, 0.08);
+}
+
+/* Enhanced Academic Tables */
+.prose table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  margin: 1.5rem 0;
+  font-size: 0.9rem;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid var(--global-border-color);
+}
+
+.prose thead {
+  background-color: var(--global-footer-bg-color);
+  border-bottom: 2px solid var(--global-dark-border-color);
+}
+
+.prose thead th {
+  padding: 0.65rem 1rem;
+  font-weight: 600;
+  font-size: 0.85rem;
+  text-align: inherit;
+  color: var(--global-text-color);
+  border-bottom: 2px solid var(--global-border-color);
+}
+
+.prose tbody tr {
+  transition: background-color 0.15s ease-in-out;
+  border-bottom: 1px solid var(--global-border-color);
+}
+
+.prose tbody tr:last-child {
+  border-bottom: none;
+}
+
+.prose tbody tr:nth-child(even) {
+  background-color: rgba(0, 0, 0, 0.02);
+}
+
+html[data-theme='dark'] .prose tbody tr:nth-child(even),
+.dark .prose tbody tr:nth-child(even) {
+  background-color: rgba(255, 255, 255, 0.025);
+}
+
+.prose tbody tr:hover {
+  background-color: rgba(0, 0, 0, 0.04);
+}
+
+html[data-theme='dark'] .prose tbody tr:hover,
+.dark .prose tbody tr:hover {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+.prose tbody td {
+  padding: 0.6rem 1rem;
+  vertical-align: middle;
+  border-bottom: 1px solid var(--global-border-color);
+  color: var(--global-text-color);
+}
+
+.prose tbody tr:last-child td {
+  border-bottom: none;
+}
+
+/* Responsive Table Wrapper with Horizontal Scroll */
+.table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+  margin: 1.5rem 0;
+  border-radius: 8px;
+  -webkit-overflow-scrolling: touch;
+}
+
+.table-wrapper table {
+  margin: 0;
+}
+
+/* Semantic HTML Typography Styling */
+.prose blockquote {
+  border-left: 4px solid var(--global-base-color);
+  padding: 0.5rem 1rem;
+  margin: 1rem 0;
+  font-style: italic;
+  color: var(--global-text-color-light);
+  background-color: var(--global-footer-bg-color);
+  border-radius: 0 4px 4px 0;
+}
+
+.prose blockquote p {
+  margin: 0;
+}
+
+.prose blockquote p + p {
+  margin-top: 0.5rem;
+}
+
+.prose cite {
+  font-style: italic;
+  font-size: 0.9em;
+  color: var(--global-text-color-light);
+}
+
+.prose q {
+  font-style: italic;
+  quotes: '“' '”' '‘' '’';
+}
+
+.prose abbr[title] {
+  border-bottom: 1px dotted var(--global-border-color);
+  cursor: help;
+  text-decoration: none;
+}
+
+.prose kbd {
+  display: inline-block;
+  padding: 0.15em 0.4em;
+  font-family: var(--font-mono);
+  font-size: 0.85em;
+  font-weight: 600;
+  line-height: 1;
+  color: var(--global-text-color);
+  background-color: var(--global-footer-bg-color);
+  border: 1px solid var(--global-border-color);
+  border-radius: 4px;
+  box-shadow: inset 0 -1px 0 var(--global-border-color);
+}
+
+.prose mark {
+  background-color: rgba(245, 158, 11, 0.25);
+  color: inherit;
+  padding: 0.1em 0.25em;
+  border-radius: 2px;
+}
+
+.prose ins {
+  background-color: rgba(16, 185, 129, 0.15);
+  text-decoration: none;
+  padding: 0.1em 0.25em;
+}
+
+.prose var {
+  font-family: var(--font-mono);
+  font-style: italic;
+  color: var(--global-base-color);
+}
+
+.prose address {
+  font-style: italic;
+  line-height: 1.6;
+  margin: 1rem 0;
+  color: var(--global-text-color-light);
+}
+
+/* Academic Pages Buttons */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-sans);
+  font-size: 0.875rem;
+  font-weight: 600;
+  line-height: 1.25;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  text-decoration: none !important;
+  transition: all 0.15s ease-in-out;
+  cursor: pointer;
+  border: 1px solid transparent;
+}
+
+.btn--primary {
+  background-color: var(--global-base-color);
+  color: #ffffff !important;
+}
+.btn--primary:hover {
+  opacity: 0.9;
+}
+
+.btn--inverse {
+  background-color: transparent;
+  color: var(--global-text-color) !important;
+  border-color: var(--global-border-color);
+}
+.btn--inverse:hover {
+  background-color: var(--global-footer-bg-color);
+}
+
+.btn--info {
+  background-color: #3b82f6;
+  color: #ffffff !important;
+}
+.btn--info:hover {
+  background-color: #2563eb;
+}
+
+.btn--warning {
+  background-color: #f59e0b;
+  color: #ffffff !important;
+}
+.btn--warning:hover {
+  background-color: #d97706;
+}
+
+.btn--danger {
+  background-color: #ef4444;
+  color: #ffffff !important;
+}
+.btn--danger:hover {
+  background-color: #dc2626;
+}
+
+.btn--success {
+  background-color: #10b981;
+  color: #ffffff !important;
+}
+.btn--success:hover {
+  background-color: #059669;
+}
+
+/* Optical Icon and Text Vertical Alignment */
+svg[data-icon],
+.astro-icon {
+  display: inline-block;
+  flex-shrink: 0;
+}
+
+/* Sidebar Profile Icon Alignment */
+.author__urls li {
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+  min-height: 1.5rem;
+}
+
+.author__urls li svg,
+.author__urls li [data-icon] {
+  width: 1.125rem;
+  height: 1.125rem;
+  min-width: 1.125rem;
+  max-width: 1.125rem;
+  flex-shrink: 0;
+  vertical-align: middle;
+}
+
+.author__urls li span,
+.author__urls li a {
+  display: inline-flex;
+  align-items: center;
+  line-height: 1.2;
+}
+
+/* Optical Midpoint Alignment for Badges, Date Lines & Footer Links */
+.action-badges-container a,
+.action-badges-container button,
+.archive-date-line,
+footer ul a {
+  display: inline-flex;
+  align-items: center;
+}
+
+.action-badges-container a svg,
+.action-badges-container button svg,
+#toc-toggle-btn svg {
+  position: relative;
+  top: -0.5px;
+  flex-shrink: 0;
+}
+
+.archive-date-line svg {
+  position: relative;
+  top: -1.5px;
+  flex-shrink: 0;
+}
+
+/* Header Navigation Links Clean Underline Removal */
+header a,
+header a:hover,
+header a:focus {
+  text-decoration: none !important;
+}
+
+/* Smooth Animated Mobile Menu Button */
+#mobile-nav-toggle[aria-expanded='true'] .mobile-menu-open-icon {
+  opacity: 0;
+  transform: rotate(-90deg) scale(0.5);
+  pointer-events: none;
+}
+
+#mobile-nav-toggle[aria-expanded='true'] .mobile-menu-close-icon {
+  opacity: 1;
+  transform: rotate(0deg) scale(1);
+  pointer-events: auto;
+}
+
+#mobile-nav-toggle[aria-expanded='false'] .mobile-menu-open-icon {
+  opacity: 1;
+  transform: rotate(0deg) scale(1);
+  pointer-events: auto;
+}
+
+#mobile-nav-toggle[aria-expanded='false'] .mobile-menu-close-icon {
+  opacity: 0;
+  transform: rotate(90deg) scale(0.5);
+  pointer-events: none;
+}

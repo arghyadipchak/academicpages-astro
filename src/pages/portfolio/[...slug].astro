@@ -1,0 +1,43 @@
+---
+import { getCollection, render } from 'astro:content';
+import SingleLayout from '../../layouts/SingleLayout.astro';
+
+export async function getStaticPaths() {
+  const items = await getCollection('portfolio');
+  const pathMap = new Map<string, (typeof items)[0]>();
+
+  for (const item of items) {
+    let slug = item.id.replace(/\.md$/, '');
+    if (item.data.permalink) {
+      slug = item.data.permalink
+        .replace(/^\/?portfolio\//, '')
+        .replace(/\/$/, '')
+        .replace(/^\//, '');
+    }
+
+    pathMap.set(slug, item);
+
+    const shortId = item.id.replace(/\.md$/, '');
+    if (!pathMap.has(shortId)) {
+      pathMap.set(shortId, item);
+    }
+  }
+
+  return Array.from(pathMap.entries()).map(([slug, item]) => ({
+    params: { slug },
+    props: { item },
+  }));
+}
+
+const { item } = Astro.props;
+const { Content } = await render(item);
+---
+
+<SingleLayout
+  title={item.data.title}
+  description={item.data.excerpt}
+  date={item.data.date}
+  collection="portfolio"
+>
+  <Content />
+</SingleLayout>

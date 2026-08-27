@@ -1,0 +1,50 @@
+---
+import { getCollection, render } from 'astro:content';
+import SingleLayout from '../../layouts/SingleLayout.astro';
+
+export async function getStaticPaths() {
+  const talks = await getCollection('talks');
+  const pathMap = new Map<string, (typeof talks)[0]>();
+
+  for (const talk of talks) {
+    let slug = talk.id.replace(/\.md$/, '');
+    if (talk.data.permalink) {
+      slug = talk.data.permalink
+        .replace(/^\/?talks\//, '')
+        .replace(/\/$/, '')
+        .replace(/^\//, '');
+    }
+
+    pathMap.set(slug, talk);
+
+    const shortId = talk.id
+      .replace(/\.md$/, '')
+      .replace(/^\d{4}-\d{2}-\d{2}-/, '');
+    if (!pathMap.has(shortId)) {
+      pathMap.set(shortId, talk);
+    }
+  }
+
+  return Array.from(pathMap.entries()).map(([slug, talk]) => ({
+    params: { slug },
+    props: { talk },
+  }));
+}
+
+const { talk } = Astro.props;
+const { Content } = await render(talk);
+---
+
+<SingleLayout
+  title={talk.data.title}
+  description={talk.data.excerpt}
+  date={talk.data.date}
+  venue={talk.data.venue}
+  location={talk.data.location}
+  type={talk.data.type}
+  talk_type={talk.data.talk_type}
+  slidesurl={talk.data.slidesurl}
+  collection="talks"
+>
+  <Content />
+</SingleLayout>

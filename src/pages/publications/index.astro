@@ -1,0 +1,209 @@
+---
+import { getCollection } from 'astro:content';
+import ArchiveLayout from '../../layouts/ArchiveLayout.astro';
+import ArchivePublication from '../../components/ArchivePublication.astro';
+import { siteConfig } from '../../data/siteConfig';
+
+const allPubs = await getCollection('publications');
+allPubs.sort(
+  (a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime()
+);
+
+const categories = siteConfig.publicationCategories;
+
+function getPublicationUrl(pub: (typeof allPubs)[0]): string {
+  if (pub.data.permalink) {
+    return pub.data.permalink;
+  }
+  const cleanId = pub.id.replace(/\.md$/, '');
+  return `/publications/${cleanId}/`;
+}
+---
+
+<ArchiveLayout title="Publications">
+  {
+    siteConfig.author.googlescholar && (
+      <div class="mb-4 text-sm text-(--global-text-color)">
+        You can also find my articles on{' '}
+        <a
+          href={siteConfig.author.googlescholar}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="text-(--global-link-color) hover:underline"
+        >
+          my Google Scholar profile
+        </a>
+      </div>
+    )
+  }
+
+  {/* Category Filter Pills */}
+  <div
+    class="mb-6 flex flex-wrap items-center gap-2 border-b border-(--global-border-color) pb-4"
+    role="tablist"
+    aria-label="Publication category filters"
+  >
+    <button
+      type="button"
+      data-filter="all"
+      class="pub-filter-btn active inline-flex cursor-pointer items-center gap-1.5 rounded-full border border-(--global-base-color) bg-(--global-base-color) px-3.5 py-1.5 text-xs leading-none font-semibold text-white shadow-xs transition"
+    >
+      <span>All</span>
+      <span class="pub-count font-normal text-white opacity-80"
+        >({allPubs.length})</span
+      >
+    </button>
+    {
+      Object.entries(categories).map(([catKey, catInfo]) => {
+        const count = allPubs.filter((p) => p.data.category === catKey).length;
+        if (count === 0) return null;
+        return (
+          <button
+            type="button"
+            data-filter={catKey}
+            class="pub-filter-btn inline-flex cursor-pointer items-center gap-1.5 rounded-full border border-(--global-border-color) bg-(--global-bg-color) px-3.5 py-1.5 text-xs leading-none font-medium text-(--global-text-color) shadow-2xs transition hover:border-(--global-link-color) hover:text-(--global-link-color)"
+          >
+            <span>{catInfo.title}</span>
+            <span class="pub-count font-normal text-(--global-text-color-light)">
+              ({count})
+            </span>
+          </button>
+        );
+      })
+    }
+  </div>
+
+  <div id="publications-container" class="space-y-8">
+    {
+      allPubs.length > 0 ? (
+        Object.entries(categories).map(([catKey, catInfo]) => {
+          const catPubs = allPubs.filter((p) => p.data.category === catKey);
+          if (catPubs.length === 0) return null;
+
+          return (
+            <section data-category={catKey} class="pub-category-section">
+              <h2 class="mb-2 border-b border-(--global-border-color) pb-1 text-xl font-bold text-(--global-text-color)">
+                {catInfo.title}
+              </h2>
+              <div class="space-y-2">
+                {catPubs.map((pub) => (
+                  <ArchivePublication
+                    title={pub.data.title}
+                    url={getPublicationUrl(pub)}
+                    venue={pub.data.venue}
+                    date={pub.data.date}
+                    excerpt={pub.data.excerpt}
+                    citation={pub.data.citation}
+                    paperurl={pub.data.paperurl}
+                    slidesurl={pub.data.slidesurl}
+                    bibtexurl={pub.data.bibtexurl}
+                  />
+                ))}
+              </div>
+            </section>
+          );
+        })
+      ) : (
+        <p class="text-sm text-(--global-text-color-light)">
+          No publications published yet.
+        </p>
+      )
+    }
+  </div>
+</ArchiveLayout>
+
+<script>
+  function setupPubFilters() {
+    const filterButtons =
+      document.querySelectorAll<HTMLButtonElement>('.pub-filter-btn');
+    const sections = document.querySelectorAll<HTMLElement>(
+      '.pub-category-section'
+    );
+
+    if (filterButtons.length === 0 || sections.length === 0) return;
+
+    function applyFilter(filterKey: string, updateHash = true) {
+      // Update button active styles
+      filterButtons.forEach((btn) => {
+        const key = btn.getAttribute('data-filter');
+        const countSpan = btn.querySelector('.pub-count');
+        if (key === filterKey) {
+          btn.classList.add(
+            'bg-(--global-base-color)',
+            'text-white',
+            'border-(--global-base-color)',
+            'font-semibold'
+          );
+          btn.classList.remove(
+            'bg-(--global-bg-color)',
+            'text-(--global-text-color)',
+            'border-(--global-border-color)',
+            'font-medium'
+          );
+          if (countSpan) {
+            countSpan.classList.add('opacity-80', 'text-white');
+            countSpan.classList.remove('text-(--global-text-color-light)');
+          }
+          btn.setAttribute('aria-selected', 'true');
+        } else {
+          btn.classList.remove(
+            'bg-(--global-base-color)',
+            'text-white',
+            'border-(--global-base-color)',
+            'font-semibold'
+          );
+          btn.classList.add(
+            'bg-(--global-bg-color)',
+            'text-(--global-text-color)',
+            'border-(--global-border-color)',
+            'font-medium'
+          );
+          if (countSpan) {
+            countSpan.classList.remove('opacity-80', 'text-white');
+            countSpan.classList.add('text-(--global-text-color-light)');
+          }
+          btn.setAttribute('aria-selected', 'false');
+        }
+      });
+
+      // Filter sections
+      sections.forEach((sec) => {
+        const secCategory = sec.getAttribute('data-category');
+        if (filterKey === 'all' || secCategory === filterKey) {
+          sec.classList.remove('hidden');
+        } else {
+          sec.classList.add('hidden');
+        }
+      });
+
+      if (updateHash) {
+        history.replaceState(
+          null,
+          '',
+          filterKey === 'all' ? window.location.pathname : `#${filterKey}`
+        );
+      }
+    }
+
+    filterButtons.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const key = btn.getAttribute('data-filter') || 'all';
+        applyFilter(key);
+      });
+    });
+
+    // Check URL hash on load
+    const currentHash = window.location.hash.replace(/^#/, '');
+    if (currentHash) {
+      const match = Array.from(filterButtons).some(
+        (b) => b.getAttribute('data-filter') === currentHash
+      );
+      if (match) {
+        applyFilter(currentHash, false);
+      }
+    }
+  }
+
+  setupPubFilters();
+  document.addEventListener('astro:page-load', setupPubFilters);
+</script>

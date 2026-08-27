@@ -1,0 +1,48 @@
+---
+import { getCollection, render } from 'astro:content';
+import SingleLayout from '../../layouts/SingleLayout.astro';
+
+export async function getStaticPaths() {
+  const teaching = await getCollection('teaching');
+  const pathMap = new Map<string, (typeof teaching)[0]>();
+
+  for (const item of teaching) {
+    let slug = item.id.replace(/\.md$/, '');
+    if (item.data.permalink) {
+      slug = item.data.permalink
+        .replace(/^\/?teaching\//, '')
+        .replace(/\/$/, '')
+        .replace(/^\//, '');
+    }
+
+    pathMap.set(slug, item);
+
+    const shortId = item.id
+      .replace(/\.md$/, '')
+      .replace(/^\d{4}-\d{2}-\d{2}-/, '');
+    if (!pathMap.has(shortId)) {
+      pathMap.set(shortId, item);
+    }
+  }
+
+  return Array.from(pathMap.entries()).map(([slug, item]) => ({
+    params: { slug },
+    props: { item },
+  }));
+}
+
+const { item } = Astro.props;
+const { Content } = await render(item);
+---
+
+<SingleLayout
+  title={item.data.title}
+  description={item.data.excerpt}
+  date={item.data.date}
+  venue={item.data.venue}
+  location={item.data.location}
+  type={item.data.type}
+  collection="teaching"
+>
+  <Content />
+</SingleLayout>

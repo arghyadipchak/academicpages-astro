@@ -1,0 +1,50 @@
+---
+import { getCollection, render } from 'astro:content';
+import SingleLayout from '../../layouts/SingleLayout.astro';
+
+export async function getStaticPaths() {
+  const publications = await getCollection('publications');
+  const pathMap = new Map<string, (typeof publications)[0]>();
+
+  for (const pub of publications) {
+    let slug = pub.id.replace(/\.md$/, '');
+    if (pub.data.permalink) {
+      slug = pub.data.permalink
+        .replace(/^\/?publications?\//, '')
+        .replace(/\/$/, '')
+        .replace(/^\//, '');
+    }
+
+    pathMap.set(slug, pub);
+
+    const shortId = pub.id
+      .replace(/\.md$/, '')
+      .replace(/^\d{4}-\d{2}-\d{2}-/, '');
+    if (!pathMap.has(shortId)) {
+      pathMap.set(shortId, pub);
+    }
+  }
+
+  return Array.from(pathMap.entries()).map(([slug, pub]) => ({
+    params: { slug },
+    props: { pub },
+  }));
+}
+
+const { pub } = Astro.props;
+const { Content } = await render(pub);
+---
+
+<SingleLayout
+  title={pub.data.title}
+  description={pub.data.excerpt}
+  date={pub.data.date}
+  venue={pub.data.venue}
+  citation={pub.data.citation}
+  paperurl={pub.data.paperurl}
+  slidesurl={pub.data.slidesurl}
+  bibtexurl={pub.data.bibtexurl}
+  collection="publications"
+>
+  <Content />
+</SingleLayout>

@@ -1,0 +1,29 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "node-terminal",
+      "name": "Astro: Dev Server",
+      "request": "launch",
+      "command": "pnpm dev"
+    },
+    {
+      "type": "node-terminal",
+      "name": "Playwright: Run Tests",
+      "request": "launch",
+      "command": "pnpm test"
+    },
+    {
+      "type": "node-terminal",
+      "name": "Playwright: Run Tests (UI Mode)",
+      "request": "launch",
+      "command": "pnpm exec playwright test --ui"
+    },
+    {
+      "type": "node-terminal",
+      "name": "Astro: Full Verify Gate",
+      "request": "launch",
+      "command": "pnpm verify"
+    }
+  ]
+}

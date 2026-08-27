@@ -1,0 +1,18 @@
+---
+import { getEntry, render } from 'astro:content';
+import SingleLayout from '../layouts/SingleLayout.astro';
+
+const termsPage = await getEntry('pages', 'terms');
+if (!termsPage) {
+  throw new Error("Missing 'terms' page in content/pages");
+}
+
+const { Content } = await render(termsPage);
+---
+
+<SingleLayout
+  title={termsPage.data.title}
+  author_profile={termsPage.data.author_profile}
+>
+  <Content />
+</SingleLayout>

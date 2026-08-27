@@ -1,0 +1,88 @@
+---
+import ActionBadges from './ActionBadges.astro';
+import { renderMath } from '../utils/math';
+
+export interface Props {
+  title: string;
+  url: string;
+  venue?: string;
+  date?: Date;
+  excerpt?: string;
+  citation?: string;
+  paperurl?: string;
+  slidesurl?: string;
+  codeurl?: string;
+  bibtexurl?: string;
+}
+
+const {
+  title,
+  url,
+  venue,
+  date,
+  excerpt,
+  citation,
+  paperurl,
+  slidesurl,
+  codeurl,
+  bibtexurl,
+} = Astro.props;
+
+const formattedYear = date
+  ? new Date(date).toLocaleDateString('en-US', { year: 'numeric' })
+  : undefined;
+---
+
+<div
+  class="archive__item border-b border-(--global-border-color) py-4 first:pt-0 last:border-b-0"
+>
+  <article itemscope itemtype="http://schema.org/CreativeWork">
+    <h3 class="text-lg font-bold tracking-tight" itemprop="headline">
+      <a
+        href={url}
+        rel="permalink"
+        class="text-(--global-link-color) hover:text-(--global-link-color-hover) hover:underline"
+        set:html={renderMath(title)}
+      />
+    </h3>
+
+    {
+      venue && (
+        <p class="mt-1 text-sm text-(--global-text-color-light)">
+          Published in <em>{venue}</em>
+          {formattedYear ? `, ${formattedYear}` : ''}
+        </p>
+      )
+    }
+
+    {
+      excerpt && (
+        <p
+          class="mt-2 text-sm text-(--global-text-color)"
+          itemprop="description"
+          set:html={renderMath(excerpt)}
+        />
+      )
+    }
+
+    {
+      citation && (
+        <p class="mt-2 text-xs text-(--global-text-color-light)">
+          <strong>Recommended citation:</strong>{' '}
+          <span set:html={renderMath(citation)} />
+        </p>
+      )
+    }
+
+    <ActionBadges
+      title={title}
+      paperurl={paperurl}
+      slidesurl={slidesurl}
+      codeurl={codeurl}
+      bibtexurl={bibtexurl}
+      citation={citation}
+      venue={venue}
+      date={date}
+    />
+  </article>
+</div>

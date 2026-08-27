@@ -1,0 +1,198 @@
+---
+import { Icon } from 'astro-icon/components';
+
+export interface Props {
+  title: string;
+  paperurl?: string;
+  slidesurl?: string;
+  codeurl?: string;
+  bibtexurl?: string;
+  citation?: string;
+  venue?: string;
+  date?: Date;
+  id?: string;
+}
+
+const {
+  title,
+  paperurl,
+  slidesurl,
+  codeurl,
+  bibtexurl,
+  citation,
+  venue,
+  date,
+  id = Math.random().toString(36).substring(2, 9),
+} = Astro.props;
+
+const year = date ? new Date(date).getFullYear() : 2024;
+const cleanTitle = title.replace(/[^\w\s]/gi, '');
+const bibtexKey = `${cleanTitle.split(' ')[0].toLowerCase()}${year}`;
+
+// Generate clean fallback BibTeX
+const rawBibtex = `@article{${bibtexKey},
+  title     = {${title}},
+  journal   = {${venue || 'Journal'}},
+  year      = {${year}},
+  url       = {${paperurl || ''}}
+}`;
+---
+
+<div class="action-badges-container mt-3">
+  {/* Action Badges Row */}
+  <div class="flex flex-wrap items-center gap-2">
+    {
+      paperurl && (
+        <a
+          href={paperurl}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="inline-flex items-center gap-1.5 rounded-md border border-(--global-border-color) bg-(--global-bg-color) px-2.5 py-1 text-xs leading-none font-medium text-(--global-text-color) shadow-xs transition hover:border-(--global-link-color) hover:text-(--global-link-color)"
+        >
+          <Icon
+            name="fa6-solid:file-pdf"
+            class="h-3.5 w-3.5 shrink-0 text-red-500"
+          />
+          <span class="leading-none">PDF</span>
+        </a>
+      )
+    }
+
+    {
+      slidesurl && (
+        <a
+          href={slidesurl}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="inline-flex items-center gap-1.5 rounded-md border border-(--global-border-color) bg-(--global-bg-color) px-2.5 py-1 text-xs leading-none font-medium text-(--global-text-color) shadow-xs transition hover:border-(--global-link-color) hover:text-(--global-link-color)"
+        >
+          <Icon
+            name="fa6-solid:file-powerpoint"
+            class="h-3.5 w-3.5 shrink-0 text-amber-500"
+          />
+          <span class="leading-none">Slides</span>
+        </a>
+      )
+    }
+
+    {
+      codeurl && (
+        <a
+          href={codeurl}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="inline-flex items-center gap-1.5 rounded-md border border-(--global-border-color) bg-(--global-bg-color) px-2.5 py-1 text-xs leading-none font-medium text-(--global-text-color) shadow-xs transition hover:border-(--global-link-color) hover:text-(--global-link-color)"
+        >
+          <Icon name="fa6-brands:github" class="h-3.5 w-3.5 shrink-0" />
+          <span class="leading-none">Code</span>
+        </a>
+      )
+    }
+
+    {
+      (citation || bibtexurl || title) && (
+        <button
+          type="button"
+          data-bibtex-trigger={id}
+          class="bibtex-toggle-btn inline-flex cursor-pointer items-center gap-1.5 rounded-md border border-(--global-border-color) bg-(--global-bg-color) px-2.5 py-1 text-xs leading-none font-medium text-(--global-text-color) shadow-xs transition hover:border-(--global-link-color) hover:text-(--global-link-color)"
+        >
+          <Icon
+            name="fa6-solid:quote-right"
+            class="h-3.5 w-3.5 shrink-0 text-blue-500"
+          />
+          <span class="leading-none">BibTeX</span>
+        </button>
+      )
+    }
+  </div>
+
+  {/* Expandable BibTeX Box */}
+  <div
+    id={`bibtex-box-${id}`}
+    class="bibtex-box mt-3 hidden rounded-md border border-(--global-border-color) bg-neutral-50 p-3 dark:bg-neutral-900"
+  >
+    <div class="mb-2 flex items-center justify-between">
+      <span class="text-xs font-semibold text-(--global-text-color-light)">
+        BibTeX Citation
+      </span>
+      <div class="flex items-center gap-2">
+        {
+          bibtexurl && (
+            <a
+              href={bibtexurl}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="text-xs text-(--global-link-color) hover:underline"
+            >
+              Download .bib
+            </a>
+          )
+        }
+        <button
+          type="button"
+          data-copy-bibtex={id}
+          class="copy-bibtex-btn inline-flex items-center gap-1 rounded bg-(--global-link-color) px-2 py-0.5 text-xs font-medium text-white transition hover:opacity-90"
+        >
+          <Icon name="fa6-solid:copy" class="h-3 w-3" />
+          <span class="copy-label">Copy</span>
+        </button>
+      </div>
+    </div>
+    <pre
+      class="overflow-x-auto rounded bg-neutral-100 p-2.5 font-mono text-xs text-neutral-800 dark:bg-neutral-950 dark:text-neutral-200"><code id={`bibtex-code-${id}`}>{rawBibtex}</code></pre>
+  </div>
+</div>
+
+<script>
+  function setupBibtexToggles() {
+    document.querySelectorAll('.bibtex-toggle-btn').forEach((btn) => {
+      btn.removeEventListener('click', handleBibtexToggle);
+      btn.addEventListener('click', handleBibtexToggle);
+    });
+
+    document.querySelectorAll('.copy-bibtex-btn').forEach((btn) => {
+      btn.removeEventListener('click', handleBibtexCopy);
+      btn.addEventListener('click', handleBibtexCopy);
+    });
+  }
+
+  function handleBibtexToggle(this: HTMLElement, e: Event) {
+    e.preventDefault();
+    const id = this.getAttribute('data-bibtex-trigger');
+    if (!id) return;
+    const box = document.getElementById(`bibtex-box-${id}`);
+    if (!box) return;
+    box.classList.toggle('hidden');
+  }
+
+  async function handleBibtexCopy(this: HTMLElement, e: Event) {
+    e.preventDefault();
+    const id = this.getAttribute('data-copy-bibtex');
+    if (!id) return;
+    const codeEl = document.getElementById(`bibtex-code-${id}`);
+    if (!codeEl) return;
+
+    const text = (codeEl.textContent || '').trim();
+    let copied = false;
+
+    if (navigator.clipboard) {
+      try {
+        await navigator.clipboard.writeText(text);
+        copied = true;
+      } catch {
+        // clipboard permission denied
+      }
+    }
+
+    const label = this.querySelector('.copy-label');
+    if (label && copied) {
+      label.textContent = 'Copied!';
+      setTimeout(() => {
+        label.textContent = 'Copy';
+      }, 2000);
+    }
+  }
+
+  setupBibtexToggles();
+  document.addEventListener('astro:page-load', setupBibtexToggles);
+</script>

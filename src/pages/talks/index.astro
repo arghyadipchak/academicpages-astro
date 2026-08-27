@@ -1,0 +1,42 @@
+---
+import { getCollection } from 'astro:content';
+import ArchiveLayout from '../../layouts/ArchiveLayout.astro';
+import ArchiveTalk from '../../components/ArchiveTalk.astro';
+
+const allTalks = await getCollection('talks');
+allTalks.sort(
+  (a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime()
+);
+
+function getTalkUrl(talk: (typeof allTalks)[0]): string {
+  if (talk.data.permalink) {
+    return talk.data.permalink;
+  }
+  const cleanId = talk.id.replace(/\.md$/, '');
+  return `/talks/${cleanId}/`;
+}
+---
+
+<ArchiveLayout title="Talks and presentations">
+  <div class="space-y-2">
+    {
+      allTalks.length > 0 ? (
+        allTalks.map((talk) => (
+          <ArchiveTalk
+            title={talk.data.title}
+            url={getTalkUrl(talk)}
+            date={talk.data.date}
+            venue={talk.data.venue}
+            location={talk.data.location}
+            type={talk.data.talk_type || talk.data.type}
+            excerpt={talk.data.excerpt}
+          />
+        ))
+      ) : (
+        <p class="text-sm text-(--global-text-color-light)">
+          No talks or presentations published yet.
+        </p>
+      )
+    }
+  </div>
+</ArchiveLayout>
