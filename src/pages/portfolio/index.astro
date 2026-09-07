@@ -2,15 +2,16 @@
 import { getCollection } from 'astro:content';
 import ArchiveLayout from '../../layouts/ArchiveLayout.astro';
 import ArchivePortfolio from '../../components/ArchivePortfolio.astro';
+import { resolveUrl } from '../../utils/url';
 
 const allPortfolio = await getCollection('portfolio');
 
 function getPortfolioUrl(item: (typeof allPortfolio)[0]): string {
   if (item.data.permalink) {
-    return item.data.permalink;
+    return resolveUrl(item.data.permalink);
   }
   const cleanId = item.id.replace(/\.md$/, '');
-  return `/portfolio/${cleanId}/`;
+  return resolveUrl(`/portfolio/${cleanId}/`);
 }
 ---
 

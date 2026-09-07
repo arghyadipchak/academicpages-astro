@@ -1,5 +1,6 @@
 ---
 import SingleLayout from '../layouts/SingleLayout.astro';
+import { resolveUrl } from '../utils/url';
 ---
 
 <SingleLayout title="Page Not Found">
@@ -9,7 +10,7 @@ import SingleLayout from '../layouts/SingleLayout.astro';
     </p>
     <p>
       <a
-        href="/"
+        href={resolveUrl('/')}
         class="inline-flex items-center gap-2 font-medium text-(--global-link-color) hover:underline"
       >
         &larr; Return to Homepage

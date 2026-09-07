@@ -8,6 +8,7 @@ import TableOfContents from '../components/TableOfContents.astro';
 import { siteConfig } from '../data/siteConfig';
 import { Icon } from 'astro-icon/components';
 import { renderMath } from '../utils/math';
+import { resolveUrl } from '../utils/url';
 
 export interface Props {
   title: string;
@@ -75,7 +76,14 @@ const citationMetadata =
         pdfUrl: paperurl
           ? paperurl.startsWith('http')
             ? paperurl
-            : new URL(paperurl, siteConfig.url).toString()
+            : new URL(
+                resolveUrl(paperurl),
+                Astro.site
+                  ? Astro.site.toString()
+                  : siteConfig.url
+                    ? new URL(siteConfig.url).origin
+                    : Astro.url.origin
+              ).toString()
           : undefined,
       }
     : undefined;

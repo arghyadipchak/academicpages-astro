@@ -2,6 +2,7 @@
 import { getCollection } from 'astro:content';
 import ArchiveLayout from '../../layouts/ArchiveLayout.astro';
 import ArchiveTalk from '../../components/ArchiveTalk.astro';
+import { resolveUrl } from '../../utils/url';
 
 const allTalks = await getCollection('talks');
 allTalks.sort(
@@ -10,10 +11,10 @@ allTalks.sort(
 
 function getTalkUrl(talk: (typeof allTalks)[0]): string {
   if (talk.data.permalink) {
-    return talk.data.permalink;
+    return resolveUrl(talk.data.permalink);
   }
   const cleanId = talk.id.replace(/\.md$/, '');
-  return `/talks/${cleanId}/`;
+  return resolveUrl(`/talks/${cleanId}/`);
 }
 ---
 

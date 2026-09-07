@@ -1,5 +1,6 @@
 ---
 import { Icon } from 'astro-icon/components';
+import { resolveUrl } from '../utils/url';
 
 export interface Props {
   title: string;
@@ -34,7 +35,7 @@ const rawBibtex = `@article{${bibtexKey},
   title     = {${title}},
   journal   = {${venue || 'Journal'}},
   year      = {${year}},
-  url       = {${paperurl || ''}}
+  url       = {${paperurl ? resolveUrl(paperurl) : ''}}
 }`;
 ---
 
@@ -44,7 +45,7 @@ const rawBibtex = `@article{${bibtexKey},
     {
       paperurl && (
         <a
-          href={paperurl}
+          href={resolveUrl(paperurl)}
           target="_blank"
           rel="noopener noreferrer"
           class="inline-flex items-center gap-1.5 rounded-md border border-(--global-border-color) bg-(--global-bg-color) px-2.5 py-1 text-xs leading-none font-medium text-(--global-text-color) shadow-xs transition hover:border-(--global-link-color) hover:text-(--global-link-color)"
@@ -61,7 +62,7 @@ const rawBibtex = `@article{${bibtexKey},
     {
       slidesurl && (
         <a
-          href={slidesurl}
+          href={resolveUrl(slidesurl)}
           target="_blank"
           rel="noopener noreferrer"
           class="inline-flex items-center gap-1.5 rounded-md border border-(--global-border-color) bg-(--global-bg-color) px-2.5 py-1 text-xs leading-none font-medium text-(--global-text-color) shadow-xs transition hover:border-(--global-link-color) hover:text-(--global-link-color)"
@@ -78,7 +79,7 @@ const rawBibtex = `@article{${bibtexKey},
     {
       codeurl && (
         <a
-          href={codeurl}
+          href={resolveUrl(codeurl)}
           target="_blank"
           rel="noopener noreferrer"
           class="inline-flex items-center gap-1.5 rounded-md border border-(--global-border-color) bg-(--global-bg-color) px-2.5 py-1 text-xs leading-none font-medium text-(--global-text-color) shadow-xs transition hover:border-(--global-link-color) hover:text-(--global-link-color)"
@@ -119,7 +120,7 @@ const rawBibtex = `@article{${bibtexKey},
         {
           bibtexurl && (
             <a
-              href={bibtexurl}
+              href={resolveUrl(bibtexurl)}
               target="_blank"
               rel="noopener noreferrer"
               class="text-xs text-(--global-link-color) hover:underline"

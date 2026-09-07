@@ -1,6 +1,7 @@
 ---
 import SingleLayout from '../layouts/SingleLayout.astro';
 import { getCollection } from 'astro:content';
+import { resolveUrl } from '../utils/url';
 
 const posts = await getCollection('blog');
 const publications = await getCollection('publications');
@@ -19,51 +20,57 @@ const portfolio = await getCollection('portfolio');
       </h2>
       <ul class="mt-2 list-disc space-y-1 pl-5 text-sm">
         <li>
-          <a href="/" class="text-(--global-link-color) hover:underline"
-            >About</a
+          <a
+            href={resolveUrl('/')}
+            class="text-(--global-link-color) hover:underline">About</a
           >
         </li>
         <li>
           <a
-            href="/publications/"
+            href={resolveUrl('/publications/')}
             class="text-(--global-link-color) hover:underline">Publications</a
           >
         </li>
         <li>
-          <a href="/talks/" class="text-(--global-link-color) hover:underline"
-            >Talks</a
+          <a
+            href={resolveUrl('/talks/')}
+            class="text-(--global-link-color) hover:underline">Talks</a
           >
         </li>
         <li>
           <a
-            href="/teaching/"
+            href={resolveUrl('/teaching/')}
             class="text-(--global-link-color) hover:underline">Teaching</a
           >
         </li>
         <li>
           <a
-            href="/portfolio/"
+            href={resolveUrl('/portfolio/')}
             class="text-(--global-link-color) hover:underline">Portfolio</a
           >
         </li>
         <li>
-          <a href="/posts/" class="text-(--global-link-color) hover:underline"
-            >Blog Posts</a
-          >
-        </li>
-        <li>
-          <a href="/cv/" class="text-(--global-link-color) hover:underline"
-            >CV</a
+          <a
+            href={resolveUrl('/posts/')}
+            class="text-(--global-link-color) hover:underline">Blog Posts</a
           >
         </li>
         <li>
           <a
-            href="/markdown/"
+            href={resolveUrl('/cv/')}
+            class="text-(--global-link-color) hover:underline">CV</a
+          >
+        </li>
+        <li>
+          <a
+            href={resolveUrl('/markdown/')}
             class="text-(--global-link-color) hover:underline">Guide</a
           >
         </li>
         <li>
-          <a href="/terms/" class="text-(--global-link-color) hover:underline"
+          <a
+            href={resolveUrl('/terms/')}
+            class="text-(--global-link-color) hover:underline"
             >Terms & Conditions</a
           >
         </li>
@@ -80,10 +87,10 @@ const portfolio = await getCollection('portfolio');
             {posts.map((post) => (
               <li>
                 <a
-                  href={
+                  href={resolveUrl(
                     post.data.permalink ||
-                    `/posts/${post.id.replace(/\.md$/, '')}/`
-                  }
+                      `/posts/${post.id.replace(/\.md$/, '')}/`
+                  )}
                   class="text-(--global-link-color) hover:underline"
                 >
                   {post.data.title}
@@ -105,10 +112,10 @@ const portfolio = await getCollection('portfolio');
             {publications.map((pub) => (
               <li>
                 <a
-                  href={
+                  href={resolveUrl(
                     pub.data.permalink ||
-                    `/publications/${pub.id.replace(/\.md$/, '')}/`
-                  }
+                      `/publications/${pub.id.replace(/\.md$/, '')}/`
+                  )}
                   class="text-(--global-link-color) hover:underline"
                 >
                   {pub.data.title}
@@ -130,10 +137,10 @@ const portfolio = await getCollection('portfolio');
             {talks.map((talk) => (
               <li>
                 <a
-                  href={
+                  href={resolveUrl(
                     talk.data.permalink ||
-                    `/talks/${talk.id.replace(/\.md$/, '')}/`
-                  }
+                      `/talks/${talk.id.replace(/\.md$/, '')}/`
+                  )}
                   class="text-(--global-link-color) hover:underline"
                 >
                   {talk.data.title}
@@ -155,10 +162,10 @@ const portfolio = await getCollection('portfolio');
             {teaching.map((item) => (
               <li>
                 <a
-                  href={
+                  href={resolveUrl(
                     item.data.permalink ||
-                    `/teaching/${item.id.replace(/\.md$/, '')}/`
-                  }
+                      `/teaching/${item.id.replace(/\.md$/, '')}/`
+                  )}
                   class="text-(--global-link-color) hover:underline"
                 >
                   {item.data.title}
@@ -180,10 +187,10 @@ const portfolio = await getCollection('portfolio');
             {portfolio.map((item) => (
               <li>
                 <a
-                  href={
+                  href={resolveUrl(
                     item.data.permalink ||
-                    `/portfolio/${item.id.replace(/\.md$/, '')}/`
-                  }
+                      `/portfolio/${item.id.replace(/\.md$/, '')}/`
+                  )}
                   class="text-(--global-link-color) hover:underline"
                 >
                   {item.data.title}

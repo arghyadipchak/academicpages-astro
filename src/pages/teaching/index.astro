@@ -2,6 +2,7 @@
 import { getCollection } from 'astro:content';
 import ArchiveLayout from '../../layouts/ArchiveLayout.astro';
 import ArchiveTeaching from '../../components/ArchiveTeaching.astro';
+import { resolveUrl } from '../../utils/url';
 
 const allTeaching = await getCollection('teaching');
 allTeaching.sort(
@@ -10,10 +11,10 @@ allTeaching.sort(
 
 function getTeachingUrl(item: (typeof allTeaching)[0]): string {
   if (item.data.permalink) {
-    return item.data.permalink;
+    return resolveUrl(item.data.permalink);
   }
   const cleanId = item.id.replace(/\.md$/, '');
-  return `/teaching/${cleanId}/`;
+  return resolveUrl(`/teaching/${cleanId}/`);
 }
 ---
 

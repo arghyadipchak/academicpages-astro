@@ -58,10 +58,13 @@ Replace `public/images/profile.png` with your photo (square aspect ratio recomme
 
 - **User / Organization Site** (`https://<username>.github.io`):
   - `src/data/siteConfig.ts`: `url: 'https://<username>.github.io'`, `baseurl: ''`
-  - `astro.config.ts`: `site: 'https://<username>.github.io'`, `base: ''`
 - **Project Site** (`https://<username>.github.io/<repo-name>`):
   - `src/data/siteConfig.ts`: `url: 'https://<username>.github.io/<repo-name>'`, `baseurl: '/<repo-name>'`
-  - `astro.config.ts`: `site: 'https://<username>.github.io'`, `base: '/<repo-name>'`
+- **Dynamic CI Resolution**:
+  - In GitHub Actions CI (`.github/workflows/ci.yml`), `actions/configure-pages` automatically injects `ASTRO_SITE` and `ASTRO_BASE` into `pnpm build`
+  - `astro.config.ts` reads `process.env.ASTRO_BASE` first, falling back to `siteConfig.baseurl`
+- **Asset & URL Construction**:
+  - Always use `resolveUrl(path)` from `src/utils/url.ts` when linking internal assets, routes, and API endpoints
 
 ---
 

@@ -42,12 +42,17 @@ jobs:
         run: pnpm verify
 
       - name: Build site
+        env:
+          ASTRO_SITE: ${{ steps.pages.outputs.origin }}
+          ASTRO_BASE: ${{ steps.pages.outputs.base_path }}
         run: pnpm build
 
       - name: Install Playwright browsers
         run: pnpm exec playwright install --with-deps chromium
 
       - name: Run tests
+        env:
+          ASTRO_BASE: ${{ steps.pages.outputs.base_path }}
         run: pnpm test
 
       - name: Upload Pages artifact

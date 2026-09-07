@@ -1,4 +1,11 @@
 import { defineConfig, devices } from '@playwright/test';
+import { siteConfig } from './src/data/siteConfig';
+
+const base = (process.env.ASTRO_BASE ?? siteConfig.baseurl ?? '').replace(
+  /\/$/,
+  ''
+);
+const serverUrl = `http://localhost:4321${base ? `${base}/` : '/'}`;
 
 export default defineConfig({
   testDir: './tests',
@@ -33,7 +40,7 @@ export default defineConfig({
   ],
   webServer: {
     command: process.env.CI ? 'pnpm preview' : 'pnpm dev',
-    port: 4321,
+    url: serverUrl,
     reuseExistingServer: !process.env.CI,
     timeout: 30000,
   },

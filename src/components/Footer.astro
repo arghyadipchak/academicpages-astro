@@ -1,6 +1,7 @@
 ---
 import { siteConfig } from '../data/siteConfig';
 import { Icon } from 'astro-icon/components';
+import { resolveUrl } from '../utils/url';
 
 const currentYear = new Date().getFullYear();
 const todayDate = new Date().toISOString().slice(0, 10);
@@ -59,7 +60,7 @@ const todayDate = new Date().toISOString().slice(0, 10);
         }
         <li class="inline-flex items-center leading-none">
           <a
-            href="/rss.xml"
+            href={resolveUrl('/rss.xml')}
             class="inline-flex items-center gap-1.5 leading-none text-(--global-text-color-light) hover:text-(--global-base-color)"
           >
             <Icon name="fa6-solid:rss" class="h-3.5 w-3.5 shrink-0" />
@@ -101,7 +102,7 @@ const todayDate = new Date().toISOString().slice(0, 10);
       </p>
       <p class="pt-0.5">
         Site last updated {todayDate} &middot; <a
-          href="/sitemap/"
+          href={resolveUrl('/sitemap/')}
           class="font-semibold uppercase hover:text-(--global-base-color)"
           >Sitemap</a
         >

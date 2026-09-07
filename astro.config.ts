@@ -5,10 +5,24 @@ import remarkMath from 'remark-math';
 import rehypeKatex from 'rehype-katex';
 import icon from 'astro-icon';
 import sitemap from '@astrojs/sitemap';
+import { siteConfig } from './src/data/siteConfig';
+
+const site =
+  process.env.ASTRO_SITE ||
+  (siteConfig.url ? new URL(siteConfig.url).origin : undefined);
+
+const base =
+  process.env.ASTRO_BASE !== undefined
+    ? process.env.ASTRO_BASE
+    : siteConfig.baseurl ||
+      (siteConfig.url && new URL(siteConfig.url).pathname !== '/'
+        ? new URL(siteConfig.url).pathname
+        : undefined);
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://arghyadipchak.github.io/academicpages-astro',
+  site,
+  base,
   integrations: [icon(), sitemap()],
   prefetch: {
     prefetchAll: true,

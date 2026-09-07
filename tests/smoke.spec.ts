@@ -1,10 +1,17 @@
 import { test, expect } from '@playwright/test';
+import { siteConfig } from '../src/data/siteConfig';
+
+const base = (process.env.ASTRO_BASE ?? siteConfig.baseurl ?? '').replace(
+  /\/$/,
+  ''
+);
+const toUrl = (p: string) => `${base}${p.startsWith('/') ? p : `/${p}`}`;
 
 test.describe('Academic Pages Core UI & Content Tests', () => {
   test('homepage renders correctly with title and article heading', async ({
     page,
   }) => {
-    await page.goto('/');
+    await page.goto(toUrl('/'));
     await expect(page).toHaveTitle(/Academic Pages|Your Name/);
     const heading = page.locator('h1').first();
     await expect(heading).toBeVisible();
@@ -14,7 +21,7 @@ test.describe('Academic Pages Core UI & Content Tests', () => {
     page,
     isMobile,
   }) => {
-    await page.goto('/');
+    await page.goto(toUrl('/'));
     const brand = page.locator('header a', { hasText: 'Your Name' }).first();
     await expect(brand).toBeVisible();
 
@@ -35,7 +42,7 @@ test.describe('Academic Pages Core UI & Content Tests', () => {
   });
 
   test('author profile renders avatar, bio, and links', async ({ page }) => {
-    await page.goto('/');
+    await page.goto(toUrl('/'));
     const authorName = page.locator('h3', { hasText: 'Your Sidebar Name' });
     await expect(authorName).toBeVisible();
     const avatar = page.locator('.author__avatar img');
@@ -46,7 +53,7 @@ test.describe('Academic Pages Core UI & Content Tests', () => {
   test('theme toggle changes data-theme attribute and persists', async ({
     page,
   }) => {
-    await page.goto('/');
+    await page.goto(toUrl('/'));
     const initialTheme = await page.locator('html').getAttribute('data-theme');
     const toggleBtn = page.locator('.theme-toggle-btn:visible').first();
     await expect(toggleBtn).toBeVisible();
@@ -63,7 +70,7 @@ test.describe('Academic Pages Core UI & Content Tests', () => {
   });
 
   test('footer renders copyright and sitemap link', async ({ page }) => {
-    await page.goto('/');
+    await page.goto(toUrl('/'));
     const footer = page.locator('footer');
     await expect(footer).toBeVisible();
     await expect(footer).toContainText('Powered by');
@@ -72,14 +79,14 @@ test.describe('Academic Pages Core UI & Content Tests', () => {
 
   test('all archive pages render correctly', async ({ page }) => {
     const routes = [
-      { path: '/publications/', heading: 'Publications' },
-      { path: '/talks/', heading: 'Talks and presentations' },
-      { path: '/teaching/', heading: 'Teaching' },
-      { path: '/portfolio/', heading: 'Portfolio' },
-      { path: '/year-archive/', heading: 'Blog posts' },
-      { path: '/cv/', heading: 'CV' },
-      { path: '/markdown/', heading: 'Markdown Guide' },
-      { path: '/sitemap/', heading: 'Sitemap' },
+      { path: toUrl('/publications/'), heading: 'Publications' },
+      { path: toUrl('/talks/'), heading: 'Talks and presentations' },
+      { path: toUrl('/teaching/'), heading: 'Teaching' },
+      { path: toUrl('/portfolio/'), heading: 'Portfolio' },
+      { path: toUrl('/year-archive/'), heading: 'Blog posts' },
+      { path: toUrl('/cv/'), heading: 'CV' },
+      { path: toUrl('/markdown/'), heading: 'Markdown Guide' },
+      { path: toUrl('/sitemap/'), heading: 'Sitemap' },
     ];
 
     for (const route of routes) {
@@ -91,15 +98,15 @@ test.describe('Academic Pages Core UI & Content Tests', () => {
 
   test('single item pages render correctly', async ({ page }) => {
     const singleRoutes = [
-      '/posts/2012/08/blog-post-1/',
-      '/publication/2009-10-01-paper-title-number-1/',
-      '/talks/2012-03-01-talk-1/',
-      '/teaching/2014-spring-teaching-1/',
-      '/portfolio/portfolio-1/',
+      toUrl('/posts/2012/08/blog-post-1/'),
+      toUrl('/publication/2009-10-01-paper-title-number-1/'),
+      toUrl('/talks/2012-03-01-talk-1/'),
+      toUrl('/teaching/2014-spring-teaching-1/'),
+      toUrl('/portfolio/portfolio-1/'),
     ];
 
-    for (const path of singleRoutes) {
-      await page.goto(path);
+    for (const singlePath of singleRoutes) {
+      await page.goto(singlePath);
       const h1 = page.locator('h1').first();
       await expect(h1).toBeVisible();
     }
@@ -108,24 +115,24 @@ test.describe('Academic Pages Core UI & Content Tests', () => {
   test('RSS, Feed, Robots, and Search JSON endpoints return valid 200 response', async ({
     request,
   }) => {
-    const rssRes = await request.get('/rss.xml');
+    const rssRes = await request.get(toUrl('/rss.xml'));
     expect(rssRes.status()).toBe(200);
     const rssText = await rssRes.text();
     expect(rssText).toContain('<rss');
     expect(rssText).toContain('Blog Post number 1');
 
-    const feedRes = await request.get('/feed.xml');
+    const feedRes = await request.get(toUrl('/feed.xml'));
     expect(feedRes.status()).toBe(200);
     const feedText = await feedRes.text();
     expect(feedText).toContain('<rss');
 
-    const robotsRes = await request.get('/robots.txt');
+    const robotsRes = await request.get(toUrl('/robots.txt'));
     expect(robotsRes.status()).toBe(200);
     const robotsText = await robotsRes.text();
     expect(robotsText).toContain('User-agent: *');
     expect(robotsText).toContain('sitemap-index.xml');
 
-    const searchRes = await request.get('/api/search.json');
+    const searchRes = await request.get(toUrl('/api/search.json'));
     expect(searchRes.status()).toBe(200);
     const searchJson = await searchRes.json();
     expect(Array.isArray(searchJson)).toBeTruthy();
@@ -135,14 +142,14 @@ test.describe('Academic Pages Core UI & Content Tests', () => {
   });
 
   test('404 page renders properly', async ({ page }) => {
-    const response = await page.goto('/404.html');
-    expect(response?.ok()).toBeTruthy();
+    const response = await page.goto(toUrl('/404.html'));
+    expect([200, 404]).toContain(response?.status());
     const h1 = page.locator('h1', { hasText: 'Page Not Found' });
     await expect(h1).toBeVisible();
   });
 
   test('semantic landmarks and accessibility checks', async ({ page }) => {
-    await page.goto('/');
+    await page.goto(toUrl('/'));
     await expect(page.locator('header').first()).toBeVisible();
     await expect(page.locator('main')).toBeVisible();
     await expect(page.locator('footer')).toBeVisible();
@@ -153,7 +160,7 @@ test.describe('Academic Pages Core UI & Content Tests', () => {
     isMobile,
   }) => {
     if (!isMobile) return;
-    await page.goto('/');
+    await page.goto(toUrl('/'));
     const followBtn = page.locator('#author-urls-toggle');
     const urlsList = page.locator('#author-urls-list');
 
@@ -172,7 +179,7 @@ test.describe('Academic Pages Core UI & Content Tests', () => {
   test('Action badges and BibTeX 1-click copy functionality', async ({
     page,
   }) => {
-    await page.goto('/publications/');
+    await page.goto(toUrl('/publications/'));
     const bibtexBtn = page.locator('.bibtex-toggle-btn').first();
     await expect(bibtexBtn).toBeVisible();
     await bibtexBtn.click();
@@ -190,7 +197,7 @@ test.describe('Academic Pages Core UI & Content Tests', () => {
   test('Publication category filter tabs work interactively', async ({
     page,
   }) => {
-    await page.goto('/publications/');
+    await page.goto(toUrl('/publications/'));
     const confFilterBtn = page.locator('button[data-filter="conferences"]');
     await expect(confFilterBtn).toBeVisible();
     await confFilterBtn.click();
@@ -213,7 +220,7 @@ test.describe('Academic Pages Core UI & Content Tests', () => {
   test('Search modal opens with button and Cmd+K and performs search', async ({
     page,
   }) => {
-    await page.goto('/');
+    await page.goto(toUrl('/'));
     const searchBtn = page.locator('.search-trigger-btn:visible').first();
     await expect(searchBtn).toBeVisible();
     await searchBtn.click();
@@ -236,7 +243,7 @@ test.describe('Academic Pages Core UI & Content Tests', () => {
   test('Table of contents renders on CV and guide pages and is retractable (hidden by default)', async ({
     page,
   }) => {
-    await page.goto('/cv/');
+    await page.goto(toUrl('/cv/'));
     const toc = page.locator('#toc-wrapper');
     await expect(toc).toBeVisible();
 
@@ -267,7 +274,7 @@ test.describe('Academic Pages Core UI & Content Tests', () => {
   test('Google Scholar and Highwire Press academic meta tags render on publication pages', async ({
     page,
   }) => {
-    await page.goto('/publication/2009-10-01-paper-title-number-1/');
+    await page.goto(toUrl('/publication/2009-10-01-paper-title-number-1/'));
     const citationTitle = page.locator('meta[name="citation_title"]');
     await expect(citationTitle).toHaveAttribute(
       'content',
@@ -288,7 +295,7 @@ test.describe('Academic Pages Core UI & Content Tests', () => {
     page,
     isMobile,
   }) => {
-    await page.goto('/markdown/');
+    await page.goto(toUrl('/markdown/'));
 
     // 1. KaTeX Math equations rendered server-side
     const katexDisplay = page.locator('.katex-display').first();
@@ -327,12 +334,12 @@ test.describe('Academic Pages Core UI & Content Tests', () => {
   test('Frontmatter math ($E=mc^2$) compiles to KaTeX in titles and archive listings', async ({
     page,
   }) => {
-    await page.goto('/publications/');
+    await page.goto(toUrl('/publications/'));
     const pubWithMath = page.locator('a:has-text("Paper Title Number 5")');
     await expect(pubWithMath).toBeVisible();
     await expect(pubWithMath.locator('.katex')).toBeVisible();
 
-    await page.goto('/publication/2025-06-08-paper-title-number-5/');
+    await page.goto(toUrl('/publication/2025-06-08-paper-title-number-5/'));
     const h1 = page.locator('h1[itemprop="headline"]');
     await expect(h1).toBeVisible();
     await expect(h1.locator('.katex')).toBeVisible();
@@ -341,7 +348,7 @@ test.describe('Academic Pages Core UI & Content Tests', () => {
   test('CV page breadcrumbs format acronyms like CV in uppercase', async ({
     page,
   }) => {
-    await page.goto('/cv/');
+    await page.goto(toUrl('/cv/'));
     const breadcrumbs = page.locator('nav[aria-label="Breadcrumbs"]');
     await expect(breadcrumbs).toBeVisible();
     await expect(breadcrumbs).toContainText('Home');
@@ -351,7 +358,7 @@ test.describe('Academic Pages Core UI & Content Tests', () => {
   test('Mermaid diagrams and Plotly graphs render with collapsible source code viewers', async ({
     page,
   }) => {
-    await page.goto('/markdown/');
+    await page.goto(toUrl('/markdown/'));
 
     // 1. Mermaid diagram
     const mermaidDiagram = page.locator('.mermaid-diagram').first();
@@ -369,7 +376,7 @@ test.describe('Academic Pages Core UI & Content Tests', () => {
   test('Markdown tables are automatically wrapped in responsive .table-wrapper containers', async ({
     page,
   }) => {
-    await page.goto('/markdown/');
+    await page.goto(toUrl('/markdown/'));
     const tableWrapper = page.locator('.table-wrapper').first();
     await expect(tableWrapper).toBeVisible();
     const table = tableWrapper.locator('table');

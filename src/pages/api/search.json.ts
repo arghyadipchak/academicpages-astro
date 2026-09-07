@@ -1,5 +1,6 @@
 import { getCollection } from 'astro:content';
 import type { APIRoute } from 'astro';
+import { resolveUrl } from '../../utils/url';
 
 export const GET: APIRoute = async () => {
   const posts = await getCollection('blog', ({ data }) => !data.draft);
@@ -12,21 +13,27 @@ export const GET: APIRoute = async () => {
   const items = [
     ...posts.map((p) => ({
       title: p.data.title,
-      url: p.data.permalink || `/posts/${p.id.replace(/\.md$/, '')}/`,
+      url: resolveUrl(
+        p.data.permalink || `/posts/${p.id.replace(/\.md$/, '')}/`
+      ),
       type: 'Blog Post',
       date: p.data.date,
       excerpt: p.data.excerpt || '',
     })),
     ...publications.map((p) => ({
       title: p.data.title,
-      url: p.data.permalink || `/publications/${p.id.replace(/\.md$/, '')}/`,
+      url: resolveUrl(
+        p.data.permalink || `/publications/${p.id.replace(/\.md$/, '')}/`
+      ),
       type: 'Publication',
       date: p.data.date,
       excerpt: p.data.excerpt || p.data.citation || '',
     })),
     ...talks.map((t) => ({
       title: t.data.title,
-      url: t.data.permalink || `/talks/${t.id.replace(/\.md$/, '')}/`,
+      url: resolveUrl(
+        t.data.permalink || `/talks/${t.id.replace(/\.md$/, '')}/`
+      ),
       type: 'Talk',
       date: t.data.date,
       excerpt:
@@ -34,21 +41,27 @@ export const GET: APIRoute = async () => {
     })),
     ...teaching.map((t) => ({
       title: t.data.title,
-      url: t.data.permalink || `/teaching/${t.id.replace(/\.md$/, '')}/`,
+      url: resolveUrl(
+        t.data.permalink || `/teaching/${t.id.replace(/\.md$/, '')}/`
+      ),
       type: 'Teaching',
       date: t.data.date,
       excerpt: t.data.excerpt || t.data.venue || '',
     })),
     ...portfolio.map((p) => ({
       title: p.data.title,
-      url: p.data.permalink || `/portfolio/${p.id.replace(/\.md$/, '')}/`,
+      url: resolveUrl(
+        p.data.permalink || `/portfolio/${p.id.replace(/\.md$/, '')}/`
+      ),
       type: 'Portfolio',
       date: p.data.date,
       excerpt: p.data.excerpt || '',
     })),
     ...pages.map((p) => ({
       title: p.data.title,
-      url: p.data.permalink || (p.id === 'about' ? '/' : `/${p.id}/`),
+      url: resolveUrl(
+        p.data.permalink || (p.id === 'about' ? '/' : `/${p.id}/`)
+      ),
       type: 'Page',
       excerpt: '',
     })),

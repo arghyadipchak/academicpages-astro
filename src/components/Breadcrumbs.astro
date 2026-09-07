@@ -1,21 +1,33 @@
 ---
+import { resolveUrl } from '../utils/url';
+
 export interface Props {
   crumbs?: { title: string; href?: string }[];
 }
 
 const { crumbs = [] } = Astro.props;
 
-// If crumbs not explicitly provided, deduce from current path
+// If crumbs not explicitly provided, deduce from current path relative to base
+const baseUrl = (import.meta.env.BASE_URL ?? '/').replace(/\/+$/, '');
 const pathname = Astro.url.pathname.replace(/\/$/, '');
-const segments = pathname.split('/').filter(Boolean);
+const relativePath =
+  baseUrl && pathname.startsWith(baseUrl)
+    ? pathname.slice(baseUrl.length)
+    : pathname;
+const segments = relativePath.split('/').filter(Boolean);
 
 const breadcrumbs =
   crumbs.length > 0
-    ? crumbs
+    ? crumbs.map((c) => ({
+        ...c,
+        href: c.href ? resolveUrl(c.href) : undefined,
+      }))
     : [
-        { title: 'Home', href: '/' },
+        { title: 'Home', href: resolveUrl('/') },
         ...segments.map((seg, idx) => {
-          const href = '/' + segments.slice(0, idx + 1).join('/') + '/';
+          const href = resolveUrl(
+            '/' + segments.slice(0, idx + 1).join('/') + '/'
+          );
           const isLast = idx === segments.length - 1;
           const acronyms: Record<string, string> = {
             cv: 'CV',

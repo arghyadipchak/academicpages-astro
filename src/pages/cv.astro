@@ -2,6 +2,7 @@
 import { getCollection } from 'astro:content';
 import SingleLayout from '../layouts/SingleLayout.astro';
 import { renderMath } from '../utils/math';
+import { resolveUrl } from '../utils/url';
 
 const publications = await getCollection('publications');
 publications.sort(
@@ -19,15 +20,21 @@ teaching.sort(
 );
 
 function getPubUrl(pub: (typeof publications)[0]): string {
-  return pub.data.permalink || `/publications/${pub.id.replace(/\.md$/, '')}/`;
+  return resolveUrl(
+    pub.data.permalink || `/publications/${pub.id.replace(/\.md$/, '')}/`
+  );
 }
 
 function getTalkUrl(talk: (typeof talks)[0]): string {
-  return talk.data.permalink || `/talks/${talk.id.replace(/\.md$/, '')}/`;
+  return resolveUrl(
+    talk.data.permalink || `/talks/${talk.id.replace(/\.md$/, '')}/`
+  );
 }
 
 function getTeachingUrl(item: (typeof teaching)[0]): string {
-  return item.data.permalink || `/teaching/${item.id.replace(/\.md$/, '')}/`;
+  return resolveUrl(
+    item.data.permalink || `/teaching/${item.id.replace(/\.md$/, '')}/`
+  );
 }
 ---
 

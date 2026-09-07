@@ -6,7 +6,7 @@
 [![Tailwind CSS v4](https://img.shields.io/badge/Tailwind_CSS-v4-06B6D4?logo=tailwindcss&logoColor=white)](https://tailwindcss.com/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-Strict-3178C6?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
 [![Commitizen Friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen?logo=git&logoColor=white)](https://commitizen.github.io/cz-cli/)
-[![License](https://img.shields.io/github/license/arghyadipchak/academicpages-astro?color=8250df)](LICENSE)
+[![License](https://img.shields.io/github/license/arghyadipchak/academicpages-astro?color=8250DF)](LICENSE)
 
 A modern, high-performance academic personal website and portfolio template built with **Astro 7**, **TypeScript**, and **Tailwind CSS v4**, ported from the classic [academicpages](https://github.com/academicpages/academicpages.github.io) Jekyll theme
 
@@ -146,7 +146,11 @@ Add Markdown (`.md`) files directly into `src/content/`:
 
 1. In your GitHub repository settings, go to **Settings** $\rightarrow$ **Pages**
 2. Under **Build and deployment** $\rightarrow$ **Source**, select **GitHub Actions**
-3. Push to `main` — the workflow `.github/workflows/ci.yml` will automatically verify, build, and publish the site
+3. Configure `src/data/siteConfig.ts`:
+   - User / organization site (`https://<username>.github.io`): set `baseurl: ''`
+   - Project site (`https://<username>.github.io/<repo-name>`): set `baseurl: '/<repo-name>'`
+   - GitHub Actions automatically provides `ASTRO_SITE` and `ASTRO_BASE` during CI/CD build
+4. Push to `main` — the workflow `.github/workflows/ci.yml` will automatically verify, build, and publish the site
 
 ---
 

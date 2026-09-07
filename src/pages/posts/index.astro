@@ -2,6 +2,7 @@
 import { getCollection } from 'astro:content';
 import ArchiveLayout from '../../layouts/ArchiveLayout.astro';
 import ArchivePost from '../../components/ArchivePost.astro';
+import { resolveUrl } from '../../utils/url';
 
 const allPosts = await getCollection('blog', ({ data }) => !data.draft);
 allPosts.sort(
@@ -23,7 +24,7 @@ const years = Object.keys(postsByYear).sort((a, b) => Number(b) - Number(a));
 
 function getPostUrl(post: (typeof allPosts)[0]): string {
   if (post.data.permalink) {
-    return post.data.permalink;
+    return resolveUrl(post.data.permalink);
   }
   const date = new Date(post.data.date);
   const year = date.getFullYear();
@@ -31,7 +32,7 @@ function getPostUrl(post: (typeof allPosts)[0]): string {
   const shortId = post.id
     .replace(/\.md$/, '')
     .replace(/^\d{4}-\d{2}-\d{2}-/, '');
-  return `/posts/${year}/${month}/${shortId}/`;
+  return resolveUrl(`/posts/${year}/${month}/${shortId}/`);
 }
 ---
 

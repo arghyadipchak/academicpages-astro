@@ -78,7 +78,8 @@ import { Icon } from 'astro-icon/components';
   async function loadSearchData(): Promise<SearchItem[]> {
     if (searchData) return searchData;
     try {
-      const res = await fetch('/api/search.json');
+      const baseUrl = (import.meta.env.BASE_URL ?? '/').replace(/\/+$/, '');
+      const res = await fetch(`${baseUrl}/api/search.json`);
       searchData = await res.json();
       return searchData || [];
     } catch {

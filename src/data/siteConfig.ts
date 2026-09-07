@@ -175,8 +175,8 @@ export const siteConfig: SiteConfig = {
   titleSeparator: '-',
   name: 'Your Name',
   description: "Your Name's academic portfolio",
-  url: 'https://arghyadipchak.github.io/academicpages-astro',
-  baseurl: '',
+  url: 'https://arghyadipchak.github.io',
+  baseurl: '/academicpages-astro',
   repository: 'arghyadipchak/academicpages-astro',
   breadcrumbs: false,
   author: {

@@ -64,10 +64,11 @@ Edit [`src/data/siteConfig.ts`](file:///src/data/siteConfig.ts):
 
 - **User / Organization Site** (`https://<username>.github.io`):
   - `src/data/siteConfig.ts`: `url: 'https://<username>.github.io'`, `baseurl: ''`
-  - `astro.config.ts`: `site: 'https://<username>.github.io'`, `base: ''`
 - **Project Site** (`https://<username>.github.io/<repo-name>`):
   - `src/data/siteConfig.ts`: `url: 'https://<username>.github.io/<repo-name>'`, `baseurl: '/<repo-name>'`
-  - `astro.config.ts`: `site: 'https://<username>.github.io'`, `base: '/<repo-name>'`
+- **Dynamic CI Auto-Detection**:
+  - `astro.config.ts` dynamically resolves `site` and `base` from `ASTRO_SITE` and `ASTRO_BASE` injected by GitHub Actions (`actions/configure-pages`)
+  - Internal assets, navigation links, and API endpoints must be wrapped using `resolveUrl` from `src/utils/url.ts` to ensure compatibility across root domains and repository subpaths
 
 ### 3. Customizing Top Navigation & Disabling Unused Sections
 

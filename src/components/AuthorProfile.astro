@@ -1,6 +1,7 @@
 ---
 import { siteConfig } from '../data/siteConfig';
 import { Icon } from 'astro-icon/components';
+import { resolveUrl as resolvePath } from '../utils/url';
 
 export interface Props {
   author?: typeof siteConfig.author;
@@ -30,7 +31,7 @@ function resolveUrl(
     <!-- Avatar -->
     <div class="author__avatar shrink-0">
       <img
-        src={author.avatar}
+        src={resolvePath(author.avatar)}
         alt={author.name}
         class="h-16 w-16 rounded-full border border-(--global-border-color) object-cover sm:h-20 sm:w-20 lg:h-36 lg:w-36 lg:p-1"
         loading="eager"

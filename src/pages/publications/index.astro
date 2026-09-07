@@ -3,6 +3,7 @@ import { getCollection } from 'astro:content';
 import ArchiveLayout from '../../layouts/ArchiveLayout.astro';
 import ArchivePublication from '../../components/ArchivePublication.astro';
 import { siteConfig } from '../../data/siteConfig';
+import { resolveUrl } from '../../utils/url';
 
 const allPubs = await getCollection('publications');
 allPubs.sort(
@@ -13,10 +14,10 @@ const categories = siteConfig.publicationCategories;
 
 function getPublicationUrl(pub: (typeof allPubs)[0]): string {
   if (pub.data.permalink) {
-    return pub.data.permalink;
+    return resolveUrl(pub.data.permalink);
   }
   const cleanId = pub.id.replace(/\.md$/, '');
-  return `/publications/${cleanId}/`;
+  return resolveUrl(`/publications/${cleanId}/`);
 }
 ---
 
