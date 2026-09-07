@@ -220,3 +220,20 @@ pnpm test
 1. In your GitHub repository settings, go to **Settings > Pages**
 2. Under **Build and deployment > Source**, select **GitHub Actions**
 3. Push to `main` — the workflow `.github/workflows/ci.yml` will automatically build and publish the site
+
+---
+
+## 9. Optional Legacy Redirects
+
+Add backwards-compatible redirects in `astro.config.ts`:
+
+```ts
+redirects: {
+  '/about': '/',
+  '/about.html': '/',
+  '/resume': '/cv/',
+  // Legacy redirects:
+  '/year-archive/': '/posts/',
+  '/wordpress/blog-posts/': '/posts/',
+},
+```

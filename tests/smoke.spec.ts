@@ -83,7 +83,7 @@ test.describe('Academic Pages Core UI & Content Tests', () => {
       { path: toUrl('/talks/'), heading: 'Talks and presentations' },
       { path: toUrl('/teaching/'), heading: 'Teaching' },
       { path: toUrl('/portfolio/'), heading: 'Portfolio' },
-      { path: toUrl('/year-archive/'), heading: 'Blog posts' },
+      { path: toUrl('/posts/'), heading: 'Blog posts' },
       { path: toUrl('/cv/'), heading: 'CV' },
       { path: toUrl('/markdown/'), heading: 'Markdown Guide' },
       { path: toUrl('/sitemap/'), heading: 'Sitemap' },

@@ -41,7 +41,9 @@ export default defineConfig({
     '/about': '/',
     '/about.html': '/',
     '/resume': '/cv/',
-    '/wordpress/blog-posts': '/year-archive/',
+    // Legacy redirects:
+    // '/year-archive/': '/posts/',
+    // '/wordpress/blog-posts/': '/posts/',
   },
   markdown: {
     shikiConfig: {

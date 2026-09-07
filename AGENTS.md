@@ -124,6 +124,13 @@ Edit [`src/styles/global.css`](file:///src/styles/global.css):
 - Background: `--global-bg-color` (default: `#ffffff`)
 - Dark mode overrides are set in `html[data-theme='dark']`
 
+### 7. Optional Legacy Redirects
+
+Uncomment or add redirects in [`astro.config.ts`](file:///astro.config.ts):
+
+- `/year-archive/`: Redirects legacy Jekyll blog archive to `/posts/`
+- `/wordpress/blog-posts/`: Redirects legacy WordPress URLs to `/posts/`
+
 ---
 
 ## Formatting & Code Style Rules
