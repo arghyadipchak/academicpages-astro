@@ -1,7 +1,7 @@
 {
   "name": "academicpages-astro",
   "description": "An academic website and portfolio template powered by Astro 7, TypeScript, and Tailwind CSS v4",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "author": "Arghyadip Chakraborty<dev@arghyac.com>",
   "license": "MIT",
   "type": "module",
