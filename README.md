@@ -103,7 +103,50 @@ Visit `http://localhost:4321` in your browser
 
 ## ⚙️ Customization Guide
 
-### 1. Site Metadata & Author Profile
+### 🪄 Quick Setup with AI (Recommended)
+
+If you are using an AI coding assistant (**Antigravity**, **Cursor**, **Claude Code**, or **GitHub Copilot**), you can personalize the entire site in a single step.
+
+Copy and paste this prompt into your AI chat window:
+
+> [!TIP]
+> **One-Prompt Site Customization**:
+>
+> ```markdown
+> Please personalize this academic portfolio website for me by following the runbooks in `AGENTS.md` and `.agents/skills/customization/SKILL.md`:
+>
+> 1. External Sources (Provide whatever you have):
+>    - CV / Resume: [e.g. files placed in `cv/` directory (LaTeX `.tex`, Markdown, PDF, or text), or paste text/link]
+>    - Google Scholar: [Profile URL, or leave blank]
+>    - GitHub: [Profile URL or username, or leave blank]
+>    - LinkedIn: [Profile URL, or leave blank]
+>    - Existing / Old Website: [URL or directory path of old Jekyll/Hugo/WordPress site, or leave blank]
+>    - Other Profiles / Links: [e.g. ORCID, Twitter/X, ResearchGate, personal lab page]
+>
+> 2. Source Discovery & Interactive Audit:
+>    - Inspect `src/data/navigation.ts` and `src/content.config.ts` to discover available template sections and content collections
+>    - Inspect all provided external sources above to extract my profile metadata and content matching the discovered collections
+>    - Present a summary audit comparing what data was found against the template sections, and ask me:
+>      - Which sections with data should be enabled and populated
+>      - For empty sections (where no data was found): whether to disable/hide them from navigation, keep them as empty placeholder pages, or if I want to supply data from another source
+>
+> 3. Navigation & Site Configuration:
+>    - Update `src/data/siteConfig.ts` with my name, bio, avatar, affiliation, location, and verified academic/social links
+>    - Update `src/data/navigation.ts` based on my chosen sections and remove the starter demo Guide link (`/markdown/`)
+>
+> 4. Content Population & Cleanup:
+>    - Populate each enabled collection and page with my actual data (creating `.md` files in `src/content/` with proper frontmatter and updating corresponding pages)
+>    - Delete the demo starter items for any disabled or customized collections
+>
+> 5. Verification:
+>    - Run `pnpm format`, `pnpm verify`, and `pnpm test` to confirm 0 errors and that all tests pass
+> ```
+
+---
+
+### 🛠️ Manual Customization (Step-by-Step)
+
+#### 1. Site Metadata & Author Profile
 
 Edit [`src/data/siteConfig.ts`](src/data/siteConfig.ts) to update your site title, bio, avatar, and academic profile handles:
 
@@ -126,11 +169,11 @@ export const siteConfig: SiteConfig = {
 };
 ```
 
-### 2. Navigation Items
+#### 2. Navigation Items
 
 Edit [`src/data/navigation.ts`](src/data/navigation.ts) to customize top navigation links and order. The starter **Guide** (`/markdown/`) link provides a formatting reference and can be removed when launching your personal site.
 
-### 3. Adding Content
+#### 3. Adding Content
 
 Add Markdown (`.md`) files directly into `src/content/`:
 
