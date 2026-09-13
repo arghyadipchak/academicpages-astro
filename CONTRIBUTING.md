@@ -76,3 +76,4 @@ Format your commit messages as:
 2. Keep pull requests focused on a single topic, bug fix, or feature
 3. Ensure the pull request title follows Conventional Commits format (e.g., `feat(sidebar): add Mastodon icon`)
 4. Confirm `pnpm verify` and `pnpm test` pass with 0 errors
+5. Do not open PRs back to this repository for personal website customizations or content changes

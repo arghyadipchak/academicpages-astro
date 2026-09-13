@@ -43,5 +43,9 @@ export default defineConfig({
     url: serverUrl,
     reuseExistingServer: !process.env.CI,
     timeout: 30000,
+    env: {
+      ASTRO_DEV_BACKGROUND: '1',
+      ASTRO_PREVIEW_BACKGROUND: '1',
+    },
   },
 });

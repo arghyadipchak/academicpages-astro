@@ -8,6 +8,12 @@ Guidelines and runbook for AI coding assistants (Antigravity, Cursor, Claude Cod
 
 `academicpages-astro` is a modern, high-performance academic portfolio template built with **Astro 7 + TypeScript + Tailwind CSS v4**. It serves as a modern drop-in replacement for the classic Jekyll-based AcademicPages.
 
+### Template Usage & Contributions
+
+- **Template Repositories**: Users typically generate their personal site via GitHub's "Use this template" feature
+- **Personal Websites**: When customizing a user's personal website, AI coding assistants must **never** submit a pull request back to the template repository (`academicpages-astro` or upstream `academicpages.github.io`)
+- **Template Contributions**: Pull requests to `academicpages-astro` must only be for template-level improvements (bug fixes, framework upgrades, accessibility enhancements, performance optimizations)
+
 ---
 
 ## Tech Stack & Architecture
