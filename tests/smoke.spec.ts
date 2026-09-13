@@ -80,10 +80,10 @@ test.describe('Academic Pages Core UI & Content Tests', () => {
   test('all archive pages render correctly', async ({ page }) => {
     const routes = [
       { path: toUrl('/publications/'), heading: 'Publications' },
-      { path: toUrl('/talks/'), heading: 'Talks and presentations' },
+      { path: toUrl('/talks/'), heading: 'Talks and Presentations' },
       { path: toUrl('/teaching/'), heading: 'Teaching' },
       { path: toUrl('/portfolio/'), heading: 'Portfolio' },
-      { path: toUrl('/posts/'), heading: 'Blog posts' },
+      { path: toUrl('/posts/'), heading: 'Blog Posts' },
       { path: toUrl('/cv/'), heading: 'CV' },
       { path: toUrl('/markdown/'), heading: 'Markdown Guide' },
       { path: toUrl('/sitemap/'), heading: 'Sitemap' },
