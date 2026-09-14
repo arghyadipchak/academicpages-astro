@@ -162,8 +162,8 @@ export const siteConfig: SiteConfig = {
     avatar: '/images/profile.png',
     name: 'Your Sidebar Name',
     bio: 'Short biography for the left-hand sidebar',
-    location: 'Earth',
-    employer: 'Red Brick University',
+    location: 'City, State / Country',
+    employer: 'Your University or Organization',
     website: 'https://example.org',
     email: 'none@example.org',
 
