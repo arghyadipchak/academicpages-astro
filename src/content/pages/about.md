@@ -46,7 +46,7 @@ Getting started
 Site-wide configuration
 ------
 
-The main configuration file for the site is in **`src/data/siteConfig.ts`**, which defines the sidebar author profile, social links, repository URL, and global SEO metadata. The top navigation menu is configured in **`src/data/navigation.ts`**.
+The main configuration file for the site is in **`src/data/siteConfig.ts`**, which defines the sidebar author profile, social links, and global SEO metadata. The top navigation menu is configured in **`src/data/navigation.ts`**.
 
 Adding your content
 ------

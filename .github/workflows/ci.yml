@@ -43,8 +43,7 @@ jobs:
 
       - name: Build site
         env:
-          ASTRO_SITE: ${{ steps.pages.outputs.origin }}
-          ASTRO_BASE: ${{ steps.pages.outputs.base_path }}
+          ASTRO_URL: ${{ steps.pages.outputs.page_url }}
         run: pnpm build
 
       - name: Install Playwright browsers
@@ -52,7 +51,7 @@ jobs:
 
       - name: Run tests
         env:
-          ASTRO_BASE: ${{ steps.pages.outputs.base_path }}
+          ASTRO_URL: ${{ steps.pages.outputs.page_url }}
         run: pnpm test
 
       - name: Upload Pages artifact

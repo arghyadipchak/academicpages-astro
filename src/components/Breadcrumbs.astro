@@ -1,5 +1,6 @@
 ---
 import { resolveUrl } from '../utils/url';
+import { siteConfig } from '../data/siteConfig';
 
 export interface Props {
   crumbs?: { title: string; href?: string }[];
@@ -52,7 +53,7 @@ const breadcrumbs =
 ---
 
 {
-  breadcrumbs.length > 1 && (
+  siteConfig.breadcrumbs && breadcrumbs.length > 1 && (
     <nav aria-label="Breadcrumbs" class="mb-4 text-xs text-neutral-500">
       <ol
         class="flex flex-wrap items-center gap-1.5"

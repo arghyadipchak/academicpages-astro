@@ -5,6 +5,7 @@ import Masthead from '../components/Masthead.astro';
 import Footer from '../components/Footer.astro';
 import ProseEnhancer from '../components/ProseEnhancer.astro';
 import SearchModal from '../components/SearchModal.astro';
+import { siteConfig } from '../data/siteConfig';
 
 export interface Props {
   title?: string;
@@ -26,7 +27,7 @@ const { title, description, image, articleDate, canonicalUrl, citation } =
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang={siteConfig.locale}>
   <head>
     <HeadSEO
       title={title}

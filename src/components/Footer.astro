@@ -74,8 +74,9 @@ const todayDate = new Date().toISOString().slice(0, 10);
     <div class="space-y-1 text-xs text-(--global-text-color-light)">
       <p class="leading-normal">
         <span class="block sm:inline"
-          >&copy; {currentYear}&nbsp;{siteConfig.name || siteConfig.title} &middot;
-          Powered by <a
+          >&copy; {currentYear}&nbsp;{
+            siteConfig.author.name || siteConfig.title
+          } &middot; Powered by <a
             href="https://astro.build"
             rel="nofollow"
             class="underline hover:text-(--global-base-color)">Astro</a

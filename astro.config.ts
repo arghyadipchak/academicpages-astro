@@ -7,17 +7,14 @@ import icon from 'astro-icon';
 import sitemap from '@astrojs/sitemap';
 import { siteConfig } from './src/data/siteConfig';
 
-const site =
-  process.env.ASTRO_SITE ||
-  (siteConfig.url ? new URL(siteConfig.url).origin : undefined);
+const rawUrl = process.env.ASTRO_URL || siteConfig.url;
+const parsedUrl = rawUrl ? new URL(rawUrl) : undefined;
 
+const site = parsedUrl ? parsedUrl.origin : undefined;
 const base =
-  process.env.ASTRO_BASE !== undefined
-    ? process.env.ASTRO_BASE
-    : siteConfig.baseurl ||
-      (siteConfig.url && new URL(siteConfig.url).pathname !== '/'
-        ? new URL(siteConfig.url).pathname
-        : undefined);
+  parsedUrl && parsedUrl.pathname !== '/'
+    ? parsedUrl.pathname.replace(/\/+$/, '')
+    : undefined;
 
 // https://astro.build/config
 export default defineConfig({

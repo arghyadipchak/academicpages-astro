@@ -1,6 +1,7 @@
 ---
 import ActionBadges from './ActionBadges.astro';
 import { renderMath } from '../utils/math';
+import { formatYear } from '../utils/date';
 
 export interface Props {
   title: string;
@@ -28,9 +29,7 @@ const {
   bibtexurl,
 } = Astro.props;
 
-const formattedYear = date
-  ? new Date(date).toLocaleDateString('en-US', { year: 'numeric' })
-  : undefined;
+const formattedYear = formatYear(date);
 ---
 
 <div

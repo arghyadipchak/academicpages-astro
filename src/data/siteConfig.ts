@@ -18,8 +18,8 @@ export interface AuthorConfig {
   location?: string;
   /** Primary university, institute, or employer */
   employer?: string;
-  /** Personal or lab website URL */
-  uri?: string;
+  /** Personal, lab, or institution website URL */
+  website?: string;
   /** Contact email address */
   email?: string;
 
@@ -100,8 +100,6 @@ export interface AuthorConfig {
   foursquare?: string;
   /** Goodreads author/user profile URL or ID */
   goodreads?: string;
-  /** Google+ archive URL (legacy) */
-  google_plus?: string;
   /** Keybase username or URL */
   keybase?: string;
   /** Instagram username or URL */
@@ -128,10 +126,8 @@ export interface AuthorConfig {
   threads?: string;
   /** Tumblr username or URL */
   tumblr?: string;
-  /** X (formerly Twitter) handle or URL */
-  twitter?: string;
-  /** Vine archive URL (legacy) */
-  vine?: string;
+  /** X handle or URL (e.g. 'handle' or 'https://x.com/handle') */
+  x?: string;
   /** Sina Weibo username or URL */
   weibo?: string;
   /** Wikipedia user or author page URL */
@@ -145,22 +141,19 @@ export interface AuthorConfig {
 }
 
 export interface SiteConfig {
-  /** Site locale code */
+  /** Site language/locale code (e.g. 'en-US', 'en', 'fr-FR') */
   locale: string;
   /** Global HTML page title & SEO brand */
   title: string;
   /** Separator between page title and site name in browser tabs */
   titleSeparator: string;
-  /** Author name for footer copyright */
-  name: string;
   /** Short website description for OpenGraph meta tags */
   description: string;
-  /** Canonical production deployment URL */
+  /**
+   * Canonical production deployment URL
+   * Subpath deployment is supported automatically if a path is included (e.g. 'https://user.github.io/my-repo')
+   */
   url: string;
-  /** Subpath prefix if deployed to a subdirectory (empty for root) */
-  baseurl: string;
-  /** Optional GitHub repository path for edit links */
-  repository?: string;
   /** Left sidebar author profile details */
   author: AuthorConfig;
   /** Enable or disable breadcrumb navigation trails */
@@ -173,29 +166,26 @@ export const siteConfig: SiteConfig = {
   locale: 'en-US',
   title: 'Your Name / Site Title',
   titleSeparator: '-',
-  name: 'Your Name',
   description: "Your Name's academic portfolio",
-  url: 'https://arghyadipchak.github.io',
-  baseurl: '/academicpages-astro',
-  repository: 'arghyadipchak/academicpages-astro',
-  breadcrumbs: false,
+  url: 'https://username.github.io',
+  breadcrumbs: true,
   author: {
     avatar: '/images/profile.png',
     name: 'Your Sidebar Name',
-    pronouns: '',
     bio: 'Short biography for the left-hand sidebar',
     location: 'Earth',
     employer: 'Red Brick University',
-    uri: '',
+    website: 'https://example.org',
     email: 'none@example.org',
 
-    // Primary Academic Profiles (accepts username/ID or full URL)
-    googlescholar: 'https://scholar.google.com/citations?user=PS_CX0AAAAAJ',
-    orcid: 'https://orcid.org/yourorcidurl',
+    // Academic & Scholarly Profiles (accepts username/ID or full URL)
+    googlescholar: 'https://scholar.google.com/citations?user=your_scholar_id',
+    orcid: '0000-0000-0000-0000',
 
-    // Primary Code & Professional Profiles
-    github: 'arghyadipchak',
-    linkedin: 'yourlinkedinurl',
+    // Code & Professional Profiles
+    github: 'your-github-username',
+    linkedin: 'your-linkedin-username',
+    x: 'your-x-handle',
   },
   publicationCategories: {
     books: { title: 'Books' },

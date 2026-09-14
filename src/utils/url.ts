@@ -37,3 +37,19 @@ export function resolveUrl(path?: string): string {
   const result = `${baseUrl}${cleanPath}`;
   return result || '/';
 }
+
+/**
+ * Resolves a social or academic platform handle/ID or URL
+ * - If already an HTTP/HTTPS URL, returns as-is
+ * - If handle or username, prefixes with platform baseUrl and optional prefix
+ * - Strips leading '@' if present
+ */
+export function resolveExternalUrl(
+  val: string | undefined,
+  baseUrl: string,
+  prefix = ''
+): string {
+  if (!val) return '';
+  if (val.startsWith('http://') || val.startsWith('https://')) return val;
+  return `${baseUrl}${prefix}${val.replace(/^@/, '')}`;
+}

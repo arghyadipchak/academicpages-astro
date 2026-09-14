@@ -62,18 +62,19 @@ academicpages-astro/
 
 Edit [`src/data/siteConfig.ts`](file:///src/data/siteConfig.ts):
 
-- Update `name`, `title`, `description`, `url`, `repository`
+- Update `title`, `description`, `url`, `breadcrumbs`
 - Set `author.name`, `author.avatar`, `author.bio`, `author.location`, `author.employer`
-- Add academic and social links (`googlescholar`, `orcid`, `github`, `linkedin`, plus 50+ supported platforms)
+- Add academic and social links (`googlescholar`, `orcid`, `github`, `linkedin`, `x`, plus 50+ supported platforms)
 
 ### 2. GitHub Pages Deployment: Base URL Configuration
 
 - **User / Organization Site** (`https://<username>.github.io`):
-  - `src/data/siteConfig.ts`: `url: 'https://<username>.github.io'`, `baseurl: ''`
+  - `src/data/siteConfig.ts`: `url: 'https://<username>.github.io'`
 - **Project Site** (`https://<username>.github.io/<repo-name>`):
-  - `src/data/siteConfig.ts`: `url: 'https://<username>.github.io/<repo-name>'`, `baseurl: '/<repo-name>'`
+  - `src/data/siteConfig.ts`: `url: 'https://<username>.github.io/<repo-name>'` (the subpath `/<repo-name>` is automatically extracted as the Astro base)
+
 - **Dynamic CI Auto-Detection**:
-  - `astro.config.ts` dynamically resolves `site` and `base` from `ASTRO_SITE` and `ASTRO_BASE` injected by GitHub Actions (`actions/configure-pages`)
+  - `astro.config.ts` dynamically resolves `site` and `base` from `ASTRO_URL` (injected as `steps.pages.outputs.page_url` by GitHub Actions)
   - Internal assets, navigation links, and API endpoints must be wrapped using `resolveUrl` from `src/utils/url.ts` to ensure compatibility across root domains and repository subpaths
 
 ### 3. Customizing Top Navigation & Disabling Unused Sections

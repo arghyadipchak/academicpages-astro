@@ -3,7 +3,7 @@ import { getCollection } from 'astro:content';
 import ArchiveLayout from '../../layouts/ArchiveLayout.astro';
 import ArchivePublication from '../../components/ArchivePublication.astro';
 import { siteConfig } from '../../data/siteConfig';
-import { resolveUrl } from '../../utils/url';
+import { resolveUrl, resolveExternalUrl } from '../../utils/url';
 
 const allPubs = await getCollection('publications');
 allPubs.sort(
@@ -27,7 +27,10 @@ function getPublicationUrl(pub: (typeof allPubs)[0]): string {
       <div class="mb-4 text-sm text-(--global-text-color)">
         You can also find my articles on{' '}
         <a
-          href={siteConfig.author.googlescholar}
+          href={resolveExternalUrl(
+            siteConfig.author.googlescholar,
+            'https://scholar.google.com/citations?user='
+          )}
           target="_blank"
           rel="noopener noreferrer"
           class="text-(--global-link-color) hover:underline"

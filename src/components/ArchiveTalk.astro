@@ -1,6 +1,7 @@
 ---
 import { Icon } from 'astro-icon/components';
 import { renderMath } from '../utils/math';
+import { formatDate } from '../utils/date';
 
 export interface Props {
   title: string;
@@ -14,13 +15,7 @@ export interface Props {
 
 const { title, url, date, venue, location, type, excerpt } = Astro.props;
 
-const formattedDate = date
-  ? new Date(date).toLocaleDateString('en-US', {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric',
-    })
-  : undefined;
+const formattedDate = formatDate(date);
 ---
 
 <div

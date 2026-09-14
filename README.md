@@ -8,7 +8,7 @@
 [![Commitizen Friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen?logo=git&logoColor=white)](https://commitizen.github.io/cz-cli/)
 [![License](https://img.shields.io/github/license/arghyadipchak/academicpages-astro?color=8250DF)](LICENSE)
 
-A modern, high-performance academic personal website and portfolio template built with **Astro 7**, **TypeScript**, and **Tailwind CSS v4**, ported from the classic [academicpages](https://github.com/academicpages/academicpages.github.io) Jekyll theme
+A modern, high-performance academic personal website and portfolio template built with **Astro 7**, **TypeScript**, and **Tailwind CSS v4**, ported from the classic [academicpages](https://github.com/academicpages/academicpages.github.io) Jekyll theme.
 
 🌐 **Live Demo**: [arghyadipchak.github.io/academicpages-astro](https://arghyadipchak.github.io/academicpages-astro)
 
@@ -152,19 +152,34 @@ Edit [`src/data/siteConfig.ts`](src/data/siteConfig.ts) to update your site titl
 
 ```typescript
 export const siteConfig: SiteConfig = {
+  locale: 'en-US',
   title: 'Your Name / Site Title',
-  url: 'https://username.github.io/academicpages-astro',
+  titleSeparator: '-',
+  description: "Your Name's academic portfolio",
+  url: 'https://username.github.io',
+  breadcrumbs: true,
   author: {
-    name: 'Your Name',
     avatar: '/images/profile.png',
-    bio: 'Ph.D. Candidate / Postdoctoral Researcher in Computer Science',
-    location: 'City, State, Country',
-    employer: 'University / Research Institute',
-    email: 'author@university.edu',
-    googlescholar: 'https://scholar.google.com/citations?user=USER_ID',
-    orcid: 'https://orcid.org/0000-0000-0000-0000',
-    github: 'username',
-    linkedin: 'username',
+    name: 'Your Sidebar Name',
+    bio: 'Short biography for the left-hand sidebar',
+    location: 'Earth',
+    employer: 'Red Brick University',
+    website: 'https://example.org',
+    email: 'none@example.org',
+
+    // Academic & Scholarly Profiles (accepts username/ID or full URL)
+    googlescholar: 'https://scholar.google.com/citations?user=your_scholar_id',
+    orcid: '0000-0000-0000-0000',
+
+    // Code & Professional Profiles
+    github: 'your-github-username',
+    linkedin: 'your-linkedin-username',
+    x: 'your-x-handle',
+  },
+  publicationCategories: {
+    books: { title: 'Books' },
+    manuscripts: { title: 'Journal Articles' },
+    conferences: { title: 'Conference Papers' },
   },
 };
 ```
@@ -190,9 +205,9 @@ Add Markdown (`.md`) files directly into `src/content/`:
 1. In your GitHub repository settings, go to **Settings** $\rightarrow$ **Pages**
 2. Under **Build and deployment** $\rightarrow$ **Source**, select **GitHub Actions**
 3. Configure `src/data/siteConfig.ts`:
-   - User / organization site (`https://<username>.github.io`): set `baseurl: ''`
-   - Project site (`https://<username>.github.io/<repo-name>`): set `baseurl: '/<repo-name>'`
-   - GitHub Actions automatically provides `ASTRO_SITE` and `ASTRO_BASE` during CI/CD build
+   - User / organization site (`https://<username>.github.io`): set `url: 'https://<username>.github.io'`
+   - Project site (`https://<username>.github.io/<repo-name>`): set `url: 'https://<username>.github.io/<repo-name>'`
+   - GitHub Actions automatically provides `ASTRO_URL` during CI/CD build
 4. Push to `main` — the workflow `.github/workflows/ci.yml` will automatically verify, build, and publish the site
 
 ---

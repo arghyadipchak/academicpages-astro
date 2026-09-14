@@ -1,6 +1,19 @@
 import { defineCollection } from 'astro:content';
 import { z } from 'astro/zod';
 import { glob } from 'astro/loaders';
+import { siteConfig } from './data/siteConfig';
+
+const categoryKeys = Object.keys(siteConfig.publicationCategories);
+const defaultCategory = categoryKeys[0] ?? 'manuscripts';
+const categorySchema =
+  categoryKeys.length > 0
+    ? z
+        .string()
+        .refine((val: string) => categoryKeys.includes(val), {
+          message: `Invalid publication category. Must be one of: ${categoryKeys.join(', ')}`,
+        })
+        .default(defaultCategory)
+    : z.string().default('manuscripts');
 
 const blog = defineCollection({
   loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/blog' }),
@@ -28,9 +41,7 @@ const publications = defineCollection({
     title: z.string(),
     date: z.coerce.date(),
     venue: z.string().optional(),
-    category: z
-      .enum(['books', 'manuscripts', 'conferences'])
-      .default('manuscripts'),
+    category: categorySchema,
     collection: z.string().default('publications'),
     permalink: z.string().optional(),
     citation: z.string().optional(),

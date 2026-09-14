@@ -20,25 +20,26 @@ export const siteConfig: SiteConfig = {
   locale: 'en-US',
   title: 'Your Name / Site Title',
   titleSeparator: '-',
-  name: 'Your Name',
   description: "Your Name's academic portfolio",
   url: 'https://username.github.io',
-  baseurl: '', // Set if hosted on a subdirectory, e.g. '/portfolio'
-  repository: 'username/portfolio',
-  breadcrumbs: false,
+  breadcrumbs: true,
   author: {
     avatar: '/images/profile.png',
     name: 'Your Sidebar Name',
-    pronouns: 'they/them',
     bio: 'Short biography for the left-hand sidebar',
-    location: 'Cambridge, MA',
-    employer: 'University / Institute',
-    uri: 'https://example.org',
-    email: 'contact@example.org',
-    googlescholar: 'https://scholar.google.com/citations?user=USER_ID',
-    orcid: 'https://orcid.org/0000-0000-0000-0000',
-    github: 'username',
-    linkedin: 'username',
+    location: 'Earth',
+    employer: 'Red Brick University',
+    website: 'https://example.org',
+    email: 'none@example.org',
+
+    // Academic & Scholarly Profiles (accepts username/ID or full URL)
+    googlescholar: 'https://scholar.google.com/citations?user=your_scholar_id',
+    orcid: '0000-0000-0000-0000',
+
+    // Code & Professional Profiles
+    github: 'your-github-username',
+    linkedin: 'your-linkedin-username',
+    x: 'your-x-handle',
   },
   publicationCategories: {
     books: { title: 'Books' },
@@ -57,12 +58,12 @@ Replace `public/images/profile.png` with your photo (square aspect ratio recomme
 ## 2. GitHub Pages Deployment: Base URL Configuration
 
 - **User / Organization Site** (`https://<username>.github.io`):
-  - `src/data/siteConfig.ts`: `url: 'https://<username>.github.io'`, `baseurl: ''`
+  - `src/data/siteConfig.ts`: `url: 'https://<username>.github.io'`
 - **Project Site** (`https://<username>.github.io/<repo-name>`):
-  - `src/data/siteConfig.ts`: `url: 'https://<username>.github.io/<repo-name>'`, `baseurl: '/<repo-name>'`
+  - `src/data/siteConfig.ts`: `url: 'https://<username>.github.io/<repo-name>'` (the subpath `/<repo-name>` is automatically extracted as the Astro base)
 - **Dynamic CI Resolution**:
-  - In GitHub Actions CI (`.github/workflows/ci.yml`), `actions/configure-pages` automatically injects `ASTRO_SITE` and `ASTRO_BASE` into `pnpm build`
-  - `astro.config.ts` reads `process.env.ASTRO_BASE` first, falling back to `siteConfig.baseurl`
+  - In GitHub Actions CI (`.github/workflows/ci.yml`), `ASTRO_URL` is automatically passed as `steps.pages.outputs.page_url` to `pnpm build`
+  - `astro.config.ts` resolves `site` and `base` from `ASTRO_URL`, falling back to `siteConfig.url`
 - **Asset & URL Construction**:
   - Always use `resolveUrl(path)` from `src/utils/url.ts` when linking internal assets, routes, and API endpoints
 

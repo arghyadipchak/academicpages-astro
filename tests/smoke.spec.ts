@@ -1,10 +1,10 @@
 import { test, expect } from '@playwright/test';
 import { siteConfig } from '../src/data/siteConfig';
 
-const base = (process.env.ASTRO_BASE ?? siteConfig.baseurl ?? '').replace(
-  /\/$/,
-  ''
-);
+const rawUrl = process.env.ASTRO_URL || siteConfig.url;
+const parsedBase = rawUrl ? new URL(rawUrl).pathname.replace(/\/+$/, '') : '';
+
+const base = parsedBase.replace(/\/$/, '');
 const toUrl = (p: string) => `${base}${p.startsWith('/') ? p : `/${p}`}`;
 
 test.describe('Academic Pages Core UI & Content Tests', () => {
@@ -381,5 +381,25 @@ test.describe('Academic Pages Core UI & Content Tests', () => {
     await expect(tableWrapper).toBeVisible();
     const table = tableWrapper.locator('table');
     await expect(table).toBeVisible();
+  });
+
+  test('siteConfig locale, breadcrumbs, and Scholar profile link are properly wired', async ({
+    page,
+  }) => {
+    await page.goto(toUrl('/'));
+    await expect(page.locator('html')).toHaveAttribute(
+      'lang',
+      siteConfig.locale
+    );
+
+    await page.goto(toUrl('/publications/'));
+    const scholarLink = page.locator('a', {
+      hasText: 'my Google Scholar profile',
+    });
+    await expect(scholarLink).toBeVisible();
+    await expect(scholarLink).toHaveAttribute(
+      'href',
+      /^https:\/\/scholar\.google\.com\/citations\?user=/
+    );
   });
 });

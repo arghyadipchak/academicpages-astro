@@ -1,10 +1,10 @@
 import { defineConfig, devices } from '@playwright/test';
 import { siteConfig } from './src/data/siteConfig';
 
-const base = (process.env.ASTRO_BASE ?? siteConfig.baseurl ?? '').replace(
-  /\/$/,
-  ''
-);
+const rawUrl = process.env.ASTRO_URL || siteConfig.url;
+const parsedBase = rawUrl ? new URL(rawUrl).pathname.replace(/\/+$/, '') : '';
+
+const base = parsedBase.replace(/\/$/, '');
 const serverUrl = `http://localhost:4321${base ? `${base}/` : '/'}`;
 
 export default defineConfig({

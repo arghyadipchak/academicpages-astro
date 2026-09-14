@@ -1,7 +1,7 @@
 ---
 import { siteConfig } from '../data/siteConfig';
 import { Icon } from 'astro-icon/components';
-import { resolveUrl as resolvePath } from '../utils/url';
+import { resolveUrl as resolvePath, resolveExternalUrl } from '../utils/url';
 
 export interface Props {
   author?: typeof siteConfig.author;
@@ -9,15 +9,7 @@ export interface Props {
 
 const author = Astro.props.author || siteConfig.author;
 
-function resolveUrl(
-  val: string | undefined,
-  baseUrl: string,
-  prefix = ''
-): string {
-  if (!val) return '';
-  if (val.startsWith('http://') || val.startsWith('https://')) return val;
-  return `${baseUrl}${prefix}${val}`;
-}
+const resolveUrl = resolveExternalUrl;
 ---
 
 <div
@@ -105,14 +97,14 @@ function resolveUrl(
         )
       }
       {
-        author.uri && (
+        author.website && (
           <li class="flex items-center gap-2.5">
             <Icon
               name="fa6-solid:link"
               class="h-4 w-4 shrink-0 text-(--global-text-color-light)"
             />
             <a
-              href={author.uri}
+              href={author.website}
               class="truncate hover:text-(--global-base-color)"
             >
               Website
@@ -667,19 +659,19 @@ function resolveUrl(
         )
       }
       {
-        author.twitter && (
+        author.x && (
           <li class="flex items-center gap-2.5">
             <Icon
               name="fa6-brands:x-twitter"
               class="h-4 w-4 shrink-0 text-(--global-text-color-light)"
             />
             <a
-              href={resolveUrl(author.twitter, 'https://x.com/')}
+              href={resolveUrl(author.x, 'https://x.com/')}
               target="_blank"
               rel="noopener noreferrer"
               class="hover:text-(--global-base-color)"
             >
-              X (Twitter)
+              X
             </a>
           </li>
         )

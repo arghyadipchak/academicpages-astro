@@ -20,10 +20,17 @@ export interface Props {
 const {
   title,
   description = siteConfig.description,
-  image = '/images/profile.png',
+  image = siteConfig.author.avatar,
   articleDate,
   citation,
 } = Astro.props;
+
+const xHandle = siteConfig.author.x
+  ? siteConfig.author.x
+      .replace(/^https?:\/\/(x|twitter)\.com\//, '')
+      .replace(/^@/, '')
+      .split('/')[0]
+  : undefined;
 
 const siteBase = Astro.site
   ? Astro.site.toString()
@@ -88,11 +95,11 @@ const resolvedImage = image.startsWith('http')
 <meta property="twitter:description" content={description} />
 <meta property="twitter:image" content={resolvedImage} />
 {
-  siteConfig.author.twitter && (
-    <meta
-      property="twitter:creator"
-      content={`@${siteConfig.author.twitter}`}
-    />
+  xHandle && (
+    <>
+      <meta property="twitter:creator" content={`@${xHandle}`} />
+      <meta property="twitter:site" content={`@${xHandle}`} />
+    </>
   )
 }
 
