@@ -1,6 +1,7 @@
-import { test, expect } from '@playwright/test';
-import { toUrl, attachAssetErrorListener } from './fixtures/test-utils';
+import { expect, test } from '@playwright/test';
+
 import { siteConfig } from '../src/data/siteConfig';
+import { attachAssetErrorListener, toUrl } from './fixtures/test-utils';
 
 test.describe('Core UI, SEO & Page Integrity Tests', () => {
   test('homepage renders correctly with title and article heading', async ({

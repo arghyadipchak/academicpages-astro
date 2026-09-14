@@ -1,4 +1,5 @@
-import { test, expect } from '@playwright/test';
+import { expect, test } from '@playwright/test';
+
 import { toUrl } from './fixtures/test-utils';
 
 test.describe('Client-Side Interactive Components Tests', () => {

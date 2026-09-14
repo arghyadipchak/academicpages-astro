@@ -1,8 +1,9 @@
 ---
 import { getCollection } from 'astro:content';
+
 import SingleLayout from '../layouts/SingleLayout.astro';
 import { renderMath } from '../utils/math';
-import { resolveUrl } from '../utils/url';
+import { resolveHtmlUrls, resolveUrl } from '../utils/url';
 
 const publications = await getCollection('publications');
 publications.sort(
@@ -125,7 +126,7 @@ function getTeachingUrl(item: (typeof teaching)[0]): string {
               {pub.data.citation && (
                 <p
                   class="mt-0.5 text-sm text-(--global-text-color-light)"
-                  set:html={renderMath(pub.data.citation)}
+                  set:html={resolveHtmlUrls(renderMath(pub.data.citation))}
                 />
               )}
             </li>

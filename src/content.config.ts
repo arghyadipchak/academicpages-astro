@@ -1,6 +1,7 @@
 import { defineCollection } from 'astro:content';
-import { z } from 'astro/zod';
 import { glob } from 'astro/loaders';
+import { z } from 'astro/zod';
+
 import { siteConfig } from './data/siteConfig';
 
 const categoryKeys = Object.keys(siteConfig.publicationCategories);

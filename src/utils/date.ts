@@ -1,28 +1,63 @@
 import { siteConfig } from '../data/siteConfig';
 
-/**
- * Formats a date into a localized date string using siteConfig.locale
- */
-export function formatDate(
-  date: Date | string | number | undefined,
-  options: Intl.DateTimeFormatOptions = {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-  }
-): string | undefined {
+const defaultDateFormatter = new Intl.DateTimeFormat(siteConfig.locale, {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+  timeZone: 'UTC',
+});
+
+const defaultYearFormatter = new Intl.DateTimeFormat(siteConfig.locale, {
+  year: 'numeric',
+  timeZone: 'UTC',
+});
+
+function toValidDate(
+  date: Date | string | number | undefined
+): Date | undefined {
   if (!date) return undefined;
-  return new Date(date).toLocaleDateString(siteConfig.locale, options);
+  const d = date instanceof Date ? date : new Date(date);
+  return isNaN(d.getTime()) ? undefined : d;
 }
 
 /**
- * Formats a date into a localized 4-digit year string using siteConfig.locale
+ * Formats a date into a localized date string using siteConfig.locale and UTC timezone
+ */
+export function formatDate(
+  date: Date | string | number | undefined,
+  options?: Intl.DateTimeFormatOptions
+): string | undefined {
+  const d = toValidDate(date);
+  if (!d) return undefined;
+
+  if (options) {
+    return new Intl.DateTimeFormat(siteConfig.locale, {
+      timeZone: 'UTC',
+      ...options,
+    }).format(d);
+  }
+
+  return defaultDateFormatter.format(d);
+}
+
+/**
+ * Formats a date into a localized 4-digit year string using siteConfig.locale and UTC timezone
  */
 export function formatYear(
   date: Date | string | number | undefined
 ): string | undefined {
-  if (!date) return undefined;
-  return new Date(date).toLocaleDateString(siteConfig.locale, {
-    year: 'numeric',
-  });
+  const d = toValidDate(date);
+  if (!d) return undefined;
+  return defaultYearFormatter.format(d);
+}
+
+/**
+ * Converts a date to an ISO date string (YYYY-MM-DD)
+ */
+export function toIsoDateString(
+  date: Date | string | number | undefined
+): string | undefined {
+  const d = toValidDate(date);
+  if (!d) return undefined;
+  return d.toISOString().split('T')[0];
 }

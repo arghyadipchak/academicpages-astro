@@ -1,10 +1,12 @@
 ---
-import { siteConfig } from '../data/siteConfig';
 import { Icon } from 'astro-icon/components';
+
+import { siteConfig } from '../data/siteConfig';
+import { formatYear, toIsoDateString } from '../utils/date';
 import { resolveUrl } from '../utils/url';
 
-const currentYear = new Date().getFullYear();
-const todayDate = new Date().toISOString().slice(0, 10);
+const currentYear = formatYear(new Date());
+const todayDate = toIsoDateString(new Date()) ?? '';
 ---
 
 <footer

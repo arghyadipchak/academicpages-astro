@@ -1,4 +1,5 @@
-import { test, expect } from '@playwright/test';
+import { expect, test } from '@playwright/test';
+
 import { toUrl } from './fixtures/test-utils';
 
 test.describe('Typography, Lists & Mathematical Layout Tests', () => {

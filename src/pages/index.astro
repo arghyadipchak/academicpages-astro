@@ -1,6 +1,7 @@
 ---
-import SingleLayout from '../layouts/SingleLayout.astro';
 import { getEntry, render } from 'astro:content';
+
+import SingleLayout from '../layouts/SingleLayout.astro';
 
 const aboutPage = await getEntry('pages', 'about');
 if (!aboutPage) {

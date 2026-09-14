@@ -1,7 +1,8 @@
 ---
-import { siteConfig } from '../data/siteConfig';
 import { Icon } from 'astro-icon/components';
-import { resolveUrl as resolvePath, resolveExternalUrl } from '../utils/url';
+
+import { siteConfig } from '../data/siteConfig';
+import { resolveExternalUrl, resolveUrl as resolvePath } from '../utils/url';
 
 export interface Props {
   author?: typeof siteConfig.author;

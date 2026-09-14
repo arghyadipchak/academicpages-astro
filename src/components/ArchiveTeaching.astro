@@ -1,6 +1,7 @@
 ---
-import { renderMath } from '../utils/math';
 import { formatYear } from '../utils/date';
+import { renderMath } from '../utils/math';
+import { resolveHtmlUrls } from '../utils/url';
 
 export interface Props {
   title: string;
@@ -44,7 +45,7 @@ const formattedYear = formatYear(date);
         <p
           class="mt-2 text-sm text-(--global-text-color)"
           itemprop="description"
-          set:html={renderMath(excerpt)}
+          set:html={resolveHtmlUrls(renderMath(excerpt))}
         />
       )
     }

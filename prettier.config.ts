@@ -5,7 +5,26 @@ const config: Config = {
   singleQuote: true,
   tabWidth: 2,
   trailingComma: 'es5',
-  plugins: ['prettier-plugin-astro', 'prettier-plugin-tailwindcss'],
+  plugins: [
+    '@ianvs/prettier-plugin-sort-imports',
+    'prettier-plugin-astro',
+    'prettier-plugin-tailwindcss',
+  ],
+  importOrder: [
+    '<TYPES>',
+    '^(astro|astro:.*)$',
+    '<THIRD_PARTY_MODULES>',
+    '',
+    '^@/(.*)$',
+    '^[../]',
+    '^[./]',
+    '',
+    '<TYPES>^[.]',
+    '',
+    '^(?!.*[.]css$)[./].*$',
+    '.css$',
+  ],
+  importOrderParserPlugins: ['typescript', 'jsx', 'decorators-legacy'],
   overrides: [
     {
       files: '*.astro',

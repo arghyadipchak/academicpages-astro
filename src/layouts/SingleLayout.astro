@@ -1,15 +1,16 @@
 ---
-import BaseLayout from './BaseLayout.astro';
+import { Icon } from 'astro-icon/components';
+
+import ActionBadges from '../components/ActionBadges.astro';
 import AuthorProfile from '../components/AuthorProfile.astro';
 import Breadcrumbs from '../components/Breadcrumbs.astro';
 import Prose from '../components/Prose.astro';
-import ActionBadges from '../components/ActionBadges.astro';
 import TableOfContents from '../components/TableOfContents.astro';
 import { siteConfig } from '../data/siteConfig';
-import { Icon } from 'astro-icon/components';
+import { formatDate, formatYear, toIsoDateString } from '../utils/date';
 import { renderMath } from '../utils/math';
-import { resolveUrl } from '../utils/url';
-import { formatDate, formatYear } from '../utils/date';
+import { resolveHtmlUrls, resolveUrl } from '../utils/url';
+import BaseLayout from './BaseLayout.astro';
 
 export interface Props {
   title: string;
@@ -61,9 +62,7 @@ const citationMetadata =
     ? {
         title,
         author: siteConfig.author.name,
-        publicationDate: date
-          ? new Date(date).toISOString().split('T')[0]
-          : undefined,
+        publicationDate: toIsoDateString(date),
         journalTitle: venue,
         pdfUrl: paperurl
           ? paperurl.startsWith('http')
@@ -194,7 +193,7 @@ const citationMetadata =
                 {citation && (
                   <p class="mb-2">
                     <strong>Recommended citation:</strong>{' '}
-                    <span set:html={renderMath(citation)} />
+                    <span set:html={resolveHtmlUrls(renderMath(citation))} />
                   </p>
                 )}
                 <ActionBadges

@@ -1,5 +1,6 @@
 ---
 import { renderMath } from '../utils/math';
+import { resolveHtmlUrls } from '../utils/url';
 
 export interface Props {
   title: string;
@@ -28,7 +29,7 @@ const { title, url, excerpt } = Astro.props;
         <div
           class="mt-2 text-sm text-(--global-text-color)"
           itemprop="description"
-          set:html={renderMath(excerpt)}
+          set:html={resolveHtmlUrls(renderMath(excerpt))}
         />
       )
     }

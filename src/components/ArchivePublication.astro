@@ -1,7 +1,8 @@
 ---
-import ActionBadges from './ActionBadges.astro';
-import { renderMath } from '../utils/math';
 import { formatYear } from '../utils/date';
+import { renderMath } from '../utils/math';
+import { resolveHtmlUrls } from '../utils/url';
+import ActionBadges from './ActionBadges.astro';
 
 export interface Props {
   title: string;
@@ -59,7 +60,7 @@ const formattedYear = formatYear(date);
         <p
           class="mt-2 text-sm text-(--global-text-color)"
           itemprop="description"
-          set:html={renderMath(excerpt)}
+          set:html={resolveHtmlUrls(renderMath(excerpt))}
         />
       )
     }
@@ -68,7 +69,7 @@ const formattedYear = formatYear(date);
       citation && (
         <p class="mt-2 text-xs text-(--global-text-color-light)">
           <strong>Recommended citation:</strong>{' '}
-          <span set:html={renderMath(citation)} />
+          <span set:html={resolveHtmlUrls(renderMath(citation))} />
         </p>
       )
     }

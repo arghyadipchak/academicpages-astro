@@ -1,6 +1,7 @@
 ---
-import SingleLayout from '../layouts/SingleLayout.astro';
 import { getCollection } from 'astro:content';
+
+import SingleLayout from '../layouts/SingleLayout.astro';
 import { resolveUrl } from '../utils/url';
 
 const posts = await getCollection('blog');

@@ -1,7 +1,9 @@
 ---
 import { Icon } from 'astro-icon/components';
+
+import { formatDate, toIsoDateString } from '../utils/date';
 import { renderMath } from '../utils/math';
-import { formatDate } from '../utils/date';
+import { resolveHtmlUrls } from '../utils/url';
 
 export interface Props {
   title: string;
@@ -35,9 +37,7 @@ const formattedDate = formatDate(date);
       formattedDate && (
         <p class="archive-date-line mt-1 inline-flex items-center gap-1.5 text-xs leading-none text-(--global-text-color-light)">
           <Icon name="fa6-solid:calendar" class="h-3 w-3 shrink-0" />
-          <time datetime={date ? new Date(date).toISOString() : undefined}>
-            {formattedDate}
-          </time>
+          <time datetime={toIsoDateString(date)}>{formattedDate}</time>
         </p>
       )
     }
@@ -57,7 +57,7 @@ const formattedDate = formatDate(date);
         <p
           class="mt-2 text-sm text-(--global-text-color)"
           itemprop="description"
-          set:html={renderMath(excerpt)}
+          set:html={resolveHtmlUrls(renderMath(excerpt))}
         />
       )
     }

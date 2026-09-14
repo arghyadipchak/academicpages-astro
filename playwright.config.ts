@@ -1,4 +1,5 @@
 import { defineConfig, devices } from '@playwright/test';
+
 import { siteConfig } from './src/data/siteConfig';
 
 const rawUrl = process.env.ASTRO_URL || siteConfig.url;

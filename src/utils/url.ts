@@ -2,6 +2,9 @@
  * URL and path resolution utilities for Astro base path support
  */
 
+const RAW_BASE = import.meta.env.BASE_URL ?? '/';
+const BASE_PATH = RAW_BASE.replace(/\/+$/, '');
+
 /**
  * Resolves an internal path or URL with the configured Astro base path
  * - External URLs (http://, https://, //) are returned unchanged
@@ -23,18 +26,16 @@ export function resolveUrl(path?: string): string {
     return path;
   }
 
-  const rawBase = import.meta.env.BASE_URL ?? '/';
-  const baseUrl = rawBase.replace(/\/+$/, '');
   const cleanPath = path.startsWith('/') ? path : `/${path}`;
 
   if (
-    baseUrl &&
-    (cleanPath === baseUrl || cleanPath.startsWith(`${baseUrl}/`))
+    BASE_PATH &&
+    (cleanPath === BASE_PATH || cleanPath.startsWith(`${BASE_PATH}/`))
   ) {
     return cleanPath;
   }
 
-  const result = `${baseUrl}${cleanPath}`;
+  const result = `${BASE_PATH}${cleanPath}`;
   return result || '/';
 }
 
@@ -52,4 +53,19 @@ export function resolveExternalUrl(
   if (!val) return '';
   if (val.startsWith('http://') || val.startsWith('https://')) return val;
   return `${baseUrl}${prefix}${val.replace(/^@/, '')}`;
+}
+
+/**
+ * Resolves root-relative src and href attributes in HTML strings with the configured Astro base path
+ */
+export function resolveHtmlUrls(html?: string): string {
+  if (!html || !BASE_PATH) return html ?? '';
+
+  return html.replace(
+    /\b(src|href)=(['"])(\/[^'"]*)\2/gi,
+    (_match, attr, quote, path) => {
+      const resolved = resolveUrl(path);
+      return `${attr}=${quote}${resolved}${quote}`;
+    }
+  );
 }

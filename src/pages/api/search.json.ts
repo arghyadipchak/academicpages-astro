@@ -1,5 +1,6 @@
-import { getCollection } from 'astro:content';
 import type { APIRoute } from 'astro';
+import { getCollection } from 'astro:content';
+
 import { resolveUrl } from '../../utils/url';
 
 export const GET: APIRoute = async () => {

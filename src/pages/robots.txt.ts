@@ -1,4 +1,5 @@
 import type { APIRoute } from 'astro';
+
 import { siteConfig } from '../data/siteConfig';
 import { resolveUrl } from '../utils/url';
 

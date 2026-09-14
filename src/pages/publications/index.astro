@@ -1,9 +1,10 @@
 ---
 import { getCollection } from 'astro:content';
-import ArchiveLayout from '../../layouts/ArchiveLayout.astro';
+
 import ArchivePublication from '../../components/ArchivePublication.astro';
 import { siteConfig } from '../../data/siteConfig';
-import { resolveUrl, resolveExternalUrl } from '../../utils/url';
+import ArchiveLayout from '../../layouts/ArchiveLayout.astro';
+import { resolveExternalUrl, resolveUrl } from '../../utils/url';
 
 const allPubs = await getCollection('publications');
 allPubs.sort(
