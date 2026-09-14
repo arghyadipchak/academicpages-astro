@@ -30,6 +30,7 @@ export default defineConfig({
     },
     {
       name: 'Mobile Chrome',
+      testIgnore: ['**/api.spec.ts'],
       use: {
         ...devices['Pixel 7'],
         viewport: { width: 393, height: 851 },

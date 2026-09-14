@@ -915,3 +915,29 @@ header a:focus {
   transform: rotate(90deg) scale(0.5);
   pointer-events: none;
 }
+
+/* Print Stylesheet for Academic Documents and CVs */
+@media print {
+  header.sticky,
+  header:has(nav),
+  footer,
+  #toc-wrapper,
+  .theme-toggle-btn,
+  .search-trigger-btn,
+  #search-modal,
+  .code-copy-btn,
+  .bibtex-toggle-btn,
+  .heading-anchor {
+    display: none !important;
+  }
+
+  body {
+    background-color: #fff !important;
+    color: #000 !important;
+  }
+
+  a {
+    color: #000 !important;
+    text-decoration: underline !important;
+  }
+}
