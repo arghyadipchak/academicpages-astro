@@ -69,3 +69,102 @@ export function resolveHtmlUrls(html?: string): string {
     }
   );
 }
+
+/**
+ * Generates a clean URL-friendly slug from text
+ */
+export function slugify(text: string): string {
+  return text
+    .toString()
+    .toLowerCase()
+    .trim()
+    .replace(/\s+/g, '-')
+    .replace(/&/g, '-and-')
+    .replace(/[^\w-]+/g, '')
+    .replace(/--+/g, '-')
+    .replace(/^-+/, '')
+    .replace(/-+$/, '');
+}
+
+/**
+ * Extracts the filename slug without extension
+ */
+export function getFileSlug(id: string): string {
+  return id.replace(/\.md$/, '');
+}
+
+/**
+ * Extracts the short slug stripped of YYYY-MM-DD- date prefix
+ */
+export function getShortSlug(id: string): string {
+  return getFileSlug(id).replace(/^\d{4}-\d{2}-\d{2}-/, '');
+}
+
+/**
+ * Resolves the canonical internal URL for a blog post
+ */
+export function getPostUrl(post: {
+  id: string;
+  data: { permalink?: string; date: Date };
+}): string {
+  if (post.data.permalink) {
+    return resolveUrl(post.data.permalink);
+  }
+  const date = new Date(post.data.date);
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const slug = getShortSlug(post.id);
+  return resolveUrl(`/posts/${year}/${month}/${slug}/`);
+}
+
+/**
+ * Resolves the canonical internal URL for a publication
+ */
+export function getPublicationUrl(pub: {
+  id: string;
+  data: { permalink?: string };
+}): string {
+  if (pub.data.permalink) {
+    return resolveUrl(pub.data.permalink);
+  }
+  return resolveUrl(`/publications/${getFileSlug(pub.id)}/`);
+}
+
+/**
+ * Resolves the canonical internal URL for a talk
+ */
+export function getTalkUrl(talk: {
+  id: string;
+  data: { permalink?: string };
+}): string {
+  if (talk.data.permalink) {
+    return resolveUrl(talk.data.permalink);
+  }
+  return resolveUrl(`/talks/${getFileSlug(talk.id)}/`);
+}
+
+/**
+ * Resolves the canonical internal URL for a teaching entry
+ */
+export function getTeachingUrl(item: {
+  id: string;
+  data: { permalink?: string };
+}): string {
+  if (item.data.permalink) {
+    return resolveUrl(item.data.permalink);
+  }
+  return resolveUrl(`/teaching/${getFileSlug(item.id)}/`);
+}
+
+/**
+ * Resolves the canonical internal URL for a portfolio item
+ */
+export function getPortfolioUrl(item: {
+  id: string;
+  data: { permalink?: string };
+}): string {
+  if (item.data.permalink) {
+    return resolveUrl(item.data.permalink);
+  }
+  return resolveUrl(`/portfolio/${getFileSlug(item.id)}/`);
+}

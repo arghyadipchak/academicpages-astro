@@ -2,7 +2,14 @@
 import { getCollection } from 'astro:content';
 
 import SingleLayout from '../layouts/SingleLayout.astro';
-import { resolveUrl } from '../utils/url';
+import {
+  getPortfolioUrl,
+  getPostUrl,
+  getPublicationUrl,
+  getTalkUrl,
+  getTeachingUrl,
+  resolveUrl,
+} from '../utils/url';
 
 const posts = await getCollection('blog');
 const publications = await getCollection('publications');
@@ -88,10 +95,7 @@ const portfolio = await getCollection('portfolio');
             {posts.map((post) => (
               <li>
                 <a
-                  href={resolveUrl(
-                    post.data.permalink ||
-                      `/posts/${post.id.replace(/\.md$/, '')}/`
-                  )}
+                  href={getPostUrl(post)}
                   class="text-(--global-link-color) hover:underline"
                 >
                   {post.data.title}
@@ -113,10 +117,7 @@ const portfolio = await getCollection('portfolio');
             {publications.map((pub) => (
               <li>
                 <a
-                  href={resolveUrl(
-                    pub.data.permalink ||
-                      `/publications/${pub.id.replace(/\.md$/, '')}/`
-                  )}
+                  href={getPublicationUrl(pub)}
                   class="text-(--global-link-color) hover:underline"
                 >
                   {pub.data.title}
@@ -138,10 +139,7 @@ const portfolio = await getCollection('portfolio');
             {talks.map((talk) => (
               <li>
                 <a
-                  href={resolveUrl(
-                    talk.data.permalink ||
-                      `/talks/${talk.id.replace(/\.md$/, '')}/`
-                  )}
+                  href={getTalkUrl(talk)}
                   class="text-(--global-link-color) hover:underline"
                 >
                   {talk.data.title}
@@ -163,10 +161,7 @@ const portfolio = await getCollection('portfolio');
             {teaching.map((item) => (
               <li>
                 <a
-                  href={resolveUrl(
-                    item.data.permalink ||
-                      `/teaching/${item.id.replace(/\.md$/, '')}/`
-                  )}
+                  href={getTeachingUrl(item)}
                   class="text-(--global-link-color) hover:underline"
                 >
                   {item.data.title}
@@ -188,10 +183,7 @@ const portfolio = await getCollection('portfolio');
             {portfolio.map((item) => (
               <li>
                 <a
-                  href={resolveUrl(
-                    item.data.permalink ||
-                      `/portfolio/${item.id.replace(/\.md$/, '')}/`
-                  )}
+                  href={getPortfolioUrl(item)}
                   class="text-(--global-link-color) hover:underline"
                 >
                   {item.data.title}

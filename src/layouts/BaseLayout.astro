@@ -11,9 +11,9 @@ import { siteConfig } from '../data/siteConfig';
 export interface Props {
   title?: string;
   description?: string;
-  image?: string;
   articleDate?: Date;
   canonicalUrl?: string;
+  image?: string;
   citation?: {
     title?: string;
     author?: string;
@@ -23,7 +23,7 @@ export interface Props {
   };
 }
 
-const { title, description, image, articleDate, canonicalUrl, citation } =
+const { title, description, articleDate, canonicalUrl, image, citation } =
   Astro.props;
 ---
 
@@ -33,9 +33,9 @@ const { title, description, image, articleDate, canonicalUrl, citation } =
     <HeadSEO
       title={title}
       description={description}
-      image={image}
       articleDate={articleDate}
       canonicalUrl={canonicalUrl}
+      image={image}
       citation={citation}
     />
   </head>

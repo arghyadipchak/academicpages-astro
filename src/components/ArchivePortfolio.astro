@@ -1,14 +1,15 @@
 ---
 import { renderMath } from '../utils/math';
-import { resolveHtmlUrls } from '../utils/url';
+import { resolveHtmlUrls, resolveUrl } from '../utils/url';
 
 export interface Props {
   title: string;
   url: string;
-  excerpt?: string;
+  description?: string;
+  image?: string;
 }
 
-const { title, url, excerpt } = Astro.props;
+const { title, url, description, image } = Astro.props;
 ---
 
 <div
@@ -25,12 +26,25 @@ const { title, url, excerpt } = Astro.props;
     </h3>
 
     {
-      excerpt && (
+      description && (
         <div
           class="mt-2 text-sm text-(--global-text-color)"
           itemprop="description"
-          set:html={resolveHtmlUrls(renderMath(excerpt))}
+          set:html={resolveHtmlUrls(renderMath(description))}
         />
+      )
+    }
+
+    {
+      image && (
+        <div class="mt-3 overflow-hidden rounded-md">
+          <img
+            src={resolveUrl(image)}
+            alt={title}
+            class="h-auto max-h-60 w-full object-cover"
+            loading="lazy"
+          />
+        </div>
       )
     }
   </article>

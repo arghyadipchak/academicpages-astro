@@ -2,27 +2,27 @@
 import { getCollection, render } from 'astro:content';
 
 import SingleLayout from '../../layouts/SingleLayout.astro';
+import { getFileSlug, getShortSlug } from '../../utils/url';
 
 export async function getStaticPaths() {
   const talks = await getCollection('talks');
   const pathMap = new Map<string, (typeof talks)[0]>();
 
   for (const talk of talks) {
-    let slug = talk.id.replace(/\.md$/, '');
+    const fileSlug = getFileSlug(talk.id);
+    const shortSlug = getShortSlug(talk.id);
+
+    pathMap.set(fileSlug, talk);
+    if (shortSlug !== fileSlug) {
+      pathMap.set(shortSlug, talk);
+    }
+
     if (talk.data.permalink) {
-      slug = talk.data.permalink
+      const cleanPermalink = talk.data.permalink
         .replace(/^\/?talks\//, '')
         .replace(/\/$/, '')
         .replace(/^\//, '');
-    }
-
-    pathMap.set(slug, talk);
-
-    const shortId = talk.id
-      .replace(/\.md$/, '')
-      .replace(/^\d{4}-\d{2}-\d{2}-/, '');
-    if (!pathMap.has(shortId)) {
-      pathMap.set(shortId, talk);
+      pathMap.set(cleanPermalink, talk);
     }
   }
 
@@ -38,13 +38,15 @@ const { Content } = await render(talk);
 
 <SingleLayout
   title={talk.data.title}
-  description={talk.data.excerpt}
+  description={talk.data.description}
   date={talk.data.date}
   venue={talk.data.venue}
   location={talk.data.location}
   type={talk.data.type}
-  talk_type={talk.data.talk_type}
-  slidesurl={talk.data.slidesurl}
+  slidesUrl={talk.data.slides_url}
+  authorProfile={talk.data.author_profile}
+  image={talk.data.image}
+  toc={talk.data.toc}
   collection="talks"
 >
   <Content />

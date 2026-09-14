@@ -3,7 +3,12 @@ import { getCollection } from 'astro:content';
 
 import SingleLayout from '../layouts/SingleLayout.astro';
 import { renderMath } from '../utils/math';
-import { resolveHtmlUrls, resolveUrl } from '../utils/url';
+import {
+  getPublicationUrl as getPubUrl,
+  getTalkUrl,
+  getTeachingUrl,
+  resolveHtmlUrls,
+} from '../utils/url';
 
 const publications = await getCollection('publications');
 publications.sort(
@@ -19,24 +24,6 @@ const teaching = await getCollection('teaching');
 teaching.sort(
   (a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime()
 );
-
-function getPubUrl(pub: (typeof publications)[0]): string {
-  return resolveUrl(
-    pub.data.permalink || `/publications/${pub.id.replace(/\.md$/, '')}/`
-  );
-}
-
-function getTalkUrl(talk: (typeof talks)[0]): string {
-  return resolveUrl(
-    talk.data.permalink || `/talks/${talk.id.replace(/\.md$/, '')}/`
-  );
-}
-
-function getTeachingUrl(item: (typeof teaching)[0]): string {
-  return resolveUrl(
-    item.data.permalink || `/teaching/${item.id.replace(/\.md$/, '')}/`
-  );
-}
 ---
 
 <SingleLayout title="CV">
@@ -48,9 +35,9 @@ function getTeachingUrl(item: (typeof teaching)[0]): string {
         Education
       </h2>
       <ul class="mt-3 list-disc space-y-1.5 pl-5 text-(--global-text-color)">
-        <li>Ph.D in Computer Science, GitHub University, 2018 (expected)</li>
-        <li>M.S. in Software Systems, GitHub University, 2014</li>
-        <li>B.S. in Computer Science, GitHub University, 2012</li>
+        <li>Ph.D in Computer Science, GitHub University, 2024</li>
+        <li>M.S. in Software Systems, GitHub University, 2020</li>
+        <li>B.S. in Computer Science, GitHub University, 2018</li>
       </ul>
     </section>
 
@@ -70,7 +57,7 @@ function getTeachingUrl(item: (typeof teaching)[0]): string {
           </ul>
         </li>
         <li>
-          <strong>Fall 2015: Research Assistant</strong>
+          <strong>Fall 2023: Research Assistant</strong>
           <ul class="mt-1.5 list-[circle] space-y-1 pl-5">
             <li>GitHub University</li>
             <li>Duties included: Merging pull requests</li>
@@ -78,7 +65,7 @@ function getTeachingUrl(item: (typeof teaching)[0]): string {
           </ul>
         </li>
         <li>
-          <strong>Summer 2015: Research Assistant</strong>
+          <strong>Summer 2022: Research Assistant</strong>
           <ul class="mt-1.5 list-[circle] space-y-1 pl-5">
             <li>GitHub University</li>
             <li>Duties included: Tagging issues</li>
@@ -150,13 +137,9 @@ function getTeachingUrl(item: (typeof teaching)[0]): string {
                 class="font-semibold text-(--global-link-color) hover:underline"
                 set:html={renderMath(talk.data.title)}
               />
-              {(talk.data.talk_type ||
-                talk.data.type ||
-                talk.data.venue ||
-                talk.data.location) && (
+              {(talk.data.type || talk.data.venue || talk.data.location) && (
                 <p class="mt-0.5 text-sm text-(--global-text-color-light)">
-                  {talk.data.talk_type || talk.data.type} at {talk.data.venue},{' '}
-                  {talk.data.location}
+                  {talk.data.type} at {talk.data.venue}, {talk.data.location}
                 </p>
               )}
             </li>

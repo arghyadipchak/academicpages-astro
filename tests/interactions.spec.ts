@@ -49,9 +49,7 @@ test.describe('Client-Side Interactive Components Tests', () => {
 
       // Keyboard navigation via Enter
       await page.keyboard.press('Enter');
-      await expect(page).toHaveURL(
-        /publication\/2009-10-01-paper-title-number-1/
-      );
+      await expect(page).toHaveURL(/publications\/2024-03-15-paper-1/);
     } else {
       // Close modal on mobile
       await page.keyboard.press('Escape');
@@ -109,18 +107,36 @@ test.describe('Client-Side Interactive Components Tests', () => {
     page,
   }) => {
     await page.goto(toUrl('/publications/'));
-    const bibtexBtn = page.locator('.bibtex-toggle-btn').first();
+
+    // Verify publications with bibtex have the toggle button (paper 1 and book 1)
+    const bibtexButtons = page.locator('.bibtex-toggle-btn');
+    await expect(bibtexButtons).toHaveCount(2);
+
+    const bibtexBtn = bibtexButtons.first();
     await expect(bibtexBtn).toBeVisible();
     await bibtexBtn.click();
 
     const bibtexBox = page.locator('.bibtex-box:not(.hidden)').first();
     await expect(bibtexBox).toBeVisible();
-    await expect(bibtexBox).toContainText('@article');
+    await expect(bibtexBox).toContainText('@');
+    const bibtexText = await bibtexBox.locator('code').first().innerText();
+    expect(bibtexText.startsWith('@')).toBe(true);
 
     const copyBtn = bibtexBox.locator('.copy-bibtex-btn');
     await expect(copyBtn).toBeVisible();
     await copyBtn.click();
     await expect(copyBtn).toContainText('Copied!');
+
+    const downloadLink = bibtexBox.locator('a[download="citation.bib"]');
+    await expect(downloadLink).toBeVisible();
+
+    // Verify Code badge is rendered and links to code_url
+    const codeBadge = page.locator('a:has-text("Code")').first();
+    await expect(codeBadge).toBeVisible();
+    await expect(codeBadge).toHaveAttribute(
+      'href',
+      'https://github.com/academicpages/academicpages.github.io'
+    );
   });
 
   test('Publication category filter tabs work interactively', async ({
@@ -131,19 +147,17 @@ test.describe('Client-Side Interactive Components Tests', () => {
     await expect(confFilterBtn).toBeVisible();
     await confFilterBtn.click();
 
-    // Verify Conferences section is visible, and Manuscripts section is hidden
+    // Verify Conferences section is visible, and Journals section is hidden
     const confSection = page.locator('section[data-category="conferences"]');
     await expect(confSection).toBeVisible();
 
-    const manuscriptsSection = page.locator(
-      'section[data-category="manuscripts"]'
-    );
-    await expect(manuscriptsSection).toBeHidden();
+    const journalsSection = page.locator('section[data-category="journals"]');
+    await expect(journalsSection).toBeHidden();
 
     // Click 'All' and verify all sections visible again
     const allBtn = page.locator('button[data-filter="all"]');
     await allBtn.click();
-    await expect(manuscriptsSection).toBeVisible();
+    await expect(journalsSection).toBeVisible();
   });
 
   test('Mobile author profile Follow button toggles social links list', async ({

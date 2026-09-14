@@ -8,13 +8,12 @@ import { resolveHtmlUrls } from '../utils/url';
 export interface Props {
   title: string;
   url: string;
+  description?: string;
   date?: Date;
-  excerpt?: string;
   readTime?: string;
-  type?: 'list' | 'grid';
 }
 
-const { title, url, date, excerpt, readTime } = Astro.props;
+const { title, url, description, date, readTime } = Astro.props;
 
 const formattedDate = formatDate(date);
 ---
@@ -52,11 +51,11 @@ const formattedDate = formatDate(date);
     }
 
     {
-      excerpt && (
+      description && (
         <p
           class="mt-2 text-sm text-(--global-text-color)"
           itemprop="description"
-          set:html={resolveHtmlUrls(renderMath(excerpt))}
+          set:html={resolveHtmlUrls(renderMath(description))}
         />
       )
     }

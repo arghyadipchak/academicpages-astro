@@ -13,7 +13,10 @@ const { Content } = await render(guidePage);
 
 <SingleLayout
   title={guidePage.data.title}
-  author_profile={guidePage.data.author_profile}
+  description={guidePage.data.description}
+  authorProfile={guidePage.data.author_profile}
+  image={guidePage.data.image}
+  toc={guidePage.data.toc}
 >
   <Content />
 </SingleLayout>

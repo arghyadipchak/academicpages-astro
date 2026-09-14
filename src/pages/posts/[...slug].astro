@@ -2,27 +2,32 @@
 import { getCollection, render } from 'astro:content';
 
 import SingleLayout from '../../layouts/SingleLayout.astro';
+import { calculateReadingTime } from '../../utils/readingTime';
+import { getShortSlug } from '../../utils/url';
 
 export async function getStaticPaths() {
   const posts = await getCollection('blog');
   const pathMap = new Map<string, (typeof posts)[0]>();
 
   for (const post of posts) {
-    let slug = post.id.replace(/\.md$/, '');
+    const shortSlug = getShortSlug(post.id);
+    const date = new Date(post.data.date);
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+
+    // Canonical date route: YYYY/MM/slug
+    pathMap.set(`${year}/${month}/${shortSlug}`, post);
+
+    // Explicit permalink if configured
     if (post.data.permalink) {
-      slug = post.data.permalink
+      const cleanPermalink = post.data.permalink
         .replace(/^\/?posts\//, '')
         .replace(/\/$/, '')
         .replace(/^\//, '');
-    }
-
-    pathMap.set(slug, post);
-
-    const shortId = post.id
-      .replace(/\.md$/, '')
-      .replace(/^\d{4}-\d{2}-\d{2}-/, '');
-    if (!pathMap.has(shortId)) {
-      pathMap.set(shortId, post);
+      pathMap.set(cleanPermalink, post);
+    } else {
+      // Direct short slug alias
+      pathMap.set(shortSlug, post);
     }
   }
 
@@ -38,14 +43,15 @@ const { Content } = await render(post);
 
 <SingleLayout
   title={post.data.title}
-  description={post.data.excerpt || post.data.description}
+  description={post.data.description}
   date={post.data.date}
   modified={post.data.modified}
   tags={post.data.tags}
-  categories={post.data.categories}
   collection="blog"
-  author_profile={post.data.author_profile}
-  read_time={post.data.read_time}
+  authorProfile={post.data.author_profile}
+  readTime={post.data.read_time ? calculateReadingTime(post.body) : undefined}
+  toc={post.data.toc}
+  image={post.data.image}
 >
   <Content />
 </SingleLayout>

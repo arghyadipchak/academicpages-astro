@@ -13,7 +13,10 @@ const { Content } = await render(termsPage);
 
 <SingleLayout
   title={termsPage.data.title}
-  author_profile={termsPage.data.author_profile}
+  description={termsPage.data.description}
+  authorProfile={termsPage.data.author_profile}
+  image={termsPage.data.image}
+  toc={termsPage.data.toc}
 >
   <Content />
 </SingleLayout>

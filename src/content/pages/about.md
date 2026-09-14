@@ -1,10 +1,5 @@
 ---
 title: Academic Pages Astro is a modern, high-performance starter template for academic personal websites
-permalink: /
-author_profile: true
-redirect_from:
-  - /about/
-  - /about.html
 ---
 
 This website is powered by the **[Academic Pages Astro template](https://github.com/arghyadipchak/academicpages-astro)** and hosted on GitHub Pages. Built with **Astro 7**, **TypeScript**, and **Tailwind CSS v4**, this template provides blazing-fast load times, strict type safety, and all the content features needed for academic careers: publications, talks, teaching, portfolios, blog posts, and a dynamically-generated CV.
@@ -53,7 +48,7 @@ Adding your content
 
 All content is organized into type-safe content directories inside `src/content/`:
 
-- **Publications**: `src/content/publications/*.md` (with fields for `venue`, `citation`, `paperurl`, `slidesurl`, `bibtexurl`)
+- **Publications**: `src/content/publications/*.md` (with fields for `venue`, `citation`, `pdf_url`, `slides_url`, `code_url`, `bibtex`)
 - **Talks & Presentations**: `src/content/talks/*.md` (with fields for `venue`, `location`, `type`)
 - **Teaching**: `src/content/teaching/*.md` (with fields for `venue`, `type`, `date`)
 - **Blog Posts**: `src/content/blog/*.md`

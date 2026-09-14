@@ -13,7 +13,10 @@ const { Content } = await render(aboutPage);
 
 <SingleLayout
   title={aboutPage.data.title}
-  author_profile={aboutPage.data.author_profile}
+  description={aboutPage.data.description}
+  authorProfile={aboutPage.data.author_profile}
+  image={aboutPage.data.image}
+  toc={aboutPage.data.toc}
 >
   <Content />
 </SingleLayout>

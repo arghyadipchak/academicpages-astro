@@ -2,27 +2,27 @@
 import { getCollection, render } from 'astro:content';
 
 import SingleLayout from '../../layouts/SingleLayout.astro';
+import { getFileSlug, getShortSlug } from '../../utils/url';
 
 export async function getStaticPaths() {
   const teaching = await getCollection('teaching');
   const pathMap = new Map<string, (typeof teaching)[0]>();
 
   for (const item of teaching) {
-    let slug = item.id.replace(/\.md$/, '');
+    const fileSlug = getFileSlug(item.id);
+    const shortSlug = getShortSlug(item.id);
+
+    pathMap.set(fileSlug, item);
+    if (shortSlug !== fileSlug) {
+      pathMap.set(shortSlug, item);
+    }
+
     if (item.data.permalink) {
-      slug = item.data.permalink
+      const cleanPermalink = item.data.permalink
         .replace(/^\/?teaching\//, '')
         .replace(/\/$/, '')
         .replace(/^\//, '');
-    }
-
-    pathMap.set(slug, item);
-
-    const shortId = item.id
-      .replace(/\.md$/, '')
-      .replace(/^\d{4}-\d{2}-\d{2}-/, '');
-    if (!pathMap.has(shortId)) {
-      pathMap.set(shortId, item);
+      pathMap.set(cleanPermalink, item);
     }
   }
 
@@ -38,11 +38,14 @@ const { Content } = await render(item);
 
 <SingleLayout
   title={item.data.title}
-  description={item.data.excerpt}
+  description={item.data.description}
   date={item.data.date}
   venue={item.data.venue}
   location={item.data.location}
   type={item.data.type}
+  authorProfile={item.data.author_profile}
+  image={item.data.image}
+  toc={item.data.toc}
   collection="teaching"
 >
   <Content />

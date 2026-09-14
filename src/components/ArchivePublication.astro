@@ -7,29 +7,32 @@ import ActionBadges from './ActionBadges.astro';
 export interface Props {
   title: string;
   url: string;
-  venue?: string;
+  description?: string;
   date?: Date;
-  excerpt?: string;
+  venue?: string;
   citation?: string;
-  paperurl?: string;
-  slidesurl?: string;
-  codeurl?: string;
-  bibtexurl?: string;
+  pdfUrl?: string;
+  paperUrl?: string;
+  slidesUrl?: string;
+  codeUrl?: string;
+  bibtex?: string;
 }
 
 const {
   title,
   url,
-  venue,
+  description,
   date,
-  excerpt,
+  venue,
   citation,
-  paperurl,
-  slidesurl,
-  codeurl,
-  bibtexurl,
+  pdfUrl: rawPdfUrl,
+  paperUrl,
+  slidesUrl,
+  codeUrl,
+  bibtex,
 } = Astro.props;
 
+const pdfUrl = rawPdfUrl ?? paperUrl;
 const formattedYear = formatYear(date);
 ---
 
@@ -56,11 +59,11 @@ const formattedYear = formatYear(date);
     }
 
     {
-      excerpt && (
+      description && (
         <p
           class="mt-2 text-sm text-(--global-text-color)"
           itemprop="description"
-          set:html={resolveHtmlUrls(renderMath(excerpt))}
+          set:html={resolveHtmlUrls(renderMath(description))}
         />
       )
     }
@@ -75,14 +78,10 @@ const formattedYear = formatYear(date);
     }
 
     <ActionBadges
-      title={title}
-      paperurl={paperurl}
-      slidesurl={slidesurl}
-      codeurl={codeurl}
-      bibtexurl={bibtexurl}
-      citation={citation}
-      venue={venue}
-      date={date}
+      pdfUrl={pdfUrl}
+      slidesUrl={slidesUrl}
+      codeUrl={codeUrl}
+      bibtex={bibtex}
     />
   </article>
 </div>

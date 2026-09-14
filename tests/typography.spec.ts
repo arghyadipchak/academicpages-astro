@@ -210,11 +210,11 @@ test.describe('Typography, Lists & Mathematical Layout Tests', () => {
     page,
   }) => {
     await page.goto(toUrl('/publications/'));
-    const pubWithMath = page.locator('a:has-text("Paper Title Number 5")');
+    const pubWithMath = page.locator('a:has-text("Paper Title Number 4")');
     await expect(pubWithMath).toBeVisible();
     await expect(pubWithMath.locator('.katex')).toBeVisible();
 
-    await page.goto(toUrl('/publication/2025-06-08-paper-title-number-5/'));
+    await page.goto(toUrl('/publications/2025-11-17-paper-4/'));
     const h1 = page.locator('h1[itemprop="headline"]');
     await expect(h1).toBeVisible();
     await expect(h1.locator('.katex')).toBeVisible();

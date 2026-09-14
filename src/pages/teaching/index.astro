@@ -3,20 +3,12 @@ import { getCollection } from 'astro:content';
 
 import ArchiveTeaching from '../../components/ArchiveTeaching.astro';
 import ArchiveLayout from '../../layouts/ArchiveLayout.astro';
-import { resolveUrl } from '../../utils/url';
+import { getTeachingUrl } from '../../utils/url';
 
 const allTeaching = await getCollection('teaching');
 allTeaching.sort(
   (a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime()
 );
-
-function getTeachingUrl(item: (typeof allTeaching)[0]): string {
-  if (item.data.permalink) {
-    return resolveUrl(item.data.permalink);
-  }
-  const cleanId = item.id.replace(/\.md$/, '');
-  return resolveUrl(`/teaching/${cleanId}/`);
-}
 ---
 
 <ArchiveLayout title="Teaching">
@@ -30,7 +22,7 @@ function getTeachingUrl(item: (typeof allTeaching)[0]): string {
             type={item.data.type}
             venue={item.data.venue}
             date={item.data.date}
-            excerpt={item.data.excerpt}
+            description={item.data.description}
           />
         ))
       ) : (

@@ -1,10 +1,5 @@
 ---
-permalink: /markdown/
 title: Markdown
-author_profile: true
-redirect_from:
-  - /md/
-  - /markdown.html
 ---
 
 ## Locations of key files & directories
@@ -20,7 +15,7 @@ redirect_from:
   - `src/content/talks/`
   - `src/content/pages/`
 - **Static Assets & Downloads**:
-  - `public/files/` (PDFs, slide decks, BibTeX `.bib` files)
+  - `public/files/` (PDFs, slide decks, documents)
   - `public/images/` (Avatar `profile.png`, favicons, screenshots)
 
 ## Tips and hints
@@ -29,6 +24,7 @@ redirect_from:
 - Every commit pushed to GitHub automatically triggers the `.github/workflows/ci.yml` action to compile static assets and deploy to GitHub Pages
 - Standard GitHub Flavored Markdown (GFM), footnotes, task lists, and autolinks are natively supported by Astro
 - Your CV page is rendered from `src/pages/cv.astro` with an interactive, sticky Table of Contents
+- This guide is also accessible via `/guide` and `/md` URL aliases
 
 ## KaTeX & LaTeX Math
 
@@ -309,15 +305,25 @@ Academic Pages Astro automatically renders interactive, 1-click action buttons f
 ```yaml
 ---
 title: Paper Title Number 1
-date: 2009-10-01
+date: 2024-03-15
+description: This paper is about the number 1. The number 2 is left for future work.
+category: journals
 venue: Journal 1
-paperurl: https://academicpages.github.io/files/paper1.pdf
-slidesurl: https://academicpages.github.io/files/slides1.pdf
-citation: 'Your Name. (2009). "Paper Title Number 1." <i>Journal 1</i>. 1(1).'
+citation: 'Your Name, You. (2024). "Paper Title Number 1." <i>Journal 1</i>. 1(1).'
+pdf_url: /files/paper1.pdf
+slides_url: /files/slides1.pdf
+code_url: https://github.com/academicpages/academicpages.github.io
+bibtex: |
+  @article{YourName2024paper1,
+    title     = {Paper Title Number 1},
+    author    = {Your Name},
+    journal   = {Journal 1},
+    year      = {2024}
+  }
 ---
 ```
 
-When a reader clicks the **BibTeX** button, an accessible modal opens showing the formatted BibTeX entry with a 1-click copy-to-clipboard button.
+When a reader clicks the **BibTeX** button (rendered whenever `bibtex` is specified), an accessible box opens showing the exact BibTeX entry with a 1-click copy-to-clipboard button and download link. If `bibtex` is omitted, the button is cleanly skipped.
 
 ## Fast Client-Side Search
 
@@ -325,7 +331,7 @@ Every page supports instant, client-side full-text search:
 
 - **Keyboard Shortcut**: Press <kbd>Cmd</kbd> + <kbd>K</kbd> (Mac) or <kbd>Ctrl</kbd> + <kbd>K</kbd> (Windows/Linux) from anywhere on the site
 - **Search Header Button**: Click the search input in the top masthead navigation bar
-- **Live Filtering**: Searches across page titles, excerpts, tags, categories, and author metadata in real-time
+- **Live Filtering**: Searches across page titles, descriptions, tags, categories, and author metadata in real-time
 
 ## Theme & Dark Mode
 

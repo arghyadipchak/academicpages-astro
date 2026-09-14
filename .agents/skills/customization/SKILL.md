@@ -43,7 +43,7 @@ export const siteConfig: SiteConfig = {
   },
   publicationCategories: {
     books: { title: 'Books' },
-    manuscripts: { title: 'Journal Articles' },
+    journals: { title: 'Journal Articles' },
     conferences: { title: 'Conference Papers' },
   },
 };
@@ -81,13 +81,20 @@ Create `.md` or `.mdx` files with frontmatter:
 ---
 title: Exact Paper Title Here
 date: 2026-05-12
+description: A 1-2 sentence overview of the paper findings
+category: journals # Options: books, journals, conferences (singular aliases supported)
 venue: Nature Communications
-category: manuscripts # Options: manuscripts, conferences, books
-paperurl: https://example.org/paper.pdf # Direct PDF download link
-slidesurl: https://example.org/slides.pdf # Optional slide deck link
-bibtexurl: https://example.org/paper.bib # Optional direct .bib file link
 citation: 'Author, A., & Author, B. (2026). "Exact Paper Title Here." <i>Nature Communications</i>, 17(1).'
-excerpt: A 1-2 sentence overview of the paper findings
+pdf_url: https://example.org/paper.pdf # Direct PDF download link (paper_url supported as fallback)
+slides_url: https://example.org/slides.pdf # Optional slide deck link
+code_url: https://github.com/example/repo # Optional code repository link
+bibtex: | # Optional raw BibTeX citation entry
+  @article{Author2026,
+    title   = {Exact Paper Title Here},
+    author  = {Author, A. and Author, B.},
+    journal = {Nature Communications},
+    year    = {2026}
+  }
 ---
 Abstract and detailed notes go here. KaTeX math ($E=mc^2$) is supported in body text and titles.
 ```
@@ -98,11 +105,11 @@ Abstract and detailed notes go here. KaTeX math ($E=mc^2$) is supported in body 
 ---
 title: Keynote Talk Title
 date: 2026-03-20
+description: Abstract of the invited presentation
 type: Conference proceedings talk
 venue: NeurIPS 2026
 location: New Orleans, LA
-talkurl: https://example.org/slides.pdf
-excerpt: Abstract of the invited presentation
+slides_url: https://example.org/slides.pdf
 ---
 ```
 
@@ -112,10 +119,10 @@ excerpt: Abstract of the invited presentation
 ---
 title: 'CS 101: Introduction to Computer Science'
 date: 2026-01-10
+description: Course syllabus, lecture notes, and lab assignments
 type: Undergraduate course
 venue: Department of Computer Science
 location: Red Brick University
-excerpt: Course syllabus, lecture notes, and lab assignments
 ---
 ```
 
@@ -125,11 +132,11 @@ excerpt: Course syllabus, lecture notes, and lab assignments
 ---
 title: Thoughts on Generative AI in Academic Research
 date: 2026-02-14
+description: Exploring how AI pair programmers accelerate scientific discovery
 tags:
   - AI
   - Research
   - Opinion
-excerpt: Exploring how AI pair programmers accelerate scientific discovery
 ---
 ```
 
@@ -139,7 +146,7 @@ excerpt: Exploring how AI pair programmers accelerate scientific discovery
 ---
 title: Open Source Protein Folding Visualizer
 date: 2026-04-01
-excerpt: An interactive web-based 3D visualization tool for macromolecular structures
+description: An interactive web-based 3D visualization tool for macromolecular structures
 ---
 ```
 

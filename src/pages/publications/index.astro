@@ -4,7 +4,7 @@ import { getCollection } from 'astro:content';
 import ArchivePublication from '../../components/ArchivePublication.astro';
 import { siteConfig } from '../../data/siteConfig';
 import ArchiveLayout from '../../layouts/ArchiveLayout.astro';
-import { resolveExternalUrl, resolveUrl } from '../../utils/url';
+import { getPublicationUrl, resolveExternalUrl } from '../../utils/url';
 
 const allPubs = await getCollection('publications');
 allPubs.sort(
@@ -12,14 +12,6 @@ allPubs.sort(
 );
 
 const categories = siteConfig.publicationCategories;
-
-function getPublicationUrl(pub: (typeof allPubs)[0]): string {
-  if (pub.data.permalink) {
-    return resolveUrl(pub.data.permalink);
-  }
-  const cleanId = pub.id.replace(/\.md$/, '');
-  return resolveUrl(`/publications/${cleanId}/`);
-}
 ---
 
 <ArchiveLayout title="Publications">
@@ -97,11 +89,12 @@ function getPublicationUrl(pub: (typeof allPubs)[0]): string {
                     url={getPublicationUrl(pub)}
                     venue={pub.data.venue}
                     date={pub.data.date}
-                    excerpt={pub.data.excerpt}
+                    description={pub.data.description}
                     citation={pub.data.citation}
-                    paperurl={pub.data.paperurl}
-                    slidesurl={pub.data.slidesurl}
-                    bibtexurl={pub.data.bibtexurl}
+                    pdfUrl={pub.data.pdf_url ?? pub.data.paper_url}
+                    slidesUrl={pub.data.slides_url}
+                    codeUrl={pub.data.code_url}
+                    bibtex={pub.data.bibtex}
                   />
                 ))}
               </div>

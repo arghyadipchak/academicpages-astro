@@ -1,7 +1,14 @@
 import type { APIRoute } from 'astro';
 import { getCollection } from 'astro:content';
 
-import { resolveUrl } from '../../utils/url';
+import {
+  getPortfolioUrl,
+  getPostUrl,
+  getPublicationUrl,
+  getTalkUrl,
+  getTeachingUrl,
+  resolveUrl,
+} from '../../utils/url';
 
 export const GET: APIRoute = async () => {
   const posts = await getCollection('blog', ({ data }) => !data.draft);
@@ -14,58 +21,57 @@ export const GET: APIRoute = async () => {
   const items = [
     ...posts.map((p) => ({
       title: p.data.title,
-      url: resolveUrl(
-        p.data.permalink || `/posts/${p.id.replace(/\.md$/, '')}/`
-      ),
+      url: getPostUrl(p),
       type: 'Blog Post',
       date: p.data.date,
-      excerpt: p.data.excerpt || '',
+      description: p.data.description || '',
     })),
     ...publications.map((p) => ({
       title: p.data.title,
-      url: resolveUrl(
-        p.data.permalink || `/publications/${p.id.replace(/\.md$/, '')}/`
-      ),
+      url: getPublicationUrl(p),
       type: 'Publication',
       date: p.data.date,
-      excerpt: p.data.excerpt || p.data.citation || '',
+      description: p.data.description || p.data.citation || '',
     })),
     ...talks.map((t) => ({
       title: t.data.title,
-      url: resolveUrl(
-        t.data.permalink || `/talks/${t.id.replace(/\.md$/, '')}/`
-      ),
+      url: getTalkUrl(t),
       type: 'Talk',
       date: t.data.date,
-      excerpt:
-        t.data.excerpt || `${t.data.venue || ''} ${t.data.location || ''}`,
+      description:
+        t.data.description || `${t.data.venue || ''} ${t.data.location || ''}`,
     })),
     ...teaching.map((t) => ({
       title: t.data.title,
-      url: resolveUrl(
-        t.data.permalink || `/teaching/${t.id.replace(/\.md$/, '')}/`
-      ),
+      url: getTeachingUrl(t),
       type: 'Teaching',
       date: t.data.date,
-      excerpt: t.data.excerpt || t.data.venue || '',
+      description: t.data.description || t.data.venue || '',
     })),
     ...portfolio.map((p) => ({
       title: p.data.title,
-      url: resolveUrl(
-        p.data.permalink || `/portfolio/${p.id.replace(/\.md$/, '')}/`
-      ),
+      url: getPortfolioUrl(p),
       type: 'Portfolio',
-      date: p.data.date,
-      excerpt: p.data.excerpt || '',
+      description: p.data.description || '',
     })),
     ...pages.map((p) => ({
       title: p.data.title,
-      url: resolveUrl(
-        p.data.permalink || (p.id === 'about' ? '/' : `/${p.id}/`)
-      ),
+      url: resolveUrl(p.id === 'about' ? '/' : `/${p.id}/`),
       type: 'Page',
-      excerpt: '',
+      description: p.data.description || '',
     })),
+    {
+      title: 'CV',
+      url: resolveUrl('/cv/'),
+      type: 'Page',
+      description: 'Curriculum Vitae',
+    },
+    {
+      title: 'Sitemap',
+      url: resolveUrl('/sitemap/'),
+      type: 'Page',
+      description: 'Overview of all pages and collections',
+    },
   ];
 
   return new Response(JSON.stringify(items), {

@@ -5,9 +5,9 @@ import { resolveUrl } from '../utils/url';
 export interface Props {
   title?: string;
   description?: string;
-  image?: string;
   articleDate?: Date;
   canonicalUrl?: string;
+  image?: string;
   citation?: {
     title?: string;
     author?: string;
@@ -20,8 +20,9 @@ export interface Props {
 const {
   title,
   description = siteConfig.description,
-  image = siteConfig.author.avatar,
   articleDate,
+  canonicalUrl: propCanonicalUrl,
+  image = siteConfig.author.avatar,
   citation,
 } = Astro.props;
 
@@ -39,7 +40,7 @@ const siteBase = Astro.site
     : Astro.url.origin;
 
 const canonicalUrl =
-  Astro.props.canonicalUrl || new URL(Astro.url.pathname, siteBase).toString();
+  propCanonicalUrl || new URL(Astro.url.pathname, siteBase).toString();
 
 const pageTitle = title
   ? `${title} ${siteConfig.titleSeparator} ${siteConfig.title}`

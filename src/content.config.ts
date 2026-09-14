@@ -5,32 +5,118 @@ import { z } from 'astro/zod';
 import { siteConfig } from './data/siteConfig';
 
 const categoryKeys = Object.keys(siteConfig.publicationCategories);
-const defaultCategory = categoryKeys[0] ?? 'manuscripts';
+const defaultCategory = categoryKeys.includes('journals')
+  ? 'journals'
+  : (categoryKeys[0] ?? 'journals');
 const categorySchema =
   categoryKeys.length > 0
     ? z
         .string()
+        .trim()
+        .transform((val) => {
+          if (val === 'manuscripts') return 'journals';
+          if (val === 'conference') return 'conferences';
+          if (val === 'journal') return 'journals';
+          if (val === 'book') return 'books';
+          return val;
+        })
         .refine((val: string) => categoryKeys.includes(val), {
           message: `Invalid publication category. Must be one of: ${categoryKeys.join(', ')}`,
         })
         .default(defaultCategory)
-    : z.string().default('manuscripts');
+    : z
+        .string()
+        .trim()
+        .transform((val) => {
+          if (val === 'manuscripts') return 'journals';
+          if (val === 'conference') return 'conferences';
+          if (val === 'journal') return 'journals';
+          if (val === 'book') return 'books';
+          return val;
+        })
+        .default('journals');
+
+/** Normalizes a single string or array of strings into a trimmed string array */
+const stringListSchema = z
+  .union([z.array(z.string()), z.string()])
+  .transform((val) => (Array.isArray(val) ? val : [val]))
+  .transform((items) => items.map((item) => item.trim()).filter(Boolean))
+  .default([]);
+
+/** Core base schema for site content */
+export const baseContentSchema = z.object({
+  permalink: z.string().trim().optional(),
+  title: z.string().trim(),
+  description: z.string().trim().optional(),
+});
+
+/** Extension for content collections requiring a publication or event date */
+export const datedContentSchema = baseContentSchema.extend({
+  date: z.coerce.date(),
+});
+
+/** Layout and presentation options positioned at the end of frontmatter */
+export const layoutSchema = z.object({
+  author_profile: z.boolean().default(true),
+  toc: z.boolean().optional(),
+  image: z.string().trim().optional(),
+});
+
+export const blogSchema = datedContentSchema
+  .extend({
+    modified: z.coerce.date().optional(),
+    read_time: z.boolean().default(true),
+    tags: stringListSchema,
+    draft: z.boolean().default(false),
+  })
+  .extend(layoutSchema.shape);
+
+export const publicationSchema = datedContentSchema
+  .extend({
+    category: categorySchema,
+    venue: z.string().trim().optional(),
+    citation: z.string().trim().optional(),
+    pdf_url: z.string().trim().optional(),
+    paper_url: z.string().trim().optional(),
+    slides_url: z.string().trim().optional(),
+    code_url: z.string().trim().optional(),
+    bibtex: z.string().trim().optional(),
+  })
+  .extend(layoutSchema.shape);
+
+export const talkSchema = datedContentSchema
+  .extend({
+    type: z.string().trim().optional(),
+    venue: z.string().trim().optional(),
+    location: z.string().trim().optional(),
+    slides_url: z.string().trim().optional(),
+  })
+  .extend(layoutSchema.shape);
+
+export const teachingSchema = datedContentSchema
+  .extend({
+    type: z.string().trim().optional(),
+    venue: z.string().trim().optional(),
+    location: z.string().trim().optional(),
+  })
+  .extend(layoutSchema.shape);
+
+export const portfolioSchema = baseContentSchema
+  .extend({
+    code_url: z.string().trim().optional(),
+  })
+  .extend(layoutSchema.shape);
+
+export const pageSchema = z
+  .object({
+    title: z.string().trim(),
+    description: z.string().trim().optional(),
+  })
+  .extend(layoutSchema.shape);
 
 const blog = defineCollection({
   loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/blog' }),
-  schema: z.object({
-    title: z.string(),
-    description: z.string().optional(),
-    date: z.coerce.date(),
-    modified: z.coerce.date().optional(),
-    tags: z.array(z.string()).default([]),
-    categories: z.array(z.string()).default([]),
-    excerpt: z.string().optional(),
-    read_time: z.boolean().default(true),
-    author_profile: z.boolean().default(true),
-    draft: z.boolean().default(false),
-    permalink: z.string().optional(),
-  }),
+  schema: blogSchema,
 });
 
 const publications = defineCollection({
@@ -38,72 +124,27 @@ const publications = defineCollection({
     pattern: '**/*.{md,mdx}',
     base: './src/content/publications',
   }),
-  schema: z.object({
-    title: z.string(),
-    date: z.coerce.date(),
-    venue: z.string().optional(),
-    category: categorySchema,
-    collection: z.string().default('publications'),
-    permalink: z.string().optional(),
-    citation: z.string().optional(),
-    paperurl: z.string().optional(),
-    codeurl: z.string().optional(),
-    slidesurl: z.string().optional(),
-    bibtexurl: z.string().optional(),
-    excerpt: z.string().optional(),
-  }),
+  schema: publicationSchema,
 });
 
 const talks = defineCollection({
   loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/talks' }),
-  schema: z.object({
-    title: z.string(),
-    date: z.coerce.date(),
-    venue: z.string().optional(),
-    location: z.string().optional(),
-    type: z.string().optional(),
-    talk_type: z.string().optional(),
-    collection: z.string().default('talks'),
-    permalink: z.string().optional(),
-    slidesurl: z.string().optional(),
-    excerpt: z.string().optional(),
-  }),
+  schema: talkSchema,
 });
 
 const teaching = defineCollection({
   loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/teaching' }),
-  schema: z.object({
-    title: z.string(),
-    date: z.coerce.date(),
-    type: z.string().optional(),
-    venue: z.string().optional(),
-    location: z.string().optional(),
-    collection: z.string().default('teaching'),
-    permalink: z.string().optional(),
-    excerpt: z.string().optional(),
-  }),
+  schema: teachingSchema,
 });
 
 const portfolio = defineCollection({
   loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/portfolio' }),
-  schema: z.object({
-    title: z.string(),
-    date: z.coerce.date().optional(),
-    collection: z.string().default('portfolio'),
-    permalink: z.string().optional(),
-    excerpt: z.string().optional(),
-  }),
+  schema: portfolioSchema,
 });
 
 const pages = defineCollection({
   loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/pages' }),
-  schema: z.object({
-    title: z.string(),
-    permalink: z.string().optional(),
-    author_profile: z.boolean().default(true),
-    redirect_from: z.array(z.string()).default([]),
-    layout: z.string().optional(),
-  }),
+  schema: pageSchema,
 });
 
 export const collections = {

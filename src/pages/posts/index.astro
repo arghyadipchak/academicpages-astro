@@ -3,7 +3,8 @@ import { getCollection } from 'astro:content';
 
 import ArchivePost from '../../components/ArchivePost.astro';
 import ArchiveLayout from '../../layouts/ArchiveLayout.astro';
-import { resolveUrl } from '../../utils/url';
+import { calculateReadingTime } from '../../utils/readingTime';
+import { getPostUrl } from '../../utils/url';
 
 const allPosts = await getCollection('blog', ({ data }) => !data.draft);
 allPosts.sort(
@@ -22,19 +23,6 @@ const postsByYear = allPosts.reduce<Record<string, typeof allPosts>>(
 );
 
 const years = Object.keys(postsByYear).sort((a, b) => Number(b) - Number(a));
-
-function getPostUrl(post: (typeof allPosts)[0]): string {
-  if (post.data.permalink) {
-    return resolveUrl(post.data.permalink);
-  }
-  const date = new Date(post.data.date);
-  const year = date.getFullYear();
-  const month = String(date.getMonth() + 1).padStart(2, '0');
-  const shortId = post.id
-    .replace(/\.md$/, '')
-    .replace(/^\d{4}-\d{2}-\d{2}-/, '');
-  return resolveUrl(`/posts/${year}/${month}/${shortId}/`);
-}
 ---
 
 <ArchiveLayout title="Blog Posts">
@@ -55,7 +43,12 @@ function getPostUrl(post: (typeof allPosts)[0]): string {
                   title={post.data.title}
                   url={getPostUrl(post)}
                   date={post.data.date}
-                  excerpt={post.data.excerpt}
+                  description={post.data.description}
+                  readTime={
+                    post.data.read_time
+                      ? calculateReadingTime(post.body)
+                      : undefined
+                  }
                 />
               ))}
             </div>

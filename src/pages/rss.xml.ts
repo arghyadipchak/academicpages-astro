@@ -3,36 +3,25 @@ import { getCollection } from 'astro:content';
 import rss from '@astrojs/rss';
 
 import { siteConfig } from '../data/siteConfig';
+import { getPostUrl, getPublicationUrl } from '../utils/url';
 
 export async function GET(context: APIContext) {
   const posts = await getCollection('blog', ({ data }) => !data.draft);
   const publications = await getCollection('publications');
 
-  const postItems = posts.map((post) => {
-    let link = `/posts/${post.id.replace(/\.md$/, '')}/`;
-    if (post.data.permalink) {
-      link = post.data.permalink;
-    }
-    return {
-      title: post.data.title,
-      pubDate: post.data.date,
-      description: post.data.excerpt || post.data.description || '',
-      link,
-    };
-  });
+  const postItems = posts.map((post) => ({
+    title: post.data.title,
+    pubDate: post.data.date,
+    description: post.data.description || '',
+    link: getPostUrl(post),
+  }));
 
-  const publicationItems = publications.map((pub) => {
-    let link = `/publications/${pub.id.replace(/\.md$/, '')}/`;
-    if (pub.data.permalink) {
-      link = pub.data.permalink;
-    }
-    return {
-      title: pub.data.title,
-      pubDate: pub.data.date,
-      description: pub.data.excerpt || pub.data.citation || '',
-      link,
-    };
-  });
+  const publicationItems = publications.map((pub) => ({
+    title: pub.data.title,
+    pubDate: pub.data.date,
+    description: pub.data.description || pub.data.citation || '',
+    link: getPublicationUrl(pub),
+  }));
 
   const allItems = [...postItems, ...publicationItems].sort(
     (a, b) => new Date(b.pubDate).getTime() - new Date(a.pubDate).getTime()

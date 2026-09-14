@@ -189,7 +189,7 @@ export const siteConfig: SiteConfig = {
   },
   publicationCategories: {
     books: { title: 'Books' },
-    manuscripts: { title: 'Journal Articles' },
+    journals: { title: 'Journal Articles' },
     conferences: { title: 'Conference Papers' },
   },
 };

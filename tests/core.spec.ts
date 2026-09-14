@@ -107,10 +107,14 @@ test.describe('Core UI, SEO & Page Integrity Tests', () => {
   }
 
   const singleRoutes = [
-    toUrl('/posts/2012/08/blog-post-1/'),
-    toUrl('/publication/2009-10-01-paper-title-number-1/'),
-    toUrl('/talks/2012-03-01-talk-1/'),
-    toUrl('/teaching/2014-spring-teaching-1/'),
+    toUrl('/posts/2024/08/blog-post-1/'),
+    toUrl('/posts/2026/08/first-post/'),
+    toUrl('/posts/first-post/'),
+    toUrl('/publications/2024-03-15-paper-1/'),
+    toUrl('/publications/paper-1/'),
+    toUrl('/talks/2024-03-01-talk-1/'),
+    toUrl('/talks/talk-1/'),
+    toUrl('/teaching/2025-spring-teaching-1/'),
     toUrl('/portfolio/portfolio-1/'),
   ];
 
@@ -180,7 +184,7 @@ test.describe('Core UI, SEO & Page Integrity Tests', () => {
   test('Google Scholar and Highwire Press academic meta tags render on publication pages', async ({
     page,
   }) => {
-    await page.goto(toUrl('/publication/2009-10-01-paper-title-number-1/'));
+    await page.goto(toUrl('/publications/2024-03-15-paper-1/'));
     const citationTitle = page.locator('meta[name="citation_title"]');
     await expect(citationTitle).toHaveAttribute(
       'content',
@@ -194,7 +198,7 @@ test.describe('Core UI, SEO & Page Integrity Tests', () => {
     );
 
     const citationDate = page.locator('meta[name="citation_publication_date"]');
-    await expect(citationDate).toHaveAttribute('content', '2009-10-01');
+    await expect(citationDate).toHaveAttribute('content', '2024-03-15');
   });
 
   test('siteConfig locale, breadcrumbs, and Scholar profile link are properly wired', async ({
@@ -215,5 +219,15 @@ test.describe('Core UI, SEO & Page Integrity Tests', () => {
       'href',
       /^https:\/\/scholar\.google\.com\/citations\?user=/
     );
+  });
+
+  test('static route redirects work properly (/guide, /md -> /markdown/)', async ({
+    page,
+  }) => {
+    await page.goto(toUrl('/guide/'));
+    await expect(page).toHaveURL(/.*\/markdown\/?$/);
+
+    await page.goto(toUrl('/md/'));
+    await expect(page).toHaveURL(/.*\/markdown\/?$/);
   });
 });

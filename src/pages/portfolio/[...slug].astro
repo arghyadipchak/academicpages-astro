@@ -2,25 +2,27 @@
 import { getCollection, render } from 'astro:content';
 
 import SingleLayout from '../../layouts/SingleLayout.astro';
+import { getFileSlug, getShortSlug } from '../../utils/url';
 
 export async function getStaticPaths() {
   const items = await getCollection('portfolio');
   const pathMap = new Map<string, (typeof items)[0]>();
 
   for (const item of items) {
-    let slug = item.id.replace(/\.md$/, '');
+    const fileSlug = getFileSlug(item.id);
+    const shortSlug = getShortSlug(item.id);
+
+    pathMap.set(fileSlug, item);
+    if (shortSlug !== fileSlug) {
+      pathMap.set(shortSlug, item);
+    }
+
     if (item.data.permalink) {
-      slug = item.data.permalink
+      const cleanPermalink = item.data.permalink
         .replace(/^\/?portfolio\//, '')
         .replace(/\/$/, '')
         .replace(/^\//, '');
-    }
-
-    pathMap.set(slug, item);
-
-    const shortId = item.id.replace(/\.md$/, '');
-    if (!pathMap.has(shortId)) {
-      pathMap.set(shortId, item);
+      pathMap.set(cleanPermalink, item);
     }
   }
 
@@ -36,8 +38,11 @@ const { Content } = await render(item);
 
 <SingleLayout
   title={item.data.title}
-  description={item.data.excerpt}
-  date={item.data.date}
+  description={item.data.description}
+  codeUrl={item.data.code_url}
+  authorProfile={item.data.author_profile}
+  image={item.data.image}
+  toc={item.data.toc}
   collection="portfolio"
 >
   <Content />

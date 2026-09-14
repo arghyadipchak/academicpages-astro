@@ -2,27 +2,27 @@
 import { getCollection, render } from 'astro:content';
 
 import SingleLayout from '../../layouts/SingleLayout.astro';
+import { getFileSlug, getShortSlug } from '../../utils/url';
 
 export async function getStaticPaths() {
   const publications = await getCollection('publications');
   const pathMap = new Map<string, (typeof publications)[0]>();
 
   for (const pub of publications) {
-    let slug = pub.id.replace(/\.md$/, '');
+    const fileSlug = getFileSlug(pub.id);
+    const shortSlug = getShortSlug(pub.id);
+
+    pathMap.set(fileSlug, pub);
+    if (shortSlug !== fileSlug) {
+      pathMap.set(shortSlug, pub);
+    }
+
     if (pub.data.permalink) {
-      slug = pub.data.permalink
+      const cleanPermalink = pub.data.permalink
         .replace(/^\/?publications?\//, '')
         .replace(/\/$/, '')
         .replace(/^\//, '');
-    }
-
-    pathMap.set(slug, pub);
-
-    const shortId = pub.id
-      .replace(/\.md$/, '')
-      .replace(/^\d{4}-\d{2}-\d{2}-/, '');
-    if (!pathMap.has(shortId)) {
-      pathMap.set(shortId, pub);
+      pathMap.set(cleanPermalink, pub);
     }
   }
 
@@ -38,13 +38,17 @@ const { Content } = await render(pub);
 
 <SingleLayout
   title={pub.data.title}
-  description={pub.data.excerpt}
+  description={pub.data.description}
   date={pub.data.date}
   venue={pub.data.venue}
   citation={pub.data.citation}
-  paperurl={pub.data.paperurl}
-  slidesurl={pub.data.slidesurl}
-  bibtexurl={pub.data.bibtexurl}
+  pdfUrl={pub.data.pdf_url ?? pub.data.paper_url}
+  slidesUrl={pub.data.slides_url}
+  codeUrl={pub.data.code_url}
+  bibtex={pub.data.bibtex}
+  authorProfile={pub.data.author_profile}
+  image={pub.data.image}
+  toc={pub.data.toc}
   collection="publications"
 >
   <Content />

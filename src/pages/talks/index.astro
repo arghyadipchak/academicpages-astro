@@ -3,20 +3,12 @@ import { getCollection } from 'astro:content';
 
 import ArchiveTalk from '../../components/ArchiveTalk.astro';
 import ArchiveLayout from '../../layouts/ArchiveLayout.astro';
-import { resolveUrl } from '../../utils/url';
+import { getTalkUrl } from '../../utils/url';
 
 const allTalks = await getCollection('talks');
 allTalks.sort(
   (a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime()
 );
-
-function getTalkUrl(talk: (typeof allTalks)[0]): string {
-  if (talk.data.permalink) {
-    return resolveUrl(talk.data.permalink);
-  }
-  const cleanId = talk.id.replace(/\.md$/, '');
-  return resolveUrl(`/talks/${cleanId}/`);
-}
 ---
 
 <ArchiveLayout title="Talks and Presentations">
@@ -30,8 +22,8 @@ function getTalkUrl(talk: (typeof allTalks)[0]): string {
             date={talk.data.date}
             venue={talk.data.venue}
             location={talk.data.location}
-            type={talk.data.talk_type || talk.data.type}
-            excerpt={talk.data.excerpt}
+            type={talk.data.type}
+            description={talk.data.description}
           />
         ))
       ) : (

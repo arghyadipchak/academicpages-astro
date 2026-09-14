@@ -104,13 +104,20 @@ Create a new Markdown file inside `src/content/publications/YYYY-MM-DD-paper-tit
 ---
 title: Paper Title Here
 date: 2026-01-15
+description: A short 1-2 sentence summary of the paper contributions
+category: journals # Options: books, journals, conferences (singular aliases supported)
 venue: IEEE Transactions on Software Engineering
-category: manuscripts # Options: manuscripts, conferences, books
-paperurl: https://example.org/paper.pdf
-slidesurl: https://example.org/slides.pdf
-bibtexurl: https://example.org/citation.bib
 citation: 'Your Name. (2026). "Paper Title Here." <i>IEEE Transactions on Software Engineering</i>.'
-excerpt: A short 1-2 sentence summary of the paper contributions
+pdf_url: https://example.org/paper.pdf # Direct PDF link (paper_url supported as fallback)
+slides_url: https://example.org/slides.pdf
+code_url: https://github.com/example/repo
+bibtex: |
+  @article{Name2026,
+    title   = {Paper Title Here},
+    author  = {Name, Your},
+    journal = {IEEE Transactions on Software Engineering},
+    year    = {2026}
+  }
 ---
 Detailed abstract, methodology, and notes can be written here using standard Markdown and KaTeX math ($E=mc^2$).
 ```
@@ -131,10 +138,13 @@ Edit [`src/styles/global.css`](file:///src/styles/global.css):
 - Background: `--global-bg-color` (default: `#ffffff`)
 - Dark mode overrides are set in `html[data-theme='dark']`
 
-### 7. Optional Legacy Redirects
+### 7. Route & Legacy Redirects
 
-Uncomment or add redirects in [`astro.config.ts`](file:///astro.config.ts):
+Manage redirects in [`astro.config.ts`](file:///astro.config.ts):
 
+- `/guide` and `/md`: Redirects to `/markdown/`
+- `/about`: Redirects to `/`
+- `/resume`: Redirects to `/cv/`
 - `/year-archive/`: Redirects legacy Jekyll blog archive to `/posts/`
 - `/wordpress/blog-posts/`: Redirects legacy WordPress URLs to `/posts/`
 

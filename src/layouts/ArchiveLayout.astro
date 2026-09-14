@@ -7,10 +7,10 @@ import BaseLayout from './BaseLayout.astro';
 export interface Props {
   title: string;
   description?: string;
-  author_profile?: boolean;
+  authorProfile?: boolean;
 }
 
-const { title, description, author_profile = true } = Astro.props;
+const { title, description, authorProfile = true } = Astro.props;
 ---
 
 <BaseLayout title={title} description={description}>
@@ -18,7 +18,7 @@ const { title, description, author_profile = true } = Astro.props;
     <div class="grid grid-cols-1 gap-8 lg:grid-cols-12">
       <!-- Left Sidebar: Author Profile -->
       {
-        author_profile && (
+        authorProfile && (
           <aside class="lg:col-span-3">
             <div class="sticky top-24">
               <AuthorProfile />
@@ -30,7 +30,7 @@ const { title, description, author_profile = true } = Astro.props;
       <!-- Main Content Column -->
       <main
         class:list={[
-          author_profile ? 'lg:col-span-9' : 'lg:col-span-12',
+          authorProfile ? 'lg:col-span-9' : 'lg:col-span-12',
           'min-w-0',
         ]}
       >
