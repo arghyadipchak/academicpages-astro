@@ -39,14 +39,14 @@ function getTeachingUrl(item: (typeof teaching)[0]): string {
 ---
 
 <SingleLayout title="CV">
-  <div class="cv-content space-y-6">
+  <div class="cv-content space-y-8">
     <section>
       <h2
         class="border-b border-(--global-border-color) pb-1 text-2xl font-bold text-(--global-text-color)"
       >
         Education
       </h2>
-      <ul class="mt-3 list-disc space-y-1 pl-5 text-(--global-text-color)">
+      <ul class="mt-3 list-disc space-y-1.5 pl-5 text-(--global-text-color)">
         <li>Ph.D in Computer Science, GitHub University, 2018 (expected)</li>
         <li>M.S. in Software Systems, GitHub University, 2014</li>
         <li>B.S. in Computer Science, GitHub University, 2012</li>
@@ -59,10 +59,10 @@ function getTeachingUrl(item: (typeof teaching)[0]): string {
       >
         Work experience
       </h2>
-      <ul class="mt-3 list-disc space-y-2 pl-5 text-(--global-text-color)">
+      <ul class="mt-3 list-disc space-y-4 pl-5 text-(--global-text-color)">
         <li>
           <strong>Spring 2024: Academic Pages Collaborator</strong>
-          <ul class="list-circle space-y-0.5 pl-5">
+          <ul class="mt-1.5 list-[circle] space-y-1 pl-5">
             <li>GitHub University</li>
             <li>Duties include: Updates and improvements to template</li>
             <li>Supervisor: The Users</li>
@@ -70,7 +70,7 @@ function getTeachingUrl(item: (typeof teaching)[0]): string {
         </li>
         <li>
           <strong>Fall 2015: Research Assistant</strong>
-          <ul class="list-circle space-y-0.5 pl-5">
+          <ul class="mt-1.5 list-[circle] space-y-1 pl-5">
             <li>GitHub University</li>
             <li>Duties included: Merging pull requests</li>
             <li>Supervisor: Professor Hub</li>
@@ -78,7 +78,7 @@ function getTeachingUrl(item: (typeof teaching)[0]): string {
         </li>
         <li>
           <strong>Summer 2015: Research Assistant</strong>
-          <ul class="list-circle space-y-0.5 pl-5">
+          <ul class="mt-1.5 list-[circle] space-y-1 pl-5">
             <li>GitHub University</li>
             <li>Duties included: Tagging issues</li>
             <li>Supervisor: Professor Git</li>
@@ -93,11 +93,11 @@ function getTeachingUrl(item: (typeof teaching)[0]): string {
       >
         Skills
       </h2>
-      <ul class="mt-3 list-disc space-y-1 pl-5 text-(--global-text-color)">
+      <ul class="mt-3 list-disc space-y-2.5 pl-5 text-(--global-text-color)">
         <li>Skill 1</li>
         <li>
           Skill 2
-          <ul class="list-circle space-y-0.5 pl-5">
+          <ul class="mt-1.5 list-[circle] space-y-1 pl-5">
             <li>Sub-skill 2.1</li>
             <li>Sub-skill 2.2</li>
             <li>Sub-skill 2.3</li>
@@ -113,7 +113,7 @@ function getTeachingUrl(item: (typeof teaching)[0]): string {
       >
         Publications
       </h2>
-      <ul class="mt-3 list-disc space-y-3 pl-5 text-(--global-text-color)">
+      <ul class="mt-3 list-disc space-y-4 pl-5 text-(--global-text-color)">
         {
           publications.map((pub) => (
             <li>
@@ -124,7 +124,7 @@ function getTeachingUrl(item: (typeof teaching)[0]): string {
               />
               {pub.data.citation && (
                 <p
-                  class="text-sm text-(--global-text-color-light)"
+                  class="mt-0.5 text-sm text-(--global-text-color-light)"
                   set:html={renderMath(pub.data.citation)}
                 />
               )}
@@ -140,7 +140,7 @@ function getTeachingUrl(item: (typeof teaching)[0]): string {
       >
         Talks
       </h2>
-      <ul class="mt-3 list-disc space-y-3 pl-5 text-(--global-text-color)">
+      <ul class="mt-3 list-disc space-y-4 pl-5 text-(--global-text-color)">
         {
           talks.map((talk) => (
             <li>
@@ -153,7 +153,7 @@ function getTeachingUrl(item: (typeof teaching)[0]): string {
                 talk.data.type ||
                 talk.data.venue ||
                 talk.data.location) && (
-                <p class="text-sm text-(--global-text-color-light)">
+                <p class="mt-0.5 text-sm text-(--global-text-color-light)">
                   {talk.data.talk_type || talk.data.type} at {talk.data.venue},{' '}
                   {talk.data.location}
                 </p>
@@ -170,7 +170,7 @@ function getTeachingUrl(item: (typeof teaching)[0]): string {
       >
         Teaching
       </h2>
-      <ul class="mt-3 list-disc space-y-3 pl-5 text-(--global-text-color)">
+      <ul class="mt-3 list-disc space-y-4 pl-5 text-(--global-text-color)">
         {
           teaching.map((item) => (
             <li>
@@ -180,7 +180,7 @@ function getTeachingUrl(item: (typeof teaching)[0]): string {
                 set:html={renderMath(item.data.title)}
               />
               {(item.data.type || item.data.venue || item.data.date) && (
-                <p class="text-sm text-(--global-text-color-light)">
+                <p class="mt-0.5 text-sm text-(--global-text-color-light)">
                   {item.data.type ? `${item.data.type}, ` : ''}
                   <em>{item.data.venue}</em>
                   {item.data.date
@@ -200,7 +200,7 @@ function getTeachingUrl(item: (typeof teaching)[0]): string {
       >
         Service and leadership
       </h2>
-      <ul class="mt-3 list-disc space-y-1 pl-5 text-(--global-text-color)">
+      <ul class="mt-3 list-disc space-y-1.5 pl-5 text-(--global-text-color)">
         <li>Currently signed in to 43 different slack teams</li>
       </ul>
     </section>

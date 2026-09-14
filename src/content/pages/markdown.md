@@ -252,19 +252,13 @@ Single line blockquote:
 
 ## Definition Lists
 
-<dl class="my-4 space-y-3">
-  <div>
-    <dt class="font-bold text-(--global-text-color)">Definition List Title</dt>
-    <dd class="ml-4 text-neutral-600 dark:text-neutral-400">Definition list division.</dd>
-  </div>
-  <div>
-    <dt class="font-bold text-(--global-text-color)">Startup</dt>
-    <dd class="ml-4 text-neutral-600 dark:text-neutral-400">A company or organization designed to search for a repeatable and scalable business model.</dd>
-  </div>
-  <div>
-    <dt class="font-bold text-(--global-text-color)">Do Work</dt>
-    <dd class="ml-4 text-neutral-600 dark:text-neutral-400">Works as a self motivator and team encouragement phrase.</dd>
-  </div>
+<dl>
+  <dt>Definition List Title</dt>
+  <dd>Definition list division.</dd>
+  <dt>Startup</dt>
+  <dd>A company or organization designed to search for a repeatable and scalable business model.</dd>
+  <dt>Do Work</dt>
+  <dd>Works as a self motivator and team encouragement phrase.</dd>
 </dl>
 
 ## Unordered Lists (Nested)
@@ -519,9 +513,3 @@ Still sticking with science and Isaac Newton's E = MC<sup>2</sup>, which should 
 ### Variable Tag
 
 This allows you to denote <var>variables</var>.
-
----
-
-**Footnotes**
-
-The footnotes in the page will be returned following this line, return to the section on <a href="#footnotes">Markdown Footnotes</a>.

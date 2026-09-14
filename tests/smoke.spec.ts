@@ -54,19 +54,21 @@ test.describe('Academic Pages Core UI & Content Tests', () => {
     page,
   }) => {
     await page.goto(toUrl('/'));
-    const initialTheme = await page.locator('html').getAttribute('data-theme');
+    const initialTheme =
+      (await page.locator('html').getAttribute('data-theme')) || 'light';
     const toggleBtn = page.locator('.theme-toggle-btn:visible').first();
     await expect(toggleBtn).toBeVisible();
     await toggleBtn.click();
+    await expect(page.locator('html')).not.toHaveAttribute(
+      'data-theme',
+      initialTheme
+    );
+
     const newTheme = await page.locator('html').getAttribute('data-theme');
-    expect(newTheme).not.toBe(initialTheme);
 
     // Reload page to verify persistence in localStorage
     await page.reload();
-    const persistedTheme = await page
-      .locator('html')
-      .getAttribute('data-theme');
-    expect(persistedTheme).toBe(newTheme);
+    await expect(page.locator('html')).toHaveAttribute('data-theme', newTheme!);
   });
 
   test('footer renders copyright and sitemap link', async ({ page }) => {
@@ -401,5 +403,274 @@ test.describe('Academic Pages Core UI & Content Tests', () => {
       'href',
       /^https:\/\/scholar\.google\.com\/citations\?user=/
     );
+  });
+
+  test('CV page list styles, nested list markers, and compact item spacings render correctly', async ({
+    page,
+  }) => {
+    await page.goto(toUrl('/cv/'));
+
+    // Top-level lists should render with disc markers
+    const topUl = page.locator('.cv-content section ul').first();
+    await expect(topUl).toBeVisible();
+    const topUlStyle = await topUl.evaluate(
+      (el) => window.getComputedStyle(el).listStyleType
+    );
+    expect(topUlStyle).toBe('disc');
+
+    // Nested lists under work experience should render with circle markers
+    const nestedUl = page.locator('.cv-content ul ul').first();
+    await expect(nestedUl).toBeVisible();
+    const nestedUlStyle = await nestedUl.evaluate(
+      (el) => window.getComputedStyle(el).listStyleType
+    );
+    expect(nestedUlStyle).toBe('circle');
+
+    // Publication citation should have compact top margin (not standard large prose margin)
+    const citationP = page
+      .locator('.cv-content section:has-text("Publications") li p')
+      .first();
+    await expect(citationP).toBeVisible();
+    const pMargin = await citationP.evaluate((el) => {
+      const style = window.getComputedStyle(el);
+      return {
+        marginTop: parseFloat(style.marginTop),
+        marginBottom: parseFloat(style.marginBottom),
+      };
+    });
+    expect(pMargin.marginTop).toBeLessThanOrEqual(6);
+    expect(pMargin.marginBottom).toBe(0);
+
+    // Publication citation should be grouped closer to its title than to the subsequent publication
+    const pubItems = page.locator(
+      '.cv-content section:has-text("Publications") li'
+    );
+    const a1Box = await pubItems.nth(0).locator('a').boundingBox();
+    const p1Box = await pubItems.nth(0).locator('p').boundingBox();
+    const a2Box = await pubItems.nth(1).locator('a').boundingBox();
+    expect(a1Box).not.toBeNull();
+    expect(p1Box).not.toBeNull();
+    expect(a2Box).not.toBeNull();
+    if (a1Box && p1Box && a2Box) {
+      const titleToSubtitle = p1Box.y - (a1Box.y + a1Box.height);
+      const subtitleToNextTitle = a2Box.y - (p1Box.y + p1Box.height);
+      expect(subtitleToNextTitle).toBeGreaterThan(titleToSubtitle * 2);
+    }
+  });
+
+  test('Site-wide prose lists render multi-level markers and balanced item spacing', async ({
+    page,
+  }) => {
+    await page.goto(toUrl('/markdown/'));
+
+    // Unordered list multi-level markers: disc -> circle -> square
+    const l1Ul = page.locator('.prose ul').first();
+    await expect(l1Ul).toBeVisible();
+    const l1Marker = await l1Ul.evaluate(
+      (el) => window.getComputedStyle(el).listStyleType
+    );
+    expect(l1Marker).toBe('disc');
+
+    const l2Ul = page.locator('.prose ul ul').first();
+    await expect(l2Ul).toBeVisible();
+    const l2Marker = await l2Ul.evaluate(
+      (el) => window.getComputedStyle(el).listStyleType
+    );
+    expect(l2Marker).toBe('circle');
+
+    const l3Ul = page.locator('.prose ul ul ul').first();
+    await expect(l3Ul).toBeVisible();
+    const l3Marker = await l3Ul.evaluate(
+      (el) => window.getComputedStyle(el).listStyleType
+    );
+    expect(l3Marker).toBe('square');
+
+    // Ordered list multi-level markers: decimal -> lower-alpha -> lower-roman
+    const l1Ol = page.locator('.prose ol').first();
+    await expect(l1Ol).toBeVisible();
+    const l1OlMarker = await l1Ol.evaluate(
+      (el) => window.getComputedStyle(el).listStyleType
+    );
+    expect(l1OlMarker).toBe('decimal');
+
+    const l2Ol = page.locator('.prose ol ol').first();
+    await expect(l2Ol).toBeVisible();
+    const l2OlMarker = await l2Ol.evaluate(
+      (el) => window.getComputedStyle(el).listStyleType
+    );
+    expect(l2OlMarker).toBe('lower-alpha');
+
+    const l3Ol = page.locator('.prose ol ol ol').first();
+    await expect(l3Ol).toBeVisible();
+    const l3OlMarker = await l3Ol.evaluate(
+      (el) => window.getComputedStyle(el).listStyleType
+    );
+    expect(l3OlMarker).toBe('lower-roman');
+
+    // Balanced vertical rhythm: list item margins should be compact (<= 6px)
+    const liItem = page.locator('.prose li').first();
+    await expect(liItem).toBeVisible();
+    const liMargins = await liItem.evaluate((el) => {
+      const style = window.getComputedStyle(el);
+      return {
+        marginTop: parseFloat(style.marginTop),
+        marginBottom: parseFloat(style.marginBottom),
+      };
+    });
+    expect(liMargins.marginTop).toBeLessThanOrEqual(6);
+    expect(liMargins.marginBottom).toBeLessThanOrEqual(6);
+  });
+
+  test('Heading scales, callout internal margins, definition lists, and portfolio spacing render correctly', async ({
+    page,
+  }) => {
+    await page.goto(toUrl('/markdown/'));
+
+    // 1. Heading scales and margins (h4, h5, h6)
+    const h4 = page.locator('.prose h4').first();
+    await expect(h4).toBeVisible();
+    const h4Styles = await h4.evaluate((el) => {
+      const s = window.getComputedStyle(el);
+      return {
+        fontSize: parseFloat(s.fontSize),
+        marginTop: parseFloat(s.marginTop),
+      };
+    });
+    expect(h4Styles.fontSize).toBeGreaterThanOrEqual(16);
+    expect(h4Styles.marginTop).toBeGreaterThan(0);
+
+    const h5 = page.locator('.prose h5').first();
+    await expect(h5).toBeVisible();
+    const h5Styles = await h5.evaluate((el) => {
+      const s = window.getComputedStyle(el);
+      return {
+        fontSize: parseFloat(s.fontSize),
+        marginTop: parseFloat(s.marginTop),
+      };
+    });
+    expect(h5Styles.fontSize).toBeGreaterThanOrEqual(15);
+    expect(h5Styles.marginTop).toBeGreaterThan(0);
+
+    const h6 = page.locator('.prose h6').first();
+    await expect(h6).toBeVisible();
+    const h6Styles = await h6.evaluate((el) => {
+      const s = window.getComputedStyle(el);
+      return {
+        fontSize: parseFloat(s.fontSize),
+        marginTop: parseFloat(s.marginTop),
+        textTransform: s.textTransform,
+      };
+    });
+    expect(h6Styles.fontSize).toBeGreaterThanOrEqual(13);
+    expect(h6Styles.marginTop).toBeGreaterThan(0);
+    expect(h6Styles.textTransform).toBe('uppercase');
+
+    // 2. Callout notice child margins
+    const notice = page.locator('.notice').first();
+    await expect(notice).toBeVisible();
+    const noticeChildMargins = await notice.evaluate((el) => {
+      const first = el.firstElementChild;
+      const last = el.lastElementChild;
+      return {
+        firstTop: first
+          ? parseFloat(window.getComputedStyle(first).marginTop)
+          : 0,
+        lastBottom: last
+          ? parseFloat(window.getComputedStyle(last).marginBottom)
+          : 0,
+      };
+    });
+    expect(noticeChildMargins.firstTop).toBe(0);
+    expect(noticeChildMargins.lastBottom).toBe(0);
+
+    // 3. Definition list indentation
+    const dd = page.locator('.prose dd').first();
+    await expect(dd).toBeVisible();
+    const ddStyles = await dd.evaluate((el) => {
+      const s = window.getComputedStyle(el);
+      return {
+        marginLeft: parseFloat(s.marginLeft),
+        paddingLeft: parseFloat(s.paddingLeft),
+      };
+    });
+    expect(ddStyles.marginLeft).toBeLessThanOrEqual(24);
+    expect(ddStyles.paddingLeft).toBe(0);
+
+    // 4. Portfolio card padding
+    await page.goto(toUrl('/portfolio/'));
+    const portfolioItem = page.locator('.archive__item').first();
+    await expect(portfolioItem).toBeVisible();
+    const portfolioPadding = await portfolioItem.evaluate((el) => {
+      const s = window.getComputedStyle(el);
+      return parseFloat(s.paddingBottom);
+    });
+    expect(portfolioPadding).toBeGreaterThanOrEqual(24);
+  });
+
+  test('Footnotes section, in-text references, and return links render correctly', async ({
+    page,
+  }) => {
+    await page.goto(toUrl('/markdown/'));
+
+    // 1. In-text footnote references
+    const ref1 = page.locator('a[data-footnote-ref]').first();
+    await expect(ref1).toBeVisible();
+    const refStyles = await ref1.evaluate((el) => {
+      const s = window.getComputedStyle(el);
+      const before = window.getComputedStyle(el, '::before');
+      const after = window.getComputedStyle(el, '::after');
+      return {
+        fontWeight: s.fontWeight,
+        textDecorationLine: s.textDecorationLine,
+        beforeContent: before.content,
+        afterContent: after.content,
+      };
+    });
+    expect(parseInt(refStyles.fontWeight, 10)).toBeGreaterThanOrEqual(600);
+    expect(refStyles.beforeContent).toContain('[');
+    expect(refStyles.afterContent).toContain(']');
+
+    // 2. Footnotes section container and header
+    const fnSection = page.locator('.footnotes, [data-footnotes]');
+    await expect(fnSection).toBeVisible();
+    const fnLabel = fnSection.locator('#footnote-label');
+    await expect(fnLabel).toBeVisible();
+    const fnLabelStyles = await fnLabel.evaluate((el) => {
+      const s = window.getComputedStyle(el);
+      return {
+        textTransform: s.textTransform,
+        fontSize: parseFloat(s.fontSize),
+      };
+    });
+    expect(fnLabelStyles.textTransform).toBe('uppercase');
+    expect(fnLabelStyles.fontSize).toBeLessThanOrEqual(15);
+
+    // 3. Footnote list item sizing and backreference return link
+    const fnItem = fnSection.locator('li').first();
+    await expect(fnItem).toBeVisible();
+    const fnItemStyles = await fnItem.evaluate((el) => {
+      const s = window.getComputedStyle(el);
+      return {
+        fontSize: parseFloat(s.fontSize),
+      };
+    });
+    expect(fnItemStyles.fontSize).toBeLessThanOrEqual(14);
+
+    const backref = fnItem.locator('a.data-footnote-backref');
+    await expect(backref).toBeVisible();
+    const backrefStyles = await backref.evaluate((el) => {
+      const s = window.getComputedStyle(el);
+      return {
+        marginLeft: parseFloat(s.marginLeft),
+      };
+    });
+    expect(backrefStyles.marginLeft).toBeGreaterThanOrEqual(4);
+
+    // 4. Click navigation
+    await ref1.click();
+    expect(page.url()).toContain('#user-content-fn-1');
+
+    await backref.click();
+    expect(page.url()).toContain('#user-content-fnref-1');
   });
 });
