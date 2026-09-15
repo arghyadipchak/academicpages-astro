@@ -16,12 +16,14 @@ import {
 // Default descriptive summaries for standard navigation sections
 const navDescriptions: Record<string, string> = {
   '/': 'Homepage, research bio, and academic overview',
-  '/publications/': 'Peer-reviewed research papers, conference proceedings, and preprints',
+  '/publications/':
+    'Peer-reviewed research papers, conference proceedings, and preprints',
   '/talks/': 'Invited talks, conference presentations, and academic workshops',
   '/teaching/': 'University courses, syllabus outlines, and teaching materials',
   '/portfolio/': 'Open-source software projects, datasets, and research tools',
   '/posts/': 'Academic blog posts, research notes, and announcements',
-  '/cv/': 'Academic curriculum vitae covering education, appointments, and awards',
+  '/cv/':
+    'Academic curriculum vitae covering education, appointments, and awards',
 };
 
 export const GET: APIRoute = async ({ site }) => {
@@ -132,7 +134,9 @@ export const GET: APIRoute = async ({ site }) => {
 
   // Optional Section per llmstxt.org specification
   lines.push('', '## Optional', '');
-  lines.push(`- [Sitemap](${origin}${resolveUrl('/sitemap/')}): Full site index`);
+  lines.push(
+    `- [Sitemap](${origin}${resolveUrl('/sitemap/')}): Full site index`
+  );
   lines.push(
     `- [RSS Feed](${origin}${resolveUrl('/rss.xml')}): RSS publication and article feed`
   );

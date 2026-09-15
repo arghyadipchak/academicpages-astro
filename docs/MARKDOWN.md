@@ -87,23 +87,28 @@ Legacy AcademicPages notice classes are also supported for inline HTML callouts:
 
 ```html
 <div class="notice">
-  <strong>Default Notice:</strong> Standard callout box for general announcements
+  <strong>Default Notice:</strong> Standard callout box for general
+  announcements
 </div>
 
 <div class="notice notice--info">
-  <strong>Info Notice:</strong> Highlights helpful context or background information
+  <strong>Info Notice:</strong> Highlights helpful context or background
+  information
 </div>
 
 <div class="notice notice--warning">
-  <strong>Warning Notice:</strong> Cautions readers about potential issues or prerequisites
+  <strong>Warning Notice:</strong> Cautions readers about potential issues or
+  prerequisites
 </div>
 
 <div class="notice notice--danger">
-  <strong>Danger Notice:</strong> Alerts readers to breaking changes, errors, or critical warnings
+  <strong>Danger Notice:</strong> Alerts readers to breaking changes, errors, or
+  critical warnings
 </div>
 
 <div class="notice notice--success">
-  <strong>Success Notice:</strong> Indicates successful completion, confirmations, or verified statuses
+  <strong>Success Notice:</strong> Indicates successful completion,
+  confirmations, or verified statuses
 </div>
 ```
 
@@ -218,8 +223,11 @@ Use standard HTML `<details>` and `<summary>` elements to create collapsible sec
 
 ```markdown
 # Heading Level 1 (Page Title)
+
 ## Heading Level 2 (Major Section)
+
 ### Heading Level 3 (Subsection)
+
 #### Heading Level 4 (Sub-subsection)
 ```
 
@@ -230,15 +238,15 @@ Use standard HTML `<details>` and `<summary>` elements to create collapsible sec
 
 ## 8. Text Formatting & Inline Elements
 
-| Syntax | Description | Example |
-| :--- | :--- | :--- |
-| `**bold text**` | Bold / Strong emphasis | **bold text** |
-| `*italic text*` | Italic / Emphasis | *italic text* |
-| `~~strikethrough~~` | Deleted or struck-through text | ~~strikethrough~~ |
-| `` `inline code` `` | Monospace code snippet | `console.log()` |
-| `[Link Text](https://example.org)` | Hyperlink | [Website](https://example.org) |
-| `Subscript ~H2O~` | Subscript text | H~2~O |
-| `Superscript ^2^` | Superscript text | E = mc^2^ |
+| Syntax                             | Description                    | Example                        |
+| :--------------------------------- | :----------------------------- | :----------------------------- |
+| `**bold text**`                    | Bold / Strong emphasis         | **bold text**                  |
+| `*italic text*`                    | Italic / Emphasis              | _italic text_                  |
+| `~~strikethrough~~`                | Deleted or struck-through text | ~~strikethrough~~              |
+| `` `inline code` ``                | Monospace code snippet         | `console.log()`                |
+| `[Link Text](https://example.org)` | Hyperlink                      | [Website](https://example.org) |
+| `Subscript ~H2O~`                  | Subscript text                 | H~~2~~O                        |
+| `Superscript ^2^`                  | Superscript text               | E = mc^2^                      |
 
 ---
 
@@ -297,10 +305,10 @@ Supported language tags include: `ts`, `js`, `python`, `rust`, `c`, `cpp`, `bash
 ## 11. Tables
 
 ```markdown
-| Author | Paper Title | Venue | Year |
-| :--- | :--- | :---: | ---: |
-| Jane Doe | Deep Learning for Science | Nature | 2024 |
-| John Smith | Fast Graph Algorithms | ACM | 2023 |
+| Author     | Paper Title               | Venue  | Year |
+| :--------- | :------------------------ | :----: | ---: |
+| Jane Doe   | Deep Learning for Science | Nature | 2024 |
+| John Smith | Fast Graph Algorithms     |  ACM   | 2023 |
 ```
 
 - `:---` left-aligns column
@@ -317,6 +325,7 @@ Here is a sentence with an academic citation footnote.[^1]
 Here is another statement requiring reference.[^doe2024]
 
 [^1]: Smith et al., "Title of Paper", Conference on AI, 2023
+
 [^doe2024]: Doe, J., "Advanced Mathematical Modeling", Cambridge University Press, 2024
 ```
 
@@ -346,8 +355,8 @@ Any `.md` file in `src/content/` supports these layout controls:
 ---
 title: Page Title
 description: Meta description used for SEO and summary cards
-toc: true             # Enables sticky Table of Contents sidebar
-author_profile: true  # Shows author sidebar on wide viewports (default: true)
-math: true            # Enables KaTeX math engine (enabled by default)
+toc: true # Enables sticky Table of Contents sidebar
+author_profile: true # Shows author sidebar on wide viewports (default: true)
+math: true # Enables KaTeX math engine (enabled by default)
 ---
 ```
