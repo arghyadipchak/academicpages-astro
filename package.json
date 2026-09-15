@@ -12,13 +12,14 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "typecheck": "astro check",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
+    "typecheck": "astro check",
     "test": "playwright test",
-    "verify": "pnpm lint && pnpm format:check && pnpm typecheck"
+    "verify": "pnpm lint && pnpm format:check && pnpm typecheck",
+    "generate:favicons": "node --experimental-strip-types scripts/generate-favicons.ts"
   },
   "dependencies": {
     "@astrojs/markdown-remark": "^7.3.0",

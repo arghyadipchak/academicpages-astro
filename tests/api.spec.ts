@@ -47,8 +47,14 @@ test.describe('API & Static Endpoint Tests', () => {
     const assets = [
       toUrl('/favicon.ico'),
       toUrl('/favicon.svg'),
+      toUrl('/favicon-32x32.png'),
+      toUrl('/apple-touch-icon.png'),
+      toUrl('/site.webmanifest'),
+      toUrl('/icon-192.png'),
+      toUrl('/icon-512.png'),
       toUrl('/images/profile.png'),
-      toUrl('/images/manifest.json'),
+      toUrl('/images/project-1.svg'),
+      toUrl('/images/project-2.svg'),
     ];
 
     for (const assetUrl of assets) {

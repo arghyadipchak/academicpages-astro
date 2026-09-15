@@ -10,6 +10,7 @@ Follow this checklist to convert the starter template into your personal academi
 - [ ] **Author Bio & Details**: In `src/data/siteConfig.ts`, update `author.name`, `author.bio`, `author.location`, `author.employer`, and `author.email`
 - [ ] **Academic & Social Handles**: In `src/data/siteConfig.ts`, add your usernames or profile URLs for `googlescholar`, `orcid`, `github`, `linkedin`, `x`, etc.
 - [ ] **Profile Photo**: Replace `public/images/profile.png` with your personal square headshot (~500x500px)
+- [ ] **Favicon & Logo**: Replace `public/favicon.svg` with your personal or institution logo, then run `pnpm generate:favicons` to regenerate PNG and ICO formats (requires `resvg` CLI: `cargo install resvg` or package manager)
 
 ---
 
@@ -31,8 +32,7 @@ Follow this checklist to convert the starter template into your personal academi
 - [ ] **Sample PDFs & Slides**: Delete starter files in `public/files/`:
   - `paper1.pdf`, `paper2.pdf`, `paper3.pdf`, `paper4.pdf`
   - `slides1.pdf`, `slides2.pdf`, `slides3.pdf`, `slides4.pdf`
-- [ ] **Sample Images**: Delete unused starter images in `public/images/`:
-  - `bio-photo.jpg`, `bio-photo-2.jpg`, `editing-talk.png`, `500x300.png`
+- [ ] **Sample Images**: Replace sample project visuals in `public/images/project-1.svg` and `public/images/project-2.svg` with your own project screenshots or diagrams
 
 ---
 
@@ -44,43 +44,49 @@ Follow this checklist to convert the starter template into your personal academi
 
 ---
 
-## 5. Retiring Playwright Tests (Recommended for Personal Repos)
+## 5. Starter Scaffolding Retirement & Self-Destruct
 
-The starter Playwright tests assert demo text (e.g. `'Your Name'`, `'Paper Title Number 1'`) and install browser binaries that add 2–4 minutes to GitHub Actions deployments. For a customized personal site, retire them:
+Once your site is personalized and verified, remove starter tooling to keep your personal repository lean:
 
-1. **Delete Test Files**:
+### A. Retire Favicon Generator (Optional)
 
-   ```bash
-   rm -rf tests/ playwright.config.ts
-   ```
+Once your custom icons are generated in `public/`:
 
-2. **Update `package.json`**:
-   - Remove `"test": "playwright test"` from `"scripts"`
-   - Remove `@playwright/test` from `"devDependencies"`
+- [ ] **Delete Script Directory**:
+  ```bash
+  rm -rf scripts/
+  ```
+- [ ] **Clean `package.json`**: Remove `"generate:favicons"` from `"scripts"`
 
-3. **Update `.github/workflows/ci.yml`**:
-   - Delete the `Install Playwright browsers` and `Run tests` steps:
-     ```yaml
-     - name: Install Playwright browsers
-       run: pnpm exec playwright install --with-deps chromium
+### B. Retire Playwright Tests (Recommended for Personal Repos)
 
-     - name: Run tests
-       env:
-         ASTRO_URL: ${{ steps.pages.outputs.base_url }}
-       run: pnpm test
-     ```
+Starter Playwright tests assert demo text (e.g. `'Your Name'`, `'Paper Title Number 1'`) and install browser binaries that add 2–4 minutes to GitHub Actions deployments:
 
-4. **Verify Quality Pipeline**:
-   - Use `pnpm verify` (`astro check` + `eslint` + `prettier:check`) and `pnpm build`
-   - This ensures strict schema validation, type safety, and error-free static HTML compilation without brittle browser assertions
+- [ ] **Delete Test Suite**:
+  ```bash
+  rm -rf tests/ playwright.config.ts
+  ```
+- [ ] **Update `package.json`**:
+  - Remove `"test": "playwright test"` from `"scripts"`
+  - Remove `@playwright/test` from `"devDependencies"`
+- [ ] **Update `.github/workflows/ci.yml`**:
+  - Delete the `Install Playwright browsers` and `Run tests` steps:
+    ```yaml
+    - name: Install Playwright browsers
+      run: pnpm exec playwright install --with-deps chromium
 
----
+    - name: Run tests
+      env:
+        ASTRO_URL: ${{ steps.pages.outputs.base_url }}
+      run: pnpm test
+    ```
+- [ ] **Rely on Quality Pipeline**: Use `pnpm verify` (`astro check` + `eslint` + `prettier:check`) and `pnpm build` for fast, zero-browser CI verification
 
-## 6. Self-Destruct / Checklist Removal
+### C. Self-Destruct / Checklist Removal
 
-Once you have completed and verified all the steps above:
+Once you have completed all customization and verified your site:
 
-- [ ] Delete this file:
+- [ ] **Delete This Checklist**:
   ```bash
   rm docs/CHECKLIST.md
   ```
