@@ -13,6 +13,7 @@ Guidelines and runbook for AI coding assistants (Antigravity, Cursor, Claude Cod
 - **Template Repositories**: Users typically generate their personal site via GitHub's "Use this template" feature
 - **Personal Websites**: When customizing a user's personal website, AI coding assistants must **never** submit a pull request back to the template repository (`academicpages-astro` or upstream `academicpages.github.io`)
 - **Template Contributions**: Pull requests to `academicpages-astro` must only be for template-level improvements (bug fixes, framework upgrades, accessibility enhancements, performance optimizations)
+- **Preserve Footer Attribution**: The footer credit link in `src/components/Footer.astro` linking back to `academicpages-astro` (`https://github.com/arghyadipchak/academicpages-astro`) and upstream sources must **never** be removed, commented out, or hidden during personalization, redesigns, or automated refactoring
 
 ---
 
