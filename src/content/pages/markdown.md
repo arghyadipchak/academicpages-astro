@@ -312,7 +312,7 @@ venue: Journal 1
 citation: 'Your Name, You. (2024). "Paper Title Number 1." <i>Journal 1</i>. 1(1).'
 pdf_url: /files/paper1.pdf
 slides_url: /files/slides1.pdf
-code_url: https://github.com/academicpages/academicpages.github.io
+code_url: https://github.com/arghyadipchak/academicpages-astro
 bibtex: |
   @article{YourName2024paper1,
     title     = {Paper Title Number 1},

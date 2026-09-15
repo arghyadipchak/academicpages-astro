@@ -135,7 +135,7 @@ test.describe('Client-Side Interactive Components Tests', () => {
     await expect(codeBadge).toBeVisible();
     await expect(codeBadge).toHaveAttribute(
       'href',
-      'https://github.com/academicpages/academicpages.github.io'
+      'https://github.com/arghyadipchak/academicpages-astro'
     );
   });
 
