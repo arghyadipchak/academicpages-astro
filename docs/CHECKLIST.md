@@ -21,7 +21,7 @@ Follow this checklist to convert the starter template into your personal academi
 - [ ] **Teaching**: Delete demo files in `src/content/teaching/2024-01-10-course-*.md` or populate with your courses
 - [ ] **Portfolio Projects**: Delete demo files in `src/content/portfolio/portfolio-*.md` or populate with your software/research projects
 - [ ] **Blog Posts**: Delete demo files in `src/content/blog/2024-*-blog-post-*.md` or populate with your posts
-- [ ] **Markdown Guide**: Delete `src/content/pages/markdown.md` (formatting demo page)
+- [ ] **Markdown Guide**: Delete demo content `src/content/pages/markdown.md` and its route `src/pages/markdown.astro`
 - [ ] **Homepage Bio**: Update `src/pages/index.astro` with your biography and research interests
 - [ ] **CV**: Update `src/pages/cv.astro` (education, appointments, awards, service)
 

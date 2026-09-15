@@ -12,6 +12,7 @@ Operational runbook for AI coding assistants personalizing this template for a u
 > - **[Site Configuration (`docs/CONFIG.md`)](file:///docs/CONFIG.md)**: Details all options in `siteConfig.ts`, navigation, base URL resolution, and redirects
 > - **[Content Authoring (`docs/CONTENT.md`)](file:///docs/CONTENT.md)**: Schemas, frontmatter templates, and rich formatting for all collections
 > - **[Setup Checklist (`docs/CHECKLIST.md`)](file:///docs/CHECKLIST.md)**: Itemized onboarding, demo purge, and test retirement checklist
+> - **[Markdown Reference (`docs/MARKDOWN.md`)](file:///docs/MARKDOWN.md)**: Complete syntax reference for KaTeX math, tables, alert callouts, and diagrams
 
 ---
 
@@ -33,6 +34,7 @@ Follow these sequential steps when prompted to personalize the website for a use
   - Update `src/data/siteConfig.ts` with user profile, verified scholarly IDs, and deployment URL
   - Update `src/data/navigation.ts` to match the user's enabled sections and remove the demo `{ title: 'Guide', url: '/markdown/' }` link
   - Replace `public/images/profile.png` if an avatar is provided
+  - Never remove, hide, or comment out the footer credit link in `src/components/Footer.astro` pointing to `academicpages-astro`
 
 ### Step 3: Populate Content & Purge Demo Artifacts
 

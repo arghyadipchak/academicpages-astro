@@ -153,6 +153,7 @@ Follow the dedicated guides in `docs/` to personalize your site:
 1. **[Setup & Cleanup Checklist](docs/CHECKLIST.md)**: Complete roadmap for site setup, demo content purge, asset cleanup, and test retirement
 2. **[Site Configuration Guide](docs/CONFIG.md)**: Configure `src/data/siteConfig.ts`, 50+ scholarly/social profiles, header navigation in `src/data/navigation.ts`, and redirects
 3. **[Content Authoring Guide](docs/CONTENT.md)**: Frontmatter schemas and conventions for publications, talks, teaching, portfolio projects, blog posts, and KaTeX math
+4. **[Markdown Reference](docs/MARKDOWN.md)**: Complete syntax reference for KaTeX math, tables, alert callouts, and Mermaid diagrams with live rendered demo link
 
 ---
 
@@ -172,6 +173,7 @@ This repository includes first-class documentation and support for AI coding ass
 - **[docs/CONFIG.md](docs/CONFIG.md)**: Complete configuration options and redirect handling
 - **[docs/CONTENT.md](docs/CONTENT.md)**: Content schemas, KaTeX formatting, and frontmatter templates
 - **[docs/CHECKLIST.md](docs/CHECKLIST.md)**: Self-destructing setup checklist and demo cleanup roadmap
+- **[docs/MARKDOWN.md](docs/MARKDOWN.md)**: Complete Markdown, typography, and mathematical typesetting reference
 - **[AGENTS.md](AGENTS.md)**: Repository constitution, architecture, coding guidelines, and verification rules
 - **[.agents/skills/customization/SKILL.md](.agents/skills/customization/SKILL.md)**: Customization skill and AI runbook
 

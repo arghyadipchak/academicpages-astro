@@ -63,6 +63,7 @@ When personalizing a user's website, managing academic content collections, or c
 - **Setup & Cleanup Roadmap**: [`docs/CHECKLIST.md`](file:///docs/CHECKLIST.md) (itemized checklist covering profile personalization, demo content purge, asset cleanup, and test retirement)
 - **Site & Deployment Configuration**: [`docs/CONFIG.md`](file:///docs/CONFIG.md) (complete reference for `siteConfig.ts`, 50+ academic/social handles, `navigation.ts`, base URL resolution, and redirect management)
 - **Content Collections & Formatting**: [`docs/CONTENT.md`](file:///docs/CONTENT.md) (Zod frontmatter schemas, file naming conventions, KaTeX math authoring, 1-click BibTeX, and action badges)
+- **Markdown & Mathematical Typesetting**: [`docs/MARKDOWN.md`](file:///docs/MARKDOWN.md) (comprehensive syntax reference for KaTeX math equations, tables, alert callouts, and Mermaid diagrams)
 - **AI Customization Skill**: [`.agents/skills/customization/SKILL.md`](file:///file:///.agents/skills/customization/SKILL.md) (operational runbook for AI coding assistants orchestrating discovery and setup)
 
 ---

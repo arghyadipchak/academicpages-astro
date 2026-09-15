@@ -153,7 +153,7 @@ Static markdown pages for institutional requirements or reference guides.
 
 - `about.md`: Legacy bio page (note: default homepage is `src/pages/index.astro`)
 - `terms.md`: Terms of service, copyright, or privacy notices (`/terms/`)
-- `markdown.md`: Starter Markdown & formatting guide (`/markdown/`)
+- `markdown.md`: Starter Markdown formatting demo (`/markdown/`, deleted during setup;
 
 ### Frontmatter
 
@@ -169,6 +169,8 @@ toc: false
 ---
 
 ## 8. Rich Media & Mathematical Formatting
+
+For the complete visual syntax guide, see [`docs/MARKDOWN.md`](file:///docs/MARKDOWN.md) or the [live demo](https://arghyadipchak.github.io/academicpages-astro/markdown/).
 
 ### KaTeX Mathematics (Server-Side)
 

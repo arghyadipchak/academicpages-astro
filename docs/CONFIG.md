@@ -126,7 +126,7 @@ export const navigation: NavItem[] = [
 - **Reordering**: Change the array order to rearrange menu items
 - **Removing Unused Sections**: If you do not have talks or teaching, remove them from this array. The corresponding pages will not appear in the menu
 - **Adding Custom Pages**: Add `{ title: 'Custom Page', url: '/custom-url/' }` for any static page added to `src/pages/`
-- **Removing the Starter Guide**: The `{ title: 'Guide', url: '/markdown/' }` entry is a formatting demo and should be removed when launching your personal site
+- **Removing the Starter Guide**: The `{ title: 'Guide', url: '/markdown/' }` entry is a formatting demo and should be removed when launching your personal site (see [`docs/MARKDOWN.md`](file:///docs/MARKDOWN.md) for permanent reference)
 
 ---
 
