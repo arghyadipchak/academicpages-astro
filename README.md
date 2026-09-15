@@ -113,7 +113,7 @@ Copy and paste this prompt into your AI chat window:
 > **One-Prompt Site Customization**:
 >
 > ```markdown
-> Please personalize this academic portfolio website for me by following the runbooks in `AGENTS.md` and `.agents/skills/customization/SKILL.md`:
+> Please personalize this academic portfolio website for me by following `docs/CHECKLIST.md`, `docs/CONFIG.md`, `docs/CONTENT.md`, `AGENTS.md`, and `.agents/skills/customization/SKILL.md`:
 >
 > 1. External Sources (Provide whatever you have):
 >    - CV / Resume: [e.g. files placed in `cv/` directory (LaTeX `.tex`, Markdown, PDF, or text), or paste text/link]
@@ -131,72 +131,28 @@ Copy and paste this prompt into your AI chat window:
 >      - For empty sections (where no data was found): whether to disable/hide them from navigation, keep them as empty placeholder pages, or if I want to supply data from another source
 >
 > 3. Navigation & Site Configuration:
->    - Update `src/data/siteConfig.ts` with my name, bio, avatar, affiliation, location, and verified academic/social links
+>    - Follow `docs/CONFIG.md` to update `src/data/siteConfig.ts` with my name, bio, avatar, affiliation, location, and verified academic/social links
 >    - Update `src/data/navigation.ts` based on my chosen sections and remove the starter demo Guide link (`/markdown/`)
 >
-> 4. Content Population & Cleanup:
->    - Populate each enabled collection and page with my actual data (creating `.md` files in `src/content/` with proper frontmatter and updating corresponding pages)
->    - Delete the demo starter items for any disabled or customized collections
+> 4. Content Population & Demo Cleanup:
+>    - Follow `docs/CONTENT.md` to populate each enabled collection and page with my actual data (creating `.md` files in `src/content/` with proper frontmatter and updating corresponding pages)
+>    - Follow `docs/CHECKLIST.md` to delete demo files in `src/content/`, demo PDFs/slides in `public/files/`, and sample photos in `public/images/`
+>    - Retire the starter Playwright tests and test steps from `.github/workflows/ci.yml` as instructed in `docs/CHECKLIST.md`
 >
-> 5. Verification:
->    - Run `pnpm format`, `pnpm verify`, and `pnpm test` to confirm 0 errors and that all tests pass
+> 5. Verification & Cleanup:
+>    - Run `pnpm format`, `pnpm verify`, and `pnpm build` to confirm 0 errors and a clean production build
+>    - Delete `docs/CHECKLIST.md` (`rm docs/CHECKLIST.md`) when finished
 > ```
 
 ---
 
 ### 🛠️ Manual Customization (Step-by-Step)
 
-#### 1. Site Metadata & Author Profile
+Follow the dedicated guides in `docs/` to personalize your site:
 
-Edit [`src/data/siteConfig.ts`](src/data/siteConfig.ts) to update your site title, bio, avatar, and academic profile handles:
-
-```typescript
-export const siteConfig: SiteConfig = {
-  locale: 'en-US',
-  title: 'Your Name / Site Title',
-  titleSeparator: '-',
-  description: "Your Name's academic portfolio",
-  url: 'https://username.github.io',
-  breadcrumbs: true,
-  author: {
-    avatar: '/images/profile.png',
-    name: 'Your Sidebar Name',
-    bio: 'Short biography for the left-hand sidebar',
-    location: 'City, State / Country',
-    employer: 'Your University or Organization',
-    website: 'https://example.org',
-    email: 'none@example.org',
-
-    // Academic & Scholarly Profiles (accepts username/ID or full URL)
-    googlescholar: 'https://scholar.google.com/citations?user=your_scholar_id',
-    orcid: '0000-0000-0000-0000',
-
-    // Code & Professional Profiles
-    github: 'your-github-username',
-    linkedin: 'your-linkedin-username',
-    x: 'your-x-handle',
-  },
-  publicationCategories: {
-    books: { title: 'Books' },
-    journals: { title: 'Journal Articles' },
-    conferences: { title: 'Conference Papers' },
-  },
-};
-```
-
-#### 2. Navigation Items
-
-Edit [`src/data/navigation.ts`](src/data/navigation.ts) to customize top navigation links and order. The starter **Guide** (`/markdown/`) link provides a formatting reference and can be removed when launching your personal site.
-
-#### 3. Adding Content
-
-Add Markdown (`.md`) files directly into `src/content/`:
-
-- `src/content/publications/` $\rightarrow$ Research papers, journal articles, and preprints
-- `src/content/blog/` $\rightarrow$ Blog posts and research notes
-- `src/content/talks/` $\rightarrow$ Conference presentations, keynotes, and workshops
-- `src/content/teaching/` $\rightarrow$ Courses, syllabi, and teaching materials
-- `src/content/portfolio/` $\rightarrow$ Software projects, tools, and demos
+1. **[Setup & Cleanup Checklist](docs/CHECKLIST.md)**: Complete roadmap for site setup, demo content purge, asset cleanup, and test retirement
+2. **[Site Configuration Guide](docs/CONFIG.md)**: Configure `src/data/siteConfig.ts`, 50+ scholarly/social profiles, header navigation in `src/data/navigation.ts`, and redirects
+3. **[Content Authoring Guide](docs/CONTENT.md)**: Frontmatter schemas and conventions for publications, talks, teaching, portfolio projects, blog posts, and KaTeX math
 
 ---
 
@@ -204,20 +160,20 @@ Add Markdown (`.md`) files directly into `src/content/`:
 
 1. In your GitHub repository settings, go to **Settings** $\rightarrow$ **Pages**
 2. Under **Build and deployment** $\rightarrow$ **Source**, select **GitHub Actions**
-3. Configure `src/data/siteConfig.ts`:
-   - User / organization site (`https://<username>.github.io`): set `url: 'https://<username>.github.io'`
-   - Project site (`https://<username>.github.io/<repo-name>`): set `url: 'https://<username>.github.io/<repo-name>'`
-   - GitHub Actions automatically provides `ASTRO_URL` during CI/CD build
-4. Push to `main` — the workflow `.github/workflows/ci.yml` will automatically verify, build, and publish the site
+3. Set your deployment `url` in `src/data/siteConfig.ts` (see [docs/CONFIG.md](docs/CONFIG.md#3-base-url--deployment-resolution-astroconfigts) for user vs project site details)
+4. Push to `main` — `.github/workflows/ci.yml` will automatically verify, build, and publish the site
 
 ---
 
-## 🤖 AI Agent & Customization Skills
+## 🤖 Documentation & AI Agent Skills
 
-This repository includes first-class support for AI coding assistants:
+This repository includes first-class documentation and support for AI coding assistants:
 
+- **[docs/CONFIG.md](docs/CONFIG.md)**: Complete configuration options and redirect handling
+- **[docs/CONTENT.md](docs/CONTENT.md)**: Content schemas, KaTeX formatting, and frontmatter templates
+- **[docs/CHECKLIST.md](docs/CHECKLIST.md)**: Self-destructing setup checklist and demo cleanup roadmap
 - **[AGENTS.md](AGENTS.md)**: Repository constitution, architecture, coding guidelines, and verification rules
-- **[.agents/skills/customization/SKILL.md](.agents/skills/customization/SKILL.md)**: Comprehensive guide with complete YAML frontmatter schemas for publications, talks, teaching, blog posts, CV editing, and dark mode theming
+- **[.agents/skills/customization/SKILL.md](.agents/skills/customization/SKILL.md)**: Customization skill and AI runbook
 
 ---
 

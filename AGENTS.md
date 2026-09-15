@@ -56,97 +56,14 @@ academicpages-astro/
 
 ---
 
-## Common Customization & Setup Workflows
+## Customization & Documentation References
 
-### 1. Setting Up Site Identity & Author Profile
+When personalizing a user's website, managing academic content collections, or configuring deployments, follow the canonical guides:
 
-Edit [`src/data/siteConfig.ts`](file:///src/data/siteConfig.ts):
-
-- Update `title`, `description`, `url`, `breadcrumbs`
-- Set `author.name`, `author.avatar`, `author.bio`, `author.location`, `author.employer`
-- Add academic and social links (`googlescholar`, `orcid`, `github`, `linkedin`, `x`, plus 50+ supported platforms)
-
-### 2. GitHub Pages Deployment: Base URL Configuration
-
-- **User / Organization Site** (`https://<username>.github.io`):
-  - `src/data/siteConfig.ts`: `url: 'https://<username>.github.io'`
-- **Project Site** (`https://<username>.github.io/<repo-name>`):
-  - `src/data/siteConfig.ts`: `url: 'https://<username>.github.io/<repo-name>'` (the subpath `/<repo-name>` is automatically extracted as the Astro base)
-
-- **Dynamic CI Auto-Detection**:
-  - `astro.config.ts` dynamically resolves `site` and `base` from `ASTRO_URL` (injected as `steps.pages.outputs.base_url` by GitHub Actions)
-  - Internal assets, navigation links, and API endpoints must be wrapped using `resolveUrl` from `src/utils/url.ts` to ensure compatibility across root domains and repository subpaths
-
-### 3. Customizing Top Navigation & Disabling Unused Sections
-
-Edit [`src/data/navigation.ts`](file:///src/data/navigation.ts):
-
-- Add, reorder, or remove navigation items
-- If an author does not have teaching or talks, simply delete files in `src/content/<collection>/` and remove the corresponding entry from `navigation.ts`
-- Note: The starter `Guide` (`/markdown/`) link is a formatting demonstration and can be removed when launching a personal site
-  ```ts
-  export const navigation: NavItem[] = [
-    { title: 'Publications', url: '/publications/' },
-    { title: 'Talks', url: '/talks/' },
-    { title: 'Teaching', url: '/teaching/' },
-    { title: 'Portfolio', url: '/portfolio/' },
-    { title: 'Blog Posts', url: '/posts/' },
-    { title: 'CV', url: '/cv/' },
-    { title: 'Guide', url: '/markdown/' },
-  ];
-  ```
-
-### 4. Adding a Publication
-
-Create a new Markdown file inside `src/content/publications/YYYY-MM-DD-paper-title.md`:
-
-```yaml
----
-title: Paper Title Here
-date: 2026-01-15
-description: A short 1-2 sentence summary of the paper contributions
-category: journals # Options: books, journals, conferences (singular aliases supported)
-venue: IEEE Transactions on Software Engineering
-citation: 'Your Name. (2026). "Paper Title Here." <i>IEEE Transactions on Software Engineering</i>.'
-pdf_url: https://example.org/paper.pdf # Direct PDF link (paper_url supported as fallback)
-slides_url: https://example.org/slides.pdf
-code_url: https://github.com/example/repo
-bibtex: |
-  @article{Name2026,
-    title   = {Paper Title Here},
-    author  = {Name, Your},
-    journal = {IEEE Transactions on Software Engineering},
-    year    = {2026}
-  }
----
-Detailed abstract, methodology, and notes can be written here using standard Markdown and KaTeX math ($E=mc^2$).
-```
-
-### 5. Updating the CV
-
-Edit [`src/pages/cv.astro`](file:///src/pages/cv.astro):
-
-- Update sections: Education, Research Experience, Teaching, Service, Awards
-- Headings (`<h2>`, `<h3>`) automatically populate the retractable Table of Contents
-
-### 6. Customizing Colors & Design Tokens
-
-Edit [`src/styles/global.css`](file:///src/styles/global.css):
-
-- Brand primary color: `--global-base-color` (default: `#2f7f93`)
-- Link color: `--global-link-color` (default: `#52adc8`)
-- Background: `--global-bg-color` (default: `#ffffff`)
-- Dark mode overrides are set in `html[data-theme='dark']`
-
-### 7. Route & Legacy Redirects
-
-Manage redirects in [`astro.config.ts`](file:///astro.config.ts):
-
-- `/guide` and `/md`: Redirects to `/markdown/`
-- `/about`: Redirects to `/`
-- `/resume`: Redirects to `/cv/`
-- `/year-archive/`: Redirects legacy Jekyll blog archive to `/posts/`
-- `/wordpress/blog-posts/`: Redirects legacy WordPress URLs to `/posts/`
+- **Setup & Cleanup Roadmap**: [`docs/CHECKLIST.md`](file:///docs/CHECKLIST.md) (itemized checklist covering profile personalization, demo content purge, asset cleanup, and test retirement)
+- **Site & Deployment Configuration**: [`docs/CONFIG.md`](file:///docs/CONFIG.md) (complete reference for `siteConfig.ts`, 50+ academic/social handles, `navigation.ts`, base URL resolution, and redirect management)
+- **Content Collections & Formatting**: [`docs/CONTENT.md`](file:///docs/CONTENT.md) (Zod frontmatter schemas, file naming conventions, KaTeX math authoring, 1-click BibTeX, and action badges)
+- **AI Customization Skill**: [`.agents/skills/customization/SKILL.md`](file:///file:///.agents/skills/customization/SKILL.md) (operational runbook for AI coding assistants orchestrating discovery and setup)
 
 ---
 
