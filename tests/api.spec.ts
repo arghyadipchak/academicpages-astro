@@ -30,6 +30,19 @@ test.describe('API & Static Endpoint Tests', () => {
     expect(text).toContain('sitemap-index.xml');
   });
 
+  test('LLMs.txt returns valid plain text markdown index', async ({
+    request,
+  }) => {
+    const res = await request.get(toUrl('/llms.txt'));
+    expect(res.status()).toBe(200);
+    const contentType = res.headers()['content-type'] ?? '';
+    expect(contentType).toContain('text/plain');
+    const text = await res.text();
+    expect(text).toContain('# ');
+    expect(text).toContain('## Core Pages');
+    expect(text).toContain('## Optional');
+  });
+
   test('Search JSON endpoint returns structured array of searchable items', async ({
     request,
   }) => {
@@ -49,9 +62,9 @@ test.describe('API & Static Endpoint Tests', () => {
       toUrl('/favicon.svg'),
       toUrl('/favicon-32x32.png'),
       toUrl('/apple-touch-icon.png'),
-      toUrl('/site.webmanifest'),
       toUrl('/icon-192.png'),
       toUrl('/icon-512.png'),
+      toUrl('/site.webmanifest'),
       toUrl('/images/profile.png'),
       toUrl('/images/project-1.svg'),
       toUrl('/images/project-2.svg'),

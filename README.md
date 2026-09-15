@@ -27,7 +27,7 @@ A modern, high-performance academic personal website and portfolio template buil
   - **Dynamic CV**: Aggregated curriculum vitae with interactive, collapsible Table of Contents
 - 🔍 **Instant Search (`Cmd + K`)**: Fast, lightweight client-side fuzzy search across all publications, talks, and blog posts
 - 📐 **Mathematical Rigor ($\KaTeX$)**: Full LaTeX/MathJax support with static server-side rendering
-- 🌐 **Scholarly SEO & Syndication**: Google Scholar and Highwire Press citation meta tags, RSS 2.0 (`/rss.xml`), Atom feed (`/feed.xml`), and XML sitemaps
+- 🌐 **Scholarly SEO & Syndication**: Google Scholar and Highwire Press citation meta tags, RSS 2.0 (`/rss.xml`), Atom feed (`/feed.xml`), XML sitemaps, crawlers index (`/robots.txt`), and LLM-friendly index (`/llms.txt`)
 - 📱 **Exhaustive Sidebar**: Sticky author profile on desktop supporting **50+ academic, code, and social platforms** with responsive mobile drawer
 - 🧪 **Comprehensive Test Suite**: Automated Playwright browser tests covering desktop and mobile viewports
 - 🛠️ **Editor & Cloud Ready**: Pre-configured for **VS Code** (`.vscode/`), **Zed** (`.zed/`), and **GitHub Codespaces** (`.devcontainer/`)
