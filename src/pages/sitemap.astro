@@ -2,6 +2,7 @@
 import { getCollection } from 'astro:content';
 
 import SingleLayout from '../layouts/SingleLayout.astro';
+import { parseInline } from '../utils/marked';
 import {
   getPortfolioUrl,
   getPostUrl,
@@ -97,9 +98,8 @@ const portfolio = await getCollection('portfolio');
                 <a
                   href={getPostUrl(post)}
                   class="text-(--global-link-color) hover:underline"
-                >
-                  {post.data.title}
-                </a>
+                  set:html={parseInline(post.data.title)}
+                />
               </li>
             ))}
           </ul>
@@ -119,9 +119,8 @@ const portfolio = await getCollection('portfolio');
                 <a
                   href={getPublicationUrl(pub)}
                   class="text-(--global-link-color) hover:underline"
-                >
-                  {pub.data.title}
-                </a>
+                  set:html={parseInline(pub.data.title)}
+                />
               </li>
             ))}
           </ul>
@@ -141,9 +140,8 @@ const portfolio = await getCollection('portfolio');
                 <a
                   href={getTalkUrl(talk)}
                   class="text-(--global-link-color) hover:underline"
-                >
-                  {talk.data.title}
-                </a>
+                  set:html={parseInline(talk.data.title)}
+                />
               </li>
             ))}
           </ul>
@@ -163,9 +161,8 @@ const portfolio = await getCollection('portfolio');
                 <a
                   href={getTeachingUrl(item)}
                   class="text-(--global-link-color) hover:underline"
-                >
-                  {item.data.title}
-                </a>
+                  set:html={parseInline(item.data.title)}
+                />
               </li>
             ))}
           </ul>
@@ -185,9 +182,8 @@ const portfolio = await getCollection('portfolio');
                 <a
                   href={getPortfolioUrl(item)}
                   class="text-(--global-link-color) hover:underline"
-                >
-                  {item.data.title}
-                </a>
+                  set:html={parseInline(item.data.title)}
+                />
               </li>
             ))}
           </ul>

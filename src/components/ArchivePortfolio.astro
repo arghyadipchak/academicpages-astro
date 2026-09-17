@@ -1,6 +1,6 @@
 ---
-import { renderMath } from '../utils/math';
-import { resolveHtmlUrls, resolveUrl } from '../utils/url';
+import { parseInline } from '../utils/marked';
+import { resolveUrl } from '../utils/url';
 
 export interface Props {
   title: string;
@@ -21,7 +21,7 @@ const { title, url, description, image } = Astro.props;
         href={url}
         rel="permalink"
         class="text-(--global-link-color) hover:text-(--global-link-color-hover) hover:underline"
-        set:html={renderMath(title)}
+        set:html={parseInline(title)}
       />
     </h3>
 
@@ -30,7 +30,7 @@ const { title, url, description, image } = Astro.props;
         <div
           class="mt-2 text-sm text-(--global-text-color)"
           itemprop="description"
-          set:html={resolveHtmlUrls(renderMath(description))}
+          set:html={parseInline(description)}
         />
       )
     }

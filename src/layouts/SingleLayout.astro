@@ -8,8 +8,8 @@ import Prose from '../components/Prose.astro';
 import TableOfContents from '../components/TableOfContents.astro';
 import { siteConfig } from '../data/siteConfig';
 import { formatDate, formatYear, toIsoDateString } from '../utils/date';
-import { renderMath } from '../utils/math';
-import { resolveHtmlUrls, resolveUrl } from '../utils/url';
+import { parseInline } from '../utils/marked';
+import { resolveUrl } from '../utils/url';
 import BaseLayout from './BaseLayout.astro';
 
 export interface Props {
@@ -121,7 +121,7 @@ const citationMetadata =
             <h1
               class="text-2xl font-bold tracking-tight text-(--global-text-color) sm:text-3xl"
               itemprop="headline"
-              set:html={renderMath(title)}
+              set:html={parseInline(title)}
             />
 
             {/* Teaching metadata */}
@@ -215,7 +215,7 @@ const citationMetadata =
                 {citation && (
                   <p class="mb-2">
                     <strong>Recommended citation:</strong>{' '}
-                    <span set:html={resolveHtmlUrls(renderMath(citation))} />
+                    <span set:html={parseInline(citation)} />
                   </p>
                 )}
                 <ActionBadges

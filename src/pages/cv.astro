@@ -2,12 +2,11 @@
 import { getCollection } from 'astro:content';
 
 import SingleLayout from '../layouts/SingleLayout.astro';
-import { renderMath } from '../utils/math';
+import { parseInline } from '../utils/marked';
 import {
   getPublicationUrl as getPubUrl,
   getTalkUrl,
   getTeachingUrl,
-  resolveHtmlUrls,
 } from '../utils/url';
 
 const publications = await getCollection('publications');
@@ -108,12 +107,12 @@ teaching.sort(
               <a
                 href={getPubUrl(pub)}
                 class="font-semibold text-(--global-link-color) hover:underline"
-                set:html={renderMath(pub.data.title)}
+                set:html={parseInline(pub.data.title)}
               />
               {pub.data.citation && (
                 <p
                   class="mt-0.5 text-sm text-(--global-text-color-light)"
-                  set:html={resolveHtmlUrls(renderMath(pub.data.citation))}
+                  set:html={parseInline(pub.data.citation)}
                 />
               )}
             </li>
@@ -135,7 +134,7 @@ teaching.sort(
               <a
                 href={getTalkUrl(talk)}
                 class="font-semibold text-(--global-link-color) hover:underline"
-                set:html={renderMath(talk.data.title)}
+                set:html={parseInline(talk.data.title)}
               />
               {(talk.data.type || talk.data.venue || talk.data.location) && (
                 <p class="mt-0.5 text-sm text-(--global-text-color-light)">
@@ -161,7 +160,7 @@ teaching.sort(
               <a
                 href={getTeachingUrl(item)}
                 class="font-semibold text-(--global-link-color) hover:underline"
-                set:html={renderMath(item.data.title)}
+                set:html={parseInline(item.data.title)}
               />
               {(item.data.type || item.data.venue || item.data.date) && (
                 <p class="mt-0.5 text-sm text-(--global-text-color-light)">

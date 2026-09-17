@@ -1,6 +1,7 @@
 import type { APIRoute } from 'astro';
 import { getCollection } from 'astro:content';
 
+import { parseInline } from '../../utils/marked';
 import {
   getPortfolioUrl,
   getPostUrl,
@@ -20,45 +21,44 @@ export const GET: APIRoute = async () => {
 
   const items = [
     ...posts.map((p) => ({
-      title: p.data.title,
+      title: parseInline(p.data.title),
       url: getPostUrl(p),
       type: 'Blog Post',
       date: p.data.date,
-      description: p.data.description || '',
+      description: parseInline(p.data.description),
     })),
     ...publications.map((p) => ({
-      title: p.data.title,
+      title: parseInline(p.data.title),
       url: getPublicationUrl(p),
       type: 'Publication',
       date: p.data.date,
-      description: p.data.description || p.data.citation || '',
+      description: parseInline(p.data.description),
     })),
     ...talks.map((t) => ({
-      title: t.data.title,
+      title: parseInline(t.data.title),
       url: getTalkUrl(t),
       type: 'Talk',
       date: t.data.date,
-      description:
-        t.data.description || `${t.data.venue || ''} ${t.data.location || ''}`,
+      description: parseInline(t.data.description),
     })),
     ...teaching.map((t) => ({
-      title: t.data.title,
+      title: parseInline(t.data.title),
       url: getTeachingUrl(t),
       type: 'Teaching',
       date: t.data.date,
-      description: t.data.description || t.data.venue || '',
+      description: parseInline(t.data.description),
     })),
     ...portfolio.map((p) => ({
-      title: p.data.title,
+      title: parseInline(p.data.title),
       url: getPortfolioUrl(p),
       type: 'Portfolio',
-      description: p.data.description || '',
+      description: parseInline(p.data.description),
     })),
     ...pages.map((p) => ({
-      title: p.data.title,
+      title: parseInline(p.data.title),
       url: resolveUrl(p.id === 'about' ? '/' : `/${p.id}/`),
       type: 'Page',
-      description: p.data.description || '',
+      description: parseInline(p.data.description),
     })),
     {
       title: 'CV',

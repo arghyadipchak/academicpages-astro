@@ -1,7 +1,7 @@
 ---
 import AuthorProfile from '../components/AuthorProfile.astro';
 import Breadcrumbs from '../components/Breadcrumbs.astro';
-import { renderMath } from '../utils/math';
+import { parseInline } from '../utils/marked';
 import BaseLayout from './BaseLayout.astro';
 
 export interface Props {
@@ -39,13 +39,14 @@ const { title, description, authorProfile = true } = Astro.props;
         <header class="mb-6 border-b border-(--global-border-color) pb-3">
           <h1
             class="text-2xl font-bold tracking-tight text-(--global-text-color) sm:text-3xl"
-            set:html={renderMath(title)}
+            set:html={parseInline(title)}
           />
           {
             description && (
-              <p class="mt-2 text-sm text-(--global-text-color-light)">
-                {description}
-              </p>
+              <p
+                class="mt-2 text-sm text-(--global-text-color-light)"
+                set:html={parseInline(description)}
+              />
             )
           }
         </header>
