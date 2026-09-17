@@ -2,6 +2,7 @@
 import { getCollection } from 'astro:content';
 
 import SingleLayout from '../layouts/SingleLayout.astro';
+import { sortTeaching } from '../utils/date';
 import { parseInline } from '../utils/marked';
 import {
   getPublicationUrl as getPubUrl,
@@ -19,10 +20,7 @@ talks.sort(
   (a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime()
 );
 
-const teaching = await getCollection('teaching');
-teaching.sort(
-  (a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime()
-);
+const teaching = sortTeaching(await getCollection('teaching'));
 ---
 
 <SingleLayout title="CV">
@@ -136,9 +134,11 @@ teaching.sort(
                 class="font-semibold text-(--global-link-color) hover:underline"
                 set:html={parseInline(talk.data.title)}
               />
-              {(talk.data.type || talk.data.venue || talk.data.location) && (
+              {(talk.data.type || talk.data.venue) && (
                 <p class="mt-0.5 text-sm text-(--global-text-color-light)">
-                  {talk.data.type} at {talk.data.venue}, {talk.data.location}
+                  {talk.data.type && talk.data.venue
+                    ? `${talk.data.type} at ${talk.data.venue}`
+                    : talk.data.type || talk.data.venue}
                 </p>
               )}
             </li>
@@ -162,13 +162,11 @@ teaching.sort(
                 class="font-semibold text-(--global-link-color) hover:underline"
                 set:html={parseInline(item.data.title)}
               />
-              {(item.data.type || item.data.venue || item.data.date) && (
+              {(item.data.type || item.data.venue || item.data.year) && (
                 <p class="mt-0.5 text-sm text-(--global-text-color-light)">
                   {item.data.type ? `${item.data.type}, ` : ''}
-                  <em>{item.data.venue}</em>
-                  {item.data.date
-                    ? `, ${new Date(item.data.date).getFullYear()}`
-                    : ''}
+                  {item.data.venue ? <em>{item.data.venue}</em> : ''}
+                  {item.data.year ? `, ${item.data.year}` : ''}
                 </p>
               )}
             </li>

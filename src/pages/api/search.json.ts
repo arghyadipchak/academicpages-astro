@@ -48,7 +48,6 @@ export const GET: APIRoute = async () => {
       title: parseInline(t.data.title),
       url: getTeachingUrl(t),
       type: 'Teaching',
-      date: t.data.date,
       description: parseInline(t.data.description),
     })),
     ...portfolio.map((p) => ({

@@ -1,10 +1,10 @@
 ---
 title: Teaching experience 2
-date: 2026-01-15
+year: 2026
+semester: Spring
 description: This is a description of a teaching experience. You can use markdown like any other post.
 type: Workshop
 venue: University 1, Department
-location: City, Country
 ---
 
 This is a description of a teaching experience. You can use markdown like any other post.

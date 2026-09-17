@@ -30,7 +30,7 @@ Research papers, preprints, books, and conference articles.
 title: High-Throughput Learning of Neural Potentials
 date: 2026-03-15
 description: A scalable deep learning framework for molecular dynamics
-category: journals # Options: 'books', 'journals', 'conferences' (aliases: 'manuscripts', 'conference', 'journal', 'book')
+category: journals # Options: 'books', 'journals', 'conferences'
 venue: Nature Machine Intelligence
 citation: 'Doe, J., & Smith, A. (2026). "High-Throughput Learning of Neural Potentials." <i>Nature Machine Intelligence</i>, 8(3), 200-215.'
 pdf_url: /files/paper1.pdf # Direct download or external URL (fallback: paper_url)
@@ -71,8 +71,7 @@ title: Scalable Graph Transformers for Protein Design
 date: 2026-05-20
 description: Keynote presentation on graph representation learning in biology
 type: Keynote Talk # e.g. 'Conference Talk', 'Workshop Tutorial', 'Keynote Talk'
-venue: International Conference on Machine Learning (ICML 2026)
-location: Vienna, Austria
+venue: International Conference on Machine Learning (ICML 2026), Vienna, Austria
 slides_url: /files/slides2.pdf # Optional slides download link
 author_profile: true
 ---
@@ -90,11 +89,11 @@ Undergraduate and graduate courses, guest lectures, and workshops.
 ```yaml
 ---
 title: 'CS 229: Machine Learning & Scientific Computing'
-date: 2026-01-15 # Date or start of semester
+year: 2026
+semester: Spring # Options: 'Autumn', 'Fall', 'Spring', 'Summer', 'Winter'
 description: Graduate-level introduction to statistical learning and optimization
 type: Graduate Course # e.g. 'Undergraduate Course', 'Graduate Course', 'Workshop'
-venue: Department of Computer Science
-location: University of Science
+venue: Department of Computer Science, University of Science
 author_profile: true
 ---
 Course syllabus, grading policy, office hours, and lecture materials.
@@ -110,9 +109,14 @@ Software libraries, datasets, open-source projects, and research artifacts.
 
 ```yaml
 ---
-title: NeuroMol Engine
-description: High-performance C++ and Python library for molecular simulation
-code_url: https://github.com/username/neuromol # Optional repository link
+title: Project Title
+date: 2025-08-01
+timeline: Aug 2025 – Present
+venue: Organization / University Name
+description: Brief summary of the project goals and accomplishments
+pdf_url: https://example.com/paper.pdf
+slides_url: https://example.com/slides.pdf
+code_url: https://github.com/username/project
 image: /images/portfolio-preview.png # Optional card banner image
 author_profile: true
 ---
@@ -153,7 +157,7 @@ Static markdown pages for institutional requirements or reference guides.
 
 - `about.md`: Legacy bio page (note: default homepage is `src/pages/index.astro`)
 - `terms.md`: Terms of service, copyright, or privacy notices (`/terms/`)
-- `markdown.md`: Starter Markdown formatting demo (`/markdown/`, deleted during setup;
+- `markdown.md`: Starter Markdown formatting demo (`/markdown/`, deleted during setup)
 
 ### Frontmatter
 

@@ -49,10 +49,10 @@ Adding your content
 All content is organized into type-safe content directories inside `src/content/`:
 
 - **Publications**: `src/content/publications/*.md` (with fields for `venue`, `citation`, `pdf_url`, `slides_url`, `code_url`, `bibtex`)
-- **Talks & Presentations**: `src/content/talks/*.md` (with fields for `venue`, `location`, `type`)
-- **Teaching**: `src/content/teaching/*.md` (with fields for `venue`, `type`, `date`)
+- **Talks & Presentations**: `src/content/talks/*.md` (with fields for `venue`, `type`, `date`, `slides_url`)
+- **Teaching**: `src/content/teaching/*.md` (with fields for `venue`, `type`, `year`, `semester`)
 - **Blog Posts**: `src/content/blog/*.md`
-- **Portfolio Projects**: `src/content/portfolio/*.md`
+- **Portfolio Projects**: `src/content/portfolio/*.md` (with fields for `timeline`, `venue`, `date`, `pdf_url`, `slides_url`, `code_url`, `image`)
 
 For more info
 ------

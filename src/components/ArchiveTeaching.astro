@@ -1,19 +1,22 @@
 ---
-import { formatYear } from '../utils/date';
 import { parseInline } from '../utils/marked';
 
 export interface Props {
   title: string;
   url: string;
   description?: string;
-  date?: Date;
+  year?: number;
+  semester?: string;
   type?: string;
   venue?: string;
 }
 
-const { title, url, description, date, type, venue } = Astro.props;
+const { title, url, description, year, semester, type, venue } = Astro.props;
 
-const formattedYear = formatYear(date);
+const termDisplay =
+  semester && year
+    ? `${semester} ${year}`
+    : semester || (year ? `${year}` : '');
 ---
 
 <div
@@ -30,11 +33,11 @@ const formattedYear = formatYear(date);
     </h3>
 
     {
-      (type || venue || formattedYear) && (
+      (type || venue || termDisplay) && (
         <p class="mt-1 text-sm text-(--global-text-color-light)">
           {type ? `${type}, ` : ''}
           {venue ? <em>{venue}</em> : ''}
-          {formattedYear ? `, ${formattedYear}` : ''}
+          {termDisplay ? `, ${termDisplay}` : ''}
         </p>
       )
     }

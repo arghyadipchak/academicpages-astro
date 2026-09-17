@@ -61,3 +61,32 @@ export function toIsoDateString(
   if (!d) return undefined;
   return d.toISOString().split('T')[0];
 }
+
+const semesterOrder: Record<string, number> = {
+  Winter: 4,
+  Autumn: 3,
+  Fall: 3,
+  Summer: 2,
+  Spring: 1,
+};
+
+/**
+ * Computes a numeric sort weight for teaching entries using year and semester
+ */
+export function getTeachingSortWeight(item: {
+  data: { year: number; semester: string };
+}): number {
+  const semWeight = semesterOrder[item.data.semester] ?? 0;
+  return item.data.year * 10 + semWeight;
+}
+
+/**
+ * Sorts teaching items in reverse chronological order (newest year and semester first)
+ */
+export function sortTeaching<
+  T extends { data: { year: number; semester: string } },
+>(items: T[]): T[] {
+  return items.sort(
+    (a, b) => getTeachingSortWeight(b) - getTeachingSortWeight(a)
+  );
+}

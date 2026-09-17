@@ -5,36 +5,15 @@ import { z } from 'astro/zod';
 import { siteConfig } from './data/siteConfig';
 
 const categoryKeys = Object.keys(siteConfig.publicationCategories);
-const defaultCategory = categoryKeys.includes('journals')
-  ? 'journals'
-  : (categoryKeys[0] ?? 'journals');
-const categorySchema =
-  categoryKeys.length > 0
-    ? z
-        .string()
-        .trim()
-        .transform((val) => {
-          if (val === 'manuscripts') return 'journals';
-          if (val === 'conference') return 'conferences';
-          if (val === 'journal') return 'journals';
-          if (val === 'book') return 'books';
-          return val;
-        })
-        .refine((val: string) => categoryKeys.includes(val), {
-          message: `Invalid publication category. Must be one of: ${categoryKeys.join(', ')}`,
-        })
-        .default(defaultCategory)
-    : z
-        .string()
-        .trim()
-        .transform((val) => {
-          if (val === 'manuscripts') return 'journals';
-          if (val === 'conference') return 'conferences';
-          if (val === 'journal') return 'journals';
-          if (val === 'book') return 'books';
-          return val;
-        })
-        .default('journals');
+if (categoryKeys.length === 0) {
+  throw new Error(
+    'siteConfig.publicationCategories must define at least one category'
+  );
+}
+
+const categorySchema = z
+  .enum(categoryKeys as [string, ...string[]])
+  .default(categoryKeys[0]);
 
 /** Normalizes a single string or array of strings into a trimmed string array */
 const stringListSchema = z
@@ -88,21 +67,25 @@ export const talkSchema = datedContentSchema
   .extend({
     type: z.string().trim().optional(),
     venue: z.string().trim().optional(),
-    location: z.string().trim().optional(),
     slides_url: z.string().trim().optional(),
   })
   .extend(layoutSchema.shape);
 
-export const teachingSchema = datedContentSchema
+export const teachingSchema = baseContentSchema
   .extend({
+    year: z.coerce.number().int(),
+    semester: z.enum(['Autumn', 'Fall', 'Spring', 'Summer', 'Winter']),
     type: z.string().trim().optional(),
     venue: z.string().trim().optional(),
-    location: z.string().trim().optional(),
   })
   .extend(layoutSchema.shape);
 
-export const portfolioSchema = baseContentSchema
+export const portfolioSchema = datedContentSchema
   .extend({
+    timeline: z.string().trim().optional(),
+    venue: z.string().trim().optional(),
+    pdf_url: z.string().trim().optional(),
+    slides_url: z.string().trim().optional(),
     code_url: z.string().trim().optional(),
   })
   .extend(layoutSchema.shape);

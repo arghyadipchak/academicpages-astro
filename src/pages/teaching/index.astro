@@ -3,12 +3,10 @@ import { getCollection } from 'astro:content';
 
 import ArchiveTeaching from '../../components/ArchiveTeaching.astro';
 import ArchiveLayout from '../../layouts/ArchiveLayout.astro';
+import { sortTeaching } from '../../utils/date';
 import { getTeachingUrl } from '../../utils/url';
 
-const allTeaching = await getCollection('teaching');
-allTeaching.sort(
-  (a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime()
-);
+const allTeaching = sortTeaching(await getCollection('teaching'));
 ---
 
 <ArchiveLayout title="Teaching">
@@ -21,7 +19,8 @@ allTeaching.sort(
             url={getTeachingUrl(item)}
             type={item.data.type}
             venue={item.data.venue}
-            date={item.data.date}
+            year={item.data.year}
+            semester={item.data.semester}
             description={item.data.description}
           />
         ))

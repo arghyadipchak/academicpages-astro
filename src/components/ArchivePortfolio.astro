@@ -1,4 +1,7 @@
 ---
+import { Icon } from 'astro-icon/components';
+
+import { formatDate, toIsoDateString } from '../utils/date';
 import { parseInline } from '../utils/marked';
 import { resolveUrl } from '../utils/url';
 
@@ -6,10 +9,14 @@ export interface Props {
   title: string;
   url: string;
   description?: string;
+  date?: Date;
+  timeline?: string;
+  venue?: string;
   image?: string;
 }
 
-const { title, url, description, image } = Astro.props;
+const { title, url, description, date, timeline, venue, image } = Astro.props;
+const displayTime = timeline || formatDate(date);
 ---
 
 <div
@@ -24,6 +31,28 @@ const { title, url, description, image } = Astro.props;
         set:html={parseInline(title)}
       />
     </h3>
+
+    {
+      displayTime && (
+        <p class="archive-date-line mt-1 inline-flex items-center gap-1.5 text-xs leading-none text-(--global-text-color-light)">
+          <Icon name="fa6-solid:calendar" class="h-3 w-3 shrink-0" />
+          {date ? (
+            <time datetime={toIsoDateString(date)}>{displayTime}</time>
+          ) : (
+            <span>{displayTime}</span>
+          )}
+        </p>
+      )
+    }
+
+    {
+      venue && (
+        <p
+          class="mt-1 text-sm text-(--global-text-color-light)"
+          set:html={parseInline(venue)}
+        />
+      )
+    }
 
     {
       description && (
