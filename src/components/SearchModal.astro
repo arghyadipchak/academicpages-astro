@@ -64,7 +64,7 @@ import { Icon } from 'astro-icon/components';
 </dialog>
 
 <script>
-  interface SearchItem {
+  interface RawSearchItem {
     title: string;
     url: string;
     type: string;
@@ -72,19 +72,110 @@ import { Icon } from 'astro-icon/components';
     date?: string;
   }
 
-  let searchData: SearchItem[] | null = null;
-  let selectedIndex = -1;
+  interface IndexedSearchItem extends RawSearchItem {
+    cleanTitle: string;
+    cleanDescription: string;
+    cleanType: string;
+  }
 
-  async function loadSearchData(): Promise<SearchItem[]> {
+  let searchData: IndexedSearchItem[] | null = null;
+  let searchFetchPromise: Promise<IndexedSearchItem[]> | null = null;
+  let selectedIndex = -1;
+  let openModalFn: (() => void) | null = null;
+  let closeModalFn: (() => void) | null = null;
+
+  function stripHtml(text: string): string {
+    return text
+      .replace(/<[^>]*>/g, ' ')
+      .replace(/\s+/g, ' ')
+      .trim();
+  }
+
+  function escapeHtml(str: string): string {
+    return str
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#39;');
+  }
+
+  function indexSearchItems(items: RawSearchItem[]): IndexedSearchItem[] {
+    return items.map((item) => ({
+      ...item,
+      cleanTitle: stripHtml(item.title).toLowerCase(),
+      cleanDescription: item.description
+        ? stripHtml(item.description).toLowerCase()
+        : '',
+      cleanType: item.type.toLowerCase(),
+    }));
+  }
+
+  async function loadSearchData(): Promise<IndexedSearchItem[]> {
     if (searchData) return searchData;
-    try {
-      const baseUrl = (import.meta.env.BASE_URL ?? '/').replace(/\/+$/, '');
-      const res = await fetch(`${baseUrl}/api/search.json`);
-      searchData = await res.json();
-      return searchData || [];
-    } catch {
-      return [];
+    if (searchFetchPromise) return searchFetchPromise;
+
+    searchFetchPromise = (async () => {
+      try {
+        const baseUrl = (import.meta.env.BASE_URL ?? '/').replace(/\/+$/, '');
+        const res = await fetch(`${baseUrl}/api/search.json`);
+        const rawData: RawSearchItem[] = await res.json();
+        searchData = indexSearchItems(rawData || []);
+        return searchData;
+      } catch {
+        return [];
+      } finally {
+        searchFetchPromise = null;
+      }
+    })();
+
+    return searchFetchPromise;
+  }
+
+  function prefetchSearchData() {
+    if (!searchData && !searchFetchPromise) {
+      if ('requestIdleCallback' in window) {
+        window.requestIdleCallback(() => loadSearchData(), { timeout: 2000 });
+      } else {
+        setTimeout(loadSearchData, 1000);
+      }
     }
+  }
+
+  function scoreItem(
+    item: IndexedSearchItem,
+    query: string,
+    tokens: string[]
+  ): number {
+    let score = 0;
+
+    // Exact title match
+    if (item.cleanTitle === query) {
+      score += 100;
+    } else if (item.cleanTitle.startsWith(query)) {
+      score += 60;
+    } else if (item.cleanTitle.includes(query)) {
+      score += 40;
+    }
+
+    // Individual token matches
+    for (const token of tokens) {
+      if (item.cleanTitle.startsWith(token)) {
+        score += 20;
+      } else if (item.cleanTitle.includes(token)) {
+        score += 10;
+      }
+
+      if (item.cleanDescription.includes(token)) {
+        score += 3;
+      }
+
+      if (item.cleanType.includes(token)) {
+        score += 1;
+      }
+    }
+
+    return score;
   }
 
   function setupSearchModal() {
@@ -119,10 +210,17 @@ import { Icon } from 'astro-icon/components';
       selectedIndex = -1;
     }
 
-    // Attach trigger buttons
+    openModalFn = openModal;
+    closeModalFn = closeModal;
+
+    // Attach trigger buttons with click, hover, and focus prefetching
     document.querySelectorAll('.search-trigger-btn').forEach((btn) => {
       btn.removeEventListener('click', openModal);
       btn.addEventListener('click', openModal);
+      btn.addEventListener('pointerenter', () => loadSearchData(), {
+        once: true,
+      });
+      btn.addEventListener('focus', () => loadSearchData(), { once: true });
     });
 
     closeBtn?.addEventListener('click', closeModal);
@@ -140,24 +238,24 @@ import { Icon } from 'astro-icon/components';
       }
     });
 
-    // Keyboard Shortcuts
-    window.addEventListener('keydown', (e) => {
-      if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
-        e.preventDefault();
-        if (modal.open) {
-          closeModal();
-        } else {
-          openModal();
-        }
+    // Handle clicks on result items (while allowing nested <a> tags in description to work)
+    searchList.addEventListener('click', (e) => {
+      const target = e.target as HTMLElement;
+      if (target.closest('.search-result-desc a')) {
+        return;
+      }
+      const item = target.closest('.search-result-item') as HTMLElement;
+      if (item && item.dataset.url) {
+        window.location.href = item.dataset.url;
       }
     });
 
-    // Handle Search Input Filtering
+    // Handle Search Input Filtering with Token Matching & Relevance Sorting
     input.addEventListener('input', async () => {
-      const query = input.value.trim().toLowerCase();
+      const rawQuery = input.value.trim().toLowerCase();
       selectedIndex = -1;
 
-      if (!query) {
+      if (!rawQuery) {
         searchList.innerHTML = '';
         placeholder?.classList.remove('hidden');
         noResults?.classList.add('hidden');
@@ -166,46 +264,65 @@ import { Icon } from 'astro-icon/components';
 
       placeholder?.classList.add('hidden');
       const data = await loadSearchData();
-      const results = data.filter(
-        (item) =>
-          item.title.toLowerCase().includes(query) ||
-          (item.description &&
-            item.description.toLowerCase().includes(query)) ||
-          item.type.toLowerCase().includes(query)
-      );
+      const queryTokens = rawQuery.split(/\s+/).filter(Boolean);
 
-      if (results.length === 0) {
+      const matchingItems: { item: IndexedSearchItem; score: number }[] = [];
+      for (const item of data) {
+        const matchesAllTokens = queryTokens.every(
+          (t) =>
+            item.cleanTitle.includes(t) ||
+            item.cleanDescription.includes(t) ||
+            item.cleanType.includes(t)
+        );
+        if (matchesAllTokens) {
+          matchingItems.push({
+            item,
+            score: scoreItem(item, rawQuery, queryTokens),
+          });
+        }
+      }
+
+      if (matchingItems.length === 0) {
         searchList.innerHTML = '';
         noResults?.classList.remove('hidden');
         return;
       }
 
+      matchingItems.sort((a, b) => b.score - a.score);
+      const results = matchingItems.slice(0, 10).map((m) => m.item);
+
       noResults?.classList.add('hidden');
       searchList.innerHTML = results
-        .slice(0, 10)
         .map(
           (item, idx) => `
-          <li>
-            <a
-              href="${item.url}"
-              data-index="${idx}"
-              class="search-result-item flex items-center justify-between rounded-lg px-3 py-2 text-sm transition hover:bg-neutral-100 dark:hover:bg-neutral-800"
-            >
-              <div class="min-w-0 flex-1 pr-3">
-                <p class="font-medium text-(--global-text-color) truncate">${item.title}</p>
-                ${item.description ? `<p class="text-xs text-(--global-text-color-light) truncate mt-0.5">${item.description}</p>` : ''}
-              </div>
-              <span class="rounded bg-neutral-200 dark:bg-neutral-700 px-2 py-0.5 text-[10px] font-semibold text-(--global-text-color) shrink-0">
-                ${item.type}
-              </span>
-            </a>
+          <li
+            data-url="${escapeHtml(item.url)}"
+            data-index="${idx}"
+            class="search-result-item group flex cursor-pointer items-center justify-between rounded-lg px-3 py-2 text-sm transition hover:bg-neutral-100 dark:hover:bg-neutral-800"
+          >
+            <div class="min-w-0 flex-1 pr-3">
+              <a
+                href="${escapeHtml(item.url)}"
+                class="search-result-title font-medium text-(--global-text-color) group-hover:text-(--global-link-color) block truncate"
+              >
+                ${item.title}
+              </a>
+              ${
+                item.description
+                  ? `<div class="search-result-desc text-xs text-(--global-text-color-light) truncate mt-0.5 [&_a]:text-(--global-link-color) [&_a]:underline">${item.description}</div>`
+                  : ''
+              }
+            </div>
+            <span class="rounded bg-neutral-200 dark:bg-neutral-700 px-2 py-0.5 text-[10px] font-semibold text-(--global-text-color) shrink-0">
+              ${escapeHtml(item.type)}
+            </span>
           </li>
         `
         )
         .join('');
     });
 
-    // Arrow navigation inside input
+    // Arrow keys & Enter key navigation inside search results
     input.addEventListener('keydown', (e) => {
       const items = modal.querySelectorAll('.search-result-item');
       if (items.length === 0) return;
@@ -220,8 +337,15 @@ import { Icon } from 'astro-icon/components';
         updateSelection(items);
       } else if (e.key === 'Enter' && selectedIndex >= 0) {
         e.preventDefault();
-        const activeLink = items[selectedIndex] as HTMLAnchorElement;
-        activeLink?.click();
+        const activeItem = items[selectedIndex] as HTMLElement;
+        const activeLink = activeItem?.querySelector(
+          '.search-result-title'
+        ) as HTMLAnchorElement;
+        if (activeLink) {
+          activeLink.click();
+        } else if (activeItem?.dataset.url) {
+          window.location.href = activeItem.dataset.url;
+        }
       }
     });
 
@@ -247,6 +371,26 @@ import { Icon } from 'astro-icon/components';
     }
   }
 
+  // Register single global Cmd+K shortcut listener at module scope
+  window.addEventListener('keydown', (e) => {
+    if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+      e.preventDefault();
+      const modal = document.getElementById(
+        'search-modal'
+      ) as HTMLDialogElement | null;
+      if (!modal) return;
+      if (modal.open) {
+        closeModalFn?.();
+      } else {
+        openModalFn?.();
+      }
+    }
+  });
+
   setupSearchModal();
-  document.addEventListener('astro:page-load', setupSearchModal);
+  prefetchSearchData();
+  document.addEventListener('astro:page-load', () => {
+    setupSearchModal();
+    prefetchSearchData();
+  });
 </script>

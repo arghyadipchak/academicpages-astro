@@ -12,14 +12,17 @@ import {
 } from '../../utils/url';
 
 export const GET: APIRoute = async () => {
-  const posts = await getCollection('blog', ({ data }) => !data.draft);
-  const publications = await getCollection('publications');
-  const talks = await getCollection('talks');
-  const teaching = await getCollection('teaching');
-  const portfolio = await getCollection('portfolio');
-  const pages = await getCollection('pages');
+  const [posts, publications, talks, teaching, portfolio, pages] =
+    await Promise.all([
+      getCollection('blog', ({ data }) => !data.draft),
+      getCollection('publications'),
+      getCollection('talks'),
+      getCollection('teaching'),
+      getCollection('portfolio'),
+      getCollection('pages'),
+    ]);
 
-  const items = [
+  const searchData = [
     ...posts.map((p) => ({
       title: parseInline(p.data.title),
       url: getPostUrl(p),
@@ -74,7 +77,7 @@ export const GET: APIRoute = async () => {
     },
   ];
 
-  return new Response(JSON.stringify(items), {
+  return new Response(JSON.stringify(searchData), {
     status: 200,
     headers: {
       'Content-Type': 'application/json',
