@@ -1,9 +1,10 @@
 ---
 import { getCollection } from 'astro:content';
 
-import ArchivePortfolio from '../../components/ArchivePortfolio.astro';
-import ArchiveLayout from '../../layouts/ArchiveLayout.astro';
-import { getPortfolioUrl } from '../../utils/url';
+import ArchiveLayout from '@layouts/ArchiveLayout.astro';
+import ArchivePortfolio from '@components/ArchivePortfolio.astro';
+
+import { getPortfolioUrl } from '@utils/url';
 
 const allPortfolio = await getCollection('portfolio');
 ---

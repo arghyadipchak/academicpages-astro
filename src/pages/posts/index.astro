@@ -1,10 +1,11 @@
 ---
 import { getCollection } from 'astro:content';
 
-import ArchivePost from '../../components/ArchivePost.astro';
-import ArchiveLayout from '../../layouts/ArchiveLayout.astro';
-import { calculateReadingTime } from '../../utils/readingTime';
-import { getPostUrl } from '../../utils/url';
+import ArchiveLayout from '@layouts/ArchiveLayout.astro';
+import ArchivePost from '@components/ArchivePost.astro';
+
+import { calculateReadingTime } from '@utils/readingTime';
+import { getPostUrl } from '@utils/url';
 
 const allPosts = await getCollection('blog', ({ data }) => !data.draft);
 allPosts.sort(

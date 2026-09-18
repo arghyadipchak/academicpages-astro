@@ -1,9 +1,10 @@
 ---
 import { getCollection } from 'astro:content';
 
-import ArchiveTalk from '../../components/ArchiveTalk.astro';
-import ArchiveLayout from '../../layouts/ArchiveLayout.astro';
-import { getTalkUrl } from '../../utils/url';
+import ArchiveLayout from '@layouts/ArchiveLayout.astro';
+import ArchiveTalk from '@components/ArchiveTalk.astro';
+
+import { getTalkUrl } from '@utils/url';
 
 const allTalks = await getCollection('talks');
 allTalks.sort(

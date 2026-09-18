@@ -1,4 +1,4 @@
-import { siteConfig } from '../data/siteConfig';
+import { siteConfig } from '@data/siteConfig';
 
 const defaultDateFormatter = new Intl.DateTimeFormat(siteConfig.locale, {
   year: 'numeric',

@@ -1,8 +1,8 @@
 import type { APIRoute } from 'astro';
 import { getCollection } from 'astro:content';
 
-import { navigation } from '../data/navigation';
-import { siteConfig } from '../data/siteConfig';
+import { navigation } from '@data/navigation';
+import { siteConfig } from '@data/siteConfig';
 import {
   getPortfolioUrl,
   getPostUrl,
@@ -11,7 +11,7 @@ import {
   getTeachingUrl,
   resolveExternalUrl,
   resolveUrl,
-} from '../utils/url';
+} from '@utils/url';
 
 // Default descriptive summaries for standard navigation sections
 const navDescriptions: Record<string, string> = {

@@ -1,12 +1,13 @@
 ---
-import '../styles/global.css';
+import '@styles/global.css';
 
-import Footer from '../components/Footer.astro';
-import HeadSEO from '../components/HeadSEO.astro';
-import Masthead from '../components/Masthead.astro';
-import ProseEnhancer from '../components/ProseEnhancer.astro';
-import SearchModal from '../components/SearchModal.astro';
-import { siteConfig } from '../data/siteConfig';
+import Footer from '@components/Footer.astro';
+import HeadSEO from '@components/HeadSEO.astro';
+import Masthead from '@components/Masthead.astro';
+import ProseEnhancer from '@components/ProseEnhancer.astro';
+import SearchModal from '@components/SearchModal.astro';
+
+import { siteConfig } from '@data/siteConfig';
 
 export interface Props {
   title?: string;

@@ -1,6 +1,7 @@
 import { expect, test } from '@playwright/test';
 
-import { siteConfig } from '../src/data/siteConfig';
+import { siteConfig } from '@data/siteConfig';
+
 import { attachAssetErrorListener, toUrl } from './fixtures/test-utils';
 
 test.describe('Core UI, SEO & Page Integrity Tests', () => {

@@ -1,10 +1,11 @@
 ---
 import { Icon } from 'astro-icon/components';
 
-import { navigation } from '../data/navigation';
-import { siteConfig } from '../data/siteConfig';
-import { resolveUrl } from '../utils/url';
-import ThemeToggle from './ThemeToggle.astro';
+import ThemeToggle from '@components/ThemeToggle.astro';
+
+import { navigation } from '@data/navigation';
+import { siteConfig } from '@data/siteConfig';
+import { resolveUrl } from '@utils/url';
 
 const currentPath = Astro.url.pathname;
 const homePath = resolveUrl('/');

@@ -1,7 +1,7 @@
 import type { APIRoute } from 'astro';
 import { getCollection } from 'astro:content';
 
-import { parseInline } from '../../utils/marked';
+import { parseInline } from '@utils/marked';
 import {
   getPortfolioUrl,
   getPostUrl,
@@ -9,7 +9,7 @@ import {
   getTalkUrl,
   getTeachingUrl,
   resolveUrl,
-} from '../../utils/url';
+} from '@utils/url';
 
 export const GET: APIRoute = async () => {
   const [posts, publications, talks, teaching, portfolio, pages] =

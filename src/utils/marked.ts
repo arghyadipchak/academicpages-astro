@@ -2,7 +2,7 @@ import katex from 'katex';
 import { marked } from 'marked';
 import markedKatex from 'marked-katex-extension';
 
-import { resolveHtmlUrls } from './url';
+import { resolveHtmlUrls } from '@utils/url';
 
 // Configure marked with non-standard KaTeX inline math and enforced inline display mode
 marked.use(markedKatex({ nonStandard: true }), {

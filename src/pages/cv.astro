@@ -1,14 +1,15 @@
 ---
 import { getCollection } from 'astro:content';
 
-import SingleLayout from '../layouts/SingleLayout.astro';
-import { sortTeaching } from '../utils/date';
-import { parseInline } from '../utils/marked';
+import SingleLayout from '@layouts/SingleLayout.astro';
+
+import { sortTeaching } from '@utils/date';
+import { parseInline } from '@utils/marked';
 import {
   getPublicationUrl as getPubUrl,
   getTalkUrl,
   getTeachingUrl,
-} from '../utils/url';
+} from '@utils/url';
 
 const publications = await getCollection('publications');
 publications.sort(

@@ -1,9 +1,9 @@
 ---
 import { Icon } from 'astro-icon/components';
 
-import { siteConfig } from '../data/siteConfig';
-import { parseInline } from '../utils/marked';
-import { resolveExternalUrl, resolveUrl as resolvePath } from '../utils/url';
+import { siteConfig } from '@data/siteConfig';
+import { parseInline } from '@utils/marked';
+import { resolveExternalUrl, resolveUrl as resolvePath } from '@utils/url';
 
 export interface Props {
   author?: typeof siteConfig.author;

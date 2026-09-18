@@ -1,7 +1,7 @@
 import type { APIRoute } from 'astro';
 
-import { siteConfig } from '../data/siteConfig';
-import { resolveUrl } from '../utils/url';
+import { siteConfig } from '@data/siteConfig';
+import { resolveUrl } from '@utils/url';
 
 export const GET: APIRoute = ({ site }) => {
   const origin = site

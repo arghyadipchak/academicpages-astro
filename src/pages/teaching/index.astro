@@ -1,10 +1,11 @@
 ---
 import { getCollection } from 'astro:content';
 
-import ArchiveTeaching from '../../components/ArchiveTeaching.astro';
-import ArchiveLayout from '../../layouts/ArchiveLayout.astro';
-import { sortTeaching } from '../../utils/date';
-import { getTeachingUrl } from '../../utils/url';
+import ArchiveLayout from '@layouts/ArchiveLayout.astro';
+import ArchiveTeaching from '@components/ArchiveTeaching.astro';
+
+import { sortTeaching } from '@utils/date';
+import { getTeachingUrl } from '@utils/url';
 
 const allTeaching = sortTeaching(await getCollection('teaching'));
 ---

@@ -1,7 +1,8 @@
 ---
-import { formatYear } from '../utils/date';
-import { parseInline } from '../utils/marked';
-import ActionBadges from './ActionBadges.astro';
+import ActionBadges from '@components/ActionBadges.astro';
+
+import { formatYear } from '@utils/date';
+import { parseInline } from '@utils/marked';
 
 export interface Props {
   title: string;

@@ -1,16 +1,17 @@
 ---
 import { Icon } from 'astro-icon/components';
 
-import ActionBadges from '../components/ActionBadges.astro';
-import AuthorProfile from '../components/AuthorProfile.astro';
-import Breadcrumbs from '../components/Breadcrumbs.astro';
-import Prose from '../components/Prose.astro';
-import TableOfContents from '../components/TableOfContents.astro';
-import { siteConfig } from '../data/siteConfig';
-import { formatDate, formatYear, toIsoDateString } from '../utils/date';
-import { parseInline } from '../utils/marked';
-import { resolveUrl } from '../utils/url';
-import BaseLayout from './BaseLayout.astro';
+import BaseLayout from '@layouts/BaseLayout.astro';
+import ActionBadges from '@components/ActionBadges.astro';
+import AuthorProfile from '@components/AuthorProfile.astro';
+import Breadcrumbs from '@components/Breadcrumbs.astro';
+import Prose from '@components/Prose.astro';
+import TableOfContents from '@components/TableOfContents.astro';
+
+import { siteConfig } from '@data/siteConfig';
+import { formatDate, formatYear, toIsoDateString } from '@utils/date';
+import { parseInline } from '@utils/marked';
+import { resolveUrl } from '@utils/url';
 
 export interface Props {
   title: string;

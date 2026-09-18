@@ -1,8 +1,9 @@
 ---
 import { getCollection } from 'astro:content';
 
-import SingleLayout from '../layouts/SingleLayout.astro';
-import { parseInline } from '../utils/marked';
+import SingleLayout from '@layouts/SingleLayout.astro';
+
+import { parseInline } from '@utils/marked';
 import {
   getPortfolioUrl,
   getPostUrl,
@@ -10,7 +11,7 @@ import {
   getTalkUrl,
   getTeachingUrl,
   resolveUrl,
-} from '../utils/url';
+} from '@utils/url';
 
 const posts = await getCollection('blog');
 const publications = await getCollection('publications');

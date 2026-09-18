@@ -1,12 +1,13 @@
 import { unified } from '@astrojs/markdown-remark';
 import sitemap from '@astrojs/sitemap';
+import { defineConfig, svgoOptimizer } from 'astro/config';
+
 import tailwindcss from '@tailwindcss/vite';
 import icon from 'astro-icon';
-import { defineConfig, svgoOptimizer } from 'astro/config';
 import rehypeKatex from 'rehype-katex';
 import remarkMath from 'remark-math';
 
-import { siteConfig } from './src/data/siteConfig';
+import { siteConfig } from '@data/siteConfig';
 
 const rawUrl = process.env.ASTRO_URL || siteConfig.url;
 const parsedUrl = rawUrl ? new URL(rawUrl) : undefined;

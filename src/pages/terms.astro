@@ -1,7 +1,7 @@
 ---
 import { getEntry, render } from 'astro:content';
 
-import SingleLayout from '../layouts/SingleLayout.astro';
+import SingleLayout from '@layouts/SingleLayout.astro';
 
 const termsPage = await getEntry('pages', 'terms');
 if (!termsPage) {

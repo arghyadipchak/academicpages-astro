@@ -58,6 +58,12 @@ Once your custom icons are generated in `public/`:
   rm -rf scripts/
   ```
 - [ ] **Clean `package.json`**: Remove `"generate:favicons"` from `"scripts"`
+- [ ] **Clean `prettier.config.ts`**: Remove Node built-in rules from `importOrder`:
+  ```typescript
+  '<TYPES>^(node:.*|node$)',
+  '^(node:.*|node$)',
+  '',
+  ```
 
 ### B. Retire Playwright Tests (Recommended for Personal Repos)
 

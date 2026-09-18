@@ -1,8 +1,9 @@
 ---
-import AuthorProfile from '../components/AuthorProfile.astro';
-import Breadcrumbs from '../components/Breadcrumbs.astro';
-import { parseInline } from '../utils/marked';
-import BaseLayout from './BaseLayout.astro';
+import BaseLayout from '@layouts/BaseLayout.astro';
+import AuthorProfile from '@components/AuthorProfile.astro';
+import Breadcrumbs from '@components/Breadcrumbs.astro';
+
+import { parseInline } from '@utils/marked';
 
 export interface Props {
   title: string;

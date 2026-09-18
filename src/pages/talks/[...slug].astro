@@ -1,8 +1,9 @@
 ---
 import { getCollection, render } from 'astro:content';
 
-import SingleLayout from '../../layouts/SingleLayout.astro';
-import { getFileSlug, getShortSlug } from '../../utils/url';
+import SingleLayout from '@layouts/SingleLayout.astro';
+
+import { getFileSlug, getShortSlug } from '@utils/url';
 
 export async function getStaticPaths() {
   const talks = await getCollection('talks');

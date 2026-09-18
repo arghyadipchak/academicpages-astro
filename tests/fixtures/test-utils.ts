@@ -1,6 +1,6 @@
 import type { Page } from '@playwright/test';
 
-import { siteConfig } from '../../src/data/siteConfig';
+import { siteConfig } from '@data/siteConfig';
 
 export const rawUrl = process.env.ASTRO_URL || siteConfig.url;
 export const parsedBase = rawUrl

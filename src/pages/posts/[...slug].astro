@@ -1,9 +1,10 @@
 ---
 import { getCollection, render } from 'astro:content';
 
-import SingleLayout from '../../layouts/SingleLayout.astro';
-import { calculateReadingTime } from '../../utils/readingTime';
-import { getShortSlug } from '../../utils/url';
+import SingleLayout from '@layouts/SingleLayout.astro';
+
+import { calculateReadingTime } from '@utils/readingTime';
+import { getShortSlug } from '@utils/url';
 
 export async function getStaticPaths() {
   const posts = await getCollection('blog');
