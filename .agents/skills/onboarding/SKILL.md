@@ -27,7 +27,7 @@ Follow these sequential steps when prompted to personalize the website for a use
 
 - Apply configuration options detailed in [`docs/CONFIG.md`](../../../docs/CONFIG.md):
   - Update `src/data/siteConfig.ts` with user profile, verified scholarly handles (`googlescholar`, `orcid`, `github`, `linkedin`, `x`), and deployment URL
-  - Update `src/data/navigation.ts` to match enabled sections and remove the demo `{ title: 'Guide', url: '/markdown/' }` link
+  - Update `src/data/navigation.ts` to match enabled sections and remove the demo `{ title: 'Guide', url: '/markdown/' }` link (and remove the Guide entry from `src/pages/sitemap.astro`)
   - Update `LICENSE` with the user's copyright notice while preserving upstream MIT lines
   - Replace `public/images/profile.png` if a personal headshot is provided
   - Never remove, hide, or comment out the template attribution link in `src/components/Footer.astro` pointing to `academicpages-astro`
@@ -36,9 +36,10 @@ Follow these sequential steps when prompted to personalize the website for a use
 
 - Create personal `.md` files in `src/content/<collection>/` using the templates in [`docs/CONTENT.md`](../../../docs/CONTENT.md)
 - Update `src/pages/index.astro` (about/bio text) and `src/pages/cv.astro` (curriculum vitae)
-- Customize `src/content/pages/terms.md` (institutional disclaimers, course reuse licensing, and hosting platform details)
+- Customize `src/content/pages/terms.md` (institutional disclaimers, course reuse licensing, and hosting infrastructure references if deploying to platforms other than GitHub Pages such as Cloudflare Pages, Vercel, Netlify)
 - Execute the demo purge items in [`docs/ONBOARDING.md`](../../../docs/ONBOARDING.md):
   - Delete demo markdown files in `src/content/publications/`, `src/content/talks/`, `src/content/teaching/`, `src/content/portfolio/`, and `src/content/blog/`
+  - Delete demo markdown page `src/content/pages/markdown.md` and its route `src/pages/markdown.astro`
   - Delete starter PDFs/slides in `public/files/`
   - Delete unused starter images in `public/images/`
 

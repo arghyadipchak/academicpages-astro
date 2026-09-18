@@ -117,16 +117,14 @@ export const navigation: NavItem[] = [
   { title: 'Portfolio', url: '/portfolio/' },
   { title: 'Blog Posts', url: '/posts/' },
   { title: 'CV', url: '/cv/' },
-  { title: 'Guide', url: '/markdown/' },
 ];
 ```
 
 ### Customizing Navigation
 
 - **Reordering**: Change the array order to rearrange menu items
-- **Removing Unused Sections**: If you do not have talks or teaching, remove them from this array. The corresponding pages will not appear in the menu
+- **Removing Unused Sections**: If you do not have talks or teaching, remove them from this array (the corresponding pages will not appear in the menu)
 - **Adding Custom Pages**: Add `{ title: 'Custom Page', url: '/custom-url/' }` for any static page added to `src/pages/`
-- **Removing the Starter Guide**: The `{ title: 'Guide', url: '/markdown/' }` entry is a formatting demo and should be removed when launching your personal site (see [`docs/MARKDOWN.md`](MARKDOWN.md) for permanent reference)
 
 ---
 
@@ -166,8 +164,6 @@ Redirects are managed under `redirects` in [`astro.config.ts`](../astro.config.t
 redirects: {
   '/about': '/',
   '/resume': '/cv/',
-  '/guide': '/markdown/',
-  '/md': '/markdown/',
 },
 ```
 
@@ -175,29 +171,26 @@ redirects: {
 
 - `'/about': '/'`: Redirects legacy `/about` requests to the homepage
 - `'/resume': '/cv/'`: Redirects `/resume` to `/cv/`
-- `'/guide': '/markdown/'` and `'/md': '/markdown/'`: Aliases for the starter Markdown guide
 
 ### Legacy Jekyll & WordPress Redirects
 
-When migrating an existing Jekyll or WordPress site with live inbound links, you can preserve SEO rankings by adding legacy redirects:
+When migrating an existing Jekyll or WordPress site with live inbound links, preserve SEO rankings by adding legacy route aliases:
 
 ```ts
 redirects: {
   '/about': '/',
   '/resume': '/cv/',
-  // Legacy Jekyll blog archive redirects:
+  // Legacy Jekyll blog archive redirects
   '/year-archive/': '/posts/',
   '/wordpress/blog-posts/': '/posts/',
-  // Old Jekyll layout permalink formats:
+  // Old Jekyll layout permalink formats
   '/publications.html': '/publications/',
   '/talks.html': '/talks/',
 },
 ```
 
-### When to Add or Remove Redirects
+### Customizing Redirects
 
-- **Keep**: Keep `/about` and `/resume` as standard user aliases
-- **Remove**:
-  - If you delete the formatting demo `/markdown/`, remove `'/guide': '/markdown/'` and `'/md': '/markdown/'`
-  - If starting fresh (not migrating an existing website with inbound links), remove any legacy Jekyll or WordPress aliases
-- **Add**: Add specific entry-level redirects if your previous site used custom URL slugs (e.g. `'/paper123': '/publications/paper-slug/'`)
+- **Keep**: Retain `/about` and `/resume` as standard convenience aliases
+- **Prune**: If starting fresh without an existing site to migrate, omit legacy Jekyll and WordPress aliases
+- **Extend**: Add custom entry-level redirects for past URL structures (e.g. `'/paper123': '/publications/paper-slug/'`)

@@ -149,9 +149,9 @@ Software libraries, datasets, open-source projects, and research artifacts.
 | :----------- | :------- | :-------------------------------------------------- |
 | `timeline`   | `string` | Project active duration (e.g. `Aug 2025 – Present`) |
 | `venue`      | `string` | Organization, lab, or institution name              |
-| `code_url`   | `string` | Source code repository link                         |
 | `pdf_url`    | `string` | Documentation or report link                        |
 | `slides_url` | `string` | Presentation slides link                            |
+| `code_url`   | `string` | Source code repository link                         |
 
 ### Example
 
@@ -160,8 +160,8 @@ Software libraries, datasets, open-source projects, and research artifacts.
 title: Neural Force Fields Library
 date: 2025-08-01
 timeline: Aug 2025 – Present
-venue: AI for Science Lab
 description: Open-source PyTorch framework for molecular simulation
+venue: AI for Science Lab
 image: /images/project-1.svg
 pdf_url: https://example.com/paper.pdf
 code_url: https://github.com/username/project
@@ -180,10 +180,10 @@ Articles, research thoughts, and release announcements.
 
 | Field       | Type         | Description                                                  |
 | :---------- | :----------- | :----------------------------------------------------------- |
-| `tags`      | `string[]`   | Array of topic tags                                          |
 | `modified`  | `YYYY-MM-DD` | Last updated date                                            |
-| `draft`     | `boolean`    | Set to `true` to hide from listings, sitemaps, and RSS feeds |
 | `read_time` | `boolean`    | Displays estimated reading time badge (default: `true`)      |
+| `tags`      | `string[]`   | Array of topic tags                                          |
+| `draft`     | `boolean`    | Set to `true` to hide from listings, sitemaps, and RSS feeds |
 
 ### Example
 
@@ -197,9 +197,9 @@ tags:
   - AI
   - Research
   - Tooling
-draft: false
 read_time: true
 toc: true
+draft: false
 ---
 
 Post content with full Markdown, math equations, code blocks, and diagrams.
@@ -209,22 +209,40 @@ Post content with full Markdown, math equations, code blocks, and diagrams.
 
 ## 8. Static Pages (`src/content/pages/`)
 
-Static markdown pages for institutional requirements or reference guides.
+Static markdown pages for institutional requirements, legal disclaimers, or standalone pages:
 
 - `about.md`: Legacy bio page (note: default homepage is `src/pages/index.astro`)
 - `terms.md`: Academic terms of use, content licensing, and privacy notices linked in the global footer (`/terms/`)
-- `markdown.md`: Starter Markdown formatting demo (`/markdown/`, deleted during setup)
 
-### Example
+### Creating Custom Static Pages
 
-```markdown
----
-title: Terms and Privacy Policy
-description: Terms of use, content licensing, and privacy practices for this website
----
-```
+1. Create a markdown entry in `src/content/pages/<slug>.md`:
 
-> 💡 **Customization**: Review `src/content/pages/terms.md` to tailor institutional disclaimers, course reuse licensing, and hosting infrastructure references if deploying to platforms other than GitHub Pages (e.g. Cloudflare Pages, Vercel, Netlify).
+   ```markdown
+   ---
+   title: Research Statement
+   description: Institutional research overview and future directions
+   ---
+
+   Page content with markdown formatting, KaTeX math equations, and diagrams.
+   ```
+
+2. Create the corresponding Astro route in `src/pages/<slug>.astro`:
+   ```astro
+   ---
+   import { getEntry, render } from 'astro:content';
+
+   import PageLayout from '../layouts/PageLayout.astro';
+
+   const entry = await getEntry('pages', '<slug>');
+   if (!entry) return Astro.redirect('/404');
+   const { Content } = await render(entry);
+   ---
+
+   <PageLayout title={entry.data.title} description={entry.data.description}>
+     <Content />
+   </PageLayout>
+   ```
 
 ---
 
@@ -232,4 +250,4 @@ description: Terms of use, content licensing, and privacy practices for this web
 
 Academic Pages Astro supports KaTeX math, interactive Mermaid diagrams, Plotly scientific charts, callouts, and syntax-highlighted code blocks across all markdown entries.
 
-For the comprehensive syntax reference, formatting examples, and live visual rendering, see [`docs/MARKDOWN.md`](MARKDOWN.md) or visit the [live markdown demo](https://arghyadipchak.github.io/academicpages-astro/markdown/).
+For the comprehensive syntax reference and formatting examples, see [`docs/MARKDOWN.md`](MARKDOWN.md)

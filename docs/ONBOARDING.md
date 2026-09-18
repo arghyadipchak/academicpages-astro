@@ -27,7 +27,7 @@ Follow this itemized roadmap to convert the starter template into your personal 
 - [ ] **Markdown Guide**: Delete demo content `src/content/pages/markdown.md` and its route `src/pages/markdown.astro`
 - [ ] **Homepage Bio**: Update `src/pages/index.astro` with your biography and research interests
 - [ ] **CV**: Update `src/pages/cv.astro` (education, appointments, awards, service)
-- [ ] **Terms & Privacy Policy**: Review and customize `src/content/pages/terms.md` (institutional disclaimers, academic reuse terms, or hosting provider if not using GitHub Pages)
+- [ ] **Terms & Privacy Policy**: Review and customize `src/content/pages/terms.md` (institutional disclaimers, course reuse licensing, and hosting infrastructure references if deploying to platforms other than GitHub Pages such as Cloudflare Pages, Vercel, Netlify)
 
 ---
 
@@ -42,7 +42,7 @@ Follow this itemized roadmap to convert the starter template into your personal 
 
 ## 4. Navigation & Route Pruning
 
-- [ ] **Remove Guide Link**: Delete `{ title: 'Guide', url: '/markdown/' }` from `src/data/navigation.ts`
+- [ ] **Remove Guide Link**: Delete `{ title: 'Guide', url: '/markdown/' }` from `src/data/navigation.ts` and remove the Guide link from `src/pages/sitemap.astro`
 - [ ] **Prune Unused Sections**: In `src/data/navigation.ts`, remove links to any collections you do not use (e.g. remove `Teaching` or `Talks`)
 - [ ] **Clean Legacy Redirects**: In `astro.config.ts`, remove demo redirects (`/guide`, `/md`) unless you are porting an existing Jekyll site with live inbound links (see [`docs/CONFIG.md`](CONFIG.md#4-route--legacy-redirects-astroconfigts))
 
@@ -60,15 +60,15 @@ Once your custom icons are generated in `public/`:
   ```bash
   rm -rf scripts/
   ```
-- [ ] **Remove Generator Dependency & Script**: In `package.json`, remove `"generate:favicons": "bash scripts/generate-favicons.sh"` and `resvg` if listed
+- [ ] **Remove Generator Dependency & Script**: In `package.json`, remove `"generate:favicons": "node --experimental-strip-types scripts/generate-favicons.ts"`
 
-### B. Retire Starter Tests & E2E Scaffolding (Optional)
+### B. Retire Starter Tests & Test Scaffolding (Optional)
 
-Once initial onboarding is verified, template e2e tests targeting demo content can be removed:
+Once initial onboarding is verified, template browser tests targeting demo content can be removed:
 
 - [ ] **Delete Test Directory**:
   ```bash
-  rm -rf e2e/
+  rm -rf tests/
   rm playwright.config.ts
   ```
 - [ ] **Remove Test Scripts & Dependencies**: In `package.json`, remove `"test": "playwright test"` and `@playwright/test` from `devDependencies`
