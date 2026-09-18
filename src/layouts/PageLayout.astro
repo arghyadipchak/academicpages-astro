@@ -1,6 +1,4 @@
 ---
-import { Icon } from 'astro-icon/components';
-
 import BaseLayout from '@layouts/BaseLayout.astro';
 import ActionBadges from '@components/ActionBadges.astro';
 import AuthorProfile from '@components/AuthorProfile.astro';
@@ -8,30 +6,26 @@ import Breadcrumbs from '@components/Breadcrumbs.astro';
 import Prose from '@components/Prose.astro';
 import TableOfContents from '@components/TableOfContents.astro';
 
-import { siteConfig } from '@data/siteConfig';
-import { formatDate, formatYear, toIsoDateString } from '@utils/date';
 import { parseInline } from '@utils/marked';
-import { resolveUrl } from '@utils/url';
 
 export interface Props {
   title: string;
   description?: string;
   date?: Date;
-  modified?: Date;
-  readTime?: string;
   tags?: string[];
-  type?: string;
-  venue?: string;
-  year?: number;
-  semester?: string;
-  timeline?: string;
   citation?: string;
+  citationMetadata?: {
+    title?: string;
+    author?: string;
+    publicationDate?: string;
+    journalTitle?: string;
+    pdfUrl?: string;
+  };
   pdfUrl?: string;
   paperUrl?: string;
   slidesUrl?: string;
   codeUrl?: string;
   bibtex?: string;
-  collection?: string;
   authorProfile?: boolean;
   toc?: boolean;
   image?: string;
@@ -41,56 +35,20 @@ const {
   title,
   description,
   date,
-  modified,
-  readTime,
   tags = [],
-  type,
-  venue,
-  year,
-  semester,
-  timeline,
   citation,
+  citationMetadata,
   pdfUrl: rawPdfUrl,
   paperUrl,
   slidesUrl,
   codeUrl,
   bibtex,
-  collection,
   authorProfile = true,
   toc = true,
   image,
 } = Astro.props;
 
 const pdfUrl = rawPdfUrl ?? paperUrl;
-const formattedDate = formatDate(date);
-const formattedYear = formatYear(date);
-
-const termDisplay =
-  semester && year
-    ? `${semester} ${year}`
-    : semester || (year ? `${year}` : (formattedYear ?? ''));
-
-const citationMetadata =
-  collection === 'publications'
-    ? {
-        title,
-        author: siteConfig.author.name,
-        publicationDate: toIsoDateString(date),
-        journalTitle: venue,
-        pdfUrl: pdfUrl
-          ? pdfUrl.startsWith('http')
-            ? pdfUrl
-            : new URL(
-                resolveUrl(pdfUrl),
-                Astro.site
-                  ? Astro.site.toString()
-                  : siteConfig.url
-                    ? new URL(siteConfig.url).origin
-                    : Astro.url.origin
-              ).toString()
-          : undefined,
-      }
-    : undefined;
 ---
 
 <BaseLayout
@@ -131,86 +89,7 @@ const citationMetadata =
               itemprop="headline"
               set:html={parseInline(title)}
             />
-
-            {/* Teaching metadata */}
-            {collection === 'teaching' && (venue || termDisplay || type) && (
-              <p class="mt-2 text-sm text-(--global-text-color-light)">
-                {type ? `${type}, ` : ''}
-                {venue ? <em>{venue}</em> : ''}
-                {termDisplay ? `, ${termDisplay}` : ''}
-              </p>
-            )}
-
-            {/* Portfolio metadata */}
-            {collection === 'portfolio' &&
-              (venue || timeline || formattedDate) && (
-                <div class="mt-2 space-y-1 text-sm text-(--global-text-color-light)">
-                  {(timeline || formattedDate) && (
-                    <p class="archive-date-line inline-flex items-center gap-1.5 leading-none font-medium">
-                      <Icon
-                        name="fa6-solid:calendar"
-                        class="h-3.5 w-3.5 shrink-0"
-                      />
-                      <span>{timeline || `Date: ${formattedDate}`}</span>
-                    </p>
-                  )}
-                  {venue && <p set:html={parseInline(venue)} />}
-                </div>
-              )}
-
-            {/* Publication metadata */}
-            {collection === 'publications' && venue && (
-              <p class="mt-2 text-sm text-(--global-text-color-light)">
-                Published in <em>{venue}</em>
-                {formattedYear ? `, ${formattedYear}` : ''}
-              </p>
-            )}
-
-            {/* Talk metadata */}
-            {collection === 'talks' && (
-              <div class="mt-2 space-y-1 text-sm text-(--global-text-color-light)">
-                {formattedDate && (
-                  <p class="archive-date-line inline-flex items-center gap-1.5 leading-none font-medium">
-                    <Icon
-                      name="fa6-solid:calendar"
-                      class="h-3.5 w-3.5 shrink-0"
-                    />
-                    <span>Date: {formattedDate}</span>
-                  </p>
-                )}
-                {(type || venue) && (
-                  <p>{type && venue ? `${type} at ${venue}` : type || venue}</p>
-                )}
-              </div>
-            )}
-
-            {/* Blog Post publish date & read time */}
-            {collection === 'blog' && (formattedDate || readTime) && (
-              <div class="mt-2 flex flex-wrap items-center gap-3 text-sm text-(--global-text-color-light)">
-                {formattedDate && (
-                  <p class="inline-flex items-center gap-1.5 leading-none">
-                    <Icon
-                      name="fa6-solid:calendar"
-                      class="h-3.5 w-3.5 shrink-0"
-                    />
-                    <span>
-                      <strong>Published:</strong> {formattedDate}
-                    </span>
-                    {modified && (
-                      <span class="ml-2">
-                        (Updated: {formatDate(modified)})
-                      </span>
-                    )}
-                  </p>
-                )}
-                {readTime && (
-                  <p class="inline-flex items-center gap-1.5 leading-none">
-                    <Icon name="fa6-solid:clock" class="h-3.5 w-3.5 shrink-0" />
-                    <span>{readTime}</span>
-                  </p>
-                )}
-              </div>
-            )}
+            <slot name="header-metadata" />
           </header>
 
           {toc !== false && <TableOfContents />}

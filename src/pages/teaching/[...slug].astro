@@ -35,19 +35,29 @@ export async function getStaticPaths() {
 
 const { item } = Astro.props;
 const { Content } = await render(item);
+
+const termDisplay =
+  item.data.semester && item.data.year
+    ? `${item.data.semester} ${item.data.year}`
+    : item.data.semester || (item.data.year ? `${item.data.year}` : '');
 ---
 
 <PageLayout
   title={item.data.title}
   description={item.data.description}
-  year={item.data.year}
-  semester={item.data.semester}
-  venue={item.data.venue}
-  type={item.data.type}
   authorProfile={item.data.author_profile}
   image={item.data.image}
   toc={item.data.toc}
-  collection="teaching"
 >
+  {(item.data.venue || termDisplay || item.data.type) && (
+    <p
+      slot="header-metadata"
+      class="mt-2 text-sm text-(--global-text-color-light)"
+    >
+      {item.data.type ? `${item.data.type}, ` : ''}
+      {item.data.venue ? <em>{item.data.venue}</em> : ''}
+      {termDisplay ? `, ${termDisplay}` : ''}
+    </p>
+  )}
   <Content />
 </PageLayout>

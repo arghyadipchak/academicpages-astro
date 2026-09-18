@@ -3,7 +3,9 @@ import { getCollection, render } from 'astro:content';
 
 import PageLayout from '@layouts/PageLayout.astro';
 
-import { getFileSlug, getShortSlug } from '@utils/url';
+import { siteConfig } from '@data/siteConfig';
+import { formatYear, toIsoDateString } from '@utils/date';
+import { getFileSlug, getShortSlug, resolveUrl } from '@utils/url';
 
 export async function getStaticPaths() {
   const publications = await getCollection('publications');
@@ -35,22 +37,51 @@ export async function getStaticPaths() {
 
 const { pub } = Astro.props;
 const { Content } = await render(pub);
+const formattedYear = formatYear(pub.data.date);
+const pdfUrl = pub.data.pdf_url ?? pub.data.paper_url;
+
+const citationMetadata = {
+  title: pub.data.title,
+  author: siteConfig.author.name,
+  publicationDate: toIsoDateString(pub.data.date),
+  journalTitle: pub.data.venue,
+  pdfUrl: pdfUrl
+    ? pdfUrl.startsWith('http')
+      ? pdfUrl
+      : new URL(
+          resolveUrl(pdfUrl),
+          Astro.site
+            ? Astro.site.toString()
+            : siteConfig.url
+              ? new URL(siteConfig.url).origin
+              : Astro.url.origin
+        ).toString()
+    : undefined,
+};
 ---
 
 <PageLayout
   title={pub.data.title}
   description={pub.data.description}
   date={pub.data.date}
-  venue={pub.data.venue}
   citation={pub.data.citation}
-  pdfUrl={pub.data.pdf_url ?? pub.data.paper_url}
+  citationMetadata={citationMetadata}
+  pdfUrl={pdfUrl}
   slidesUrl={pub.data.slides_url}
   codeUrl={pub.data.code_url}
   bibtex={pub.data.bibtex}
   authorProfile={pub.data.author_profile}
   image={pub.data.image}
   toc={pub.data.toc}
-  collection="publications"
 >
+  {pub.data.venue && (
+    <p
+      slot="header-metadata"
+      class="mt-2 text-sm text-(--global-text-color-light)"
+    >
+      Published in <em>{pub.data.venue}</em>
+      {formattedYear ? `, ${formattedYear}` : ''}
+    </p>
+  )}
   <Content />
 </PageLayout>
