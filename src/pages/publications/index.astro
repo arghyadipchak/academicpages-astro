@@ -1,8 +1,8 @@
 ---
 import { getCollection } from 'astro:content';
 
-import ArchiveLayout from '@layouts/ArchiveLayout.astro';
-import ArchivePublication from '@components/ArchivePublication.astro';
+import ListLayout from '@layouts/ListLayout.astro';
+import PublicationCard from '@components/PublicationCard.astro';
 
 import { siteConfig } from '@data/siteConfig';
 import { getPublicationUrl, resolveExternalUrl } from '@utils/url';
@@ -15,7 +15,7 @@ allPubs.sort(
 const categories = siteConfig.publicationCategories;
 ---
 
-<ArchiveLayout title="Publications">
+<ListLayout title="Publications">
   {
     siteConfig.author.googlescholar && (
       <div class="mb-4 text-sm text-(--global-text-color)">
@@ -85,7 +85,7 @@ const categories = siteConfig.publicationCategories;
               </h2>
               <div class="space-y-2">
                 {catPubs.map((pub) => (
-                  <ArchivePublication
+                  <PublicationCard
                     title={pub.data.title}
                     url={getPublicationUrl(pub)}
                     venue={pub.data.venue}
@@ -109,7 +109,7 @@ const categories = siteConfig.publicationCategories;
       )
     }
   </div>
-</ArchiveLayout>
+</ListLayout>
 
 <script>
   function setupPubFilters() {

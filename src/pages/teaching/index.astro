@@ -1,8 +1,8 @@
 ---
 import { getCollection } from 'astro:content';
 
-import ArchiveLayout from '@layouts/ArchiveLayout.astro';
-import ArchiveTeaching from '@components/ArchiveTeaching.astro';
+import ListLayout from '@layouts/ListLayout.astro';
+import TeachingCard from '@components/TeachingCard.astro';
 
 import { sortTeaching } from '@utils/date';
 import { getTeachingUrl } from '@utils/url';
@@ -10,12 +10,12 @@ import { getTeachingUrl } from '@utils/url';
 const allTeaching = sortTeaching(await getCollection('teaching'));
 ---
 
-<ArchiveLayout title="Teaching">
+<ListLayout title="Teaching">
   <div class="space-y-2">
     {
       allTeaching.length > 0 ? (
         allTeaching.map((item) => (
-          <ArchiveTeaching
+          <TeachingCard
             title={item.data.title}
             url={getTeachingUrl(item)}
             type={item.data.type}
@@ -32,4 +32,4 @@ const allTeaching = sortTeaching(await getCollection('teaching'));
       )
     }
   </div>
-</ArchiveLayout>
+</ListLayout>

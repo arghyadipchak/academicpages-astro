@@ -1,7 +1,7 @@
 ---
 import { getCollection, render } from 'astro:content';
 
-import SingleLayout from '@layouts/SingleLayout.astro';
+import PageLayout from '@layouts/PageLayout.astro';
 
 import { calculateReadingTime } from '@utils/readingTime';
 import { getShortSlug } from '@utils/url';
@@ -42,7 +42,7 @@ const { post } = Astro.props;
 const { Content } = await render(post);
 ---
 
-<SingleLayout
+<PageLayout
   title={post.data.title}
   description={post.data.description}
   date={post.data.date}
@@ -55,4 +55,4 @@ const { Content } = await render(post);
   image={post.data.image}
 >
   <Content />
-</SingleLayout>
+</PageLayout>

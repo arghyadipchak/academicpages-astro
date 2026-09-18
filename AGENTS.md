@@ -45,7 +45,7 @@ academicpages-astro/
 │   ├── data/
 │   │   ├── navigation.ts   # Top navigation bar links
 │   │   └── siteConfig.ts   # Author profile, site title, links, and category definitions
-│   ├── layouts/            # BaseLayout, SingleLayout, ArchiveLayout
+│   ├── layouts/            # BaseLayout, PageLayout, ListLayout
 │   ├── pages/              # Astro routing pages (/cv, /publications, /talks, /posts, etc.)
 │   └── styles/
 │       └── global.css      # Design tokens, themes, and global prose styling

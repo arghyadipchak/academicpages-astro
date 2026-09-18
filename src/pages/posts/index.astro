@@ -1,8 +1,8 @@
 ---
 import { getCollection } from 'astro:content';
 
-import ArchiveLayout from '@layouts/ArchiveLayout.astro';
-import ArchivePost from '@components/ArchivePost.astro';
+import ListLayout from '@layouts/ListLayout.astro';
+import PostCard from '@components/PostCard.astro';
 
 import { calculateReadingTime } from '@utils/readingTime';
 import { getPostUrl } from '@utils/url';
@@ -26,7 +26,7 @@ const postsByYear = allPosts.reduce<Record<string, typeof allPosts>>(
 const years = Object.keys(postsByYear).sort((a, b) => Number(b) - Number(a));
 ---
 
-<ArchiveLayout title="Blog Posts">
+<ListLayout title="Blog Posts">
   <div class="space-y-8">
     {
       years.length > 0 ? (
@@ -40,7 +40,7 @@ const years = Object.keys(postsByYear).sort((a, b) => Number(b) - Number(a));
             </h2>
             <div class="space-y-2">
               {postsByYear[year].map((post) => (
-                <ArchivePost
+                <PostCard
                   title={post.data.title}
                   url={getPostUrl(post)}
                   date={post.data.date}
@@ -62,4 +62,4 @@ const years = Object.keys(postsByYear).sort((a, b) => Number(b) - Number(a));
       )
     }
   </div>
-</ArchiveLayout>
+</ListLayout>

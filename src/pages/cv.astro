@@ -1,7 +1,7 @@
 ---
 import { getCollection } from 'astro:content';
 
-import SingleLayout from '@layouts/SingleLayout.astro';
+import PageLayout from '@layouts/PageLayout.astro';
 
 import { sortTeaching } from '@utils/date';
 import { parseInline } from '@utils/marked';
@@ -24,7 +24,7 @@ talks.sort(
 const teaching = sortTeaching(await getCollection('teaching'));
 ---
 
-<SingleLayout title="CV">
+<PageLayout title="CV">
   <div class="cv-content space-y-8">
     <section>
       <h2
@@ -187,4 +187,4 @@ const teaching = sortTeaching(await getCollection('teaching'));
       </ul>
     </section>
   </div>
-</SingleLayout>
+</PageLayout>

@@ -1,7 +1,7 @@
 ---
 import { getEntry, render } from 'astro:content';
 
-import SingleLayout from '@layouts/SingleLayout.astro';
+import PageLayout from '@layouts/PageLayout.astro';
 
 const guidePage = await getEntry('pages', 'markdown');
 if (!guidePage) {
@@ -11,7 +11,7 @@ if (!guidePage) {
 const { Content } = await render(guidePage);
 ---
 
-<SingleLayout
+<PageLayout
   title={guidePage.data.title}
   description={guidePage.data.description}
   authorProfile={guidePage.data.author_profile}
@@ -19,4 +19,4 @@ const { Content } = await render(guidePage);
   toc={guidePage.data.toc}
 >
   <Content />
-</SingleLayout>
+</PageLayout>

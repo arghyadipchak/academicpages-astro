@@ -1,7 +1,7 @@
 ---
 import { getCollection } from 'astro:content';
 
-import SingleLayout from '@layouts/SingleLayout.astro';
+import PageLayout from '@layouts/PageLayout.astro';
 
 import { parseInline } from '@utils/marked';
 import {
@@ -20,7 +20,7 @@ const teaching = await getCollection('teaching');
 const portfolio = await getCollection('portfolio');
 ---
 
-<SingleLayout title="Sitemap">
+<PageLayout title="Sitemap">
   <div class="sitemap-content space-y-6">
     <section>
       <h2
@@ -192,4 +192,4 @@ const portfolio = await getCollection('portfolio');
       )
     }
   </div>
-</SingleLayout>
+</PageLayout>

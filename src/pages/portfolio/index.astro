@@ -1,20 +1,20 @@
 ---
 import { getCollection } from 'astro:content';
 
-import ArchiveLayout from '@layouts/ArchiveLayout.astro';
-import ArchivePortfolio from '@components/ArchivePortfolio.astro';
+import ListLayout from '@layouts/ListLayout.astro';
+import PortfolioCard from '@components/PortfolioCard.astro';
 
 import { getPortfolioUrl } from '@utils/url';
 
 const allPortfolio = await getCollection('portfolio');
 ---
 
-<ArchiveLayout title="Portfolio">
+<ListLayout title="Portfolio">
   <div class="space-y-4">
     {
       allPortfolio.length > 0 ? (
         allPortfolio.map((item) => (
-          <ArchivePortfolio
+          <PortfolioCard
             title={item.data.title}
             url={getPortfolioUrl(item)}
             description={item.data.description}
@@ -31,4 +31,4 @@ const allPortfolio = await getCollection('portfolio');
       )
     }
   </div>
-</ArchiveLayout>
+</ListLayout>
