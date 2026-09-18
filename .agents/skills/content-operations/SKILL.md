@@ -5,7 +5,7 @@ description: Operational runbook for adding publications, talks, teaching, blog 
 
 # Academic Pages Astro Content Operations Skill ✍️
 
-Operational runbook for AI coding assistants and developers managing routine academic content, authoring publications, writing blog posts, and updating CV sections.
+Operational runbook for AI coding assistants managing routine academic content, authoring publications, writing blog posts, and updating CV sections.
 
 > 📚 **Canonical Reference Guides**:
 >
@@ -15,33 +15,26 @@ Operational runbook for AI coding assistants and developers managing routine aca
 
 ---
 
-## 1. Content Operations Workflow
+## 1. Content Operations Protocol
 
-Follow these rules when adding or modifying site content:
+Follow these guidelines when adding or modifying site content:
 
-### Publications (`src/content/publications/`)
+### Content Collections (`src/content/`)
 
-- **File Naming**: Date-prefixed kebab-case: `YYYY-MM-DD-paper-short-title.md`
-- **Frontmatter & Schemas**: Follow the full schema in [`docs/CONTENT.md#2-publications`](../../../docs/CONTENT.md#2-publications)
-- **Action Badges**: Populate `paperurl`, `code`, `slides`, `poster`, or `bibtex` to automatically render interactive buttons and 1-click BibTeX copy modals
-- **KaTeX in Titles**: Wrap math expressions in `$...$` inside `title` (e.g. `'Analyzing $\mathcal{M}$'`)
+Follow the exact schemas and templates in [`docs/CONTENT.md`](../../../docs/CONTENT.md):
 
-### Talks & Presentations (`src/content/talks/`)
+- **Publications (`src/content/publications/`)**: Author entries using [`docs/CONTENT.md#2-publications`](../../../docs/CONTENT.md#2-publications). Populate action badges (`paperurl`, `code`, `slides`, `poster`, `bibtex`) and wrap math titles in `$...$`
+- **Talks (`src/content/talks/`)**: Author entries using [`docs/CONTENT.md#3-talks--presentations`](../../../docs/CONTENT.md#3-talks--presentations)
+- **Teaching (`src/content/teaching/`)**: Author entries using [`docs/CONTENT.md#4-teaching--courses`](../../../docs/CONTENT.md#4-teaching--courses)
+- **Portfolio (`src/content/portfolio/`)**: Author entries using [`docs/CONTENT.md#5-portfolio--projects`](../../../docs/CONTENT.md#5-portfolio--projects)
+- **Blog Posts (`src/content/blog/`)**: Author entries using [`docs/CONTENT.md#6-blog-posts`](../../../docs/CONTENT.md#6-blog-posts)
+- **Static Pages (`src/content/pages/`)**: Author custom pages using [`docs/CONTENT.md#8-static-pages`](../../../docs/CONTENT.md#8-static-pages)
 
-- **File Naming**: `YYYY-MM-DD-talk-title.md`
-- **Frontmatter & Schemas**: Follow the template in [`docs/CONTENT.md#3-talks--presentations`](../../../docs/CONTENT.md#3-talks--presentations)
+### Mathematical Typesetting & Markdown Formatting
 
-### Teaching & Courses (`src/content/teaching/`)
+Follow [`docs/MARKDOWN.md`](../../../docs/MARKDOWN.md) for inline math (`$...$`), display equations (`$$...$$`), table formatting, and Mermaid diagrams.
 
-- **File Naming**: `YYYY-semester-course-name.md` (e.g. `2025-fall-cs101.md`)
-- **Frontmatter & Schemas**: Follow the template in [`docs/CONTENT.md#4-teaching--courses`](../../../docs/CONTENT.md#4-teaching--courses)
-
-### Blog Posts & Markdown Pages (`src/content/blog/`, `src/content/pages/`)
-
-- **File Naming**: `YYYY-MM-DD-post-title.md`
-- **Math Formatting**: Follow [`docs/MARKDOWN.md#1-katex--mathematical-typesetting`](../../../docs/MARKDOWN.md#1-katex--mathematical-typesetting) for inline math (`$...$`) and display equations (`$$...$$`)
-
-### Curriculum Vitae & Bio Updates
+### Profile & CV Updates
 
 - **CV Sections**: Edit structured sections in `src/pages/cv.astro` (Education, Appointments, Awards, Service)
 - **Profile & Handles**: Edit `src/data/siteConfig.ts` following [`docs/CONFIG.md`](../../../docs/CONFIG.md)
