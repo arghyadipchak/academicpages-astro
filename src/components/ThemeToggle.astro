@@ -36,6 +36,16 @@ import { Icon } from 'astro-icon/components';
           document.documentElement.classList.remove('dark');
         }
         localStorage.setItem('theme', nextTheme);
+
+        document
+          .querySelectorAll<HTMLMetaElement>('meta[name="theme-color"]')
+          .forEach((meta) => {
+            meta.setAttribute(
+              'content',
+              nextTheme === 'dark' ? '#282c34' : '#ffffff'
+            );
+          });
+
         document.dispatchEvent(
           new CustomEvent('theme-change', { detail: { theme: nextTheme } })
         );
