@@ -1,7 +1,6 @@
 # Build output & caches
 dist/
 .astro/
-.vite/
 
 # Dependencies
 node_modules/
@@ -13,12 +12,9 @@ yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 
-# Test results & coverage reports
-coverage/
-.nyc_output/
+# Test results
 test-results/
 playwright-report/
-blob-report/
 
 # Archives & bundle exports
 *.tar.gz
