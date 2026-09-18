@@ -64,17 +64,6 @@
           "recommendedVariantOrder": "warning"
         }
       }
-    },
-    "eslint": {
-      "settings": {
-        "validate": [
-          "javascript",
-          "javascriptreact",
-          "typescript",
-          "typescriptreact",
-          "astro"
-        ]
-      }
     }
   }
 }
