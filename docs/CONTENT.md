@@ -156,19 +156,21 @@ Post content with full Markdown, math equations, code blocks, and diagrams.
 Static markdown pages for institutional requirements or reference guides.
 
 - `about.md`: Legacy bio page (note: default homepage is `src/pages/index.astro`)
-- `terms.md`: Terms of service, copyright, or privacy notices (`/terms/`)
+- `terms.md`: Academic terms of use, content licensing, and privacy notices linked in the global footer (`/terms/`)
 - `markdown.md`: Starter Markdown formatting demo (`/markdown/`, deleted during setup)
 
 ### Frontmatter
 
 ```yaml
 ---
-title: Terms of Use & Privacy
-description: Privacy policy and licensing terms for this website
+title: Terms and Privacy Policy
+description: Terms of use, content licensing, and privacy practices for this website
 author_profile: true
 toc: false
 ---
 ```
+
+> 💡 **Customization**: Review `src/content/pages/terms.md` to tailor institutional disclaimers, course reuse licensing, and hosting infrastructure references if deploying to platforms other than GitHub Pages (e.g. Cloudflare Pages, Vercel, Netlify).
 
 ---
 

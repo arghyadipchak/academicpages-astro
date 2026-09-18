@@ -36,6 +36,7 @@ Follow these sequential steps when prompted to personalize the website for a use
 
 - Create personal `.md` files in `src/content/<collection>/` using the templates in [`docs/CONTENT.md`](../../../docs/CONTENT.md)
 - Update `src/pages/index.astro` (about/bio text) and `src/pages/cv.astro` (curriculum vitae)
+- Customize `src/content/pages/terms.md` (institutional disclaimers, course reuse licensing, and hosting platform details)
 - Execute the demo purge items in [`docs/ONBOARDING.md`](../../../docs/ONBOARDING.md):
   - Delete demo markdown files in `src/content/publications/`, `src/content/talks/`, `src/content/teaching/`, `src/content/portfolio/`, and `src/content/blog/`
   - Delete starter PDFs/slides in `public/files/`

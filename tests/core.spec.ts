@@ -57,7 +57,7 @@ test.describe('Core UI, SEO & Page Integrity Tests', () => {
     await expect(avatar).toHaveAttribute('alt', 'Your Sidebar Name');
   });
 
-  test('footer renders copyright, follow links, and sitemap link', async ({
+  test('footer renders copyright, follow links, sitemap, and terms link', async ({
     page,
   }) => {
     await page.goto(toUrl('/'));
@@ -65,6 +65,7 @@ test.describe('Core UI, SEO & Page Integrity Tests', () => {
     await expect(footer).toBeVisible();
     await expect(footer).toContainText('Powered by');
     await expect(footer).toContainText('Sitemap');
+    await expect(footer).toContainText('Terms & Privacy Policy');
   });
 
   test('semantic landmarks and accessibility checks', async ({ page }) => {

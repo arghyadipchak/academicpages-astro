@@ -27,6 +27,7 @@ Follow this itemized roadmap to convert the starter template into your personal 
 - [ ] **Markdown Guide**: Delete demo content `src/content/pages/markdown.md` and its route `src/pages/markdown.astro`
 - [ ] **Homepage Bio**: Update `src/pages/index.astro` with your biography and research interests
 - [ ] **CV**: Update `src/pages/cv.astro` (education, appointments, awards, service)
+- [ ] **Terms & Privacy Policy**: Review and customize `src/content/pages/terms.md` (institutional disclaimers, academic reuse terms, or hosting provider if not using GitHub Pages)
 
 ---
 
