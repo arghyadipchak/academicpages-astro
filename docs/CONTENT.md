@@ -6,7 +6,7 @@ This guide details how to write, structure, name, and organize content across al
 
 ## 1. Directory Structure & File Naming Conventions
 
-All content collections live in `src/content/`. Astro Content Layer validates every entry against schemas defined in [`src/content.config.ts`](file:///src/content.config.ts).
+All content collections live in `src/content/`. Astro Content Layer validates every entry against schemas defined in [`src/content.config.ts`](../src/content.config.ts).
 
 | Collection       | Directory                   | Recommended Naming             | URL Route                    |
 | :--------------- | :-------------------------- | :----------------------------- | :--------------------------- |
@@ -176,4 +176,4 @@ toc: false
 
 Academic Pages Astro supports KaTeX math, interactive Mermaid diagrams, Plotly scientific charts, callouts, and syntax-highlighted code blocks across all markdown entries.
 
-For the comprehensive syntax reference, formatting examples, and live visual rendering, see [`docs/MARKDOWN.md`](file:///docs/MARKDOWN.md) or visit the [live markdown demo](https://arghyadipchak.github.io/academicpages-astro/markdown/).
+For the comprehensive syntax reference, formatting examples, and live visual rendering, see [`docs/MARKDOWN.md`](MARKDOWN.md) or visit the [live markdown demo](https://arghyadipchak.github.io/academicpages-astro/markdown/).

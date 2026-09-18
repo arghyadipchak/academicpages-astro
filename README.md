@@ -27,7 +27,8 @@ A modern, high-performance academic personal website and portfolio template buil
   - **Dynamic CV**: Aggregated curriculum vitae with interactive, collapsible Table of Contents
 - 🔍 **Instant Search (`Cmd + K`)**: Fast, lightweight client-side fuzzy search across all publications, talks, and blog posts
 - 📐 **Mathematical Rigor ($\LaTeX$ / KaTeX)**: Fast, static server-side math rendering across Markdown content, frontmatter titles, and archive listings via KaTeX
-- 🌐 **Scholarly SEO & Syndication**: Google Scholar and Highwire Press citation meta tags, RSS 2.0 (`/rss.xml`), Atom feed (`/feed.xml`), XML sitemaps, crawlers index (`/robots.txt`), and LLM-friendly index (`/llms.txt`)
+- 🌐 **Scholarly SEO & Syndication**: Google Scholar and Highwire Press citation meta tags, RSS 2.0 (`/rss.xml`), Atom feed (`/feed.xml`), XML sitemaps, and crawlers index (`/robots.txt`)
+- 🤖 **AI-Native & Agent Ready**: Pre-equipped with turnkey prompts and specialized agent skills (`.agents/skills/`) for 1-step onboarding, routine content authoring, autonomous template upgrades, and machine-readable `/llms.txt` indexing
 - 📱 **Exhaustive Sidebar**: Sticky author profile on desktop supporting **50+ academic, code, and social platforms** with responsive mobile drawer
 - 🧪 **Comprehensive Test Suite**: Automated Playwright browser tests covering desktop and mobile viewports
 - 🛠️ **Editor & Cloud Ready**: Pre-configured for **VS Code** (`.vscode/`), **Zed** (`.zed/`), and **GitHub Codespaces** (`.devcontainer/`)
@@ -101,47 +102,112 @@ Visit `http://localhost:4321` in your browser
 
 ---
 
-## ⚙️ Customization Guide
+## ⚙️ AI Prompt Playbook & Customization Guide
 
-### 🪄 Quick Setup with AI (Recommended)
+If you use an AI coding assistant (**Antigravity**, **Cursor**, **Claude Code**, or **GitHub Copilot**), use these turnkey prompts across each stage of your site's lifecycle:
 
-If you are using an AI coding assistant (**Antigravity**, **Cursor**, **Claude Code**, or **GitHub Copilot**), you can personalize the entire site in a single step.
+### 🚀 Stage 1: Initial Onboarding & Personalization (One-Time)
 
-Copy and paste this prompt into your AI chat window:
+Copy and paste this prompt to personalize your entire website in one step:
 
 > [!TIP]
-> **One-Prompt Site Customization**:
+> **Stage 1 Prompt — Site Onboarding**:
 >
 > ```markdown
-> Please personalize this academic portfolio website for me by following `.agents/skills/customization/SKILL.md` and `docs/CHECKLIST.md`:
+> Please personalize this academic portfolio website for me by following `.agents/skills/onboarding/SKILL.md` and `docs/ONBOARDING.md`:
 >
-> 1. My Profiles & External Sources:
->    - CV / Resume: [Files in `cv/` (LaTeX `.tex`, Markdown, PDF, or text), or paste text/link]
->    - Google Scholar: [Profile URL or ID, or leave blank]
->    - GitHub: [Username or URL, or leave blank]
->    - LinkedIn: [Profile URL, or leave blank]
->    - Existing / Old Website: [URL or directory path of old Jekyll/Hugo/WordPress site, or leave blank]
->    - Other Profiles / Links: [e.g. ORCID, Twitter/X, ResearchGate, personal lab page]
->
-> 2. Execution Directives:
->    - Perform a discovery audit matching my data against template collections and ask me which sections to enable
->    - Update `src/data/siteConfig.ts` and `src/data/navigation.ts` with my verified profile and navigation links
->    - Populate `src/content/` with my publications, talks, teaching, and posts; purge all starter demo files and assets
->    - Retire starter Playwright tests and template governance files (`CONTRIBUTING.md`, `SECURITY.md`, etc.) as instructed in `docs/CHECKLIST.md`
->    - Personalize the repository `README.md` and verify the site with `pnpm verify && pnpm build`
->    - Self-destruct: Delete `docs/CHECKLIST.md` (`rm docs/CHECKLIST.md`) once personalization and verification are complete
+> - CV / Resume: [Files in `cv/` (LaTeX `.tex`, Markdown, PDF, or text), or paste text/link]
+> - Google Scholar: [Profile URL or ID, or leave blank]
+> - GitHub: [Username or URL, or leave blank]
+> - LinkedIn: [Profile URL, or leave blank]
+> - Existing / Old Website: [URL or directory path of old Jekyll/Hugo/WordPress site, or leave blank]
+> - Other Profiles / Links: [e.g. ORCID, Twitter/X, ResearchGate, personal lab page]
 > ```
 
 ---
 
-### 🛠️ Manual Customization (Step-by-Step)
+### ✍️ Stage 2: Routine Content Authoring (Ongoing)
 
-Follow the dedicated guides in `docs/` to personalize your site:
+Use these turnkey prompts to add new academic items into your collections:
 
-1. **[Setup & Cleanup Checklist](docs/CHECKLIST.md)**: Complete roadmap for site setup, demo content purge, asset cleanup, and test retirement
+#### Adding a Publication
+
+```markdown
+Please add a new publication to `src/content/publications/` following `.agents/skills/content-operations/SKILL.md` and `docs/CONTENT.md`:
+
+- Title: [Paper title, e.g. "Deep Learning for Mathematical Reasoning $\mathcal{M}$"]
+- Category: [conferences | journals | books]
+- Venue: [e.g. "NeurIPS 2025"]
+- Date: [YYYY-MM-DD]
+- Authors: [List of authors, with asterisks for co-first authors if applicable]
+- Links / Badges: [arXiv URL, GitHub code URL, PDF slide URL, poster URL]
+- BibTeX: [Raw BibTeX snippet or leave blank to generate from metadata]
+- Abstract / Summary: [Paste paper abstract or notes]
+```
+
+#### Adding Talks & Presentations
+
+```markdown
+Please add a new talk to `src/content/talks/` following `.agents/skills/content-operations/SKILL.md` and `docs/CONTENT.md`:
+
+- Title: [Talk title]
+- Type: [Keynote | Conference Talk | Tutorial | Seminar]
+- Date: [YYYY-MM-DD]
+- Venue: [Conference or department name]
+- Location: [City, State / Country]
+- Links: [Slides PDF, recording URL, or conference link]
+- Abstract: [Brief description or talk outline]
+```
+
+#### Adding Teaching & Courses
+
+```markdown
+Please add a new course to `src/content/teaching/` following `.agents/skills/content-operations/SKILL.md` and `docs/CONTENT.md`:
+
+- Title: [Course title, e.g. "Introduction to Machine Learning"]
+- Semester: [e.g. "Fall 2025" or "Spring 2026"]
+- Role: [Instructor | Teaching Assistant | Guest Lecturer]
+- Institution: [Department or university name]
+- Links: [Syllabus URL, slides URL, course website]
+- Description: [Course description, office hours, syllabus outline]
+```
+
+#### Writing a Blog Post with Math
+
+```markdown
+Please create a new blog post in `src/content/blog/` following `.agents/skills/content-operations/SKILL.md` and `docs/MARKDOWN.md`:
+
+- Title: [Post title, supports inline math like $E=mc^2$]
+- Date: [YYYY-MM-DD]
+- Tags: [List of tags]
+- Description: [Brief summary for SEO and feed]
+- Topic / Draft: [Topic outline, equations to typeset in KaTeX, and key takeaways]
+```
+
+---
+
+### 🔄 Stage 3: Upstream Template Upgrades (Maintenance)
+
+When new releases are published in `academicpages-astro`, update your site with:
+
+> [!TIP]
+> **Stage 3 Prompt — Template Synchronization**:
+>
+> ```markdown
+> Please upgrade my website with the latest template improvements from `academicpages-astro` following `.agents/skills/template-sync/SKILL.md` and `docs/SYNC.md`.
+> ```
+
+---
+
+## 🛠️ Manual Operations & Documentation Guides
+
+Follow the dedicated guides in `docs/` for manual workflows:
+
+1. **[Site Onboarding Guide](docs/ONBOARDING.md)**: Complete roadmap for site setup, demo content purge, asset cleanup, and test retirement
 2. **[Site Configuration Guide](docs/CONFIG.md)**: Configure `src/data/siteConfig.ts`, 50+ scholarly/social profiles, header navigation in `src/data/navigation.ts`, and redirects
 3. **[Content Authoring Guide](docs/CONTENT.md)**: Frontmatter schemas and conventions for publications, talks, teaching, portfolio projects, blog posts, and KaTeX math
 4. **[Markdown Reference](docs/MARKDOWN.md)**: Complete syntax reference for KaTeX math, tables, alert callouts, and Mermaid diagrams with live rendered demo link
+5. **[Template Synchronization Guide](docs/SYNC.md)**: Tag-to-tag template upgrades via ephemeral bare clone and targeted patches without Git remotes
 
 ---
 
@@ -154,16 +220,20 @@ Follow the dedicated guides in `docs/` to personalize your site:
 
 ---
 
-## 🤖 Documentation & AI Agent Skills
+## 🤖 Documentation & Operational Lifecycle
 
-This repository includes first-class documentation and support for AI coding assistants:
+This repository is structured around a **3-phase operational lifecycle** for human maintainers and AI coding assistants:
 
-- **[docs/CONFIG.md](docs/CONFIG.md)**: Complete configuration options and redirect handling
-- **[docs/CONTENT.md](docs/CONTENT.md)**: Content schemas, KaTeX formatting, and frontmatter templates
-- **[docs/CHECKLIST.md](docs/CHECKLIST.md)**: Self-destructing setup checklist and demo cleanup roadmap
-- **[docs/MARKDOWN.md](docs/MARKDOWN.md)**: Complete Markdown, typography, and mathematical typesetting reference
-- **[AGENTS.md](AGENTS.md)**: Repository constitution, architecture, coding guidelines, and verification rules
-- **[.agents/skills/customization/SKILL.md](.agents/skills/customization/SKILL.md)**: Customization skill and AI runbook
+1. **Phase 1: Initial Onboarding & Setup (One-Time)**
+   - **[docs/ONBOARDING.md](docs/ONBOARDING.md)** & [`.agents/skills/onboarding/`](.agents/skills/onboarding/SKILL.md): Itemized checklist for profile personalization, demo purge, and scaffolding retirement
+2. **Phase 2: Routine Content Authoring & Operations**
+   - **[docs/CONFIG.md](docs/CONFIG.md)**: Configuration options for `siteConfig.ts`, navigation, and 50+ scholarly handles
+   - **[docs/CONTENT.md](docs/CONTENT.md)** & [`.agents/skills/content-operations/`](.agents/skills/content-operations/SKILL.md): Schemas and conventions for publications, talks, teaching, and blog posts
+   - **[docs/MARKDOWN.md](docs/MARKDOWN.md)**: Mathematical typesetting with KaTeX, callouts, tables, and Mermaid diagrams
+3. **Phase 3: Upstream Template Synchronization**
+   - **[docs/SYNC.md](docs/SYNC.md)** & [`.agents/skills/template-sync/`](.agents/skills/template-sync/SKILL.md): Tag-based template upgrades via ephemeral bare clones and intelligent merging without Git remotes
+
+- **Master AI Constitution**: **[AGENTS.md](AGENTS.md)** (repository rules, quality gates, and agent guidelines)
 
 ---
 

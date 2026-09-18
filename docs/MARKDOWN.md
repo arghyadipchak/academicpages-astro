@@ -165,7 +165,7 @@ When authoring research entries in `src/content/publications/`, setting URLs (`p
 
 - **Interactive BibTeX**: Clicking the `[BibTeX]` badge triggers a 1-click citation copy modal
 - **Asset Links**: PDF and slide links open in a new tab with secure `target="_blank"` attributes
-- **Schema Details**: For full frontmatter schemas and publication fields, see [`docs/CONTENT.md`](file:///docs/CONTENT.md#2-publications-srccontentpublications)
+- **Schema Details**: For full frontmatter schemas and publication fields, see [`docs/CONTENT.md`](CONTENT.md#2-publications-srccontentpublications)
 
 ---
 
@@ -332,7 +332,7 @@ Academic Pages Astro provides default typography styles for semantic HTML elemen
 
 ## 14. Frontmatter Controls for Markdown Pages
 
-Any `.md` file in `src/content/` supports these layout controls defined in [`src/content.config.ts`](file:///src/content.config.ts):
+Any `.md` file in `src/content/` supports these layout controls defined in [`src/content.config.ts`](../src/content.config.ts):
 
 ```yaml
 ---

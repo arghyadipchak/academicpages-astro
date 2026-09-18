@@ -6,7 +6,7 @@ This guide explains how configuration works across `academicpages-astro`, detail
 
 ## 1. Site Metadata & Author Profile (`src/data/siteConfig.ts`)
 
-All global metadata and author information are centralized in [`src/data/siteConfig.ts`](file:///src/data/siteConfig.ts).
+All global metadata and author information are centralized in [`src/data/siteConfig.ts`](../src/data/siteConfig.ts).
 
 ```ts
 export const siteConfig: SiteConfig = {
@@ -107,7 +107,7 @@ All platform handles accept either a bare username/ID or a complete URL (e.g. `'
 
 ## 2. Navigation Configuration (`src/data/navigation.ts`)
 
-Menu items displayed in the top header masthead are configured in [`src/data/navigation.ts`](file:///src/data/navigation.ts).
+Menu items displayed in the top header masthead are configured in [`src/data/navigation.ts`](../src/data/navigation.ts).
 
 ```ts
 export const navigation: NavItem[] = [
@@ -126,13 +126,13 @@ export const navigation: NavItem[] = [
 - **Reordering**: Change the array order to rearrange menu items
 - **Removing Unused Sections**: If you do not have talks or teaching, remove them from this array. The corresponding pages will not appear in the menu
 - **Adding Custom Pages**: Add `{ title: 'Custom Page', url: '/custom-url/' }` for any static page added to `src/pages/`
-- **Removing the Starter Guide**: The `{ title: 'Guide', url: '/markdown/' }` entry is a formatting demo and should be removed when launching your personal site (see [`docs/MARKDOWN.md`](file:///docs/MARKDOWN.md) for permanent reference)
+- **Removing the Starter Guide**: The `{ title: 'Guide', url: '/markdown/' }` entry is a formatting demo and should be removed when launching your personal site (see [`docs/MARKDOWN.md`](MARKDOWN.md) for permanent reference)
 
 ---
 
 ## 3. Base URL & Deployment Resolution (`astro.config.ts`)
 
-Astro resolves `site` and `base` dynamically in [`astro.config.ts`](file:///astro.config.ts):
+Astro resolves `site` and `base` dynamically in [`astro.config.ts`](../astro.config.ts):
 
 ```ts
 const rawUrl = process.env.ASTRO_URL || siteConfig.url;
@@ -160,7 +160,7 @@ const base =
 
 ## 4. Route & Legacy Redirects (`astro.config.ts`)
 
-Redirects are managed under `redirects` in [`astro.config.ts`](file:///astro.config.ts):
+Redirects are managed under `redirects` in [`astro.config.ts`](../astro.config.ts):
 
 ```ts
 redirects: {

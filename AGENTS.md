@@ -22,7 +22,7 @@ Guidelines and runbook for AI coding assistants (Antigravity, Cursor, Claude Cod
 - **Framework**: Astro 7+ (Static Site Generation mode)
 - **Styling**: Tailwind CSS v4 with `@theme` design tokens and `@tailwindcss/typography`
 - **Content**: Astro Content Collections (`src/content.config.ts`) with strict Zod schema validation
-- **Math**: Server-side KaTeX rendering (`remark-math` + `rehype-katex`)
+- **Math**: Server-side KaTeX rendering (`remark-math` + `rehype-katex` for Markdown AST, `marked-katex-extension` for frontmatter and inline titles)
 - **Icons**: `astro-icon` with FontAwesome 6 brands/solid and Academicons
 - **Search**: Fast client-side modal search (`Cmd+K` / `Ctrl+K`) powered by `/api/search.json`
 - **Quality Gates**: ESLint 9 Flat Config, Prettier with Tailwind class sorter, and TypeScript strict mode (astro check)
@@ -57,15 +57,42 @@ academicpages-astro/
 
 ---
 
-## Customization & Documentation References
+## Operational Lifecycle & Skills Architecture
 
-When personalizing a user's website, managing academic content collections, or configuring deployments, follow the canonical guides:
+The repository follows a structured 3-phase operational lifecycle for both human maintainers and AI assistants:
 
-- **Setup & Cleanup Roadmap**: [`docs/CHECKLIST.md`](file:///docs/CHECKLIST.md) (itemized checklist covering profile personalization, demo content purge, asset cleanup, template files retirement, and README personalization)
-- **Site & Deployment Configuration**: [`docs/CONFIG.md`](file:///docs/CONFIG.md) (complete reference for `siteConfig.ts`, 50+ academic/social handles, `navigation.ts`, base URL resolution, and redirect management)
-- **Content Collections & Formatting**: [`docs/CONTENT.md`](file:///docs/CONTENT.md) (Zod frontmatter schemas, file naming conventions, KaTeX math authoring, 1-click BibTeX, and action badges)
-- **Markdown & Mathematical Typesetting**: [`docs/MARKDOWN.md`](file:///docs/MARKDOWN.md) (comprehensive syntax reference for KaTeX math equations, tables, alert callouts, and Mermaid diagrams)
-- **AI Customization Skill**: [`.agents/skills/customization/SKILL.md`](file:///file:///.agents/skills/customization/SKILL.md) (operational runbook for AI coding assistants orchestrating discovery and setup)
+```
+┌────────────────────────────────────────────────────────────────────────┐
+│  Phase 1: Initial Onboarding & Personalization (One-Time)              │
+│  - Ingest user profile & scholarly handles (docs/CONFIG.md)            │
+│  - Populate initial content and purge starter demo files & assets      │
+│  - Retire docs/ONBOARDING.md and .agents/skills/onboarding/            │
+└───────────────────────────────────┬────────────────────────────────────┘
+                                    │
+                                    ▼
+┌────────────────────────────────────────────────────────────────────────┐
+│  Phase 2: Routine Content Operations & Authoring (Ongoing)             │
+│  - Add publications with BibTeX and action badges (docs/CONTENT.md)    │
+│  - Add talks, teaching materials, and blog posts with KaTeX math       │
+│  - Update CV sections in src/pages/cv.astro and site identity          │
+└───────────────────────────────────┬────────────────────────────────────┘
+                                    │
+                                    ▼
+┌────────────────────────────────────────────────────────────────────────┐
+│  Phase 3: Upstream Template Synchronization (Maintenance)              │
+│  - Ephemeral bare clone tag diff generation (docs/SYNC.md)             │
+│  - Intelligent semantic merging across all layers of the codebase      │
+│  - Dependency upgrades and pnpm verify quality gate                    │
+└────────────────────────────────────────────────────────────────────────┘
+```
+
+### Operational Skills & Documentation Matrix
+
+- **1. Onboarding & Discovery (One-Time)**: [`docs/ONBOARDING.md`](docs/ONBOARDING.md) & [`.agents/skills/onboarding/SKILL.md`](.agents/skills/onboarding/SKILL.md) (itemized roadmap for profile ingestion, demo content purge, and scaffolding retirement; deleted once onboarding is complete)
+- **2. Site & Profile Configuration**: [`docs/CONFIG.md`](docs/CONFIG.md) (complete reference for `siteConfig.ts`, 50+ academic/social handles, `navigation.ts`, base URL resolution, and redirect management)
+- **3. Content Authoring & Operations**: [`docs/CONTENT.md`](docs/CONTENT.md) & [`.agents/skills/content-operations/SKILL.md`](.agents/skills/content-operations/SKILL.md) (Zod frontmatter schemas, paper authoring, 1-click BibTeX, action badges, talks, teaching, and KaTeX blog posts)
+- **4. Markdown & Mathematical Typesetting**: [`docs/MARKDOWN.md`](docs/MARKDOWN.md) (comprehensive syntax reference for KaTeX math equations, tables, alert callouts, and Mermaid diagrams)
+- **5. Template Synchronization**: [`docs/SYNC.md`](docs/SYNC.md) & [`.agents/skills/template-sync/SKILL.md`](.agents/skills/template-sync/SKILL.md) (tag-based template upgrades via ephemeral bare clones and patch generation without Git forks or remotes)
 
 ---
 

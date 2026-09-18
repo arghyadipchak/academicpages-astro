@@ -1,12 +1,14 @@
-# 📋 Site Personalization & Cleanup Checklist
+# 🚀 Site Personalization & Onboarding Guide (`ONBOARDING.md`)
 
-Follow this itemized checklist to convert the starter template into your personal academic website:
+Follow this itemized roadmap to convert the starter template into your personal academic website.
+
+> ⚠️ **One-Time Lifecycle**: This onboarding guide and [`.agents/skills/onboarding/`](../.agents/skills/onboarding/SKILL.md) are intended solely for initial site setup. Once onboarding and verification are complete, follow [Section 5.E](#e-retire-onboarding-tooling) to delete them while retaining [`docs/CONFIG.md`](CONFIG.md), [`docs/CONTENT.md`](CONTENT.md), [`docs/MARKDOWN.md`](MARKDOWN.md), and [`docs/SYNC.md`](SYNC.md) for ongoing site maintenance.
 
 ---
 
 ## 1. Site Identity & Author Profile
 
-- [ ] **Site Configuration**: Edit `src/data/siteConfig.ts` to update `title`, `description`, and `url` (see [`docs/CONFIG.md`](file:///docs/CONFIG.md))
+- [ ] **Site Configuration**: Edit `src/data/siteConfig.ts` to update `title`, `description`, and `url` (see [`docs/CONFIG.md`](CONFIG.md))
 - [ ] **Author Bio & Details**: In `src/data/siteConfig.ts`, update `author.name`, `author.bio`, `author.location`, `author.employer`, and `author.email`
 - [ ] **Academic & Social Handles**: In `src/data/siteConfig.ts`, add your usernames or profile URLs for `googlescholar`, `orcid`, `github`, `linkedin`, `x`, etc.
 - [ ] **Profile Photo**: Replace `public/images/profile.png` with your personal square headshot (~500x500px)
@@ -17,7 +19,7 @@ Follow this itemized checklist to convert the starter template into your persona
 
 ## 2. Content Migration & Demo Purge
 
-- [ ] **Publications**: Delete demo files in `src/content/publications/2024-03-15-paper-*.md` and add your research papers (see [`docs/CONTENT.md`](file:///docs/CONTENT.md))
+- [ ] **Publications**: Delete demo files in `src/content/publications/2024-03-15-paper-*.md` and add your research papers (see [`docs/CONTENT.md`](CONTENT.md))
 - [ ] **Talks & Presentations**: Delete demo files in `src/content/talks/2024-02-01-talk-*.md` or populate with your presentations
 - [ ] **Teaching**: Delete demo files in `src/content/teaching/2024-01-10-course-*.md` or populate with your courses
 - [ ] **Portfolio Projects**: Delete demo files in `src/content/portfolio/portfolio-*.md` or populate with your software/research projects
@@ -41,7 +43,7 @@ Follow this itemized checklist to convert the starter template into your persona
 
 - [ ] **Remove Guide Link**: Delete `{ title: 'Guide', url: '/markdown/' }` from `src/data/navigation.ts`
 - [ ] **Prune Unused Sections**: In `src/data/navigation.ts`, remove links to any collections you do not use (e.g. remove `Teaching` or `Talks`)
-- [ ] **Clean Legacy Redirects**: In `astro.config.ts`, remove demo redirects (`/guide`, `/md`) unless you are porting an existing Jekyll site with live inbound links (see [`docs/CONFIG.md`](file:///docs/CONFIG.md#4-route--legacy-redirects-astroconfigts))
+- [ ] **Clean Legacy Redirects**: In `astro.config.ts`, remove demo redirects (`/guide`, `/md`) unless you are porting an existing Jekyll site with live inbound links (see [`docs/CONFIG.md`](CONFIG.md#4-route--legacy-redirects-astroconfigts))
 
 ---
 
@@ -57,53 +59,28 @@ Once your custom icons are generated in `public/`:
   ```bash
   rm -rf scripts/
   ```
-- [ ] **Clean `package.json`**: Remove `"generate:favicons"` from `"scripts"`
-- [ ] **Clean `prettier.config.ts`**: Remove Node built-in rules from `importOrder`:
-  ```typescript
-  '<TYPES>^(node:.*|node$)',
-  '^(node:.*|node$)',
-  '',
-  ```
+- [ ] **Remove Generator Dependency & Script**: In `package.json`, remove `"generate:favicons": "bash scripts/generate-favicons.sh"` and `resvg` if listed
 
-### B. Retire Playwright Tests (Recommended for Personal Repos)
+### B. Retire Starter Tests & E2E Scaffolding (Optional)
 
-Starter Playwright tests assert demo text (e.g. `'Your Name'`, `'Paper Title Number 1'`) and install browser binaries that add 2–4 minutes to GitHub Actions deployments:
+Once initial onboarding is verified, template e2e tests targeting demo content can be removed:
 
-- [ ] **Delete Test Suite**:
+- [ ] **Delete Test Directory**:
   ```bash
-  rm -rf tests/ playwright.config.ts
+  rm -rf e2e/
+  rm playwright.config.ts
   ```
-- [ ] **Update `package.json`**:
-  - Remove `"test": "playwright test"` from `"scripts"`
-  - Remove `@playwright/test` from `"devDependencies"`
-- [ ] **Update `.github/workflows/ci.yml`**:
-  - Delete the `Install Playwright browsers` and `Run tests` steps:
-    ```yaml
-    - name: Install Playwright browsers
-      run: pnpm exec playwright install --with-deps chromium
+- [ ] **Remove Test Scripts & Dependencies**: In `package.json`, remove `"test": "playwright test"` and `@playwright/test` from `devDependencies`
 
-    - name: Run tests
-      env:
-        ASTRO_URL: ${{ steps.pages.outputs.base_url }}
-      run: pnpm test
-    ```
-- [ ] **Rely on Quality Pipeline**: Use `pnpm verify` (`astro check` + `eslint` + `prettier:check`) and `pnpm build` for fast, zero-browser CI verification
+### C. Retire CI Upstream Tracking (Optional)
 
-### C. Retire Template & Community Files (Recommended)
-
-Starter repository community templates and release workflows are not needed for a personal website repository:
-
-- [ ] **Delete Template Governance Files**:
+- [ ] **Remove Upstream Submodule**: If you cloned without submodules or have no need for Jekyll reference tracking:
   ```bash
-  rm -rf CONTRIBUTING.md SECURITY.md cliff.toml .github/FUNDING.yml .github/pull_request_template.md .github/ISSUE_TEMPLATE/ .github/workflows/release.yml .github/workflows/pr-lint.yml
+  git rm -f academicpages-jekyll 2>/dev/null || true
   ```
-  - `CONTRIBUTING.md` & `SECURITY.md`: Starter contribution and security disclosure policies
-  - `cliff.toml`: Configuration for `git-cliff` changelog generator
-  - `.github/FUNDING.yml` & `.github/pull_request_template.md`: Template sponsorship and PR templates
-  - `.github/ISSUE_TEMPLATE/`: Template issue report forms
-  - `.github/workflows/release.yml` & `.github/workflows/pr-lint.yml`: Template release and PR linting workflows
+- [ ] **Simplify GitHub Actions Workflow**: In `.github/workflows/deploy.yml`, remove any submodule recursive checkout steps
 
-### D. Personalize Repository README
+### D. Clean Up Documentation & README
 
 Replace the starter template `README.md` with a clean personal website README:
 
@@ -136,3 +113,14 @@ Replace the starter template `README.md` with a clean personal website README:
 
   Content © [Year] [Your Name]. Code based on [Academic Pages Astro](https://github.com/arghyadipchak/academicpages-astro) (MIT License)
   ````
+
+### E. Retire Onboarding Tooling
+
+Once all steps are verified with `pnpm verify` and `pnpm build`:
+
+- [ ] **Delete Onboarding Artifacts**:
+  ```bash
+  rm docs/ONBOARDING.md
+  rm -rf .agents/skills/onboarding/
+  ```
+- [ ] **Retain Ongoing Maintenance Guides**: Keep [`docs/CONFIG.md`](CONFIG.md), [`docs/CONTENT.md`](CONTENT.md), [`docs/MARKDOWN.md`](MARKDOWN.md), [`docs/SYNC.md`](SYNC.md), [`.agents/skills/content-operations/`](../.agents/skills/content-operations/SKILL.md), and [`.agents/skills/template-sync/`](../.agents/skills/template-sync/SKILL.md) for long-term site authoring and template upgrades
