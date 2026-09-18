@@ -17,18 +17,12 @@ A modern, high-performance academic personal website and portfolio template buil
 ## ✨ Features
 
 - ⚡ **Blazing Fast**: 100% static HTML generation with sub-second page loads and zero client-side JavaScript framework bloat
-- 🎨 **Modern Aesthetic & Dark Mode**: Classic Academic Pages aesthetic modernized with clean light/dark themes, persisted via `localStorage` with OS preference fallback
-- 📚 **Strict Content Collections**: Zod-validated TypeScript schemas for:
-  - **Publications**: Papers, books, preprints with direct PDF, slides, DOI, and **1-click BibTeX copying**
-  - **Blog Posts**: Grouped by year archive with KaTeX math rendering, syntax highlighting, and code-copy buttons
-  - **Talks & Presentations**: Conference presentations, tutorials, workshops, and slides
-  - **Teaching**: Courses, materials, and office hours
-  - **Portfolio**: Research projects and software demos
-  - **Dynamic CV**: Aggregated curriculum vitae with interactive, collapsible Table of Contents
+- 🎨 **Modern Aesthetic & Dark Mode**: Classic Academic Pages aesthetic modernized with clean light/dark themes and automatic OS preference fallback
+- 📚 **Strict Content Collections**: Zod-validated schemas for publications (with 1-click BibTeX), talks, teaching, portfolio projects, and KaTeX blog posts
 - 🔍 **Instant Search (`Cmd + K`)**: Fast, lightweight client-side fuzzy search across all publications, talks, and blog posts
 - 📐 **Mathematical Rigor ($\LaTeX$ / KaTeX)**: Fast, static server-side math rendering across Markdown content, frontmatter titles, and archive listings via KaTeX
 - 🌐 **Scholarly SEO & Syndication**: Google Scholar and Highwire Press citation meta tags, RSS 2.0 (`/rss.xml`), Atom feed (`/feed.xml`), XML sitemaps, and crawlers index (`/robots.txt`)
-- 🤖 **AI-Native & Agent Ready**: Pre-equipped with turnkey prompts and specialized agent skills (`.agents/skills/`) for 1-step onboarding, routine content authoring, autonomous template upgrades, and machine-readable `/llms.txt` indexing
+- 🤖 **AI-Native & Agent Ready**: Pre-equipped with turnkey prompts, specialized agent skills (`.agents/skills/`), and machine-readable `/llms.txt` indexing
 - 📱 **Exhaustive Sidebar**: Sticky author profile on desktop supporting **50+ academic, code, and social platforms** with responsive mobile drawer
 - 🧪 **Comprehensive Test Suite**: Automated Playwright browser tests covering desktop and mobile viewports
 - 🛠️ **Editor & Cloud Ready**: Pre-configured for **VS Code** (`.vscode/`), **Zed** (`.zed/`), and **GitHub Codespaces** (`.devcontainer/`)
@@ -130,7 +124,8 @@ Copy and paste this prompt to personalize your entire website in one step:
 
 Use these turnkey prompts to add new academic items into your collections:
 
-#### Adding a Publication
+<details open>
+<summary><b>📄 Adding a Publication</b></summary>
 
 ```markdown
 Please add a new publication to `src/content/publications/` following `.agents/skills/content-operations/SKILL.md` and `docs/CONTENT.md`:
@@ -145,7 +140,10 @@ Please add a new publication to `src/content/publications/` following `.agents/s
 - Abstract / Summary: [Paste paper abstract or notes]
 ```
 
-#### Adding Talks & Presentations
+</details>
+
+<details>
+<summary><b>🎤 Adding Talks & Presentations</b></summary>
 
 ```markdown
 Please add a new talk to `src/content/talks/` following `.agents/skills/content-operations/SKILL.md` and `docs/CONTENT.md`:
@@ -159,7 +157,10 @@ Please add a new talk to `src/content/talks/` following `.agents/skills/content-
 - Abstract: [Brief description or talk outline]
 ```
 
-#### Adding Teaching & Courses
+</details>
+
+<details>
+<summary><b>🎓 Adding Teaching & Courses</b></summary>
 
 ```markdown
 Please add a new course to `src/content/teaching/` following `.agents/skills/content-operations/SKILL.md` and `docs/CONTENT.md`:
@@ -172,7 +173,10 @@ Please add a new course to `src/content/teaching/` following `.agents/skills/con
 - Description: [Course description, office hours, syllabus outline]
 ```
 
-#### Writing a Blog Post with Math
+</details>
+
+<details>
+<summary><b>📝 Writing a Blog Post with Math</b></summary>
 
 ```markdown
 Please create a new blog post in `src/content/blog/` following `.agents/skills/content-operations/SKILL.md` and `docs/MARKDOWN.md`:
@@ -183,6 +187,8 @@ Please create a new blog post in `src/content/blog/` following `.agents/skills/c
 - Description: [Brief summary for SEO and feed]
 - Topic / Draft: [Topic outline, equations to typeset in KaTeX, and key takeaways]
 ```
+
+</details>
 
 ---
 
@@ -199,15 +205,19 @@ When new releases are published in `academicpages-astro`, update your site with:
 
 ---
 
-## 🛠️ Manual Operations & Documentation Guides
+## 📚 Documentation & Operational Matrix
 
-Follow the dedicated guides in `docs/` for manual workflows:
+This repository is organized around a canonical **3-phase operational lifecycle** with dedicated reference guides and automated agent skills:
 
-1. **[Site Onboarding Guide](docs/ONBOARDING.md)**: Complete roadmap for site setup, demo content purge, asset cleanup, and test retirement
-2. **[Site Configuration Guide](docs/CONFIG.md)**: Configure `src/data/siteConfig.ts`, 50+ scholarly/social profiles, header navigation in `src/data/navigation.ts`, and redirects
-3. **[Content Authoring Guide](docs/CONTENT.md)**: Frontmatter schemas and conventions for publications, talks, teaching, portfolio projects, blog posts, and KaTeX math
-4. **[Markdown Reference](docs/MARKDOWN.md)**: Complete syntax reference for KaTeX math, tables, alert callouts, and Mermaid diagrams with live rendered demo link
-5. **[Template Synchronization Guide](docs/SYNC.md)**: Tag-to-tag template upgrades via ephemeral bare clone and targeted patches without Git remotes
+| Lifecycle Phase              | Focus Area                              | Technical Reference                      | Operational Skill                                                                  |
+| :--------------------------- | :-------------------------------------- | :--------------------------------------- | :--------------------------------------------------------------------------------- |
+| **1. Onboarding (One-Time)** | Profile discovery, demo purge & setup   | [docs/ONBOARDING.md](docs/ONBOARDING.md) | [`.agents/skills/onboarding/`](.agents/skills/onboarding/SKILL.md)                 |
+| **2. Configuration**         | Site metadata, 50+ handles & navigation | [docs/CONFIG.md](docs/CONFIG.md)         | —                                                                                  |
+| **2. Content Authoring**     | Collections, frontmatter & BibTeX       | [docs/CONTENT.md](docs/CONTENT.md)       | [`.agents/skills/content-operations/`](.agents/skills/content-operations/SKILL.md) |
+| **2. Markdown & Math**       | KaTeX equations, callouts & Mermaid     | [docs/MARKDOWN.md](docs/MARKDOWN.md)     | —                                                                                  |
+| **3. Synchronization**       | Tag-to-tag whole-codebase upgrades      | [docs/SYNC.md](docs/SYNC.md)             | [`.agents/skills/template-sync/`](.agents/skills/template-sync/SKILL.md)           |
+
+> 🤖 **Master AI Constitution**: For strict engineering standards, quality gate workflows, and agent rules, see [**AGENTS.md**](AGENTS.md)
 
 ---
 
@@ -217,23 +227,6 @@ Follow the dedicated guides in `docs/` for manual workflows:
 2. Under **Build and deployment** $\rightarrow$ **Source**, select **GitHub Actions**
 3. Set your deployment `url` in `src/data/siteConfig.ts` (see [docs/CONFIG.md](docs/CONFIG.md#3-base-url--deployment-resolution-astroconfigts) for user vs project site details)
 4. Push to `main` — `.github/workflows/ci.yml` will automatically verify, build, and publish the site
-
----
-
-## 🤖 Documentation & Operational Lifecycle
-
-This repository is structured around a **3-phase operational lifecycle** for human maintainers and AI coding assistants:
-
-1. **Phase 1: Initial Onboarding & Setup (One-Time)**
-   - **[docs/ONBOARDING.md](docs/ONBOARDING.md)** & [`.agents/skills/onboarding/`](.agents/skills/onboarding/SKILL.md): Itemized checklist for profile personalization, demo purge, and scaffolding retirement
-2. **Phase 2: Routine Content Authoring & Operations**
-   - **[docs/CONFIG.md](docs/CONFIG.md)**: Configuration options for `siteConfig.ts`, navigation, and 50+ scholarly handles
-   - **[docs/CONTENT.md](docs/CONTENT.md)** & [`.agents/skills/content-operations/`](.agents/skills/content-operations/SKILL.md): Schemas and conventions for publications, talks, teaching, and blog posts
-   - **[docs/MARKDOWN.md](docs/MARKDOWN.md)**: Mathematical typesetting with KaTeX, callouts, tables, and Mermaid diagrams
-3. **Phase 3: Upstream Template Synchronization**
-   - **[docs/SYNC.md](docs/SYNC.md)** & [`.agents/skills/template-sync/`](.agents/skills/template-sync/SKILL.md): Tag-based template upgrades via ephemeral bare clones and intelligent merging without Git remotes
-
-- **Master AI Constitution**: **[AGENTS.md](AGENTS.md)** (repository rules, quality gates, and agent guidelines)
 
 ---
 
