@@ -14,6 +14,7 @@ Follow this itemized roadmap to convert the starter template into your personal 
 - [ ] **Profile Photo**: Replace `public/images/profile.png` with your personal square headshot (~500x500px)
 - [ ] **Favicon & Logo**: Replace `public/favicon.svg` with your personal or institution logo, then run `pnpm generate:favicons` to regenerate PNG and ICO formats (requires `resvg` CLI: `cargo install resvg` or package manager)
 - [ ] **License & Copyright**: In `LICENSE`, add your copyright notice (`Copyright (c) [Year] [Your Name]`) while preserving upstream attribution lines
+- [ ] **Preserve Footer Attribution**: Keep the template attribution credit in `src/components/Footer.astro` and global footer linking back to Academic Pages Astro (never remove, hide, or comment it out)
 
 ---
 
@@ -51,6 +52,8 @@ Follow this itemized roadmap to convert the starter template into your personal 
 ## 5. Starter Scaffolding & Template Files Retirement
 
 Once your site is personalized and verified, remove starter tooling to keep your personal repository lean:
+
+> ⚠️ **Template Attribution**: When personalizing the website or retiring starter files, the footer attribution credit in `src/components/Footer.astro` linking back to [Academic Pages Astro](https://github.com/arghyadipchak/academicpages-astro) must remain intact.
 
 ### A. Retire Favicon Generator (Optional)
 

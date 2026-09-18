@@ -89,7 +89,7 @@ The repository follows a structured 3-phase operational lifecycle for both human
 ### Operational Skills & Documentation Matrix
 
 - **1. Onboarding & Discovery (One-Time)**: [`docs/ONBOARDING.md`](docs/ONBOARDING.md) & [`.agents/skills/onboarding/SKILL.md`](.agents/skills/onboarding/SKILL.md) (itemized roadmap for profile ingestion, demo content purge, and scaffolding retirement; deleted once onboarding is complete)
-- **2. Site & Profile Configuration**: [`docs/CONFIG.md`](docs/CONFIG.md) (complete reference for `siteConfig.ts`, 50+ academic/social handles, `navigation.ts`, base URL resolution, and redirect management)
+- **2. Site & Profile Configuration**: [`docs/CONFIG.md`](docs/CONFIG.md) (complete reference for `siteConfig.ts`, 50+ academic/social handles, `navigation.ts`, base URL resolution, redirect management, and footer attribution)
 - **3. Content Authoring & Operations**: [`docs/CONTENT.md`](docs/CONTENT.md) & [`.agents/skills/content-operations/SKILL.md`](.agents/skills/content-operations/SKILL.md) (Zod frontmatter schemas, paper authoring, 1-click BibTeX, action badges, talks, teaching, and KaTeX blog posts)
 - **4. Markdown & Mathematical Typesetting**: [`docs/MARKDOWN.md`](docs/MARKDOWN.md) (comprehensive syntax reference for KaTeX math equations, tables, alert callouts, and Mermaid diagrams)
 - **5. Template Synchronization**: [`docs/SYNC.md`](docs/SYNC.md) & [`.agents/skills/template-sync/SKILL.md`](.agents/skills/template-sync/SKILL.md) (tag-based template upgrades via ephemeral bare clones and patch generation without Git forks or remotes)

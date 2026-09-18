@@ -194,3 +194,12 @@ redirects: {
 - **Keep**: Retain `/about` and `/resume` as standard convenience aliases
 - **Prune**: If starting fresh without an existing site to migrate, omit legacy Jekyll and WordPress aliases
 - **Extend**: Add custom entry-level redirects for past URL structures (e.g. `'/paper123': '/publications/paper-slug/'`)
+
+---
+
+## 5. Footer & Template Attribution (`src/components/Footer.astro`)
+
+The global footer displays copyright notices, social follow links, RSS feed discovery, and template attribution:
+
+- **Copyright Text**: Automatically resolves using `currentYear` and `siteConfig.author.name` (or `siteConfig.title`)
+- **Template Attribution Rule**: The footer credit linking back to [Academic Pages Astro](https://github.com/arghyadipchak/academicpages-astro) and upstream sources must **never** be removed, commented out, or hidden during personalization or custom styling
