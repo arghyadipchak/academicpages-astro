@@ -162,17 +162,14 @@ function isSelected(url: string): boolean {
               <a
                 href={resolveUrl(item.url)}
                 class:list={[
-                  'flex items-center justify-between rounded-md px-3 py-2 text-base font-medium transition-colors',
+                  'flex items-center rounded-md border-l-4 px-3 py-2 text-base font-bold transition-colors',
                   selected
-                    ? 'border-l-4 border-(--global-base-color) bg-(--global-footer-bg-color) font-bold text-(--global-base-color)'
-                    : 'text-(--global-masthead-link-color) hover:bg-(--global-footer-bg-color) hover:text-(--global-base-color)',
+                    ? 'border-(--global-base-color) bg-(--global-footer-bg-color) text-(--global-base-color)'
+                    : 'border-transparent text-(--global-masthead-link-color) hover:bg-(--global-footer-bg-color) hover:text-(--global-base-color)',
                 ]}
                 aria-current={selected ? 'page' : undefined}
               >
                 <span>{item.title}</span>
-                {selected && (
-                  <span class="h-2 w-2 rounded-full bg-(--global-base-color)" />
-                )}
               </a>
             </li>
           );
