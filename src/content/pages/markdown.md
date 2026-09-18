@@ -309,7 +309,7 @@ date: 2024-03-15
 description: This paper is about the number 1. The number 2 is left for future work.
 category: journals
 venue: Journal 1
-citation: 'Your Name, You. (2024). "Paper Title Number 1." <i>Journal 1</i>. 1(1).'
+citation: 'Your Name, You. (2024). "Paper Title Number 1." *Journal 1*. 1(1).'
 pdf_url: /files/paper1.pdf
 slides_url: /files/slides1.pdf
 code_url: https://github.com/arghyadipchak/academicpages-astro

@@ -45,7 +45,7 @@ Research papers, preprints, books, and conference articles.
 | :----------- | :------- | :--------------------------------------------------------------- |
 | `category`   | `enum`   | Category filter tab (`books`, `journals`, `conferences`)         |
 | `venue`      | `string` | Journal or conference name                                       |
-| `citation`   | `string` | Formatted academic citation (supports HTML tags like `<i>`)      |
+| `citation`   | `string` | Formatted academic citation (supports Markdown and math)         |
 | `pdf_url`    | `string` | Local download path (`/files/paper.pdf`) or external link        |
 | `slides_url` | `string` | Slides presentation link                                         |
 | `code_url`   | `string` | Code repository link                                             |
@@ -60,7 +60,7 @@ date: 2026-03-15
 description: A scalable deep learning framework for molecular dynamics
 category: journals
 venue: Nature Machine Intelligence
-citation: 'Doe, J., & Smith, A. (2026). "High-Throughput Learning of Neural Potentials." <i>Nature Machine Intelligence</i>, 8(3), 200-215.'
+citation: 'Doe, J., & Smith, A. (2026). "High-Throughput Learning of Neural Potentials." *Nature Machine Intelligence*, 8(3), 200-215.'
 pdf_url: /files/paper1.pdf
 slides_url: /files/slides1.pdf
 code_url: https://github.com/username/project
