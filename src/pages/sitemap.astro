@@ -23,173 +23,178 @@ const portfolio = await getCollection('portfolio');
 <PageLayout title="Sitemap">
   <div class="sitemap-content space-y-6">
     <section>
-      <h2
-        class="border-b border-(--global-border-color) pb-1 text-xl font-bold text-(--global-text-color)"
-      >
+      <h2 class="border-b border-(--global-border-color) pb-1 text-xl font-bold text-(--global-text-color)">
         Pages
       </h2>
       <ul class="mt-2 list-disc space-y-1 pl-5 text-sm">
         <li>
           <a
             href={resolveUrl('/')}
-            class="text-(--global-link-color) hover:underline">About</a
+            class="text-(--global-link-color) hover:underline"
           >
+            About
+          </a>
         </li>
         <li>
           <a
             href={resolveUrl('/publications/')}
-            class="text-(--global-link-color) hover:underline">Publications</a
+            class="text-(--global-link-color) hover:underline"
           >
+            Publications
+          </a>
         </li>
         <li>
           <a
             href={resolveUrl('/talks/')}
-            class="text-(--global-link-color) hover:underline">Talks</a
+            class="text-(--global-link-color) hover:underline"
           >
+            Talks
+          </a>
         </li>
         <li>
           <a
             href={resolveUrl('/teaching/')}
-            class="text-(--global-link-color) hover:underline">Teaching</a
+            class="text-(--global-link-color) hover:underline"
           >
+            Teaching
+          </a>
         </li>
         <li>
           <a
             href={resolveUrl('/portfolio/')}
-            class="text-(--global-link-color) hover:underline">Portfolio</a
+            class="text-(--global-link-color) hover:underline"
           >
+            Portfolio
+          </a>
         </li>
         <li>
           <a
             href={resolveUrl('/posts/')}
-            class="text-(--global-link-color) hover:underline">Blog Posts</a
+            class="text-(--global-link-color) hover:underline"
           >
+            Blog Posts
+          </a>
         </li>
         <li>
           <a
             href={resolveUrl('/cv/')}
-            class="text-(--global-link-color) hover:underline">CV</a
+            class="text-(--global-link-color) hover:underline"
           >
+            CV
+          </a>
         </li>
         <li>
           <a
             href={resolveUrl('/markdown/')}
-            class="text-(--global-link-color) hover:underline">Guide</a
+            class="text-(--global-link-color) hover:underline"
           >
+            Guide
+          </a>
         </li>
         <li>
           <a
             href={resolveUrl('/terms/')}
             class="text-(--global-link-color) hover:underline"
-            >Terms & Conditions</a
           >
+            Terms & Conditions
+          </a>
         </li>
       </ul>
     </section>
 
-    {
-      posts.length > 0 && (
-        <section>
-          <h2 class="border-b border-(--global-border-color) pb-1 text-xl font-bold text-(--global-text-color)">
-            Blog Posts
-          </h2>
-          <ul class="mt-2 list-disc space-y-1 pl-5 text-sm">
-            {posts.map((post) => (
-              <li>
-                <a
-                  href={getPostUrl(post)}
-                  class="text-(--global-link-color) hover:underline"
-                  set:html={parseInline(post.data.title)}
-                />
-              </li>
-            ))}
-          </ul>
-        </section>
-      )
-    }
+    {posts.length > 0 && (
+      <section>
+        <h2 class="border-b border-(--global-border-color) pb-1 text-xl font-bold text-(--global-text-color)">
+          Blog Posts
+        </h2>
+        <ul class="mt-2 list-disc space-y-1 pl-5 text-sm">
+          {posts.map((post) => (
+            <li>
+              <a
+                href={getPostUrl(post)}
+                class="text-(--global-link-color) hover:underline"
+                set:html={parseInline(post.data.title)}
+              />
+            </li>
+          ))}
+        </ul>
+      </section>
+    )}
 
-    {
-      publications.length > 0 && (
-        <section>
-          <h2 class="border-b border-(--global-border-color) pb-1 text-xl font-bold text-(--global-text-color)">
-            Publications
-          </h2>
-          <ul class="mt-2 list-disc space-y-1 pl-5 text-sm">
-            {publications.map((pub) => (
-              <li>
-                <a
-                  href={getPublicationUrl(pub)}
-                  class="text-(--global-link-color) hover:underline"
-                  set:html={parseInline(pub.data.title)}
-                />
-              </li>
-            ))}
-          </ul>
-        </section>
-      )
-    }
+    {publications.length > 0 && (
+      <section>
+        <h2 class="border-b border-(--global-border-color) pb-1 text-xl font-bold text-(--global-text-color)">
+          Publications
+        </h2>
+        <ul class="mt-2 list-disc space-y-1 pl-5 text-sm">
+          {publications.map((pub) => (
+            <li>
+              <a
+                href={getPublicationUrl(pub)}
+                class="text-(--global-link-color) hover:underline"
+                set:html={parseInline(pub.data.title)}
+              />
+            </li>
+          ))}
+        </ul>
+      </section>
+    )}
 
-    {
-      talks.length > 0 && (
-        <section>
-          <h2 class="border-b border-(--global-border-color) pb-1 text-xl font-bold text-(--global-text-color)">
-            Talks
-          </h2>
-          <ul class="mt-2 list-disc space-y-1 pl-5 text-sm">
-            {talks.map((talk) => (
-              <li>
-                <a
-                  href={getTalkUrl(talk)}
-                  class="text-(--global-link-color) hover:underline"
-                  set:html={parseInline(talk.data.title)}
-                />
-              </li>
-            ))}
-          </ul>
-        </section>
-      )
-    }
+    {talks.length > 0 && (
+      <section>
+        <h2 class="border-b border-(--global-border-color) pb-1 text-xl font-bold text-(--global-text-color)">
+          Talks
+        </h2>
+        <ul class="mt-2 list-disc space-y-1 pl-5 text-sm">
+          {talks.map((talk) => (
+            <li>
+              <a
+                href={getTalkUrl(talk)}
+                class="text-(--global-link-color) hover:underline"
+                set:html={parseInline(talk.data.title)}
+              />
+            </li>
+          ))}
+        </ul>
+      </section>
+    )}
 
-    {
-      teaching.length > 0 && (
-        <section>
-          <h2 class="border-b border-(--global-border-color) pb-1 text-xl font-bold text-(--global-text-color)">
-            Teaching
-          </h2>
-          <ul class="mt-2 list-disc space-y-1 pl-5 text-sm">
-            {teaching.map((item) => (
-              <li>
-                <a
-                  href={getTeachingUrl(item)}
-                  class="text-(--global-link-color) hover:underline"
-                  set:html={parseInline(item.data.title)}
-                />
-              </li>
-            ))}
-          </ul>
-        </section>
-      )
-    }
+    {teaching.length > 0 && (
+      <section>
+        <h2 class="border-b border-(--global-border-color) pb-1 text-xl font-bold text-(--global-text-color)">
+          Teaching
+        </h2>
+        <ul class="mt-2 list-disc space-y-1 pl-5 text-sm">
+          {teaching.map((item) => (
+            <li>
+              <a
+                href={getTeachingUrl(item)}
+                class="text-(--global-link-color) hover:underline"
+                set:html={parseInline(item.data.title)}
+              />
+            </li>
+          ))}
+        </ul>
+      </section>
+    )}
 
-    {
-      portfolio.length > 0 && (
-        <section>
-          <h2 class="border-b border-(--global-border-color) pb-1 text-xl font-bold text-(--global-text-color)">
-            Portfolio
-          </h2>
-          <ul class="mt-2 list-disc space-y-1 pl-5 text-sm">
-            {portfolio.map((item) => (
-              <li>
-                <a
-                  href={getPortfolioUrl(item)}
-                  class="text-(--global-link-color) hover:underline"
-                  set:html={parseInline(item.data.title)}
-                />
-              </li>
-            ))}
-          </ul>
-        </section>
-      )
-    }
+    {portfolio.length > 0 && (
+      <section>
+        <h2 class="border-b border-(--global-border-color) pb-1 text-xl font-bold text-(--global-text-color)">
+          Portfolio
+        </h2>
+        <ul class="mt-2 list-disc space-y-1 pl-5 text-sm">
+          {portfolio.map((item) => (
+            <li>
+              <a
+                href={getPortfolioUrl(item)}
+                class="text-(--global-link-color) hover:underline"
+                set:html={parseInline(item.data.title)}
+              />
+            </li>
+          ))}
+        </ul>
+      </section>
+    )}
   </div>
 </PageLayout>

@@ -27,9 +27,7 @@ const teaching = sortTeaching(await getCollection('teaching'));
 <PageLayout title="CV">
   <div class="cv-content space-y-8">
     <section>
-      <h2
-        class="border-b border-(--global-border-color) pb-1 text-2xl font-bold text-(--global-text-color)"
-      >
+      <h2 class="border-b border-(--global-border-color) pb-1 text-2xl font-bold text-(--global-text-color)">
         Education
       </h2>
       <ul class="mt-3 list-disc space-y-1.5 pl-5 text-(--global-text-color)">
@@ -40,9 +38,7 @@ const teaching = sortTeaching(await getCollection('teaching'));
     </section>
 
     <section>
-      <h2
-        class="border-b border-(--global-border-color) pb-1 text-2xl font-bold text-(--global-text-color)"
-      >
+      <h2 class="border-b border-(--global-border-color) pb-1 text-2xl font-bold text-(--global-text-color)">
         Work experience
       </h2>
       <ul class="mt-3 list-disc space-y-4 pl-5 text-(--global-text-color)">
@@ -74,9 +70,7 @@ const teaching = sortTeaching(await getCollection('teaching'));
     </section>
 
     <section>
-      <h2
-        class="border-b border-(--global-border-color) pb-1 text-2xl font-bold text-(--global-text-color)"
-      >
+      <h2 class="border-b border-(--global-border-color) pb-1 text-2xl font-bold text-(--global-text-color)">
         Skills
       </h2>
       <ul class="mt-3 list-disc space-y-2.5 pl-5 text-(--global-text-color)">
@@ -94,92 +88,78 @@ const teaching = sortTeaching(await getCollection('teaching'));
     </section>
 
     <section>
-      <h2
-        class="border-b border-(--global-border-color) pb-1 text-2xl font-bold text-(--global-text-color)"
-      >
+      <h2 class="border-b border-(--global-border-color) pb-1 text-2xl font-bold text-(--global-text-color)">
         Publications
       </h2>
       <ul class="mt-3 list-disc space-y-4 pl-5 text-(--global-text-color)">
-        {
-          publications.map((pub) => (
-            <li>
-              <a
-                href={getPubUrl(pub)}
-                class="font-semibold text-(--global-link-color) hover:underline"
-                set:html={parseInline(pub.data.title)}
+        {publications.map((pub) => (
+          <li>
+            <a
+              href={getPubUrl(pub)}
+              class="font-semibold text-(--global-link-color) hover:underline"
+              set:html={parseInline(pub.data.title)}
+            />
+            {pub.data.citation && (
+              <p
+                class="mt-0.5 text-sm text-(--global-text-color-light)"
+                set:html={parseInline(pub.data.citation)}
               />
-              {pub.data.citation && (
-                <p
-                  class="mt-0.5 text-sm text-(--global-text-color-light)"
-                  set:html={parseInline(pub.data.citation)}
-                />
-              )}
-            </li>
-          ))
-        }
+            )}
+          </li>
+        ))}
       </ul>
     </section>
 
     <section>
-      <h2
-        class="border-b border-(--global-border-color) pb-1 text-2xl font-bold text-(--global-text-color)"
-      >
+      <h2 class="border-b border-(--global-border-color) pb-1 text-2xl font-bold text-(--global-text-color)">
         Talks
       </h2>
       <ul class="mt-3 list-disc space-y-4 pl-5 text-(--global-text-color)">
-        {
-          talks.map((talk) => (
-            <li>
-              <a
-                href={getTalkUrl(talk)}
-                class="font-semibold text-(--global-link-color) hover:underline"
-                set:html={parseInline(talk.data.title)}
-              />
-              {(talk.data.type || talk.data.venue) && (
-                <p class="mt-0.5 text-sm text-(--global-text-color-light)">
-                  {talk.data.type && talk.data.venue
-                    ? `${talk.data.type} at ${talk.data.venue}`
-                    : talk.data.type || talk.data.venue}
-                </p>
-              )}
-            </li>
-          ))
-        }
+        {talks.map((talk) => (
+          <li>
+            <a
+              href={getTalkUrl(talk)}
+              class="font-semibold text-(--global-link-color) hover:underline"
+              set:html={parseInline(talk.data.title)}
+            />
+            {(talk.data.type || talk.data.venue) && (
+              <p class="mt-0.5 text-sm text-(--global-text-color-light)">
+                {talk.data.type && talk.data.venue
+                  ? `${talk.data.type} at ${talk.data.venue}`
+                  : talk.data.type || talk.data.venue}
+              </p>
+            )}
+          </li>
+        ))}
       </ul>
     </section>
 
     <section>
-      <h2
-        class="border-b border-(--global-border-color) pb-1 text-2xl font-bold text-(--global-text-color)"
-      >
+      <h2 class="border-b border-(--global-border-color) pb-1 text-2xl font-bold text-(--global-text-color)">
         Teaching
       </h2>
       <ul class="mt-3 list-disc space-y-4 pl-5 text-(--global-text-color)">
-        {
-          teaching.map((item) => (
-            <li>
-              <a
-                href={getTeachingUrl(item)}
-                class="font-semibold text-(--global-link-color) hover:underline"
-                set:html={parseInline(item.data.title)}
-              />
-              {(item.data.type || item.data.venue || item.data.year) && (
-                <p class="mt-0.5 text-sm text-(--global-text-color-light)">
-                  {item.data.type ? `${item.data.type}, ` : ''}
-                  {item.data.venue ? <em>{item.data.venue}</em> : ''}
-                  {item.data.year ? `, ${item.data.year}` : ''}
-                </p>
-              )}
-            </li>
-          ))
-        }
+        {teaching.map((item) => (
+          <li>
+            <a
+              href={getTeachingUrl(item)}
+              class="font-semibold text-(--global-link-color) hover:underline"
+              set:html={parseInline(item.data.title)}
+            />
+            {(item.data.type || item.data.venue || item.data.year) && (
+              <p class="mt-0.5 text-sm text-(--global-text-color-light)">
+                {item.data.type ? `${item.data.type}, ` : ''}
+                {item.data.venue ? <em>{item.data.venue}</em> : ''}
+                {item.data.year ? `, ${item.data.year}` : ''}
+              </p>
+            )}
+          </li>
+        ))}
       </ul>
     </section>
 
     <section>
-      <h2
-        class="border-b border-(--global-border-color) pb-1 text-2xl font-bold text-(--global-text-color)"
-      >
+      <h2 class="border-b border-(--global-border-color) pb-1 text-2xl font-bold text-(--global-text-color)">
         Service and leadership
       </h2>
       <ul class="mt-3 list-disc space-y-1.5 pl-5 text-(--global-text-color)">

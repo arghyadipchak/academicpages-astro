@@ -36,9 +36,7 @@ const pdfUrl = rawPdfUrl ?? paperUrl;
 const formattedYear = formatYear(date);
 ---
 
-<div
-  class="archive__item border-b border-(--global-border-color) py-4 first:pt-0 last:border-b-0"
->
+<div class="archive__item border-b border-(--global-border-color) py-4 first:pt-0 last:border-b-0">
   <article itemscope itemtype="http://schema.org/CreativeWork">
     <h3 class="text-lg font-bold tracking-tight" itemprop="headline">
       <a
@@ -49,33 +47,27 @@ const formattedYear = formatYear(date);
       />
     </h3>
 
-    {
-      venue && (
-        <p class="mt-1 text-sm text-(--global-text-color-light)">
-          Published in <em>{venue}</em>
-          {formattedYear ? `, ${formattedYear}` : ''}
-        </p>
-      )
-    }
+    {venue && (
+      <p class="mt-1 text-sm text-(--global-text-color-light)">
+        Published in <em>{venue}</em>
+        {formattedYear ? `, ${formattedYear}` : ''}
+      </p>
+    )}
 
-    {
-      description && (
-        <p
-          class="mt-2 text-sm text-(--global-text-color)"
-          itemprop="description"
-          set:html={parseInline(description)}
-        />
-      )
-    }
+    {description && (
+      <p
+        class="mt-2 text-sm text-(--global-text-color)"
+        itemprop="description"
+        set:html={parseInline(description)}
+      />
+    )}
 
-    {
-      citation && (
-        <p class="mt-2 text-xs text-(--global-text-color-light)">
-          <strong>Recommended citation:</strong>{' '}
-          <span set:html={parseInline(citation)} />
-        </p>
-      )
-    }
+    {citation && (
+      <p class="mt-2 text-xs text-(--global-text-color-light)">
+        <strong>Recommended citation:</strong>{' '}
+        <span set:html={parseInline(citation)} />
+      </p>
+    )}
 
     <ActionBadges
       pdfUrl={pdfUrl}

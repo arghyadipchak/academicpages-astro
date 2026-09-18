@@ -16,24 +16,22 @@ const categories = siteConfig.publicationCategories;
 ---
 
 <ListLayout title="Publications">
-  {
-    siteConfig.author.googlescholar && (
-      <div class="mb-4 text-sm text-(--global-text-color)">
-        You can also find my articles on{' '}
-        <a
-          href={resolveExternalUrl(
-            siteConfig.author.googlescholar,
-            'https://scholar.google.com/citations?user='
-          )}
-          target="_blank"
-          rel="noopener noreferrer"
-          class="text-(--global-link-color) hover:underline"
-        >
-          my Google Scholar profile
-        </a>
-      </div>
-    )
-  }
+  {siteConfig.author.googlescholar && (
+    <div class="mb-4 text-sm text-(--global-text-color)">
+      You can also find my articles on{' '}
+      <a
+        href={resolveExternalUrl(
+          siteConfig.author.googlescholar,
+          'https://scholar.google.com/citations?user='
+        )}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="text-(--global-link-color) hover:underline"
+      >
+        my Google Scholar profile
+      </a>
+    </div>
+  )}
 
   {/* Category Filter Pills */}
   <div
@@ -47,67 +45,63 @@ const categories = siteConfig.publicationCategories;
       class="pub-filter-btn active inline-flex cursor-pointer items-center gap-1.5 rounded-full border border-(--global-base-color) bg-(--global-base-color) px-3.5 py-1.5 text-xs leading-none font-semibold text-white shadow-xs transition"
     >
       <span>All</span>
-      <span class="pub-count font-normal text-white opacity-80"
-        >({allPubs.length})</span
-      >
+      <span class="pub-count font-normal text-white opacity-80">
+        ({allPubs.length})
+      </span>
     </button>
-    {
-      Object.entries(categories).map(([catKey, catInfo]) => {
-        const count = allPubs.filter((p) => p.data.category === catKey).length;
-        if (count === 0) return null;
-        return (
-          <button
-            type="button"
-            data-filter={catKey}
-            class="pub-filter-btn inline-flex cursor-pointer items-center gap-1.5 rounded-full border border-(--global-border-color) bg-(--global-bg-color) px-3.5 py-1.5 text-xs leading-none font-medium text-(--global-text-color) shadow-2xs transition hover:border-(--global-link-color) hover:text-(--global-link-color)"
-          >
-            <span>{catInfo.title}</span>
-            <span class="pub-count font-normal text-(--global-text-color-light)">
-              ({count})
-            </span>
-          </button>
-        );
-      })
-    }
+    {Object.entries(categories).map(([catKey, catInfo]) => {
+      const count = allPubs.filter((p) => p.data.category === catKey).length;
+      if (count === 0) return null;
+      return (
+        <button
+          type="button"
+          data-filter={catKey}
+          class="pub-filter-btn inline-flex cursor-pointer items-center gap-1.5 rounded-full border border-(--global-border-color) bg-(--global-bg-color) px-3.5 py-1.5 text-xs leading-none font-medium text-(--global-text-color) shadow-2xs transition hover:border-(--global-link-color) hover:text-(--global-link-color)"
+        >
+          <span>{catInfo.title}</span>
+          <span class="pub-count font-normal text-(--global-text-color-light)">
+            ({count})
+          </span>
+        </button>
+      );
+    })}
   </div>
 
   <div id="publications-container" class="space-y-8">
-    {
-      allPubs.length > 0 ? (
-        Object.entries(categories).map(([catKey, catInfo]) => {
-          const catPubs = allPubs.filter((p) => p.data.category === catKey);
-          if (catPubs.length === 0) return null;
+    {allPubs.length > 0 ? (
+      Object.entries(categories).map(([catKey, catInfo]) => {
+        const catPubs = allPubs.filter((p) => p.data.category === catKey);
+        if (catPubs.length === 0) return null;
 
-          return (
-            <section data-category={catKey} class="pub-category-section">
-              <h2 class="mb-2 border-b border-(--global-border-color) pb-1 text-xl font-bold text-(--global-text-color)">
-                {catInfo.title}
-              </h2>
-              <div class="space-y-2">
-                {catPubs.map((pub) => (
-                  <PublicationCard
-                    title={pub.data.title}
-                    url={getPublicationUrl(pub)}
-                    venue={pub.data.venue}
-                    date={pub.data.date}
-                    description={pub.data.description}
-                    citation={pub.data.citation}
-                    pdfUrl={pub.data.pdf_url ?? pub.data.paper_url}
-                    slidesUrl={pub.data.slides_url}
-                    codeUrl={pub.data.code_url}
-                    bibtex={pub.data.bibtex}
-                  />
-                ))}
-              </div>
-            </section>
-          );
-        })
-      ) : (
-        <p class="text-sm text-(--global-text-color-light)">
-          No publications published yet.
-        </p>
-      )
-    }
+        return (
+          <section data-category={catKey} class="pub-category-section">
+            <h2 class="mb-2 border-b border-(--global-border-color) pb-1 text-xl font-bold text-(--global-text-color)">
+              {catInfo.title}
+            </h2>
+            <div class="space-y-2">
+              {catPubs.map((pub) => (
+                <PublicationCard
+                  title={pub.data.title}
+                  url={getPublicationUrl(pub)}
+                  venue={pub.data.venue}
+                  date={pub.data.date}
+                  description={pub.data.description}
+                  citation={pub.data.citation}
+                  pdfUrl={pub.data.pdf_url ?? pub.data.paper_url}
+                  slidesUrl={pub.data.slides_url}
+                  codeUrl={pub.data.code_url}
+                  bibtex={pub.data.bibtex}
+                />
+              ))}
+            </div>
+          </section>
+        );
+      })
+    ) : (
+      <p class="text-sm text-(--global-text-color-light)">
+        No publications published yet.
+      </p>
+    )}
   </div>
 </ListLayout>
 

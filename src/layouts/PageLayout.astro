@@ -103,15 +103,13 @@ const citationMetadata =
   <div class="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
     <div class="grid grid-cols-1 gap-8 lg:grid-cols-12">
       <!-- Left Sidebar: Author Profile -->
-      {
-        authorProfile && (
-          <aside class="lg:col-span-3">
-            <div class="sticky top-24">
-              <AuthorProfile />
-            </div>
-          </aside>
-        )
-      }
+      {authorProfile && (
+        <aside class="lg:col-span-3">
+          <div class="sticky top-24">
+            <AuthorProfile />
+          </div>
+        </aside>
+      )}
 
       <!-- Main Content Column -->
       <main
@@ -135,99 +133,84 @@ const citationMetadata =
             />
 
             {/* Teaching metadata */}
-            {
-              collection === 'teaching' && (venue || termDisplay || type) && (
-                <p class="mt-2 text-sm text-(--global-text-color-light)">
-                  {type ? `${type}, ` : ''}
-                  {venue ? <em>{venue}</em> : ''}
-                  {termDisplay ? `, ${termDisplay}` : ''}
-                </p>
-              )
-            }
+            {collection === 'teaching' && (venue || termDisplay || type) && (
+              <p class="mt-2 text-sm text-(--global-text-color-light)">
+                {type ? `${type}, ` : ''}
+                {venue ? <em>{venue}</em> : ''}
+                {termDisplay ? `, ${termDisplay}` : ''}
+              </p>
+            )}
 
             {/* Portfolio metadata */}
-            {
-              collection === 'portfolio' &&
-                (venue || timeline || formattedDate) && (
-                  <div class="mt-2 space-y-1 text-sm text-(--global-text-color-light)">
-                    {(timeline || formattedDate) && (
-                      <p class="archive-date-line inline-flex items-center gap-1.5 leading-none font-medium">
-                        <Icon
-                          name="fa6-solid:calendar"
-                          class="h-3.5 w-3.5 shrink-0"
-                        />
-                        <span>{timeline || `Date: ${formattedDate}`}</span>
-                      </p>
-                    )}
-                    {venue && <p set:html={parseInline(venue)} />}
-                  </div>
-                )
-            }
-
-            {/* Publication metadata */}
-            {
-              collection === 'publications' && venue && (
-                <p class="mt-2 text-sm text-(--global-text-color-light)">
-                  Published in <em>{venue}</em>
-                  {formattedYear ? `, ${formattedYear}` : ''}
-                </p>
-              )
-            }
-
-            {/* Talk metadata */}
-            {
-              collection === 'talks' && (
+            {collection === 'portfolio' &&
+              (venue || timeline || formattedDate) && (
                 <div class="mt-2 space-y-1 text-sm text-(--global-text-color-light)">
-                  {formattedDate && (
+                  {(timeline || formattedDate) && (
                     <p class="archive-date-line inline-flex items-center gap-1.5 leading-none font-medium">
                       <Icon
                         name="fa6-solid:calendar"
                         class="h-3.5 w-3.5 shrink-0"
                       />
-                      <span>Date: {formattedDate}</span>
+                      <span>{timeline || `Date: ${formattedDate}`}</span>
                     </p>
                   )}
-                  {(type || venue) && (
-                    <p>
-                      {type && venue ? `${type} at ${venue}` : type || venue}
-                    </p>
-                  )}
+                  {venue && <p set:html={parseInline(venue)} />}
                 </div>
-              )
-            }
+              )}
+
+            {/* Publication metadata */}
+            {collection === 'publications' && venue && (
+              <p class="mt-2 text-sm text-(--global-text-color-light)">
+                Published in <em>{venue}</em>
+                {formattedYear ? `, ${formattedYear}` : ''}
+              </p>
+            )}
+
+            {/* Talk metadata */}
+            {collection === 'talks' && (
+              <div class="mt-2 space-y-1 text-sm text-(--global-text-color-light)">
+                {formattedDate && (
+                  <p class="archive-date-line inline-flex items-center gap-1.5 leading-none font-medium">
+                    <Icon
+                      name="fa6-solid:calendar"
+                      class="h-3.5 w-3.5 shrink-0"
+                    />
+                    <span>Date: {formattedDate}</span>
+                  </p>
+                )}
+                {(type || venue) && (
+                  <p>{type && venue ? `${type} at ${venue}` : type || venue}</p>
+                )}
+              </div>
+            )}
 
             {/* Blog Post publish date & read time */}
-            {
-              collection === 'blog' && (formattedDate || readTime) && (
-                <div class="mt-2 flex flex-wrap items-center gap-3 text-sm text-(--global-text-color-light)">
-                  {formattedDate && (
-                    <p class="inline-flex items-center gap-1.5 leading-none">
-                      <Icon
-                        name="fa6-solid:calendar"
-                        class="h-3.5 w-3.5 shrink-0"
-                      />
-                      <span>
-                        <strong>Published:</strong> {formattedDate}
+            {collection === 'blog' && (formattedDate || readTime) && (
+              <div class="mt-2 flex flex-wrap items-center gap-3 text-sm text-(--global-text-color-light)">
+                {formattedDate && (
+                  <p class="inline-flex items-center gap-1.5 leading-none">
+                    <Icon
+                      name="fa6-solid:calendar"
+                      class="h-3.5 w-3.5 shrink-0"
+                    />
+                    <span>
+                      <strong>Published:</strong> {formattedDate}
+                    </span>
+                    {modified && (
+                      <span class="ml-2">
+                        (Updated: {formatDate(modified)})
                       </span>
-                      {modified && (
-                        <span class="ml-2">
-                          (Updated: {formatDate(modified)})
-                        </span>
-                      )}
-                    </p>
-                  )}
-                  {readTime && (
-                    <p class="inline-flex items-center gap-1.5 leading-none">
-                      <Icon
-                        name="fa6-solid:clock"
-                        class="h-3.5 w-3.5 shrink-0"
-                      />
-                      <span>{readTime}</span>
-                    </p>
-                  )}
-                </div>
-              )
-            }
+                    )}
+                  </p>
+                )}
+                {readTime && (
+                  <p class="inline-flex items-center gap-1.5 leading-none">
+                    <Icon name="fa6-solid:clock" class="h-3.5 w-3.5 shrink-0" />
+                    <span>{readTime}</span>
+                  </p>
+                )}
+              </div>
+            )}
           </header>
 
           {toc !== false && <TableOfContents />}
@@ -238,40 +221,36 @@ const citationMetadata =
           </Prose>
 
           <!-- Citation and downloads for publications -->
-          {
-            (citation || pdfUrl || slidesUrl || codeUrl || bibtex) && (
-              <div class="mt-6 border-t border-(--global-border-color) pt-4 text-xs text-(--global-text-color-light)">
-                {citation && (
-                  <p class="mb-2">
-                    <strong>Recommended citation:</strong>{' '}
-                    <span set:html={parseInline(citation)} />
-                  </p>
-                )}
-                <ActionBadges
-                  pdfUrl={pdfUrl}
-                  slidesUrl={slidesUrl}
-                  codeUrl={codeUrl}
-                  bibtex={bibtex}
-                />
-              </div>
-            )
-          }
+          {(citation || pdfUrl || slidesUrl || codeUrl || bibtex) && (
+            <div class="mt-6 border-t border-(--global-border-color) pt-4 text-xs text-(--global-text-color-light)">
+              {citation && (
+                <p class="mb-2">
+                  <strong>Recommended citation:</strong>{' '}
+                  <span set:html={parseInline(citation)} />
+                </p>
+              )}
+              <ActionBadges
+                pdfUrl={pdfUrl}
+                slidesUrl={slidesUrl}
+                codeUrl={codeUrl}
+                bibtex={bibtex}
+              />
+            </div>
+          )}
 
           {/* Tags footer */}
-          {
-            tags.length > 0 && (
-              <footer class="mt-8 border-t border-(--global-border-color) pt-4 text-xs text-(--global-text-color-light)">
-                <div class="flex flex-wrap items-center gap-2">
-                  <span class="font-semibold">Tags:</span>
-                  {tags.map((tag) => (
-                    <span class="rounded-sm bg-(--global-footer-bg-color) px-2 py-0.5">
-                      {tag}
-                    </span>
-                  ))}
-                </div>
-              </footer>
-            )
-          }
+          {tags.length > 0 && (
+            <footer class="mt-8 border-t border-(--global-border-color) pt-4 text-xs text-(--global-text-color-light)">
+              <div class="flex flex-wrap items-center gap-2">
+                <span class="font-semibold">Tags:</span>
+                {tags.map((tag) => (
+                  <span class="rounded-sm bg-(--global-footer-bg-color) px-2 py-0.5">
+                    {tag}
+                  </span>
+                ))}
+              </div>
+            </footer>
+          )}
         </article>
       </main>
     </div>

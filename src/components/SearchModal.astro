@@ -8,9 +8,7 @@ import { Icon } from 'astro-icon/components';
 >
   <div class="flex flex-col overflow-hidden">
     {/* Search Input Bar */}
-    <div
-      class="flex items-center gap-3 border-b border-(--global-border-color) px-4 py-3"
-    >
+    <div class="flex items-center gap-3 border-b border-(--global-border-color) px-4 py-3">
       <Icon
         name="fa6-solid:magnifying-glass"
         class="h-4 w-4 text-(--global-text-color-light)"
@@ -50,13 +48,17 @@ import { Icon } from 'astro-icon/components';
     </div>
 
     {/* Footer Navigation Help */}
-    <div
-      class="flex items-center justify-between border-t border-(--global-border-color) bg-neutral-50 px-4 py-2 text-[11px] text-(--global-text-color-light) dark:bg-neutral-900"
-    >
+    <div class="flex items-center justify-between border-t border-(--global-border-color) bg-neutral-50 px-4 py-2 text-[11px] text-(--global-text-color-light) dark:bg-neutral-900">
       <div class="flex items-center gap-3">
-        <span><kbd class="font-mono">↑↓</kbd> to navigate</span>
-        <span><kbd class="font-mono">↵</kbd> to select</span>
-        <span><kbd class="font-mono">ESC</kbd> to close</span>
+        <span>
+          <kbd class="font-mono">↑↓</kbd> to navigate
+        </span>
+        <span>
+          <kbd class="font-mono">↵</kbd> to select
+        </span>
+        <span>
+          <kbd class="font-mono">ESC</kbd> to close
+        </span>
       </div>
       <span>Instant Search</span>
     </div>

@@ -14,23 +14,21 @@ allTalks.sort(
 
 <ListLayout title="Talks and Presentations">
   <div class="space-y-2">
-    {
-      allTalks.length > 0 ? (
-        allTalks.map((talk) => (
-          <TalkCard
-            title={talk.data.title}
-            url={getTalkUrl(talk)}
-            date={talk.data.date}
-            venue={talk.data.venue}
-            type={talk.data.type}
-            description={talk.data.description}
-          />
-        ))
-      ) : (
-        <p class="text-sm text-(--global-text-color-light)">
-          No talks or presentations published yet.
-        </p>
-      )
-    }
+    {allTalks.length > 0 ? (
+      allTalks.map((talk) => (
+        <TalkCard
+          title={talk.data.title}
+          url={getTalkUrl(talk)}
+          date={talk.data.date}
+          venue={talk.data.venue}
+          type={talk.data.type}
+          description={talk.data.description}
+        />
+      ))
+    ) : (
+      <p class="text-sm text-(--global-text-color-light)">
+        No talks or presentations published yet.
+      </p>
+    )}
   </div>
 </ListLayout>
