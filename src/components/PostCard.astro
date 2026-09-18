@@ -19,14 +19,14 @@ const formattedDate = formatDate(date);
 
 <div class="archive__item border-b border-(--global-border-color) py-4 first:pt-0 last:border-b-0">
   <article itemscope itemtype="http://schema.org/CreativeWork">
-    <h2 class="text-xl font-bold tracking-tight" itemprop="headline">
+    <h3 class="text-lg font-bold tracking-tight" itemprop="headline">
       <a
         href={url}
         rel="permalink"
         class="text-(--global-link-color) hover:text-(--global-link-color-hover) hover:underline"
         set:html={parseInline(title)}
       />
-    </h2>
+    </h3>
 
     {(formattedDate || readTime) && (
       <div class="mt-1 flex flex-wrap items-center gap-3 text-xs text-(--global-text-color-light)">

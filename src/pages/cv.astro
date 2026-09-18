@@ -27,10 +27,10 @@ const teaching = sortTeaching(await getCollection('teaching'));
 <PageLayout title="CV">
   <div class="cv-content space-y-8">
     <section>
-      <h2 class="border-b border-(--global-border-color) pb-1 text-2xl font-bold text-(--global-text-color)">
+      <h2 class="mb-3 border-b border-(--global-border-color) pb-1 text-xl font-bold text-(--global-text-color)">
         Education
       </h2>
-      <ul class="mt-3 list-disc space-y-1.5 pl-5 text-(--global-text-color)">
+      <ul class="list-disc space-y-1.5 pl-5 text-(--global-text-color)">
         <li>Ph.D in Computer Science, GitHub University, 2024</li>
         <li>M.S. in Software Systems, GitHub University, 2020</li>
         <li>B.S. in Computer Science, GitHub University, 2018</li>
@@ -38,10 +38,10 @@ const teaching = sortTeaching(await getCollection('teaching'));
     </section>
 
     <section>
-      <h2 class="border-b border-(--global-border-color) pb-1 text-2xl font-bold text-(--global-text-color)">
+      <h2 class="mb-3 border-b border-(--global-border-color) pb-1 text-xl font-bold text-(--global-text-color)">
         Work experience
       </h2>
-      <ul class="mt-3 list-disc space-y-4 pl-5 text-(--global-text-color)">
+      <ul class="list-disc space-y-4 pl-5 text-(--global-text-color)">
         <li>
           <strong>Spring 2024: Academic Pages Collaborator</strong>
           <ul class="mt-1.5 list-[circle] space-y-1 pl-5">
@@ -70,10 +70,10 @@ const teaching = sortTeaching(await getCollection('teaching'));
     </section>
 
     <section>
-      <h2 class="border-b border-(--global-border-color) pb-1 text-2xl font-bold text-(--global-text-color)">
+      <h2 class="mb-3 border-b border-(--global-border-color) pb-1 text-xl font-bold text-(--global-text-color)">
         Skills
       </h2>
-      <ul class="mt-3 list-disc space-y-2.5 pl-5 text-(--global-text-color)">
+      <ul class="list-disc space-y-2.5 pl-5 text-(--global-text-color)">
         <li>Skill 1</li>
         <li>
           Skill 2
@@ -88,10 +88,10 @@ const teaching = sortTeaching(await getCollection('teaching'));
     </section>
 
     <section>
-      <h2 class="border-b border-(--global-border-color) pb-1 text-2xl font-bold text-(--global-text-color)">
+      <h2 class="mb-3 border-b border-(--global-border-color) pb-1 text-xl font-bold text-(--global-text-color)">
         Publications
       </h2>
-      <ul class="mt-3 list-disc space-y-4 pl-5 text-(--global-text-color)">
+      <ul class="list-disc space-y-4 pl-5 text-(--global-text-color)">
         {publications.map((pub) => (
           <li>
             <a
@@ -111,10 +111,10 @@ const teaching = sortTeaching(await getCollection('teaching'));
     </section>
 
     <section>
-      <h2 class="border-b border-(--global-border-color) pb-1 text-2xl font-bold text-(--global-text-color)">
+      <h2 class="mb-3 border-b border-(--global-border-color) pb-1 text-xl font-bold text-(--global-text-color)">
         Talks
       </h2>
-      <ul class="mt-3 list-disc space-y-4 pl-5 text-(--global-text-color)">
+      <ul class="list-disc space-y-4 pl-5 text-(--global-text-color)">
         {talks.map((talk) => (
           <li>
             <a
@@ -135,10 +135,10 @@ const teaching = sortTeaching(await getCollection('teaching'));
     </section>
 
     <section>
-      <h2 class="border-b border-(--global-border-color) pb-1 text-2xl font-bold text-(--global-text-color)">
+      <h2 class="mb-3 border-b border-(--global-border-color) pb-1 text-xl font-bold text-(--global-text-color)">
         Teaching
       </h2>
-      <ul class="mt-3 list-disc space-y-4 pl-5 text-(--global-text-color)">
+      <ul class="list-disc space-y-4 pl-5 text-(--global-text-color)">
         {teaching.map((item) => (
           <li>
             <a
@@ -159,10 +159,10 @@ const teaching = sortTeaching(await getCollection('teaching'));
     </section>
 
     <section>
-      <h2 class="border-b border-(--global-border-color) pb-1 text-2xl font-bold text-(--global-text-color)">
+      <h2 class="mb-3 border-b border-(--global-border-color) pb-1 text-xl font-bold text-(--global-text-color)">
         Service and leadership
       </h2>
-      <ul class="mt-3 list-disc space-y-1.5 pl-5 text-(--global-text-color)">
+      <ul class="list-disc space-y-1.5 pl-5 text-(--global-text-color)">
         <li>Currently signed in to 43 different slack teams</li>
       </ul>
     </section>

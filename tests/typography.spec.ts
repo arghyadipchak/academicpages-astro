@@ -220,7 +220,7 @@ test.describe('Typography, Lists & Mathematical Layout Tests', () => {
     await expect(h1.locator('.katex')).toBeVisible();
   });
 
-  test('Portfolio showcase cards have at least 24px vertical padding', async ({
+  test('Portfolio showcase cards have standard 16px vertical padding', async ({
     page,
   }) => {
     await page.goto(toUrl('/portfolio/'));
@@ -229,7 +229,7 @@ test.describe('Typography, Lists & Mathematical Layout Tests', () => {
     const padding = await portfolioItem.evaluate((el) =>
       parseFloat(window.getComputedStyle(el).paddingBottom)
     );
-    expect(padding).toBeGreaterThanOrEqual(24);
+    expect(padding).toBeGreaterThanOrEqual(16);
   });
 
   test('Footnotes section, in-text references, and return links render correctly', async ({

@@ -19,7 +19,7 @@ const { title, url, description, date, timeline, venue, image } = Astro.props;
 const displayTime = timeline || formatDate(date);
 ---
 
-<div class="archive__item border-b border-(--global-border-color) py-6 first:pt-0 last:border-b-0 sm:py-8">
+<div class="archive__item border-b border-(--global-border-color) py-4 first:pt-0 last:border-b-0">
   <article itemscope itemtype="http://schema.org/CreativeWork">
     <h3 class="text-lg font-bold tracking-tight" itemprop="headline">
       <a
@@ -49,7 +49,7 @@ const displayTime = timeline || formatDate(date);
     )}
 
     {description && (
-      <div
+      <p
         class="mt-2 text-sm text-(--global-text-color)"
         itemprop="description"
         set:html={parseInline(description)}

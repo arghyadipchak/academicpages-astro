@@ -10,7 +10,7 @@ const allPortfolio = await getCollection('portfolio');
 ---
 
 <ListLayout title="Portfolio">
-  <div class="space-y-4">
+  <div class="space-y-2">
     {allPortfolio.length > 0 ? (
       allPortfolio.map((item) => (
         <PortfolioCard
