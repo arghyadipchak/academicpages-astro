@@ -17,11 +17,11 @@ const allTeaching = sortTeaching(await getCollection('teaching'));
         <TeachingCard
           title={item.data.title}
           url={getTeachingUrl(item)}
-          type={item.data.type}
-          venue={item.data.venue}
+          description={item.data.description}
           year={item.data.year}
           semester={item.data.semester}
-          description={item.data.description}
+          type={item.data.type}
+          venue={item.data.venue}
         />
       ))
     ) : (

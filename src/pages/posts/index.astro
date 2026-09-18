@@ -42,8 +42,8 @@ const years = Object.keys(postsByYear).sort((a, b) => Number(b) - Number(a));
               <PostCard
                 title={post.data.title}
                 url={getPostUrl(post)}
-                date={post.data.date}
                 description={post.data.description}
+                date={post.data.date}
                 readTime={
                   post.data.read_time
                     ? calculateReadingTime(post.body)

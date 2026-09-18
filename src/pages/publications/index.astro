@@ -83,9 +83,9 @@ const categories = siteConfig.publicationCategories;
                 <PublicationCard
                   title={pub.data.title}
                   url={getPublicationUrl(pub)}
-                  venue={pub.data.venue}
-                  date={pub.data.date}
                   description={pub.data.description}
+                  date={pub.data.date}
+                  venue={pub.data.venue}
                   citation={pub.data.citation}
                   pdfUrl={pub.data.pdf_url ?? pub.data.paper_url}
                   slidesUrl={pub.data.slides_url}

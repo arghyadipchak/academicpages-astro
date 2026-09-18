@@ -47,8 +47,8 @@ const formattedDate = formatDate(talk.data.date);
   date={talk.data.date}
   slidesUrl={talk.data.slides_url}
   authorProfile={talk.data.author_profile}
-  image={talk.data.image}
   toc={talk.data.toc}
+  image={talk.data.image}
 >
   {(formattedDate || talk.data.type || talk.data.venue) && (
     <div

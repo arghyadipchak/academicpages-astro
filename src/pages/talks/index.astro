@@ -19,10 +19,10 @@ allTalks.sort(
         <TalkCard
           title={talk.data.title}
           url={getTalkUrl(talk)}
-          date={talk.data.date}
-          venue={talk.data.venue}
-          type={talk.data.type}
           description={talk.data.description}
+          date={talk.data.date}
+          type={talk.data.type}
+          venue={talk.data.venue}
         />
       ))
     ) : (
