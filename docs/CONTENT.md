@@ -53,7 +53,7 @@ Research papers, preprints, books, and conference articles.
 
 ### Example
 
-```yaml
+```markdown
 ---
 title: High-Throughput Learning of Neural Potentials
 date: 2026-03-15
@@ -73,9 +73,8 @@ bibtex: |
     volume  = {8},
     pages   = {200--215}
   }
-author_profile: true
-toc: false
 ---
+
 Detailed abstract, methodology, results, and discussion go here. Standard Markdown, figures, and KaTeX math ($E=mc^2$) are fully supported.
 ```
 
@@ -95,7 +94,7 @@ Keynotes, conference talks, seminar presentations, and tutorials.
 
 ### Example
 
-```yaml
+```markdown
 ---
 title: Scalable Graph Transformers for Protein Design
 date: 2026-05-20
@@ -103,8 +102,8 @@ description: Keynote presentation on graph representation learning in biology
 type: Keynote Talk
 venue: International Conference on Machine Learning (ICML 2026), Vienna, Austria
 slides_url: /files/slides2.pdf
-author_profile: true
 ---
+
 Talk summary, abstract, slide embed, or related video links.
 ```
 
@@ -125,7 +124,7 @@ Undergraduate and graduate courses, guest lectures, and workshops.
 
 ### Example
 
-```yaml
+```markdown
 ---
 title: 'CS 229: Machine Learning & Scientific Computing'
 year: 2026
@@ -133,8 +132,8 @@ semester: Spring
 description: Graduate-level introduction to statistical learning and optimization
 type: Graduate Course
 venue: Department of Computer Science, University of Science
-author_profile: true
 ---
+
 Course syllabus, grading policy, office hours, and lecture materials.
 ```
 
@@ -156,7 +155,7 @@ Software libraries, datasets, open-source projects, and research artifacts.
 
 ### Example
 
-```yaml
+```markdown
 ---
 title: Neural Force Fields Library
 date: 2025-08-01
@@ -164,10 +163,10 @@ timeline: Aug 2025 – Present
 venue: AI for Science Lab
 description: Open-source PyTorch framework for molecular simulation
 image: /images/project-1.svg
-code_url: https://github.com/username/project
 pdf_url: https://example.com/paper.pdf
-author_profile: true
+code_url: https://github.com/username/project
 ---
+
 Overview of the project, features, architectural diagram, and installation guide.
 ```
 
@@ -188,7 +187,7 @@ Articles, research thoughts, and release announcements.
 
 ### Example
 
-```yaml
+```markdown
 ---
 title: Accelerating Scientific Discovery with Agentic AI
 date: 2026-04-10
@@ -201,8 +200,8 @@ tags:
 draft: false
 read_time: true
 toc: true
-author_profile: true
 ---
+
 Post content with full Markdown, math equations, code blocks, and diagrams.
 ```
 
@@ -218,12 +217,10 @@ Static markdown pages for institutional requirements or reference guides.
 
 ### Example
 
-```yaml
+```markdown
 ---
 title: Terms and Privacy Policy
 description: Terms of use, content licensing, and privacy practices for this website
-author_profile: true
-toc: false
 ---
 ```
 

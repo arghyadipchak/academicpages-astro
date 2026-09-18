@@ -302,7 +302,7 @@ Strikethrough text with double tildes: ~~deprecated research note~~
 
 Academic Pages Astro automatically renders interactive, 1-click action buttons for papers, presentation slides, and BibTeX citations when specified in your publication's Markdown frontmatter:
 
-```yaml
+```markdown
 ---
 title: Paper Title Number 1
 date: 2024-03-15
