@@ -4,12 +4,27 @@ updates:
     directory: /
     schedule:
       interval: weekly
+      day: saturday
+      time: '08:00'
+      timezone: Asia/Kolkata
     commit-message:
-      prefix: chore
+      prefix: build
+      prefix-development: chore
       include: scope
+    labels:
+      - dependencies
+      - javascript
     open-pull-requests-limit: 10
     groups:
       npm-packages:
+        dependency-type: production
+        patterns:
+          - '*'
+        update-types:
+          - minor
+          - patch
+      npm-dev-packages:
+        dependency-type: development
         patterns:
           - '*'
         update-types:
@@ -20,9 +35,15 @@ updates:
     directory: /
     schedule:
       interval: weekly
+      day: saturday
+      time: '08:00'
+      timezone: Asia/Kolkata
     commit-message:
-      prefix: chore
+      prefix: ci
       include: scope
+    labels:
+      - dependencies
+      - github-actions
     open-pull-requests-limit: 10
     groups:
       github-actions:
