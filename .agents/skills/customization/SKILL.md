@@ -33,6 +33,7 @@ Follow these sequential steps when prompted to personalize the website for a use
 - Apply configuration options detailed in [`docs/CONFIG.md`](file:///docs/CONFIG.md):
   - Update `src/data/siteConfig.ts` with user profile, verified scholarly IDs, and deployment URL
   - Update `src/data/navigation.ts` to match the user's enabled sections and remove the demo `{ title: 'Guide', url: '/markdown/' }` link
+  - Update `LICENSE` with the user's copyright notice while preserving upstream MIT lines
   - Replace `public/images/profile.png` if an avatar is provided
   - Never remove, hide, or comment out the footer credit link in `src/components/Footer.astro` pointing to `academicpages-astro`
 
@@ -45,30 +46,23 @@ Follow these sequential steps when prompted to personalize the website for a use
   - Delete starter PDFs/slides in `public/files/`
   - Delete unused starter images in `public/images/`
 
-### Step 4: Retire Playwright Tests for Personal Sites
+### Step 4: Retire Starter Scaffolding, Tests & Template Files
 
-Personal sites should not maintain brittle demo-string Playwright browser tests. Follow Section 5 of [`docs/CHECKLIST.md`](file:///docs/CHECKLIST.md):
+Follow Section 5 of [`docs/CHECKLIST.md`](file:///docs/CHECKLIST.md) to clean up starter artifacts:
 
-- Remove `tests/` and `playwright.config.ts`
-- Remove `@playwright/test` and `"test"` script from `package.json`
-- Remove browser install and test steps from `.github/workflows/ci.yml`
+1. **Retire Playwright Tests** (Section 5.B): Remove `tests/`, `playwright.config.ts`, `@playwright/test`, and CI browser test steps
+2. **Retire Template Governance Files** (Section 5.C): Delete `CONTRIBUTING.md`, `SECURITY.md`, `cliff.toml`, `.github/FUNDING.yml`, `.github/pull_request_template.md`, `.github/ISSUE_TEMPLATE/`, `.github/workflows/release.yml`, and `.github/workflows/pr-lint.yml`
+3. **Personalize `README.md`** (Section 5.D): Replace template README with personal website metadata and run commands
 
-### Step 5: Verification & Quality Gate
+### Step 5: Verification & Self-Destruction
 
-Execute the verification pipeline from repository root:
-
-```bash
-pnpm format
-pnpm verify
-pnpm build
-```
-
-Ensure 0 errors across ESLint, Prettier, and Astro typecheck.
-
-### Step 6: Self-Destruction
-
-Once verification passes cleanly, delete the checklist:
-
-```bash
-rm docs/CHECKLIST.md
-```
+1. Execute the verification pipeline from repository root:
+   ```bash
+   pnpm format
+   pnpm verify
+   pnpm build
+   ```
+2. Once verification passes with 0 errors, delete the onboarding checklist:
+   ```bash
+   rm docs/CHECKLIST.md
+   ```

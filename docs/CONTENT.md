@@ -172,61 +172,8 @@ toc: false
 
 ---
 
-## 8. Rich Media & Mathematical Formatting
+## 8. Rich Media, Diagrams & Mathematical Formatting
 
-For the complete visual syntax guide, see [`docs/MARKDOWN.md`](file:///docs/MARKDOWN.md) or the [live demo](https://arghyadipchak.github.io/academicpages-astro/markdown/).
+Academic Pages Astro supports KaTeX math, interactive Mermaid diagrams, Plotly scientific charts, callouts, and syntax-highlighted code blocks across all markdown entries.
 
-### KaTeX Mathematics (Server-Side)
-
-- **Inline math**: Wrap LaTeX in `$ ... $`, e.g. `$f(x) = \sigma(W x + b)$`
-- **Display math**: Wrap LaTeX in `$$ ... $$` or `\[ ... \]` on its own line:
-  ```latex
-  $$
-  \mathcal{L}_{\text{total}} = \mathcal{L}_{\text{task}} + \lambda \sum_{i=1}^N \|\theta_i\|_2^2
-  $$
-  ```
-
-### Code Blocks & Copy Button
-
-Fenced code blocks with language tags automatically receive Shiki syntax highlighting (matching light/dark themes) and an integrated copy-to-clipboard button:
-
-````markdown
-```python
-def predict(weights: np.ndarray, x: np.ndarray) -> np.ndarray:
-    return np.dot(x, weights)
-```
-````
-
-### Notice Callouts
-
-Create styled callout boxes matching classic Academic Pages:
-
-```markdown
-{: .notice}
-Default informative note.
-
-{: .notice--info}
-Helpful tip or background context.
-
-{: .notice--warning}
-Warning or limitation to be aware of.
-
-{: .notice--danger}
-Critical error or deprecation alert.
-
-{: .notice--success}
-Success message or positive outcome.
-```
-
-### Diagrams (Mermaid)
-
-Mermaid diagrams are automatically rendered and theme-synchronized:
-
-````markdown
-```mermaid
-graph TD
-    A[Input Data] --> B[Feature Extraction]
-    B --> C[Neural Network]
-    C --> D[Predictions]
-```
-````
+For the comprehensive syntax reference, formatting examples, and live visual rendering, see [`docs/MARKDOWN.md`](file:///docs/MARKDOWN.md) or visit the [live markdown demo](https://arghyadipchak.github.io/academicpages-astro/markdown/).

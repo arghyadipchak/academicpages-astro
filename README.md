@@ -113,35 +113,23 @@ Copy and paste this prompt into your AI chat window:
 > **One-Prompt Site Customization**:
 >
 > ```markdown
-> Please personalize this academic portfolio website for me by following `docs/CHECKLIST.md`, `docs/CONFIG.md`, `docs/CONTENT.md`, `AGENTS.md`, and `.agents/skills/customization/SKILL.md`:
+> Please personalize this academic portfolio website for me by following `.agents/skills/customization/SKILL.md` and `docs/CHECKLIST.md`:
 >
-> 1. External Sources (Provide whatever you have):
->    - CV / Resume: [e.g. files placed in `cv/` directory (LaTeX `.tex`, Markdown, PDF, or text), or paste text/link]
->    - Google Scholar: [Profile URL, or leave blank]
->    - GitHub: [Profile URL or username, or leave blank]
+> 1. My Profiles & External Sources:
+>    - CV / Resume: [Files in `cv/` (LaTeX `.tex`, Markdown, PDF, or text), or paste text/link]
+>    - Google Scholar: [Profile URL or ID, or leave blank]
+>    - GitHub: [Username or URL, or leave blank]
 >    - LinkedIn: [Profile URL, or leave blank]
 >    - Existing / Old Website: [URL or directory path of old Jekyll/Hugo/WordPress site, or leave blank]
 >    - Other Profiles / Links: [e.g. ORCID, Twitter/X, ResearchGate, personal lab page]
 >
-> 2. Source Discovery & Interactive Audit:
->    - Inspect `src/data/navigation.ts` and `src/content.config.ts` to discover available template sections and content collections
->    - Inspect all provided external sources above to extract my profile metadata and content matching the discovered collections
->    - Present a summary audit comparing what data was found against the template sections, and ask me:
->      - Which sections with data should be enabled and populated
->      - For empty sections (where no data was found): whether to disable/hide them from navigation, keep them as empty placeholder pages, or if I want to supply data from another source
->
-> 3. Navigation & Site Configuration:
->    - Follow `docs/CONFIG.md` to update `src/data/siteConfig.ts` with my name, bio, avatar, affiliation, location, and verified academic/social links
->    - Update `src/data/navigation.ts` based on my chosen sections and remove the starter demo Guide link (`/markdown/`)
->
-> 4. Content Population & Demo Cleanup:
->    - Follow `docs/CONTENT.md` to populate each enabled collection and page with my actual data (creating `.md` files in `src/content/` with proper frontmatter and updating corresponding pages)
->    - Follow `docs/CHECKLIST.md` to delete demo files in `src/content/`, demo PDFs/slides in `public/files/`, and sample photos in `public/images/`
->    - Retire the starter Playwright tests and test steps from `.github/workflows/ci.yml` as instructed in `docs/CHECKLIST.md`
->
-> 5. Verification & Cleanup:
->    - Run `pnpm format`, `pnpm verify`, and `pnpm build` to confirm 0 errors and a clean production build
->    - Delete `docs/CHECKLIST.md` (`rm docs/CHECKLIST.md`) when finished
+> 2. Execution Directives:
+>    - Perform a discovery audit matching my data against template collections and ask me which sections to enable
+>    - Update `src/data/siteConfig.ts` and `src/data/navigation.ts` with my verified profile and navigation links
+>    - Populate `src/content/` with my publications, talks, teaching, and posts; purge all starter demo files and assets
+>    - Retire starter Playwright tests and template governance files (`CONTRIBUTING.md`, `SECURITY.md`, etc.) as instructed in `docs/CHECKLIST.md`
+>    - Personalize the repository `README.md` and verify the site with `pnpm verify && pnpm build`
+>    - Self-destruct: Delete `docs/CHECKLIST.md` (`rm docs/CHECKLIST.md`) once personalization and verification are complete
 > ```
 
 ---

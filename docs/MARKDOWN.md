@@ -161,28 +161,11 @@ Embed interactive Plotly scatter, line, contour, or subplot charts directly in c
 
 ## 4. Academic Publication Action Badges
 
-When authoring research entries in `src/content/publications/`, specifying asset URLs in frontmatter automatically generates interactive 1-click action buttons:
+When authoring research entries in `src/content/publications/`, setting URLs (`pdf_url`, `slides_url`, `code_url`) and `bibtex` in frontmatter automatically renders interactive action badges (`[PDF]`, `[Slides]`, `[Code]`, `[BibTeX]`):
 
-```yaml
----
-title: Paper Title Number 1
-date: 2024-03-15
-category: journals
-venue: Journal 1
-pdf_url: /files/paper1.pdf
-slides_url: /files/slides1.pdf
-code_url: https://github.com/username/project
-bibtex: |
-  @article{Doe2024,
-    title = {Paper Title Number 1},
-    author = {Doe, Jane and Smith, John},
-    journal = {Journal 1},
-    year = {2024}
-  }
----
-```
-
-When clicked, the **BibTeX** button displays a clean copy-to-clipboard modal box.
+- **Interactive BibTeX**: Clicking the `[BibTeX]` badge triggers a 1-click citation copy modal
+- **Asset Links**: PDF and slide links open in a new tab with secure `target="_blank"` attributes
+- **Schema Details**: For full frontmatter schemas and publication fields, see [`docs/CONTENT.md`](file:///docs/CONTENT.md#2-publications-srccontentpublications)
 
 ---
 
@@ -349,7 +332,7 @@ Academic Pages Astro provides default typography styles for semantic HTML elemen
 
 ## 14. Frontmatter Controls for Markdown Pages
 
-Any `.md` file in `src/content/` supports these layout controls:
+Any `.md` file in `src/content/` supports these layout controls defined in [`src/content.config.ts`](file:///src/content.config.ts):
 
 ```yaml
 ---
@@ -357,6 +340,5 @@ title: Page Title
 description: Meta description used for SEO and summary cards
 toc: true # Enables sticky Table of Contents sidebar
 author_profile: true # Shows author sidebar on wide viewports (default: true)
-math: true # Enables KaTeX math engine (enabled by default)
 ---
 ```

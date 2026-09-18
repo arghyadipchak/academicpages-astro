@@ -25,7 +25,7 @@ Guidelines and runbook for AI coding assistants (Antigravity, Cursor, Claude Cod
 - **Math**: Server-side KaTeX rendering (`remark-math` + `rehype-katex`)
 - **Icons**: `astro-icon` with FontAwesome 6 brands/solid and Academicons
 - **Search**: Fast client-side modal search (`Cmd+K` / `Ctrl+K`) powered by `/api/search.json`
-- **Quality Gates**: ESLint 9 Flat Config, Prettier with Tailwind class sorter, TypeScript strict mode, and Playwright automated tests
+- **Quality Gates**: ESLint 9 Flat Config, Prettier with Tailwind class sorter, and TypeScript strict mode (astro check)
 
 ---
 
@@ -61,7 +61,7 @@ academicpages-astro/
 
 When personalizing a user's website, managing academic content collections, or configuring deployments, follow the canonical guides:
 
-- **Setup & Cleanup Roadmap**: [`docs/CHECKLIST.md`](file:///docs/CHECKLIST.md) (itemized checklist covering profile personalization, demo content purge, asset cleanup, and test retirement)
+- **Setup & Cleanup Roadmap**: [`docs/CHECKLIST.md`](file:///docs/CHECKLIST.md) (itemized checklist covering profile personalization, demo content purge, asset cleanup, template files retirement, and README personalization)
 - **Site & Deployment Configuration**: [`docs/CONFIG.md`](file:///docs/CONFIG.md) (complete reference for `siteConfig.ts`, 50+ academic/social handles, `navigation.ts`, base URL resolution, and redirect management)
 - **Content Collections & Formatting**: [`docs/CONTENT.md`](file:///docs/CONTENT.md) (Zod frontmatter schemas, file naming conventions, KaTeX math authoring, 1-click BibTeX, and action badges)
 - **Markdown & Mathematical Typesetting**: [`docs/MARKDOWN.md`](file:///docs/MARKDOWN.md) (comprehensive syntax reference for KaTeX math equations, tables, alert callouts, and Mermaid diagrams)
@@ -91,7 +91,4 @@ pnpm verify
 
 # Build static production site
 pnpm build
-
-# Run automated browser tests
-pnpm test
 ```
