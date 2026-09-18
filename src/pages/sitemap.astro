@@ -13,7 +13,7 @@ import {
   resolveUrl,
 } from '@utils/url';
 
-const posts = await getCollection('blog');
+const posts = await getCollection('blog', ({ data }) => !data.draft);
 const publications = await getCollection('publications');
 const talks = await getCollection('talks');
 const teaching = await getCollection('teaching');
@@ -35,46 +35,56 @@ const portfolio = await getCollection('portfolio');
             About
           </a>
         </li>
-        <li>
-          <a
-            href={resolveUrl('/publications/')}
-            class="text-(--global-link-color) hover:underline"
-          >
-            Publications
-          </a>
-        </li>
-        <li>
-          <a
-            href={resolveUrl('/talks/')}
-            class="text-(--global-link-color) hover:underline"
-          >
-            Talks
-          </a>
-        </li>
-        <li>
-          <a
-            href={resolveUrl('/teaching/')}
-            class="text-(--global-link-color) hover:underline"
-          >
-            Teaching
-          </a>
-        </li>
-        <li>
-          <a
-            href={resolveUrl('/portfolio/')}
-            class="text-(--global-link-color) hover:underline"
-          >
-            Portfolio
-          </a>
-        </li>
-        <li>
-          <a
-            href={resolveUrl('/posts/')}
-            class="text-(--global-link-color) hover:underline"
-          >
-            Blog Posts
-          </a>
-        </li>
+        {publications.length > 0 && (
+          <li>
+            <a
+              href={resolveUrl('/publications/')}
+              class="text-(--global-link-color) hover:underline"
+            >
+              Publications
+            </a>
+          </li>
+        )}
+        {talks.length > 0 && (
+          <li>
+            <a
+              href={resolveUrl('/talks/')}
+              class="text-(--global-link-color) hover:underline"
+            >
+              Talks
+            </a>
+          </li>
+        )}
+        {teaching.length > 0 && (
+          <li>
+            <a
+              href={resolveUrl('/teaching/')}
+              class="text-(--global-link-color) hover:underline"
+            >
+              Teaching
+            </a>
+          </li>
+        )}
+        {portfolio.length > 0 && (
+          <li>
+            <a
+              href={resolveUrl('/portfolio/')}
+              class="text-(--global-link-color) hover:underline"
+            >
+              Portfolio
+            </a>
+          </li>
+        )}
+        {posts.length > 0 && (
+          <li>
+            <a
+              href={resolveUrl('/posts/')}
+              class="text-(--global-link-color) hover:underline"
+            >
+              Blog Posts
+            </a>
+          </li>
+        )}
         <li>
           <a
             href={resolveUrl('/cv/')}
