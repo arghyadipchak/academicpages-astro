@@ -26,7 +26,7 @@ A modern, high-performance academic personal website and portfolio template buil
   - **Portfolio**: Research projects and software demos
   - **Dynamic CV**: Aggregated curriculum vitae with interactive, collapsible Table of Contents
 - 🔍 **Instant Search (`Cmd + K`)**: Fast, lightweight client-side fuzzy search across all publications, talks, and blog posts
-- 📐 **Mathematical Rigor ($\KaTeX$)**: Full LaTeX/MathJax support with static server-side rendering
+- 📐 **Mathematical Rigor ($\LaTeX$ / KaTeX)**: Fast, static server-side math rendering across Markdown content, frontmatter titles, and archive listings via KaTeX
 - 🌐 **Scholarly SEO & Syndication**: Google Scholar and Highwire Press citation meta tags, RSS 2.0 (`/rss.xml`), Atom feed (`/feed.xml`), XML sitemaps, crawlers index (`/robots.txt`), and LLM-friendly index (`/llms.txt`)
 - 📱 **Exhaustive Sidebar**: Sticky author profile on desktop supporting **50+ academic, code, and social platforms** with responsive mobile drawer
 - 🧪 **Comprehensive Test Suite**: Automated Playwright browser tests covering desktop and mobile viewports
@@ -36,17 +36,17 @@ A modern, high-performance academic personal website and portfolio template buil
 
 ## 🛠️ Tech Stack
 
-| Layer                  | Technologies                                                                         |
-| :--------------------- | :----------------------------------------------------------------------------------- |
-| **Framework**          | [Astro 7](https://astro.build/)                                                      |
-| **Language**           | [TypeScript 5](https://www.typescriptlang.org/) (Strict mode)                        |
-| **Styling & Design**   | [Tailwind CSS v4](https://tailwindcss.com/)                                          |
-| **Math Engine**        | [KaTeX](https://katex.org/) (via `remark-math` & `rehype-katex`)                     |
-| **Icons**              | [Astro Icon](https://www.astro-icon.dev/) (`academicons`, `fa6-brands`, `fa6-solid`) |
-| **Search Engine**      | Fast client-side fuzzy search (`/api/search.json`)                                   |
-| **Testing**            | [Playwright](https://playwright.dev/) (Desktop & Mobile Chrome)                      |
-| **Automation & CI/CD** | GitHub Actions (`ci.yml`, `release.yml`), Dependabot, `git-cliff`                    |
-| **Package Manager**    | [pnpm](https://pnpm.io/)                                                             |
+| Layer                  | Technologies                                                                                  |
+| :--------------------- | :-------------------------------------------------------------------------------------------- |
+| **Framework**          | [Astro 7](https://astro.build/)                                                               |
+| **Language**           | [TypeScript 5](https://www.typescriptlang.org/) (Strict mode)                                 |
+| **Styling & Design**   | [Tailwind CSS v4](https://tailwindcss.com/)                                                   |
+| **Math Engine**        | [KaTeX](https://katex.org/) (via `remark-math`, `rehype-katex`, and `marked-katex-extension`) |
+| **Icons**              | [Astro Icon](https://www.astro-icon.dev/) (`academicons`, `fa6-brands`, `fa6-solid`)          |
+| **Search Engine**      | Fast client-side fuzzy search (`/api/search.json`)                                            |
+| **Testing**            | [Playwright](https://playwright.dev/) (Desktop & Mobile Chrome)                               |
+| **Automation & CI/CD** | GitHub Actions (`ci.yml`, `release.yml`), Dependabot, `git-cliff`                             |
+| **Package Manager**    | [pnpm](https://pnpm.io/)                                                                      |
 
 ---
 
