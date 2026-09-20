@@ -4,8 +4,18 @@ import markedKatex from 'marked-katex-extension';
 
 import { resolveHtmlUrls } from '@utils/url';
 
-// Configure marked with non-standard KaTeX inline math and enforced inline display mode
 marked.use(markedKatex({ nonStandard: true }), {
+  renderer: {
+    link(token) {
+      const isExternal = /^(https?:)?\/\//i.test(token.href);
+      const text = this.parser.parseInline(token.tokens);
+      const titleAttr = token.title ? ` title="${token.title}"` : '';
+      if (isExternal)
+        return `<a href="${token.href}"${titleAttr} target="_blank">${text}</a>`;
+
+      return `<a href="${token.href}"${titleAttr}>${text}</a>`;
+    },
+  },
   extensions: [
     {
       name: 'inlineKatex',

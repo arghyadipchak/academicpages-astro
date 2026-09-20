@@ -11,6 +11,7 @@
       "@components/*": ["./src/components/*"],
       "@data/*": ["./src/data/*"],
       "@layouts/*": ["./src/layouts/*"],
+      "@plugins/*": ["./src/plugins/*"],
       "@styles/*": ["./src/styles/*"],
       "@utils/*": ["./src/utils/*"]
     }

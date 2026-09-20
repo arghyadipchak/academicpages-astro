@@ -148,21 +148,43 @@ test.describe('Core UI, SEO & Page Integrity Tests', () => {
     await expect(ogUrl).toHaveAttribute('content', /publications\/?$/);
   });
 
-  test('external social and project links enforce target="_blank" and rel="noopener noreferrer"', async ({
+  test('external social, project, and markdown links enforce target="_blank"', async ({
     page,
   }) => {
     await page.goto(toUrl('/'));
-    const externalLinks = page.locator(
-      'footer a[target="_blank"], .author__urls a[target="_blank"]'
-    );
-    const count = await externalLinks.count();
-    expect(count).toBeGreaterThan(0);
+    const authorExternalLinks = page.locator('.author__urls a[href^="http"]');
+    const authorCount = await authorExternalLinks.count();
+    expect(authorCount).toBeGreaterThan(0);
 
-    for (let i = 0; i < count; i++) {
-      const link = externalLinks.nth(i);
+    for (let i = 0; i < authorCount; i++) {
+      const link = authorExternalLinks.nth(i);
+      await expect(link).toHaveAttribute('target', '_blank');
       const rel = await link.getAttribute('rel');
-      expect(rel).toContain('noopener');
-      expect(rel).toContain('noreferrer');
+      expect(rel).toBeNull();
+    }
+
+    const footerCreditLinks = page.locator('footer p a[href^="http"]');
+    const creditCount = await footerCreditLinks.count();
+    expect(creditCount).toBeGreaterThan(0);
+
+    for (let i = 0; i < creditCount; i++) {
+      const link = footerCreditLinks.nth(i);
+      await expect(link).toHaveAttribute('target', '_blank');
+      await expect(link).toHaveAttribute('rel', 'nofollow');
+    }
+
+    await page.goto(toUrl('/markdown/'));
+    const markdownExternalLinks = page.locator(
+      '.prose a[href^="http://"], .prose a[href^="https://"]'
+    );
+    const mdCount = await markdownExternalLinks.count();
+    expect(mdCount).toBeGreaterThan(0);
+
+    for (let i = 0; i < mdCount; i++) {
+      const link = markdownExternalLinks.nth(i);
+      await expect(link).toHaveAttribute('target', '_blank');
+      const rel = await link.getAttribute('rel');
+      expect(rel).toBeNull();
     }
   });
 

@@ -97,6 +97,7 @@ const resolveUrl = resolveExternalUrl;
           />
           <a
             href={author.website}
+            target="_blank"
             class="truncate hover:text-(--global-base-color)"
           >
             Website
@@ -131,7 +132,6 @@ const resolveUrl = resolveExternalUrl;
               'https://scholar.google.com/citations?user='
             )}
             target="_blank"
-            rel="noopener noreferrer"
             class="hover:text-(--global-base-color)"
           >
             Google Scholar
@@ -147,7 +147,6 @@ const resolveUrl = resolveExternalUrl;
           <a
             href={resolveUrl(author.orcid, 'https://orcid.org/')}
             target="_blank"
-            rel="noopener noreferrer"
             class="hover:text-(--global-base-color)"
           >
             ORCID
@@ -163,7 +162,6 @@ const resolveUrl = resolveExternalUrl;
           <a
             href={resolveUrl(author.arxiv, 'https://arxiv.org/a/')}
             target="_blank"
-            rel="noopener noreferrer"
             class="hover:text-(--global-base-color)"
           >
             arXiv
@@ -179,7 +177,6 @@ const resolveUrl = resolveExternalUrl;
           <a
             href={resolveUrl(author.dblp, 'https://dblp.org/pid/')}
             target="_blank"
-            rel="noopener noreferrer"
             class="hover:text-(--global-base-color)"
           >
             DBLP
@@ -198,7 +195,6 @@ const resolveUrl = resolveExternalUrl;
               'https://www.ncbi.nlm.nih.gov/pubmed/?term='
             )}
             target="_blank"
-            rel="noopener noreferrer"
             class="hover:text-(--global-base-color)"
           >
             PubMed
@@ -217,7 +213,6 @@ const resolveUrl = resolveExternalUrl;
               'https://www.researchgate.net/profile/'
             )}
             target="_blank"
-            rel="noopener noreferrer"
             class="hover:text-(--global-base-color)"
           >
             ResearchGate
@@ -236,7 +231,6 @@ const resolveUrl = resolveExternalUrl;
               'https://www.scopus.com/authid/detail.uri?authorId='
             )}
             target="_blank"
-            rel="noopener noreferrer"
             class="hover:text-(--global-base-color)"
           >
             Scopus
@@ -255,7 +249,6 @@ const resolveUrl = resolveExternalUrl;
               'https://www.semanticscholar.org/author/'
             )}
             target="_blank"
-            rel="noopener noreferrer"
             class="hover:text-(--global-base-color)"
           >
             Semantic Scholar
@@ -274,7 +267,6 @@ const resolveUrl = resolveExternalUrl;
               'https://openreview.net/profile?id='
             )}
             target="_blank"
-            rel="noopener noreferrer"
             class="hover:text-(--global-base-color)"
           >
             OpenReview
@@ -293,7 +285,6 @@ const resolveUrl = resolveExternalUrl;
               'https://papers.ssrn.com/sol3/cf_dev/AbsByAuth.cfm?per_id='
             )}
             target="_blank"
-            rel="noopener noreferrer"
             class="hover:text-(--global-base-color)"
           >
             SSRN
@@ -309,7 +300,6 @@ const resolveUrl = resolveExternalUrl;
           <a
             href={resolveUrl(author.zotero, 'https://www.zotero.org/')}
             target="_blank"
-            rel="noopener noreferrer"
             class="hover:text-(--global-base-color)"
           >
             Zotero
@@ -328,7 +318,6 @@ const resolveUrl = resolveExternalUrl;
               'https://independent.academia.edu/'
             )}
             target="_blank"
-            rel="noopener noreferrer"
             class="hover:text-(--global-base-color)"
           >
             Academia
@@ -347,7 +336,6 @@ const resolveUrl = resolveExternalUrl;
               'https://inspirehep.net/authors/'
             )}
             target="_blank"
-            rel="noopener noreferrer"
             class="hover:text-(--global-base-color)"
           >
             INSPIRE-HEP
@@ -366,7 +354,6 @@ const resolveUrl = resolveExternalUrl;
               'https://profiles.impactstory.org/u/'
             )}
             target="_blank"
-            rel="noopener noreferrer"
             class="hover:text-(--global-base-color)"
           >
             Impactstory
@@ -385,7 +372,6 @@ const resolveUrl = resolveExternalUrl;
               'https://ieeexplore.ieee.org/author/'
             )}
             target="_blank"
-            rel="noopener noreferrer"
             class="hover:text-(--global-base-color)"
           >
             IEEE Xplore
@@ -401,7 +387,6 @@ const resolveUrl = resolveExternalUrl;
           <a
             href={resolveUrl(author.acm, 'https://dl.acm.org/profile/')}
             target="_blank"
-            rel="noopener noreferrer"
             class="hover:text-(--global-base-color)"
           >
             ACM DL
@@ -417,7 +402,6 @@ const resolveUrl = resolveExternalUrl;
           <a
             href={resolveUrl(author.osf, 'https://osf.io/')}
             target="_blank"
-            rel="noopener noreferrer"
             class="hover:text-(--global-base-color)"
           >
             OSF
@@ -436,7 +420,6 @@ const resolveUrl = resolveExternalUrl;
               'https://philpeople.org/profiles/'
             )}
             target="_blank"
-            rel="noopener noreferrer"
             class="hover:text-(--global-base-color)"
           >
             PhilPeople
@@ -454,7 +437,6 @@ const resolveUrl = resolveExternalUrl;
           <a
             href={resolveUrl(author.github, 'https://github.com/')}
             target="_blank"
-            rel="noopener noreferrer"
             class="hover:text-(--global-base-color)"
           >
             GitHub
@@ -470,7 +452,6 @@ const resolveUrl = resolveExternalUrl;
           <a
             href={resolveUrl(author.gitlab, 'https://gitlab.com/')}
             target="_blank"
-            rel="noopener noreferrer"
             class="hover:text-(--global-base-color)"
           >
             GitLab
@@ -486,7 +467,6 @@ const resolveUrl = resolveExternalUrl;
           <a
             href={resolveUrl(author.bitbucket, 'https://bitbucket.org/')}
             target="_blank"
-            rel="noopener noreferrer"
             class="hover:text-(--global-base-color)"
           >
             Bitbucket
@@ -502,7 +482,6 @@ const resolveUrl = resolveExternalUrl;
           <a
             href={resolveUrl(author.kaggle, 'https://kaggle.com/')}
             target="_blank"
-            rel="noopener noreferrer"
             class="hover:text-(--global-base-color)"
           >
             Kaggle
@@ -517,7 +496,6 @@ const resolveUrl = resolveExternalUrl;
           <a
             href={resolveUrl(author.huggingface, 'https://huggingface.co/')}
             target="_blank"
-            rel="noopener noreferrer"
             class="hover:text-(--global-base-color)"
           >
             Hugging Face
@@ -536,7 +514,6 @@ const resolveUrl = resolveExternalUrl;
               'https://stackoverflow.com/users/'
             )}
             target="_blank"
-            rel="noopener noreferrer"
             class="hover:text-(--global-base-color)"
           >
             Stack Overflow
@@ -552,7 +529,6 @@ const resolveUrl = resolveExternalUrl;
           <a
             href={resolveUrl(author.codepen, 'https://codepen.io/')}
             target="_blank"
-            rel="noopener noreferrer"
             class="hover:text-(--global-base-color)"
           >
             CodePen
@@ -568,7 +544,6 @@ const resolveUrl = resolveExternalUrl;
           <a
             href={resolveUrl(author.dribbble, 'https://dribbble.com/')}
             target="_blank"
-            rel="noopener noreferrer"
             class="hover:text-(--global-base-color)"
           >
             Dribbble
@@ -586,7 +561,6 @@ const resolveUrl = resolveExternalUrl;
           <a
             href={resolveUrl(author.bluesky, 'https://bsky.app/profile/')}
             target="_blank"
-            rel="noopener noreferrer"
             class="hover:text-(--global-base-color)"
           >
             Bluesky
@@ -602,7 +576,6 @@ const resolveUrl = resolveExternalUrl;
           <a
             href={resolveUrl(author.x, 'https://x.com/')}
             target="_blank"
-            rel="noopener noreferrer"
             class="hover:text-(--global-base-color)"
           >
             X
@@ -618,7 +591,6 @@ const resolveUrl = resolveExternalUrl;
           <a
             href={resolveUrl(author.threads, 'https://threads.net/@')}
             target="_blank"
-            rel="noopener noreferrer"
             class="hover:text-(--global-base-color)"
           >
             Threads
@@ -634,7 +606,6 @@ const resolveUrl = resolveExternalUrl;
           <a
             href={resolveUrl(author.linkedin, 'https://www.linkedin.com/in/')}
             target="_blank"
-            rel="noopener noreferrer"
             class="hover:text-(--global-base-color)"
           >
             LinkedIn
@@ -650,7 +621,6 @@ const resolveUrl = resolveExternalUrl;
           <a
             href={author.mastodon}
             target="_blank"
-            rel="noopener noreferrer"
             class="hover:text-(--global-base-color)"
           >
             Mastodon
@@ -666,7 +636,6 @@ const resolveUrl = resolveExternalUrl;
           <a
             href={resolveUrl(author.discord, 'https://discord.gg/')}
             target="_blank"
-            rel="noopener noreferrer"
             class="hover:text-(--global-base-color)"
           >
             Discord
@@ -682,7 +651,6 @@ const resolveUrl = resolveExternalUrl;
           <a
             href={resolveUrl(author.substack, 'https://', '.substack.com')}
             target="_blank"
-            rel="noopener noreferrer"
             class="hover:text-(--global-base-color)"
           >
             Substack
@@ -698,7 +666,6 @@ const resolveUrl = resolveExternalUrl;
           <a
             href={resolveUrl(author.medium, 'https://medium.com/@')}
             target="_blank"
-            rel="noopener noreferrer"
             class="hover:text-(--global-base-color)"
           >
             Medium
@@ -714,7 +681,6 @@ const resolveUrl = resolveExternalUrl;
           <a
             href={resolveUrl(author.youtube, 'https://www.youtube.com/@')}
             target="_blank"
-            rel="noopener noreferrer"
             class="hover:text-(--global-base-color)"
           >
             YouTube
@@ -730,7 +696,6 @@ const resolveUrl = resolveExternalUrl;
           <a
             href={resolveUrl(author.facebook, 'https://www.facebook.com/')}
             target="_blank"
-            rel="noopener noreferrer"
             class="hover:text-(--global-base-color)"
           >
             Facebook
@@ -746,7 +711,6 @@ const resolveUrl = resolveExternalUrl;
           <a
             href={resolveUrl(author.instagram, 'https://instagram.com/')}
             target="_blank"
-            rel="noopener noreferrer"
             class="hover:text-(--global-base-color)"
           >
             Instagram
@@ -762,7 +726,6 @@ const resolveUrl = resolveExternalUrl;
           <a
             href={resolveUrl(author.telegram, 'https://t.me/')}
             target="_blank"
-            rel="noopener noreferrer"
             class="hover:text-(--global-base-color)"
           >
             Telegram
@@ -778,7 +741,6 @@ const resolveUrl = resolveExternalUrl;
           <a
             href={resolveUrl(author.weibo, 'https://weibo.com/')}
             target="_blank"
-            rel="noopener noreferrer"
             class="hover:text-(--global-base-color)"
           >
             Weibo
@@ -794,7 +756,6 @@ const resolveUrl = resolveExternalUrl;
           <a
             href={resolveUrl(author.zhihu, 'https://www.zhihu.com/people/')}
             target="_blank"
-            rel="noopener noreferrer"
             class="hover:text-(--global-base-color)"
           >
             Zhihu
@@ -813,7 +774,6 @@ const resolveUrl = resolveExternalUrl;
               'https://www.goodreads.com/user/show/'
             )}
             target="_blank"
-            rel="noopener noreferrer"
             class="hover:text-(--global-base-color)"
           >
             Goodreads
@@ -829,7 +789,6 @@ const resolveUrl = resolveExternalUrl;
           <a
             href={resolveUrl(author.artstation, 'https://www.artstation.com/')}
             target="_blank"
-            rel="noopener noreferrer"
             class="hover:text-(--global-base-color)"
           >
             ArtStation
@@ -845,7 +804,6 @@ const resolveUrl = resolveExternalUrl;
           <a
             href={resolveUrl(author.keybase, 'https://keybase.io/')}
             target="_blank"
-            rel="noopener noreferrer"
             class="hover:text-(--global-base-color)"
           >
             Keybase
@@ -864,7 +822,6 @@ const resolveUrl = resolveExternalUrl;
               'https://en.wikipedia.org/wiki/'
             )}
             target="_blank"
-            rel="noopener noreferrer"
             class="hover:text-(--global-base-color)"
           >
             Wikipedia
@@ -880,7 +837,6 @@ const resolveUrl = resolveExternalUrl;
           <a
             href={resolveUrl(author.flickr, 'https://www.flickr.com/photos/')}
             target="_blank"
-            rel="noopener noreferrer"
             class="hover:text-(--global-base-color)"
           >
             Flickr
@@ -896,7 +852,6 @@ const resolveUrl = resolveExternalUrl;
           <a
             href={resolveUrl(author.foursquare, 'https://foursquare.com/')}
             target="_blank"
-            rel="noopener noreferrer"
             class="hover:text-(--global-base-color)"
           >
             Foursquare
@@ -912,7 +867,6 @@ const resolveUrl = resolveExternalUrl;
           <a
             href={resolveUrl(author.lastfm, 'https://last.fm/user/')}
             target="_blank"
-            rel="noopener noreferrer"
             class="hover:text-(--global-base-color)"
           >
             Last.fm
@@ -928,7 +882,6 @@ const resolveUrl = resolveExternalUrl;
           <a
             href={resolveUrl(author.pinterest, 'https://www.pinterest.com/')}
             target="_blank"
-            rel="noopener noreferrer"
             class="hover:text-(--global-base-color)"
           >
             Pinterest
@@ -944,7 +897,6 @@ const resolveUrl = resolveExternalUrl;
           <a
             href={resolveUrl(author.soundcloud, 'https://soundcloud.com/')}
             target="_blank"
-            rel="noopener noreferrer"
             class="hover:text-(--global-base-color)"
           >
             SoundCloud
@@ -960,7 +912,6 @@ const resolveUrl = resolveExternalUrl;
           <a
             href={resolveUrl(author.steam, 'https://steamcommunity.com/id/')}
             target="_blank"
-            rel="noopener noreferrer"
             class="hover:text-(--global-base-color)"
           >
             Steam
@@ -976,7 +927,6 @@ const resolveUrl = resolveExternalUrl;
           <a
             href={resolveUrl(author.tumblr, 'https://', '.tumblr.com')}
             target="_blank"
-            rel="noopener noreferrer"
             class="hover:text-(--global-base-color)"
           >
             Tumblr
@@ -992,7 +942,6 @@ const resolveUrl = resolveExternalUrl;
           <a
             href={resolveUrl(author.xing, 'https://www.xing.com/profile/')}
             target="_blank"
-            rel="noopener noreferrer"
             class="hover:text-(--global-base-color)"
           >
             XING
