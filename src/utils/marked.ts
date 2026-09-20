@@ -11,7 +11,7 @@ marked.use(markedKatex({ nonStandard: true }), {
       const text = this.parser.parseInline(token.tokens);
       const titleAttr = token.title ? ` title="${token.title}"` : '';
       if (isExternal)
-        return `<a href="${token.href}"${titleAttr} target="_blank">${text}</a>`;
+        return `<a href="${token.href}"${titleAttr} target="_blank">${text}<span class="sr-only"> (opens in a new tab)</span></a>`;
 
       return `<a href="${token.href}"${titleAttr}>${text}</a>`;
     },

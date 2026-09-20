@@ -176,16 +176,7 @@
         heading.appendChild(anchor);
       });
 
-    // 3. Responsive Table Scroll Wrappers
-    document.querySelectorAll('.prose table').forEach((table) => {
-      if (table.parentElement?.classList.contains('table-wrapper')) return;
-      const wrapper = document.createElement('div');
-      wrapper.className = 'table-wrapper overflow-x-auto my-5';
-      table.parentNode?.insertBefore(wrapper, table);
-      wrapper.appendChild(table);
-    });
-
-    // 4. Kramdown IAL Notice Box Enhancement
+    // 3. Kramdown IAL Notice Box Enhancement
     document.querySelectorAll('.prose p').forEach((p) => {
       const text = p.textContent || '';
       const noticeMatch = text.match(/\{:\s*\.(notice(?:--[a-z]+)?)\s*\}/);

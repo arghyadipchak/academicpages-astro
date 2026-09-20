@@ -9,6 +9,7 @@ import remarkMath from 'remark-math';
 
 import { siteConfig } from '@data/siteConfig';
 import { rehypeExternalLinks } from '@plugins/rehype-external-links';
+import { rehypeTableWrapper } from '@plugins/rehype-table-wrapper';
 
 const rawUrl = process.env.ASTRO_URL || siteConfig.url;
 const parsedUrl = rawUrl ? new URL(rawUrl) : undefined;
@@ -43,7 +44,7 @@ export default defineConfig({
     },
     processor: unified({
       remarkPlugins: [remarkMath],
-      rehypePlugins: [rehypeKatex, rehypeExternalLinks],
+      rehypePlugins: [rehypeKatex, rehypeExternalLinks, rehypeTableWrapper],
     }),
   },
   vite: { plugins: [tailwindcss()] },

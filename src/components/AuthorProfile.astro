@@ -1,6 +1,7 @@
 ---
 import { Icon } from 'astro-icon/components';
 
+import type { AuthorConfig } from '@data/siteConfig';
 import { siteConfig } from '@data/siteConfig';
 import { parseInline } from '@utils/marked';
 import { resolveExternalUrl, resolveUrl as resolvePath } from '@utils/url';
@@ -10,8 +11,333 @@ export interface Props {
 }
 
 const author = Astro.props.author || siteConfig.author;
-
 const resolveUrl = resolveExternalUrl;
+
+interface AuthorServiceDef {
+  key: keyof AuthorConfig;
+  label: string;
+  icon?: string;
+  emoji?: string;
+  prefix?: string;
+  suffix?: string;
+}
+
+const AUTHOR_SERVICES: AuthorServiceDef[] = [
+  // Academic Websites & Indices
+  {
+    key: 'googlescholar',
+    label: 'Google Scholar',
+    icon: 'academicons:google-scholar',
+    prefix: 'https://scholar.google.com/citations?user=',
+  },
+  {
+    key: 'orcid',
+    label: 'ORCID',
+    icon: 'academicons:orcid',
+    prefix: 'https://orcid.org/',
+  },
+  {
+    key: 'arxiv',
+    label: 'arXiv',
+    icon: 'academicons:arxiv',
+    prefix: 'https://arxiv.org/a/',
+  },
+  {
+    key: 'dblp',
+    label: 'DBLP',
+    icon: 'academicons:dblp',
+    prefix: 'https://dblp.org/pid/',
+  },
+  {
+    key: 'pubmed',
+    label: 'PubMed',
+    icon: 'academicons:pubmed',
+    prefix: 'https://www.ncbi.nlm.nih.gov/pubmed/?term=',
+  },
+  {
+    key: 'researchgate',
+    label: 'ResearchGate',
+    icon: 'fa6-brands:researchgate',
+    prefix: 'https://www.researchgate.net/profile/',
+  },
+  {
+    key: 'scopus',
+    label: 'Scopus',
+    icon: 'academicons:scopus',
+    prefix: 'https://www.scopus.com/authid/detail.uri?authorId=',
+  },
+  {
+    key: 'semantic',
+    label: 'Semantic Scholar',
+    icon: 'academicons:semantic-scholar',
+    prefix: 'https://www.semanticscholar.org/author/',
+  },
+  {
+    key: 'openreview',
+    label: 'OpenReview',
+    icon: 'academicons:open-access',
+    prefix: 'https://openreview.net/profile?id=',
+  },
+  {
+    key: 'ssrn',
+    label: 'SSRN',
+    icon: 'academicons:ssrn',
+    prefix: 'https://papers.ssrn.com/sol3/cf_dev/AbsByAuth.cfm?per_id=',
+  },
+  {
+    key: 'zotero',
+    label: 'Zotero',
+    icon: 'academicons:zotero',
+    prefix: 'https://www.zotero.org/',
+  },
+  {
+    key: 'academia',
+    label: 'Academia',
+    icon: 'academicons:academia',
+    prefix: 'https://independent.academia.edu/',
+  },
+  {
+    key: 'inspire_hep',
+    label: 'INSPIRE-HEP',
+    icon: 'academicons:inspire',
+    prefix: 'https://inspirehep.net/authors/',
+  },
+  {
+    key: 'impactstory',
+    label: 'Impactstory',
+    icon: 'academicons:impactstory',
+    prefix: 'https://profiles.impactstory.org/u/',
+  },
+  {
+    key: 'ieee',
+    label: 'IEEE Xplore',
+    icon: 'academicons:ieee',
+    prefix: 'https://ieeexplore.ieee.org/author/',
+  },
+  {
+    key: 'acm',
+    label: 'ACM DL',
+    icon: 'academicons:acm',
+    prefix: 'https://dl.acm.org/profile/',
+  },
+  {
+    key: 'osf',
+    label: 'OSF',
+    icon: 'academicons:osf',
+    prefix: 'https://osf.io/',
+  },
+  {
+    key: 'philpapers',
+    label: 'PhilPeople',
+    icon: 'academicons:philpapers',
+    prefix: 'https://philpeople.org/profiles/',
+  },
+
+  // Code & Repositories
+  {
+    key: 'github',
+    label: 'GitHub',
+    icon: 'fa6-brands:github',
+    prefix: 'https://github.com/',
+  },
+  {
+    key: 'gitlab',
+    label: 'GitLab',
+    icon: 'fa6-brands:gitlab',
+    prefix: 'https://gitlab.com/',
+  },
+  {
+    key: 'bitbucket',
+    label: 'Bitbucket',
+    icon: 'fa6-brands:bitbucket',
+    prefix: 'https://bitbucket.org/',
+  },
+  {
+    key: 'kaggle',
+    label: 'Kaggle',
+    icon: 'fa6-brands:kaggle',
+    prefix: 'https://kaggle.com/',
+  },
+  {
+    key: 'huggingface',
+    label: 'Hugging Face',
+    emoji: '🤗',
+    prefix: 'https://huggingface.co/',
+  },
+  {
+    key: 'stackoverflow',
+    label: 'Stack Overflow',
+    icon: 'fa6-brands:stack-overflow',
+    prefix: 'https://stackoverflow.com/users/',
+  },
+  {
+    key: 'codepen',
+    label: 'CodePen',
+    icon: 'fa6-brands:codepen',
+    prefix: 'https://codepen.io/',
+  },
+  {
+    key: 'dribbble',
+    label: 'Dribbble',
+    icon: 'fa6-brands:dribbble',
+    prefix: 'https://dribbble.com/',
+  },
+
+  // Social Media, Newsletters & Community
+  {
+    key: 'bluesky',
+    label: 'Bluesky',
+    icon: 'fa6-brands:bluesky',
+    prefix: 'https://bsky.app/profile/',
+  },
+  {
+    key: 'x',
+    label: 'X',
+    icon: 'fa6-brands:x-twitter',
+    prefix: 'https://x.com/',
+  },
+  {
+    key: 'threads',
+    label: 'Threads',
+    icon: 'fa6-brands:threads',
+    prefix: 'https://threads.net/@',
+  },
+  {
+    key: 'linkedin',
+    label: 'LinkedIn',
+    icon: 'fa6-brands:linkedin',
+    prefix: 'https://www.linkedin.com/in/',
+  },
+  { key: 'mastodon', label: 'Mastodon', icon: 'fa6-brands:mastodon' },
+  {
+    key: 'discord',
+    label: 'Discord',
+    icon: 'fa6-brands:discord',
+    prefix: 'https://discord.gg/',
+  },
+  {
+    key: 'substack',
+    label: 'Substack',
+    icon: 'fa6-solid:newspaper',
+    prefix: 'https://',
+    suffix: '.substack.com',
+  },
+  {
+    key: 'medium',
+    label: 'Medium',
+    icon: 'fa6-brands:medium',
+    prefix: 'https://medium.com/@',
+  },
+  {
+    key: 'youtube',
+    label: 'YouTube',
+    icon: 'fa6-brands:youtube',
+    prefix: 'https://www.youtube.com/@',
+  },
+  {
+    key: 'facebook',
+    label: 'Facebook',
+    icon: 'fa6-brands:facebook',
+    prefix: 'https://www.facebook.com/',
+  },
+  {
+    key: 'instagram',
+    label: 'Instagram',
+    icon: 'fa6-brands:instagram',
+    prefix: 'https://instagram.com/',
+  },
+  {
+    key: 'telegram',
+    label: 'Telegram',
+    icon: 'fa6-brands:telegram',
+    prefix: 'https://t.me/',
+  },
+  {
+    key: 'weibo',
+    label: 'Weibo',
+    icon: 'fa6-brands:weibo',
+    prefix: 'https://weibo.com/',
+  },
+  {
+    key: 'zhihu',
+    label: 'Zhihu',
+    icon: 'fa6-brands:zhihu',
+    prefix: 'https://www.zhihu.com/people/',
+  },
+  {
+    key: 'goodreads',
+    label: 'Goodreads',
+    icon: 'fa6-brands:goodreads',
+    prefix: 'https://www.goodreads.com/user/show/',
+  },
+  {
+    key: 'artstation',
+    label: 'ArtStation',
+    icon: 'fa6-brands:artstation',
+    prefix: 'https://www.artstation.com/',
+  },
+  {
+    key: 'keybase',
+    label: 'Keybase',
+    icon: 'fa6-brands:keybase',
+    prefix: 'https://keybase.io/',
+  },
+  {
+    key: 'wikipedia',
+    label: 'Wikipedia',
+    icon: 'fa6-brands:wikipedia-w',
+    prefix: 'https://en.wikipedia.org/wiki/',
+  },
+  {
+    key: 'flickr',
+    label: 'Flickr',
+    icon: 'fa6-brands:flickr',
+    prefix: 'https://www.flickr.com/photos/',
+  },
+  {
+    key: 'foursquare',
+    label: 'Foursquare',
+    icon: 'fa6-brands:foursquare',
+    prefix: 'https://foursquare.com/',
+  },
+  {
+    key: 'lastfm',
+    label: 'Last.fm',
+    icon: 'fa6-brands:lastfm',
+    prefix: 'https://last.fm/user/',
+  },
+  {
+    key: 'pinterest',
+    label: 'Pinterest',
+    icon: 'fa6-brands:pinterest',
+    prefix: 'https://www.pinterest.com/',
+  },
+  {
+    key: 'soundcloud',
+    label: 'SoundCloud',
+    icon: 'fa6-brands:soundcloud',
+    prefix: 'https://soundcloud.com/',
+  },
+  {
+    key: 'steam',
+    label: 'Steam',
+    icon: 'fa6-brands:steam',
+    prefix: 'https://steamcommunity.com/id/',
+  },
+  {
+    key: 'tumblr',
+    label: 'Tumblr',
+    icon: 'fa6-brands:tumblr',
+    prefix: 'https://',
+    suffix: '.tumblr.com',
+  },
+  {
+    key: 'xing',
+    label: 'XING',
+    icon: 'fa6-brands:xing',
+    prefix: 'https://www.xing.com/profile/',
+  },
+];
 ---
 
 <div
@@ -123,835 +449,34 @@ const resolveUrl = resolveExternalUrl;
         </li>
       )}
 
-      {/* Academic Websites & Indices */}
-      {author.googlescholar && (
-        <li class="flex items-center gap-2.5">
-          <Icon
-            name="academicons:google-scholar"
-            class="h-4 w-4 shrink-0 text-(--global-text-color-light)"
-          />
-          <a
-            href={resolveUrl(
-              author.googlescholar,
-              'https://scholar.google.com/citations?user='
-            )}
-            target="_blank"
-            class="hover:text-(--global-base-color)"
-          >
-            Google Scholar
-          </a>
-        </li>
-      )}
-      {author.orcid && (
-        <li class="flex items-center gap-2.5">
-          <Icon
-            name="academicons:orcid"
-            class="h-4 w-4 shrink-0 text-(--global-text-color-light)"
-          />
-          <a
-            href={resolveUrl(author.orcid, 'https://orcid.org/')}
-            target="_blank"
-            class="hover:text-(--global-base-color)"
-          >
-            ORCID
-          </a>
-        </li>
-      )}
-      {author.arxiv && (
-        <li class="flex items-center gap-2.5">
-          <Icon
-            name="academicons:arxiv"
-            class="h-4 w-4 shrink-0 text-(--global-text-color-light)"
-          />
-          <a
-            href={resolveUrl(author.arxiv, 'https://arxiv.org/a/')}
-            target="_blank"
-            class="hover:text-(--global-base-color)"
-          >
-            arXiv
-          </a>
-        </li>
-      )}
-      {author.dblp && (
-        <li class="flex items-center gap-2.5">
-          <Icon
-            name="academicons:dblp"
-            class="h-4 w-4 shrink-0 text-(--global-text-color-light)"
-          />
-          <a
-            href={resolveUrl(author.dblp, 'https://dblp.org/pid/')}
-            target="_blank"
-            class="hover:text-(--global-base-color)"
-          >
-            DBLP
-          </a>
-        </li>
-      )}
-      {author.pubmed && (
-        <li class="flex items-center gap-2.5">
-          <Icon
-            name="academicons:pubmed"
-            class="h-4 w-4 shrink-0 text-(--global-text-color-light)"
-          />
-          <a
-            href={resolveUrl(
-              author.pubmed,
-              'https://www.ncbi.nlm.nih.gov/pubmed/?term='
-            )}
-            target="_blank"
-            class="hover:text-(--global-base-color)"
-          >
-            PubMed
-          </a>
-        </li>
-      )}
-      {author.researchgate && (
-        <li class="flex items-center gap-2.5">
-          <Icon
-            name="fa6-brands:researchgate"
-            class="h-4 w-4 shrink-0 text-(--global-text-color-light)"
-          />
-          <a
-            href={resolveUrl(
-              author.researchgate,
-              'https://www.researchgate.net/profile/'
-            )}
-            target="_blank"
-            class="hover:text-(--global-base-color)"
-          >
-            ResearchGate
-          </a>
-        </li>
-      )}
-      {author.scopus && (
-        <li class="flex items-center gap-2.5">
-          <Icon
-            name="academicons:scopus"
-            class="h-4 w-4 shrink-0 text-(--global-text-color-light)"
-          />
-          <a
-            href={resolveUrl(
-              author.scopus,
-              'https://www.scopus.com/authid/detail.uri?authorId='
-            )}
-            target="_blank"
-            class="hover:text-(--global-base-color)"
-          >
-            Scopus
-          </a>
-        </li>
-      )}
-      {author.semantic && (
-        <li class="flex items-center gap-2.5">
-          <Icon
-            name="academicons:semantic-scholar"
-            class="h-4 w-4 shrink-0 text-(--global-text-color-light)"
-          />
-          <a
-            href={resolveUrl(
-              author.semantic,
-              'https://www.semanticscholar.org/author/'
-            )}
-            target="_blank"
-            class="hover:text-(--global-base-color)"
-          >
-            Semantic Scholar
-          </a>
-        </li>
-      )}
-      {author.openreview && (
-        <li class="flex items-center gap-2.5">
-          <Icon
-            name="academicons:open-access"
-            class="h-4 w-4 shrink-0 text-(--global-text-color-light)"
-          />
-          <a
-            href={resolveUrl(
-              author.openreview,
-              'https://openreview.net/profile?id='
-            )}
-            target="_blank"
-            class="hover:text-(--global-base-color)"
-          >
-            OpenReview
-          </a>
-        </li>
-      )}
-      {author.ssrn && (
-        <li class="flex items-center gap-2.5">
-          <Icon
-            name="academicons:ssrn"
-            class="h-4 w-4 shrink-0 text-(--global-text-color-light)"
-          />
-          <a
-            href={resolveUrl(
-              author.ssrn,
-              'https://papers.ssrn.com/sol3/cf_dev/AbsByAuth.cfm?per_id='
-            )}
-            target="_blank"
-            class="hover:text-(--global-base-color)"
-          >
-            SSRN
-          </a>
-        </li>
-      )}
-      {author.zotero && (
-        <li class="flex items-center gap-2.5">
-          <Icon
-            name="academicons:zotero"
-            class="h-4 w-4 shrink-0 text-(--global-text-color-light)"
-          />
-          <a
-            href={resolveUrl(author.zotero, 'https://www.zotero.org/')}
-            target="_blank"
-            class="hover:text-(--global-base-color)"
-          >
-            Zotero
-          </a>
-        </li>
-      )}
-      {author.academia && (
-        <li class="flex items-center gap-2.5">
-          <Icon
-            name="academicons:academia"
-            class="h-4 w-4 shrink-0 text-(--global-text-color-light)"
-          />
-          <a
-            href={resolveUrl(
-              author.academia,
-              'https://independent.academia.edu/'
-            )}
-            target="_blank"
-            class="hover:text-(--global-base-color)"
-          >
-            Academia
-          </a>
-        </li>
-      )}
-      {author.inspire_hep && (
-        <li class="flex items-center gap-2.5">
-          <Icon
-            name="academicons:inspire"
-            class="h-4 w-4 shrink-0 text-(--global-text-color-light)"
-          />
-          <a
-            href={resolveUrl(
-              author.inspire_hep,
-              'https://inspirehep.net/authors/'
-            )}
-            target="_blank"
-            class="hover:text-(--global-base-color)"
-          >
-            INSPIRE-HEP
-          </a>
-        </li>
-      )}
-      {author.impactstory && (
-        <li class="flex items-center gap-2.5">
-          <Icon
-            name="academicons:impactstory"
-            class="h-4 w-4 shrink-0 text-(--global-text-color-light)"
-          />
-          <a
-            href={resolveUrl(
-              author.impactstory,
-              'https://profiles.impactstory.org/u/'
-            )}
-            target="_blank"
-            class="hover:text-(--global-base-color)"
-          >
-            Impactstory
-          </a>
-        </li>
-      )}
-      {author.ieee && (
-        <li class="flex items-center gap-2.5">
-          <Icon
-            name="academicons:ieee"
-            class="h-4 w-4 shrink-0 text-(--global-text-color-light)"
-          />
-          <a
-            href={resolveUrl(
-              author.ieee,
-              'https://ieeexplore.ieee.org/author/'
-            )}
-            target="_blank"
-            class="hover:text-(--global-base-color)"
-          >
-            IEEE Xplore
-          </a>
-        </li>
-      )}
-      {author.acm && (
-        <li class="flex items-center gap-2.5">
-          <Icon
-            name="academicons:acm"
-            class="h-4 w-4 shrink-0 text-(--global-text-color-light)"
-          />
-          <a
-            href={resolveUrl(author.acm, 'https://dl.acm.org/profile/')}
-            target="_blank"
-            class="hover:text-(--global-base-color)"
-          >
-            ACM DL
-          </a>
-        </li>
-      )}
-      {author.osf && (
-        <li class="flex items-center gap-2.5">
-          <Icon
-            name="academicons:osf"
-            class="h-4 w-4 shrink-0 text-(--global-text-color-light)"
-          />
-          <a
-            href={resolveUrl(author.osf, 'https://osf.io/')}
-            target="_blank"
-            class="hover:text-(--global-base-color)"
-          >
-            OSF
-          </a>
-        </li>
-      )}
-      {author.philpapers && (
-        <li class="flex items-center gap-2.5">
-          <Icon
-            name="academicons:philpapers"
-            class="h-4 w-4 shrink-0 text-(--global-text-color-light)"
-          />
-          <a
-            href={resolveUrl(
-              author.philpapers,
-              'https://philpeople.org/profiles/'
-            )}
-            target="_blank"
-            class="hover:text-(--global-base-color)"
-          >
-            PhilPeople
-          </a>
-        </li>
-      )}
+      {/* Dynamic Services List */}
+      {AUTHOR_SERVICES.map(({ key, label, icon, emoji, prefix, suffix }) => {
+        const val = author[key];
+        if (!val || typeof val !== 'string') return null;
+        const href = prefix ? resolveUrl(val, prefix, suffix) : val;
 
-      {/* Code & Repositories */}
-      {author.github && (
-        <li class="flex items-center gap-2.5">
-          <Icon
-            name="fa6-brands:github"
-            class="h-4 w-4 shrink-0 text-(--global-text-color-light)"
-          />
-          <a
-            href={resolveUrl(author.github, 'https://github.com/')}
-            target="_blank"
-            class="hover:text-(--global-base-color)"
-          >
-            GitHub
-          </a>
-        </li>
-      )}
-      {author.gitlab && (
-        <li class="flex items-center gap-2.5">
-          <Icon
-            name="fa6-brands:gitlab"
-            class="h-4 w-4 shrink-0 text-(--global-text-color-light)"
-          />
-          <a
-            href={resolveUrl(author.gitlab, 'https://gitlab.com/')}
-            target="_blank"
-            class="hover:text-(--global-base-color)"
-          >
-            GitLab
-          </a>
-        </li>
-      )}
-      {author.bitbucket && (
-        <li class="flex items-center gap-2.5">
-          <Icon
-            name="fa6-brands:bitbucket"
-            class="h-4 w-4 shrink-0 text-(--global-text-color-light)"
-          />
-          <a
-            href={resolveUrl(author.bitbucket, 'https://bitbucket.org/')}
-            target="_blank"
-            class="hover:text-(--global-base-color)"
-          >
-            Bitbucket
-          </a>
-        </li>
-      )}
-      {author.kaggle && (
-        <li class="flex items-center gap-2.5">
-          <Icon
-            name="fa6-brands:kaggle"
-            class="h-4 w-4 shrink-0 text-(--global-text-color-light)"
-          />
-          <a
-            href={resolveUrl(author.kaggle, 'https://kaggle.com/')}
-            target="_blank"
-            class="hover:text-(--global-base-color)"
-          >
-            Kaggle
-          </a>
-        </li>
-      )}
-      {author.huggingface && (
-        <li class="flex items-center gap-2.5">
-          <span class="inline-flex h-4 w-4 shrink-0 items-center justify-center text-xs">
-            🤗
-          </span>
-          <a
-            href={resolveUrl(author.huggingface, 'https://huggingface.co/')}
-            target="_blank"
-            class="hover:text-(--global-base-color)"
-          >
-            Hugging Face
-          </a>
-        </li>
-      )}
-      {author.stackoverflow && (
-        <li class="flex items-center gap-2.5">
-          <Icon
-            name="fa6-brands:stack-overflow"
-            class="h-4 w-4 shrink-0 text-(--global-text-color-light)"
-          />
-          <a
-            href={resolveUrl(
-              author.stackoverflow,
-              'https://stackoverflow.com/users/'
-            )}
-            target="_blank"
-            class="hover:text-(--global-base-color)"
-          >
-            Stack Overflow
-          </a>
-        </li>
-      )}
-      {author.codepen && (
-        <li class="flex items-center gap-2.5">
-          <Icon
-            name="fa6-brands:codepen"
-            class="h-4 w-4 shrink-0 text-(--global-text-color-light)"
-          />
-          <a
-            href={resolveUrl(author.codepen, 'https://codepen.io/')}
-            target="_blank"
-            class="hover:text-(--global-base-color)"
-          >
-            CodePen
-          </a>
-        </li>
-      )}
-      {author.dribbble && (
-        <li class="flex items-center gap-2.5">
-          <Icon
-            name="fa6-brands:dribbble"
-            class="h-4 w-4 shrink-0 text-(--global-text-color-light)"
-          />
-          <a
-            href={resolveUrl(author.dribbble, 'https://dribbble.com/')}
-            target="_blank"
-            class="hover:text-(--global-base-color)"
-          >
-            Dribbble
-          </a>
-        </li>
-      )}
-
-      {/* Social Media, Newsletters & Community */}
-      {author.bluesky && (
-        <li class="flex items-center gap-2.5">
-          <Icon
-            name="fa6-brands:bluesky"
-            class="h-4 w-4 shrink-0 text-(--global-text-color-light)"
-          />
-          <a
-            href={resolveUrl(author.bluesky, 'https://bsky.app/profile/')}
-            target="_blank"
-            class="hover:text-(--global-base-color)"
-          >
-            Bluesky
-          </a>
-        </li>
-      )}
-      {author.x && (
-        <li class="flex items-center gap-2.5">
-          <Icon
-            name="fa6-brands:x-twitter"
-            class="h-4 w-4 shrink-0 text-(--global-text-color-light)"
-          />
-          <a
-            href={resolveUrl(author.x, 'https://x.com/')}
-            target="_blank"
-            class="hover:text-(--global-base-color)"
-          >
-            X
-          </a>
-        </li>
-      )}
-      {author.threads && (
-        <li class="flex items-center gap-2.5">
-          <Icon
-            name="fa6-brands:threads"
-            class="h-4 w-4 shrink-0 text-(--global-text-color-light)"
-          />
-          <a
-            href={resolveUrl(author.threads, 'https://threads.net/@')}
-            target="_blank"
-            class="hover:text-(--global-base-color)"
-          >
-            Threads
-          </a>
-        </li>
-      )}
-      {author.linkedin && (
-        <li class="flex items-center gap-2.5">
-          <Icon
-            name="fa6-brands:linkedin"
-            class="h-4 w-4 shrink-0 text-(--global-text-color-light)"
-          />
-          <a
-            href={resolveUrl(author.linkedin, 'https://www.linkedin.com/in/')}
-            target="_blank"
-            class="hover:text-(--global-base-color)"
-          >
-            LinkedIn
-          </a>
-        </li>
-      )}
-      {author.mastodon && (
-        <li class="flex items-center gap-2.5">
-          <Icon
-            name="fa6-brands:mastodon"
-            class="h-4 w-4 shrink-0 text-(--global-text-color-light)"
-          />
-          <a
-            href={author.mastodon}
-            target="_blank"
-            class="hover:text-(--global-base-color)"
-          >
-            Mastodon
-          </a>
-        </li>
-      )}
-      {author.discord && (
-        <li class="flex items-center gap-2.5">
-          <Icon
-            name="fa6-brands:discord"
-            class="h-4 w-4 shrink-0 text-(--global-text-color-light)"
-          />
-          <a
-            href={resolveUrl(author.discord, 'https://discord.gg/')}
-            target="_blank"
-            class="hover:text-(--global-base-color)"
-          >
-            Discord
-          </a>
-        </li>
-      )}
-      {author.substack && (
-        <li class="flex items-center gap-2.5">
-          <Icon
-            name="fa6-solid:newspaper"
-            class="h-4 w-4 shrink-0 text-(--global-text-color-light)"
-          />
-          <a
-            href={resolveUrl(author.substack, 'https://', '.substack.com')}
-            target="_blank"
-            class="hover:text-(--global-base-color)"
-          >
-            Substack
-          </a>
-        </li>
-      )}
-      {author.medium && (
-        <li class="flex items-center gap-2.5">
-          <Icon
-            name="fa6-brands:medium"
-            class="h-4 w-4 shrink-0 text-(--global-text-color-light)"
-          />
-          <a
-            href={resolveUrl(author.medium, 'https://medium.com/@')}
-            target="_blank"
-            class="hover:text-(--global-base-color)"
-          >
-            Medium
-          </a>
-        </li>
-      )}
-      {author.youtube && (
-        <li class="flex items-center gap-2.5">
-          <Icon
-            name="fa6-brands:youtube"
-            class="h-4 w-4 shrink-0 text-(--global-text-color-light)"
-          />
-          <a
-            href={resolveUrl(author.youtube, 'https://www.youtube.com/@')}
-            target="_blank"
-            class="hover:text-(--global-base-color)"
-          >
-            YouTube
-          </a>
-        </li>
-      )}
-      {author.facebook && (
-        <li class="flex items-center gap-2.5">
-          <Icon
-            name="fa6-brands:facebook"
-            class="h-4 w-4 shrink-0 text-(--global-text-color-light)"
-          />
-          <a
-            href={resolveUrl(author.facebook, 'https://www.facebook.com/')}
-            target="_blank"
-            class="hover:text-(--global-base-color)"
-          >
-            Facebook
-          </a>
-        </li>
-      )}
-      {author.instagram && (
-        <li class="flex items-center gap-2.5">
-          <Icon
-            name="fa6-brands:instagram"
-            class="h-4 w-4 shrink-0 text-(--global-text-color-light)"
-          />
-          <a
-            href={resolveUrl(author.instagram, 'https://instagram.com/')}
-            target="_blank"
-            class="hover:text-(--global-base-color)"
-          >
-            Instagram
-          </a>
-        </li>
-      )}
-      {author.telegram && (
-        <li class="flex items-center gap-2.5">
-          <Icon
-            name="fa6-brands:telegram"
-            class="h-4 w-4 shrink-0 text-(--global-text-color-light)"
-          />
-          <a
-            href={resolveUrl(author.telegram, 'https://t.me/')}
-            target="_blank"
-            class="hover:text-(--global-base-color)"
-          >
-            Telegram
-          </a>
-        </li>
-      )}
-      {author.weibo && (
-        <li class="flex items-center gap-2.5">
-          <Icon
-            name="fa6-brands:weibo"
-            class="h-4 w-4 shrink-0 text-(--global-text-color-light)"
-          />
-          <a
-            href={resolveUrl(author.weibo, 'https://weibo.com/')}
-            target="_blank"
-            class="hover:text-(--global-base-color)"
-          >
-            Weibo
-          </a>
-        </li>
-      )}
-      {author.zhihu && (
-        <li class="flex items-center gap-2.5">
-          <Icon
-            name="fa6-brands:zhihu"
-            class="h-4 w-4 shrink-0 text-(--global-text-color-light)"
-          />
-          <a
-            href={resolveUrl(author.zhihu, 'https://www.zhihu.com/people/')}
-            target="_blank"
-            class="hover:text-(--global-base-color)"
-          >
-            Zhihu
-          </a>
-        </li>
-      )}
-      {author.goodreads && (
-        <li class="flex items-center gap-2.5">
-          <Icon
-            name="fa6-brands:goodreads"
-            class="h-4 w-4 shrink-0 text-(--global-text-color-light)"
-          />
-          <a
-            href={resolveUrl(
-              author.goodreads,
-              'https://www.goodreads.com/user/show/'
-            )}
-            target="_blank"
-            class="hover:text-(--global-base-color)"
-          >
-            Goodreads
-          </a>
-        </li>
-      )}
-      {author.artstation && (
-        <li class="flex items-center gap-2.5">
-          <Icon
-            name="fa6-brands:artstation"
-            class="h-4 w-4 shrink-0 text-(--global-text-color-light)"
-          />
-          <a
-            href={resolveUrl(author.artstation, 'https://www.artstation.com/')}
-            target="_blank"
-            class="hover:text-(--global-base-color)"
-          >
-            ArtStation
-          </a>
-        </li>
-      )}
-      {author.keybase && (
-        <li class="flex items-center gap-2.5">
-          <Icon
-            name="fa6-brands:keybase"
-            class="h-4 w-4 shrink-0 text-(--global-text-color-light)"
-          />
-          <a
-            href={resolveUrl(author.keybase, 'https://keybase.io/')}
-            target="_blank"
-            class="hover:text-(--global-base-color)"
-          >
-            Keybase
-          </a>
-        </li>
-      )}
-      {author.wikipedia && (
-        <li class="flex items-center gap-2.5">
-          <Icon
-            name="fa6-brands:wikipedia-w"
-            class="h-4 w-4 shrink-0 text-(--global-text-color-light)"
-          />
-          <a
-            href={resolveUrl(
-              author.wikipedia,
-              'https://en.wikipedia.org/wiki/'
-            )}
-            target="_blank"
-            class="hover:text-(--global-base-color)"
-          >
-            Wikipedia
-          </a>
-        </li>
-      )}
-      {author.flickr && (
-        <li class="flex items-center gap-2.5">
-          <Icon
-            name="fa6-brands:flickr"
-            class="h-4 w-4 shrink-0 text-(--global-text-color-light)"
-          />
-          <a
-            href={resolveUrl(author.flickr, 'https://www.flickr.com/photos/')}
-            target="_blank"
-            class="hover:text-(--global-base-color)"
-          >
-            Flickr
-          </a>
-        </li>
-      )}
-      {author.foursquare && (
-        <li class="flex items-center gap-2.5">
-          <Icon
-            name="fa6-brands:foursquare"
-            class="h-4 w-4 shrink-0 text-(--global-text-color-light)"
-          />
-          <a
-            href={resolveUrl(author.foursquare, 'https://foursquare.com/')}
-            target="_blank"
-            class="hover:text-(--global-base-color)"
-          >
-            Foursquare
-          </a>
-        </li>
-      )}
-      {author.lastfm && (
-        <li class="flex items-center gap-2.5">
-          <Icon
-            name="fa6-brands:lastfm"
-            class="h-4 w-4 shrink-0 text-(--global-text-color-light)"
-          />
-          <a
-            href={resolveUrl(author.lastfm, 'https://last.fm/user/')}
-            target="_blank"
-            class="hover:text-(--global-base-color)"
-          >
-            Last.fm
-          </a>
-        </li>
-      )}
-      {author.pinterest && (
-        <li class="flex items-center gap-2.5">
-          <Icon
-            name="fa6-brands:pinterest"
-            class="h-4 w-4 shrink-0 text-(--global-text-color-light)"
-          />
-          <a
-            href={resolveUrl(author.pinterest, 'https://www.pinterest.com/')}
-            target="_blank"
-            class="hover:text-(--global-base-color)"
-          >
-            Pinterest
-          </a>
-        </li>
-      )}
-      {author.soundcloud && (
-        <li class="flex items-center gap-2.5">
-          <Icon
-            name="fa6-brands:soundcloud"
-            class="h-4 w-4 shrink-0 text-(--global-text-color-light)"
-          />
-          <a
-            href={resolveUrl(author.soundcloud, 'https://soundcloud.com/')}
-            target="_blank"
-            class="hover:text-(--global-base-color)"
-          >
-            SoundCloud
-          </a>
-        </li>
-      )}
-      {author.steam && (
-        <li class="flex items-center gap-2.5">
-          <Icon
-            name="fa6-brands:steam"
-            class="h-4 w-4 shrink-0 text-(--global-text-color-light)"
-          />
-          <a
-            href={resolveUrl(author.steam, 'https://steamcommunity.com/id/')}
-            target="_blank"
-            class="hover:text-(--global-base-color)"
-          >
-            Steam
-          </a>
-        </li>
-      )}
-      {author.tumblr && (
-        <li class="flex items-center gap-2.5">
-          <Icon
-            name="fa6-brands:tumblr"
-            class="h-4 w-4 shrink-0 text-(--global-text-color-light)"
-          />
-          <a
-            href={resolveUrl(author.tumblr, 'https://', '.tumblr.com')}
-            target="_blank"
-            class="hover:text-(--global-base-color)"
-          >
-            Tumblr
-          </a>
-        </li>
-      )}
-      {author.xing && (
-        <li class="flex items-center gap-2.5">
-          <Icon
-            name="fa6-brands:xing"
-            class="h-4 w-4 shrink-0 text-(--global-text-color-light)"
-          />
-          <a
-            href={resolveUrl(author.xing, 'https://www.xing.com/profile/')}
-            target="_blank"
-            class="hover:text-(--global-base-color)"
-          >
-            XING
-          </a>
-        </li>
-      )}
+        return (
+          <li class="flex items-center gap-2.5">
+            {icon ? (
+              <Icon
+                name={icon}
+                class="h-4 w-4 shrink-0 text-(--global-text-color-light)"
+              />
+            ) : emoji ? (
+              <span class="inline-flex h-4 w-4 shrink-0 items-center justify-center text-xs">
+                {emoji}
+              </span>
+            ) : null}
+            <a
+              href={href}
+              target="_blank"
+              class="hover:text-(--global-base-color)"
+            >
+              {label}
+            </a>
+          </li>
+        );
+      })}
     </ul>
   </div>
 </div>
