@@ -4,7 +4,7 @@ import { Icon } from 'astro-icon/components';
 
 <dialog
   id="search-modal"
-  class="fixed inset-0 z-50 m-auto w-full max-w-2xl rounded-xl border border-(--global-border-color) bg-(--global-bg-color) p-0 text-(--global-text-color) shadow-2xl backdrop:bg-black/50 backdrop:backdrop-blur-xs"
+  class="fixed inset-0 z-50 m-auto w-full max-w-2xl rounded-xl border border-(--global-border-color) bg-(--global-bg-color) p-0 text-(--global-text-color) shadow-2xl backdrop:bg-black/50 backdrop:backdrop-blur-xs outline-none focus:outline-none"
   aria-label="Site search"
 >
   <div class="flex flex-col overflow-hidden">
@@ -23,7 +23,7 @@ import { Icon } from 'astro-icon/components';
         aria-controls="search-list"
         aria-haspopup="listbox"
         placeholder="Search articles, publications, talks, courses..."
-        class="w-full bg-transparent text-sm text-(--global-text-color) placeholder-(--global-text-color-light) outline-none"
+        class="w-full border-none bg-transparent text-sm text-(--global-text-color) placeholder-(--global-text-color-light) outline-none focus:border-none focus:outline-none focus:ring-0 focus-visible:outline-none focus-visible:ring-0"
         autocomplete="off"
       />
       <button
@@ -37,7 +37,10 @@ import { Icon } from 'astro-icon/components';
     </div>
 
     {/* Search Results List */}
-    <div id="search-results" class="max-h-96 min-h-30 overflow-y-auto p-2">
+    <div
+      id="search-results"
+      class="custom-scrollbar max-h-96 min-h-30 overflow-y-auto p-2"
+    >
       <div
         id="search-placeholder"
         class="py-8 text-center text-xs text-(--global-text-color-light)"
@@ -202,7 +205,6 @@ import { Icon } from 'astro-icon/components';
       modal.showModal();
       loadSearchData();
       input?.focus();
-      input?.select();
     }
 
     function closeModal() {
