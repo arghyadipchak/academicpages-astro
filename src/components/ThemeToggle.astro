@@ -30,11 +30,10 @@ import { Icon } from 'astro-icon/components';
         const nextTheme = isDark ? 'light' : 'dark';
 
         document.documentElement.setAttribute('data-theme', nextTheme);
-        if (nextTheme === 'dark') {
+        if (nextTheme === 'dark')
           document.documentElement.classList.add('dark');
-        } else {
-          document.documentElement.classList.remove('dark');
-        }
+        else document.documentElement.classList.remove('dark');
+
         localStorage.setItem('theme', nextTheme);
 
         document

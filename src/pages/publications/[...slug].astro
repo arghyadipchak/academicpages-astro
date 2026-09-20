@@ -16,9 +16,7 @@ export async function getStaticPaths() {
     const shortSlug = getShortSlug(pub.id);
 
     pathMap.set(fileSlug, pub);
-    if (shortSlug !== fileSlug) {
-      pathMap.set(shortSlug, pub);
-    }
+    if (shortSlug !== fileSlug) pathMap.set(shortSlug, pub);
 
     if (pub.data.permalink) {
       const cleanPermalink = pub.data.permalink

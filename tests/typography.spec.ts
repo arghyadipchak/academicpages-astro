@@ -36,6 +36,7 @@ test.describe('Typography, Lists & Mathematical Layout Tests', () => {
     await expect(citationP).toBeVisible();
     const pMargin = await citationP.evaluate((el) => {
       const style = window.getComputedStyle(el);
+
       return {
         marginTop: parseFloat(style.marginTop),
         marginBottom: parseFloat(style.marginBottom),
@@ -80,9 +81,7 @@ test.describe('Typography, Lists & Mathematical Layout Tests', () => {
       await expect(copyBtn).toBeVisible();
       await copyBtn.click();
       await expect(copyBtn).toContainText('Copied!');
-    } else {
-      await expect(copyBtn).toBeAttached();
-    }
+    } else await expect(copyBtn).toBeAttached();
 
     // 3. Notice Callouts and first/last child margin containment
     const notice = page.locator('.notice').first();
@@ -90,6 +89,7 @@ test.describe('Typography, Lists & Mathematical Layout Tests', () => {
     const noticeChildMargins = await notice.evaluate((el) => {
       const first = el.firstElementChild;
       const last = el.lastElementChild;
+
       return {
         firstTop: first
           ? parseFloat(window.getComputedStyle(first).marginTop)
@@ -129,6 +129,7 @@ test.describe('Typography, Lists & Mathematical Layout Tests', () => {
     await expect(dd).toBeVisible();
     const ddStyles = await dd.evaluate((el) => {
       const s = window.getComputedStyle(el);
+
       return {
         marginLeft: parseFloat(s.marginLeft),
         paddingLeft: parseFloat(s.paddingLeft),
@@ -244,6 +245,7 @@ test.describe('Typography, Lists & Mathematical Layout Tests', () => {
       const s = window.getComputedStyle(el);
       const before = window.getComputedStyle(el, '::before');
       const after = window.getComputedStyle(el, '::after');
+
       return {
         fontWeight: s.fontWeight,
         beforeContent: before.content,
@@ -261,6 +263,7 @@ test.describe('Typography, Lists & Mathematical Layout Tests', () => {
     await expect(fnLabel).toBeVisible();
     const fnLabelStyles = await fnLabel.evaluate((el) => {
       const s = window.getComputedStyle(el);
+
       return {
         textTransform: s.textTransform,
         fontSize: parseFloat(s.fontSize),

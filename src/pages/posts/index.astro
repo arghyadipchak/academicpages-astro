@@ -18,6 +18,7 @@ const postsByYear = allPosts.reduce<Record<string, typeof allPosts>>(
     const year = new Date(post.data.date).getFullYear().toString();
     if (!acc[year]) acc[year] = [];
     acc[year].push(post);
+
     return acc;
   },
   {}

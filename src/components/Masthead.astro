@@ -12,9 +12,9 @@ const homePath = resolveUrl('/');
 
 function isSelected(url: string): boolean {
   const resolved = resolveUrl(url);
-  if (url === '/' || url === '/index.html') {
+  if (url === '/' || url === '/index.html')
     return currentPath === homePath || currentPath === `${homePath}index.html`;
-  }
+
   return currentPath.startsWith(resolved);
 }
 ---
@@ -24,6 +24,7 @@ function isSelected(url: string): boolean {
     <!-- Site Brand Title -->
     {() => {
       const isHome = isSelected('/');
+
       return (
         <a
           href={resolveUrl('/')}
@@ -57,6 +58,7 @@ function isSelected(url: string): boolean {
       <ul class="flex h-full items-center gap-1 text-sm font-medium">
         {navigation.map((item) => {
           const selected = isSelected(item.url);
+
           return (
             <li class="h-full">
               <a
@@ -145,6 +147,7 @@ function isSelected(url: string): boolean {
     <ul class="flex flex-col space-y-2">
       {navigation.map((item) => {
         const selected = isSelected(item.url);
+
         return (
           <li>
             <a

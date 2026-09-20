@@ -25,9 +25,8 @@ export function attachAssetErrorListener(
     const status = res.status();
     const url = res.url();
     // Exclude deliberate HTML 404 navigation tests
-    if (status >= 400 && !url.includes('/404')) {
+    if (status >= 400 && !url.includes('/404'))
       failedAssets.push(`${status}: ${url}`);
-    }
   });
 
   page.on('pageerror', (err) => {

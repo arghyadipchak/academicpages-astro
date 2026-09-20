@@ -17,9 +17,7 @@ export async function getStaticPaths() {
     const shortSlug = getShortSlug(talk.id);
 
     pathMap.set(fileSlug, talk);
-    if (shortSlug !== fileSlug) {
-      pathMap.set(shortSlug, talk);
-    }
+    if (shortSlug !== fileSlug) pathMap.set(shortSlug, talk);
 
     if (talk.data.permalink) {
       const cleanPermalink = talk.data.permalink

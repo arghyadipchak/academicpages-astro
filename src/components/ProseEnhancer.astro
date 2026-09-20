@@ -95,9 +95,7 @@
             .replace(/[^\w\s-]/g, '')
             .replace(/[\s_-]+/g, '-')
             .replace(/^-+|-+$/g, '');
-          if (id) {
-            heading.id = id;
-          }
+          if (id) heading.id = id;
         }
 
         if (!id) return;
@@ -366,9 +364,7 @@
         script.src = 'https://cdn.plot.ly/plotly-2.35.2.min.js';
         script.onload = renderPlots;
         document.head.appendChild(script);
-      } else {
-        renderPlots();
-      }
+      } else renderPlots();
     }
 
     // 6. Responsive Table Horizontal Scroll Wrapping
@@ -482,9 +478,8 @@
       if (
         mutation.type === 'attributes' &&
         mutation.attributeName === 'data-theme'
-      ) {
+      )
         handleThemeChange();
-      }
     }
   });
   themeObserver.observe(document.documentElement, { attributes: true });

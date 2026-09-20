@@ -12,32 +12,11 @@ export interface NavItem {
 }
 
 export const navigation: NavItem[] = [
-  {
-    title: 'Publications',
-    url: '/publications/',
-  },
-  {
-    title: 'Talks',
-    url: '/talks/',
-  },
-  {
-    title: 'Teaching',
-    url: '/teaching/',
-  },
-  {
-    title: 'Portfolio',
-    url: '/portfolio/',
-  },
-  {
-    title: 'Blog Posts',
-    url: '/posts/',
-  },
-  {
-    title: 'CV',
-    url: '/cv/',
-  },
-  {
-    title: 'Guide',
-    url: '/markdown/',
-  },
+  { title: 'Publications', url: '/publications/' },
+  { title: 'Talks', url: '/talks/' },
+  { title: 'Teaching', url: '/teaching/' },
+  { title: 'Portfolio', url: '/portfolio/' },
+  { title: 'Blog Posts', url: '/posts/' },
+  { title: 'CV', url: '/cv/' },
+  { title: 'Guide', url: '/markdown/' },
 ];

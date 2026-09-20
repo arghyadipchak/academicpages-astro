@@ -52,6 +52,7 @@ const categories = siteConfig.publicationCategories;
     {Object.entries(categories).map(([catKey, catInfo]) => {
       const count = allPubs.filter((p) => p.data.category === catKey).length;
       if (count === 0) return null;
+
       return (
         <button
           type="button"
@@ -162,11 +163,9 @@ const categories = siteConfig.publicationCategories;
       // Filter sections
       sections.forEach((sec) => {
         const secCategory = sec.getAttribute('data-category');
-        if (filterKey === 'all' || secCategory === filterKey) {
+        if (filterKey === 'all' || secCategory === filterKey)
           sec.classList.remove('hidden');
-        } else {
-          sec.classList.add('hidden');
-        }
+        else sec.classList.add('hidden');
       });
 
       if (updateHash) {
@@ -191,9 +190,7 @@ const categories = siteConfig.publicationCategories;
       const match = Array.from(filterButtons).some(
         (b) => b.getAttribute('data-filter') === currentHash
       );
-      if (match) {
-        applyFilter(currentHash, false);
-      }
+      if (match) applyFilter(currentHash, false);
     }
   }
 

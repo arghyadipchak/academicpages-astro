@@ -67,6 +67,7 @@ const { containerSelector = '.prose, .cv-content' } = Astro.props;
     const headings = container.querySelectorAll<HTMLElement>('h2, h3');
     if (headings.length < 2) {
       tocWrapper.classList.add('hidden');
+
       return;
     }
 
@@ -81,9 +82,7 @@ const { containerSelector = '.prose, .cv-content' } = Astro.props;
 
       const li = document.createElement('li');
       const isH3 = heading.tagName.toLowerCase() === 'h3';
-      if (isH3) {
-        li.className = 'pl-3';
-      }
+      if (isH3) li.className = 'pl-3';
 
       const a = document.createElement('a');
       a.href = `#${id}`;
@@ -116,11 +115,8 @@ const { containerSelector = '.prose, .cv-content' } = Astro.props;
           : 'rotate(0deg)';
       }
       if (tocCollapse) {
-        if (newExpanded) {
-          tocCollapse.classList.remove('hidden');
-        } else {
-          tocCollapse.classList.add('hidden');
-        }
+        if (newExpanded) tocCollapse.classList.remove('hidden');
+        else tocCollapse.classList.add('hidden');
       }
     };
 
@@ -131,9 +127,9 @@ const { containerSelector = '.prose, .cv-content' } = Astro.props;
           if (entry.isIntersecting) {
             const id = entry.target.id;
             tocList.querySelectorAll('.toc-link').forEach((link) => {
-              if (link.getAttribute('data-target') === id) {
+              if (link.getAttribute('data-target') === id)
                 link.classList.add('font-bold', 'text-(--global-link-color)');
-              } else {
+              else {
                 link.classList.remove(
                   'font-bold',
                   'text-(--global-link-color)'

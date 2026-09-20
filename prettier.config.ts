@@ -40,10 +40,7 @@ const config: Config = {
   overrides: [
     {
       files: ['.markdownlint.jsonc'],
-      options: {
-        parser: 'jsonc',
-        trailingComma: 'none',
-      },
+      options: { parser: 'jsonc', trailingComma: 'none' },
     },
   ],
 };

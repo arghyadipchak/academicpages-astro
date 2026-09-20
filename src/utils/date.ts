@@ -17,6 +17,7 @@ function toValidDate(
 ): Date | undefined {
   if (!date) return undefined;
   const d = date instanceof Date ? date : new Date(date);
+
   return isNaN(d.getTime()) ? undefined : d;
 }
 
@@ -48,6 +49,7 @@ export function formatYear(
 ): string | undefined {
   const d = toValidDate(date);
   if (!d) return undefined;
+
   return defaultYearFormatter.format(d);
 }
 
@@ -59,6 +61,7 @@ export function toIsoDateString(
 ): string | undefined {
   const d = toValidDate(date);
   if (!d) return undefined;
+
   return d.toISOString().split('T')[0];
 }
 
@@ -77,6 +80,7 @@ export function getTeachingSortWeight(item: {
   data: { year: number; semester: string };
 }): number {
   const semWeight = semesterOrder[item.data.semester] ?? 0;
+
   return item.data.year * 10 + semWeight;
 }
 

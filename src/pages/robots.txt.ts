@@ -15,8 +15,6 @@ export const GET: APIRoute = ({ site }) => {
   const robotsTxt = `User-agent: *\nAllow: /\n\nSitemap: ${sitemapUrl}\n`;
 
   return new Response(robotsTxt, {
-    headers: {
-      'Content-Type': 'text/plain; charset=utf-8',
-    },
+    headers: { 'Content-Type': 'text/plain; charset=utf-8' },
   });
 };

@@ -123,6 +123,7 @@ import { Icon } from 'astro-icon/components';
         const res = await fetch(`${baseUrl}/api/search.json`);
         const rawData: RawSearchItem[] = await res.json();
         searchData = indexSearchItems(rawData || []);
+
         return searchData;
       } catch {
         return [];
@@ -136,11 +137,9 @@ import { Icon } from 'astro-icon/components';
 
   function prefetchSearchData() {
     if (!searchData && !searchFetchPromise) {
-      if ('requestIdleCallback' in window) {
+      if ('requestIdleCallback' in window)
         window.requestIdleCallback(() => loadSearchData(), { timeout: 2000 });
-      } else {
-        setTimeout(loadSearchData, 1000);
-      }
+      else setTimeout(loadSearchData, 1000);
     }
   }
 
@@ -152,29 +151,18 @@ import { Icon } from 'astro-icon/components';
     let score = 0;
 
     // Exact title match
-    if (item.cleanTitle === query) {
-      score += 100;
-    } else if (item.cleanTitle.startsWith(query)) {
-      score += 60;
-    } else if (item.cleanTitle.includes(query)) {
-      score += 40;
-    }
+    if (item.cleanTitle === query) score += 100;
+    else if (item.cleanTitle.startsWith(query)) score += 60;
+    else if (item.cleanTitle.includes(query)) score += 40;
 
     // Individual token matches
     for (const token of tokens) {
-      if (item.cleanTitle.startsWith(token)) {
-        score += 20;
-      } else if (item.cleanTitle.includes(token)) {
-        score += 10;
-      }
+      if (item.cleanTitle.startsWith(token)) score += 20;
+      else if (item.cleanTitle.includes(token)) score += 10;
 
-      if (item.cleanDescription.includes(token)) {
-        score += 3;
-      }
+      if (item.cleanDescription.includes(token)) score += 3;
 
-      if (item.cleanType.includes(token)) {
-        score += 1;
-      }
+      if (item.cleanType.includes(token)) score += 1;
     }
 
     return score;
@@ -235,21 +223,16 @@ import { Icon } from 'astro-icon/components';
         e.clientY <= rect.top + rect.height &&
         rect.left <= e.clientX &&
         e.clientX <= rect.left + rect.width;
-      if (!isInDialog) {
-        closeModal();
-      }
+      if (!isInDialog) closeModal();
     });
 
     // Handle clicks on result items (while allowing nested <a> tags in description to work)
     searchList.addEventListener('click', (e) => {
       const target = e.target as HTMLElement;
-      if (target.closest('.search-result-desc a')) {
-        return;
-      }
+      if (target.closest('.search-result-desc a')) return;
+
       const item = target.closest('.search-result-item') as HTMLElement;
-      if (item && item.dataset.url) {
-        window.location.href = item.dataset.url;
-      }
+      if (item && item.dataset.url) window.location.href = item.dataset.url;
     });
 
     // Handle Search Input Filtering with Token Matching & Relevance Sorting
@@ -261,6 +244,7 @@ import { Icon } from 'astro-icon/components';
         searchList.innerHTML = '';
         placeholder?.classList.remove('hidden');
         noResults?.classList.add('hidden');
+
         return;
       }
 
@@ -287,6 +271,7 @@ import { Icon } from 'astro-icon/components';
       if (matchingItems.length === 0) {
         searchList.innerHTML = '';
         noResults?.classList.remove('hidden');
+
         return;
       }
 
@@ -343,11 +328,9 @@ import { Icon } from 'astro-icon/components';
         const activeLink = activeItem?.querySelector(
           '.search-result-title'
         ) as HTMLAnchorElement;
-        if (activeLink) {
-          activeLink.click();
-        } else if (activeItem?.dataset.url) {
+        if (activeLink) activeLink.click();
+        else if (activeItem?.dataset.url)
           window.location.href = activeItem.dataset.url;
-        }
       }
     });
 
@@ -381,11 +364,8 @@ import { Icon } from 'astro-icon/components';
         'search-modal'
       ) as HTMLDialogElement | null;
       if (!modal) return;
-      if (modal.open) {
-        closeModalFn?.();
-      } else {
-        openModalFn?.();
-      }
+      if (modal.open) closeModalFn?.();
+      else openModalFn?.();
     }
   });
 

@@ -25,5 +25,6 @@ marked.use(markedKatex({ nonStandard: true }), {
  */
 export function parseInline(text?: string | null): string {
   if (!text) return '';
+
   return resolveHtmlUrls(marked.parseInline(text) as string);
 }

@@ -37,15 +37,13 @@ export const GET: APIRoute = async ({ site }) => {
     `Author: ${siteConfig.author.name}`,
   ];
 
-  if (siteConfig.author.bio) {
-    lines.push(`Bio: ${siteConfig.author.bio}`);
-  }
-  if (siteConfig.author.location) {
+  if (siteConfig.author.bio) lines.push(`Bio: ${siteConfig.author.bio}`);
+
+  if (siteConfig.author.location)
     lines.push(`Location: ${siteConfig.author.location}`);
-  }
-  if (siteConfig.author.employer) {
+
+  if (siteConfig.author.employer)
     lines.push(`Affiliation: ${siteConfig.author.employer}`);
-  }
 
   lines.push('', '## Core Pages', '');
   lines.push(`- [Home](${origin}${resolveUrl('/')}): ${navDescriptions['/']}`);
@@ -177,8 +175,6 @@ export const GET: APIRoute = async ({ site }) => {
   lines.push('');
 
   return new Response(lines.join('\n'), {
-    headers: {
-      'Content-Type': 'text/plain; charset=utf-8',
-    },
+    headers: { 'Content-Type': 'text/plain; charset=utf-8' },
   });
 };

@@ -22,20 +22,19 @@ export function resolveUrl(path?: string): string {
     path.startsWith('tel:') ||
     path.startsWith('#') ||
     path.startsWith('//')
-  ) {
+  )
     return path;
-  }
 
   const cleanPath = path.startsWith('/') ? path : `/${path}`;
 
   if (
     BASE_PATH &&
     (cleanPath === BASE_PATH || cleanPath.startsWith(`${BASE_PATH}/`))
-  ) {
+  )
     return cleanPath;
-  }
 
   const result = `${BASE_PATH}${cleanPath}`;
+
   return result || '/';
 }
 
@@ -52,6 +51,7 @@ export function resolveExternalUrl(
 ): string {
   if (!val) return '';
   if (val.startsWith('http://') || val.startsWith('https://')) return val;
+
   return `${baseUrl}${prefix}${val.replace(/^@/, '')}`;
 }
 
@@ -65,6 +65,7 @@ export function resolveHtmlUrls(html?: string): string {
     /\b(src|href)=(['"])(\/[^'"]*)\2/gi,
     (_match, attr, quote, path) => {
       const resolved = resolveUrl(path);
+
       return `${attr}=${quote}${resolved}${quote}`;
     }
   );
@@ -107,13 +108,13 @@ export function getPostUrl(post: {
   id: string;
   data: { permalink?: string; date: Date };
 }): string {
-  if (post.data.permalink) {
-    return resolveUrl(post.data.permalink);
-  }
+  if (post.data.permalink) return resolveUrl(post.data.permalink);
+
   const date = new Date(post.data.date);
   const year = date.getFullYear();
   const month = String(date.getMonth() + 1).padStart(2, '0');
   const slug = getShortSlug(post.id);
+
   return resolveUrl(`/posts/${year}/${month}/${slug}/`);
 }
 
@@ -124,9 +125,8 @@ export function getPublicationUrl(pub: {
   id: string;
   data: { permalink?: string };
 }): string {
-  if (pub.data.permalink) {
-    return resolveUrl(pub.data.permalink);
-  }
+  if (pub.data.permalink) return resolveUrl(pub.data.permalink);
+
   return resolveUrl(`/publications/${getFileSlug(pub.id)}/`);
 }
 
@@ -137,9 +137,8 @@ export function getTalkUrl(talk: {
   id: string;
   data: { permalink?: string };
 }): string {
-  if (talk.data.permalink) {
-    return resolveUrl(talk.data.permalink);
-  }
+  if (talk.data.permalink) return resolveUrl(talk.data.permalink);
+
   return resolveUrl(`/talks/${getFileSlug(talk.id)}/`);
 }
 
@@ -150,9 +149,8 @@ export function getTeachingUrl(item: {
   id: string;
   data: { permalink?: string };
 }): string {
-  if (item.data.permalink) {
-    return resolveUrl(item.data.permalink);
-  }
+  if (item.data.permalink) return resolveUrl(item.data.permalink);
+
   return resolveUrl(`/teaching/${getFileSlug(item.id)}/`);
 }
 
@@ -163,8 +161,7 @@ export function getPortfolioUrl(item: {
   id: string;
   data: { permalink?: string };
 }): string {
-  if (item.data.permalink) {
-    return resolveUrl(item.data.permalink);
-  }
+  if (item.data.permalink) return resolveUrl(item.data.permalink);
+
   return resolveUrl(`/portfolio/${getFileSlug(item.id)}/`);
 }
