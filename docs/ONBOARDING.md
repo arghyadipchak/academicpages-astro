@@ -20,11 +20,11 @@ Follow this itemized roadmap to convert the starter template into your personal 
 
 ## 2. Content Migration & Demo Purge
 
-- [ ] **Publications**: Delete demo files in `src/content/publications/2024-03-15-paper-*.md` and add your research papers (see [`docs/CONTENT.md`](CONTENT.md))
-- [ ] **Talks & Presentations**: Delete demo files in `src/content/talks/2024-02-01-talk-*.md` or populate with your presentations
-- [ ] **Teaching**: Delete demo files in `src/content/teaching/2024-01-10-course-*.md` or populate with your courses
-- [ ] **Portfolio Projects**: Delete demo files in `src/content/portfolio/portfolio-*.md` or populate with your software/research projects
-- [ ] **Blog Posts**: Delete demo files in `src/content/blog/2024-*-blog-post-*.md` or populate with your posts
+- [ ] **Publications**: Delete demo files in `src/content/publications/` and add your research papers (see [`docs/CONTENT.md`](CONTENT.md))
+- [ ] **Talks & Presentations**: Delete demo files in `src/content/talks/` or populate with your presentations
+- [ ] **Teaching**: Delete demo files in `src/content/teaching/` or populate with your courses
+- [ ] **Portfolio Projects**: Delete demo files in `src/content/portfolio/` or populate with your software/research projects
+- [ ] **Blog Posts**: Delete demo files in `src/content/blog/` or populate with your posts
 - [ ] **Markdown Guide**: Delete demo content `src/content/pages/markdown.md` and its route `src/pages/markdown.astro`
 - [ ] **Homepage Bio**: Update `src/pages/index.astro` with your biography and research interests
 - [ ] **CV**: Update `src/pages/cv.astro` (education, appointments, awards, service)
@@ -80,15 +80,16 @@ Once initial onboarding is verified, template browser tests targeting demo conte
 
 - [ ] **Remove Test Scripts & Dependencies**: In `package.json`, remove `"test": "playwright test"` and `@playwright/test` from `devDependencies`
 
-### C. Retire CI Upstream Tracking (Optional)
+### C. Retire Template Governance & Release Tooling (Optional)
 
-- [ ] **Remove Upstream Submodule**: If you cloned without submodules or have no need for Jekyll reference tracking:
+Starter template maintenance files, issue templates, and changelog tooling can be safely deleted from a personal website repo:
+
+- [ ] **Delete Template Governance Files**:
 
   ```bash
-  git rm -f academicpages-jekyll 2>/dev/null || true
+  rm -f cliff.toml CONTRIBUTING.md SECURITY.md AGENTS.md
+  rm -rf .github/ISSUE_TEMPLATE/ .github/pull_request_template.md .github/FUNDING.yml .github/workflows/release.yml .github/workflows/pr-lint.yml
   ```
-
-- [ ] **Simplify GitHub Actions Workflow**: In `.github/workflows/deploy.yml`, remove any submodule recursive checkout steps
 
 ### D. Clean Up Documentation & README
 
