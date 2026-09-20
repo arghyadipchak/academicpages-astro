@@ -69,9 +69,6 @@ importers:
       '@playwright/test':
         specifier: ^1.63.0
         version: 1.63.0
-      astro-eslint-parser:
-        specifier: ^3.1.0
-        version: 3.1.0(@emnapi/core@1.11.3)(@emnapi/runtime@1.11.3)
       eslint:
         specifier: ^10.10.0
         version: 10.10.0(jiti@2.7.0)
