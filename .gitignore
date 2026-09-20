@@ -5,29 +5,24 @@ dist/
 # Dependencies
 node_modules/
 
-# Logs & debug outputs
-*.log
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-pnpm-debug.log*
-
-# Test results
+# Test results & reports
 test-results/
 playwright-report/
+
+# Environment variables & secrets
+.env
+.env.*
+!.env.example
 
 # Archives & bundle exports
 *.tar.gz
 *.zip
 
-# Environment variables
-.env
-.env.*
-!.env.example
+# Logs & debug outputs
+*.log*
 
-# OS generated files
-.DS_Store
-.DS_Store?
+# OS metadata & system files
+.DS_Store*
 ._*
 .Spotlight-V100
 .Trashes
@@ -40,7 +35,7 @@ Thumbs.db
 *~
 *.bak
 
-# IDE settings (preserve team configs)
+# IDE & workspace state (preserve team configuration files)
 .idea/
 .vscode/*
 !.vscode/extensions.json

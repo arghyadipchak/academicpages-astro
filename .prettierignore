@@ -2,13 +2,12 @@
 dist/
 .astro/
 
-# Dependencies & lockfiles
-node_modules/
+# Package lockfile
 pnpm-lock.yaml
 
 # Test results & reports
 test-results/
 playwright-report/
 
-# Static assets
+# Static downloads & binary assets
 public/files/
