@@ -160,9 +160,9 @@ function isSelected(url: string): boolean {
             <a
               href={resolveUrl(item.url)}
               class:list={[
-                'flex items-center rounded-md border-l-4 px-3 py-2 text-base font-bold transition-colors',
+                'flex items-center rounded-md border-l-4 px-3 py-2 text-base transition-colors',
                 selected
-                  ? 'border-(--global-base-color) bg-(--global-footer-bg-color) text-(--global-base-color)'
+                  ? 'border-(--global-base-color) bg-(--global-footer-bg-color) font-bold text-(--global-base-color)'
                   : 'border-transparent font-medium text-(--global-text-color) hover:bg-(--global-footer-bg-color) hover:text-(--global-base-color)',
               ]}
               aria-current={selected ? 'page' : undefined}
