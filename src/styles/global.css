@@ -106,6 +106,17 @@ a:hover {
   outline-offset: 2px;
 }
 
+dialog:focus,
+dialog:focus-visible,
+#search-modal:focus,
+#search-modal:focus-visible,
+#search-input:focus,
+#search-input:focus-visible {
+  outline: none !important;
+  outline-offset: 0 !important;
+  box-shadow: none !important;
+}
+
 /* Custom typography & prose styling adjustments matching Academic Pages */
 .prose {
   color: var(--global-text-color);
