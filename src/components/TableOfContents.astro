@@ -145,6 +145,5 @@ const { containerSelector = '.prose, .cv-content' } = Astro.props;
     headings.forEach((h) => observer.observe(h));
   }
 
-  setupToC();
   document.addEventListener('astro:page-load', setupToC);
 </script>

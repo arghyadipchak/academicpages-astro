@@ -52,7 +52,5 @@ import { Icon } from 'astro-icon/components';
     });
   }
 
-  // Setup on initial load & after Astro view transitions if used
-  setupThemeToggle();
   document.addEventListener('astro:page-load', setupThemeToggle);
 </script>

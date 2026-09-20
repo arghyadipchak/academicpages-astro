@@ -27,6 +27,7 @@ const resolveUrl = resolveExternalUrl;
         alt={author.name}
         class="h-16 w-16 rounded-full border border-(--global-border-color) object-cover sm:h-20 sm:w-20 lg:h-36 lg:w-36 lg:p-1"
         loading="eager"
+        transition:name="author-avatar"
       />
     </div>
 
@@ -965,6 +966,5 @@ const resolveUrl = resolveExternalUrl;
     });
   }
 
-  setupAuthorToggle();
   document.addEventListener('astro:page-load', setupAuthorToggle);
 </script>

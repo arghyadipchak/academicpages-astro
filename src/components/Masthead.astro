@@ -19,7 +19,10 @@ function isSelected(url: string): boolean {
 }
 ---
 
-<header class="sticky top-0 z-50 h-16 w-full border-b border-(--global-border-color) bg-(--global-bg-color) shadow-xs transition-colors duration-200">
+<header
+  class="sticky top-0 z-50 h-16 w-full border-b border-(--global-border-color) bg-(--global-bg-color) shadow-xs transition-colors duration-200"
+  transition:name="masthead"
+>
   <div class="mx-auto flex h-full max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
     <!-- Site Brand Title -->
     {() => {
@@ -44,6 +47,7 @@ function isSelected(url: string): boolean {
                 ? 'bg-(--global-base-color) opacity-100 shadow-2xs'
                 : 'scale-x-0 bg-(--global-base-color) opacity-0 group-hover:scale-x-100 group-hover:opacity-40',
             ]}
+            transition:name={isHome ? 'active-nav-indicator' : undefined}
             aria-hidden="true"
           />
         </a>
@@ -80,6 +84,9 @@ function isSelected(url: string): boolean {
                       ? 'bg-(--global-base-color) opacity-100 shadow-2xs'
                       : 'scale-x-0 bg-(--global-base-color) opacity-0 group-hover:scale-x-100 group-hover:opacity-40',
                   ]}
+                  transition:name={
+                    selected ? 'active-nav-indicator' : undefined
+                  }
                   aria-hidden="true"
                 />
               </a>
@@ -183,6 +190,5 @@ function isSelected(url: string): boolean {
     });
   }
 
-  setupMobileMenu();
   document.addEventListener('astro:page-load', setupMobileMenu);
 </script>

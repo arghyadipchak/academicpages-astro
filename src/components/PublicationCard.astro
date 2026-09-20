@@ -3,6 +3,7 @@ import ActionBadges from '@components/ActionBadges.astro';
 
 import { formatYear } from '@utils/date';
 import { parseInline } from '@utils/marked';
+import { getTitleTransitionName } from '@utils/url';
 
 export interface Props {
   title: string;
@@ -34,6 +35,7 @@ const {
 
 const pdfUrl = rawPdfUrl ?? paperUrl;
 const formattedYear = formatYear(date);
+const transitionName = getTitleTransitionName(url);
 ---
 
 <div class="archive__item border-b border-(--global-border-color) py-4 first:pt-0 last:border-b-0">
@@ -42,6 +44,7 @@ const formattedYear = formatYear(date);
       <a
         href={url}
         class="text-(--global-link-color) hover:text-(--global-link-color-hover) hover:underline"
+        transition:name={transitionName}
         set:html={parseInline(title)}
       />
     </h3>

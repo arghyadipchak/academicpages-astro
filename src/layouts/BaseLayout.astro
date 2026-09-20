@@ -1,6 +1,8 @@
 ---
 import '@styles/global.css';
 
+import { ClientRouter, fade } from 'astro:transitions';
+
 import Footer from '@components/Footer.astro';
 import HeadSEO from '@components/HeadSEO.astro';
 import Masthead from '@components/Masthead.astro';
@@ -39,14 +41,15 @@ const { title, description, articleDate, canonicalUrl, image, citation } =
       image={image}
       citation={citation}
     />
+    <ClientRouter fallback="swap" />
   </head>
   <body class="flex min-h-screen flex-col bg-(--global-bg-color) text-(--global-text-color) antialiased transition-colors duration-200">
     <Masthead />
-    <div class="flex-1">
+    <div class="flex-1" transition:animate={fade({ duration: '0.15s' })}>
       <slot />
     </div>
     <Footer />
     <ProseEnhancer />
-    <SearchModal />
+    <SearchModal transition:persist="search-modal" />
   </body>
 </html>

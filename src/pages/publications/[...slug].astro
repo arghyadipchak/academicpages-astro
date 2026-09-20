@@ -5,7 +5,13 @@ import PageLayout from '@layouts/PageLayout.astro';
 
 import { siteConfig } from '@data/siteConfig';
 import { formatYear, toIsoDateString } from '@utils/date';
-import { getFileSlug, getShortSlug, resolveUrl } from '@utils/url';
+import {
+  getFileSlug,
+  getPublicationUrl,
+  getShortSlug,
+  getTitleTransitionName,
+  resolveUrl,
+} from '@utils/url';
 
 export async function getStaticPaths() {
   const publications = await getCollection('publications');
@@ -37,6 +43,7 @@ const { pub } = Astro.props;
 const { Content } = await render(pub);
 const formattedYear = formatYear(pub.data.date);
 const pdfUrl = pub.data.pdf_url ?? pub.data.paper_url;
+const transitionName = getTitleTransitionName(getPublicationUrl(pub));
 
 const citationMetadata = {
   title: pub.data.title,
@@ -71,6 +78,7 @@ const citationMetadata = {
   authorProfile={pub.data.author_profile}
   toc={pub.data.toc}
   image={pub.data.image}
+  transitionName={transitionName}
 >
   {pub.data.venue && (
     <p

@@ -29,6 +29,7 @@ export interface Props {
   authorProfile?: boolean;
   toc?: boolean;
   image?: string;
+  transitionName?: string;
 }
 
 const {
@@ -46,6 +47,7 @@ const {
   authorProfile = true,
   toc = true,
   image,
+  transitionName,
 } = Astro.props;
 
 const pdfUrl = rawPdfUrl ?? paperUrl;
@@ -87,6 +89,7 @@ const pdfUrl = rawPdfUrl ?? paperUrl;
             <h1
               class="text-2xl font-bold tracking-tight text-(--global-text-color) sm:text-3xl"
               itemprop="headline"
+              transition:name={transitionName}
               set:html={parseInline(title)}
             />
             <slot name="header-metadata" />

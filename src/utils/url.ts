@@ -165,3 +165,20 @@ export function getPortfolioUrl(item: {
 
   return resolveUrl(`/portfolio/${getFileSlug(item.id)}/`);
 }
+
+/**
+ * Generates a CSS view-transition-name for title morphing from an internal URL
+ */
+export function getTitleTransitionName(url?: string): string | undefined {
+  if (
+    !url ||
+    url.startsWith('http://') ||
+    url.startsWith('https://') ||
+    url.startsWith('//')
+  )
+    return undefined;
+
+  const clean = url.replace(/[^a-zA-Z0-9_-]/g, '-').replace(/^-+|-+$/g, '');
+
+  return clean ? `title-${clean}` : undefined;
+}

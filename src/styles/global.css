@@ -916,6 +916,47 @@ header a:focus {
   pointer-events: none;
 }
 
+/* Search Modal Dialog Micro-Transitions */
+dialog#search-modal {
+  transition:
+    opacity 0.15s ease-out,
+    transform 0.15s ease-out,
+    display 0.15s allow-discrete,
+    overlay 0.15s allow-discrete;
+  opacity: 0;
+  transform: scale(0.97);
+}
+
+dialog#search-modal[open] {
+  opacity: 1;
+  transform: scale(1);
+}
+
+@starting-style {
+  dialog#search-modal[open] {
+    opacity: 0;
+    transform: scale(0.97);
+  }
+}
+
+dialog#search-modal::backdrop {
+  transition:
+    opacity 0.15s ease-out,
+    display 0.15s allow-discrete,
+    overlay 0.15s allow-discrete;
+  opacity: 0;
+}
+
+dialog#search-modal[open]::backdrop {
+  opacity: 1;
+}
+
+@starting-style {
+  dialog#search-modal[open]::backdrop {
+    opacity: 0;
+  }
+}
+
 /* Print Stylesheet for Academic Documents and CVs */
 @media print {
   header.sticky,
@@ -939,5 +980,14 @@ header a:focus {
   a {
     color: #000 !important;
     text-decoration: underline !important;
+  }
+}
+
+/* Accessibility & Reduced Motion for View Transitions */
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation: none !important;
   }
 }

@@ -132,7 +132,7 @@ const resolvedImage = image.startsWith('http')
 
 <!-- Dark Mode Initialization Script (Prevents flash of unstyled theme) -->
 <script is:inline>
-  (function () {
+  function applyTheme() {
     const storedTheme = localStorage.getItem('theme');
     const prefersDark = window.matchMedia(
       '(prefers-color-scheme: dark)'
@@ -144,5 +144,8 @@ const resolvedImage = image.startsWith('http')
       document.documentElement.setAttribute('data-theme', 'light');
       document.documentElement.classList.remove('dark');
     }
-  })();
+  }
+
+  applyTheme();
+  document.addEventListener('astro:after-swap', applyTheme);
 </script>
