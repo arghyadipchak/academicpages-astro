@@ -3,6 +3,7 @@ import '@styles/global.css';
 
 import { ClientRouter, fade } from 'astro:transitions';
 
+import BackToTop from '@components/BackToTop.astro';
 import Footer from '@components/Footer.astro';
 import HeadSEO from '@components/HeadSEO.astro';
 import Masthead from '@components/Masthead.astro';
@@ -59,6 +60,7 @@ const { title, description, articleDate, canonicalUrl, image, citation } =
       <slot />
     </div>
     <Footer />
+    <BackToTop />
     <ProseEnhancer />
     <SearchModal transition:persist="search-modal" />
     <div

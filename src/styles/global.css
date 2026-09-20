@@ -1025,6 +1025,9 @@ dialog#search-modal[open]::backdrop {
   header:has(nav),
   footer,
   #toc-wrapper,
+  #back-to-top,
+  #reading-progress,
+  #a11y-announcer,
   .theme-toggle-btn,
   .search-trigger-btn,
   #search-modal,
@@ -1042,6 +1045,13 @@ dialog#search-modal[open]::backdrop {
   a {
     color: #000 !important;
     text-decoration: underline !important;
+  }
+
+  .prose a[href^='http']:not([href*='localhost'])::after {
+    content: ' (' attr(href) ')';
+    font-size: 0.85em;
+    font-weight: normal;
+    word-break: break-all;
   }
 }
 
