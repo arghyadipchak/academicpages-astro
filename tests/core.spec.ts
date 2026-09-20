@@ -50,11 +50,11 @@ test.describe('Core UI, SEO & Page Integrity Tests', () => {
     page,
   }) => {
     await page.goto(toUrl('/'));
-    const authorName = page.locator('h3', { hasText: 'Your Sidebar Name' });
+    const authorName = page.locator('h3', { hasText: siteConfig.author.name });
     await expect(authorName).toBeVisible();
     const avatar = page.locator('.author__avatar img');
     await expect(avatar).toBeVisible();
-    await expect(avatar).toHaveAttribute('alt', 'Your Sidebar Name');
+    await expect(avatar).toHaveAttribute('alt', siteConfig.author.name);
   });
 
   test('footer renders copyright, follow links, sitemap, and terms link', async ({
@@ -196,7 +196,7 @@ test.describe('Core UI, SEO & Page Integrity Tests', () => {
     const citationAuthor = page.locator('meta[name="citation_author"]');
     await expect(citationAuthor).toHaveAttribute(
       'content',
-      'Your Sidebar Name'
+      siteConfig.author.name
     );
 
     const citationDate = page.locator('meta[name="citation_publication_date"]');
