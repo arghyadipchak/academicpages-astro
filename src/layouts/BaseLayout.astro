@@ -51,11 +51,16 @@ const { title, description, articleDate, canonicalUrl, image, citation } =
     >
       Skip to content
     </a>
+    <div
+      id="reading-progress"
+      class="fixed top-0 left-0 z-60 h-[3px] w-0 bg-(--global-base-color) shadow-[0_0_8px_var(--global-base-color)] transition-[width] duration-75 ease-out"
+      aria-hidden="true"
+    ></div>
     <Masthead />
     <div
       id="main-content"
       class="flex-1"
-      transition:animate={fade({ duration: '0.15s' })}
+      transition:animate={fade({ duration: '0.08s' })}
     >
       <slot />
     </div>

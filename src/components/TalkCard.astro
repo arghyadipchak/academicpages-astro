@@ -3,7 +3,6 @@ import { Icon } from 'astro-icon/components';
 
 import { formatDate, toIsoDateString } from '@utils/date';
 import { parseInline } from '@utils/marked';
-import { getTitleTransitionName } from '@utils/url';
 
 export interface Props {
   title: string;
@@ -17,7 +16,6 @@ export interface Props {
 const { title, url, description, date, type, venue } = Astro.props;
 
 const formattedDate = formatDate(date);
-const transitionName = getTitleTransitionName(url);
 ---
 
 <div class="archive__item border-b border-(--global-border-color) py-4 first:pt-0 last:border-b-0">
@@ -26,7 +24,6 @@ const transitionName = getTitleTransitionName(url);
       <a
         href={url}
         class="text-(--global-link-color) hover:text-(--global-link-color-hover) hover:underline"
-        transition:name={transitionName}
         set:html={parseInline(title)}
       />
     </h3>

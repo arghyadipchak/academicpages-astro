@@ -6,12 +6,7 @@ import { Icon } from 'astro-icon/components';
 import PageLayout from '@layouts/PageLayout.astro';
 
 import { formatDate } from '@utils/date';
-import {
-  getFileSlug,
-  getShortSlug,
-  getTalkUrl,
-  getTitleTransitionName,
-} from '@utils/url';
+import { getFileSlug, getShortSlug } from '@utils/url';
 
 export async function getStaticPaths() {
   const talks = await getCollection('talks');
@@ -42,7 +37,6 @@ export async function getStaticPaths() {
 const { talk } = Astro.props;
 const { Content } = await render(talk);
 const formattedDate = formatDate(talk.data.date);
-const transitionName = getTitleTransitionName(getTalkUrl(talk));
 ---
 
 <PageLayout
@@ -53,7 +47,6 @@ const transitionName = getTitleTransitionName(getTalkUrl(talk));
   authorProfile={talk.data.author_profile}
   toc={talk.data.toc}
   image={talk.data.image}
-  transitionName={transitionName}
 >
   {(formattedDate || talk.data.type || talk.data.venue) && (
     <div

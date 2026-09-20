@@ -179,4 +179,21 @@ test.describe('Client-Side Interactive Components Tests', () => {
     await followBtn.click();
     await expect(urlsList).toHaveClass(/hidden/);
   });
+
+  test('Reading progress bar updates width on scroll on article pages', async ({
+    page,
+  }) => {
+    await page.goto(toUrl('/markdown/'));
+    const progressBar = page.locator('#reading-progress');
+    await expect(progressBar).toBeAttached();
+
+    // Scroll down to middle of page
+    await page.evaluate(() =>
+      window.scrollTo(0, document.body.scrollHeight / 2)
+    );
+    await page.waitForTimeout(100);
+
+    const widthStyle = await progressBar.getAttribute('style');
+    expect(widthStyle).toMatch(/width:\s*\d+(\.\d+)?%/);
+  });
 });

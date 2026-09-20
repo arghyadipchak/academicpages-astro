@@ -30,7 +30,6 @@ export interface Props {
   authorProfile?: boolean;
   toc?: boolean;
   image?: string;
-  transitionName?: string;
 }
 
 const {
@@ -48,7 +47,6 @@ const {
   authorProfile = true,
   toc = true,
   image,
-  transitionName,
 } = Astro.props;
 
 const pdfUrl = rawPdfUrl ?? paperUrl;
@@ -61,11 +59,6 @@ const pdfUrl = rawPdfUrl ?? paperUrl;
   image={image}
   citation={citationMetadata}
 >
-  <div
-    id="reading-progress"
-    class="fixed top-0 left-0 z-50 h-[3px] w-0 bg-(--global-base-color) transition-[width] duration-75"
-    aria-hidden="true"
-  ></div>
   <div class="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
     <div class="grid grid-cols-1 gap-8 lg:grid-cols-12">
       <!-- Left Sidebar: Author Profile -->
@@ -107,7 +100,6 @@ const pdfUrl = rawPdfUrl ?? paperUrl;
             <h1
               class="text-2xl font-bold tracking-tight text-(--global-text-color) sm:text-3xl"
               itemprop="headline"
-              transition:name={transitionName}
               set:html={parseInline(title)}
             />
             <slot name="header-metadata" />
@@ -179,10 +171,9 @@ const pdfUrl = rawPdfUrl ?? paperUrl;
       const windowHeight = window.innerHeight;
       const scrollY = window.scrollY;
 
-      const totalScrollable =
-        articleHeight - windowHeight + (articleTop > 0 ? articleTop : 0);
-      if (totalScrollable <= 0) {
-        progressBar?.style.setProperty('width', '100%');
+      const maxScroll = articleTop + articleHeight - windowHeight;
+      if (maxScroll <= 0) {
+        progressBar?.style.setProperty('width', scrollY > 0 ? '100%' : '0%');
         ticking = false;
 
         return;
@@ -190,10 +181,7 @@ const pdfUrl = rawPdfUrl ?? paperUrl;
 
       const currentProgress = Math.max(
         0,
-        Math.min(
-          100,
-          ((scrollY - articleTop + windowHeight) / articleHeight) * 100
-        )
+        Math.min(100, (scrollY / maxScroll) * 100)
       );
 
       progressBar?.style.setProperty('width', `${currentProgress}%`);
@@ -208,7 +196,7 @@ const pdfUrl = rawPdfUrl ?? paperUrl;
     }
 
     window.addEventListener('scroll', onScroll, { passive: true });
-    updateProgress();
+    requestAnimationFrame(updateProgress);
   }
 
   document.addEventListener('astro:page-load', setupReadingProgress);

@@ -539,5 +539,7 @@
   });
   themeObserver.observe(document.documentElement, { attributes: true });
 
-  document.addEventListener('astro:page-load', enhanceProse);
+  document.addEventListener('astro:page-load', () => {
+    requestAnimationFrame(enhanceProse);
+  });
 </script>

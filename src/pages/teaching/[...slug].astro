@@ -3,12 +3,7 @@ import { getCollection, render } from 'astro:content';
 
 import PageLayout from '@layouts/PageLayout.astro';
 
-import {
-  getFileSlug,
-  getShortSlug,
-  getTeachingUrl,
-  getTitleTransitionName,
-} from '@utils/url';
+import { getFileSlug, getShortSlug } from '@utils/url';
 
 export async function getStaticPaths() {
   const teaching = await getCollection('teaching');
@@ -43,8 +38,6 @@ const termDisplay =
   item.data.semester && item.data.year
     ? `${item.data.semester} ${item.data.year}`
     : item.data.semester || (item.data.year ? `${item.data.year}` : '');
-
-const transitionName = getTitleTransitionName(getTeachingUrl(item));
 ---
 
 <PageLayout
@@ -53,7 +46,6 @@ const transitionName = getTitleTransitionName(getTeachingUrl(item));
   authorProfile={item.data.author_profile}
   toc={item.data.toc}
   image={item.data.image}
-  transitionName={transitionName}
 >
   {(item.data.venue || termDisplay || item.data.type) && (
     <p

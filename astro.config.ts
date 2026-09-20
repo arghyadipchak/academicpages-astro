@@ -25,7 +25,7 @@ export default defineConfig({
   site,
   base,
   integrations: [icon(), sitemap()],
-  prefetch: { prefetchAll: true, defaultStrategy: 'hover' },
+  prefetch: { prefetchAll: true, defaultStrategy: 'viewport' },
   build: { inlineStylesheets: 'auto' },
   experimental: {
     svgOptimizer: svgoOptimizer({ multipass: true, floatPrecision: 2 }),
