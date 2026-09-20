@@ -49,6 +49,54 @@ const pageTitle = title
 const resolvedImage = image.startsWith('http')
   ? image
   : new URL(resolveUrl(image), siteBase).toString();
+
+const sameAsLinks: string[] = [];
+if (siteConfig.author.github)
+  sameAsLinks.push(`https://github.com/${siteConfig.author.github}`);
+if (siteConfig.author.linkedin)
+  sameAsLinks.push(`https://www.linkedin.com/in/${siteConfig.author.linkedin}`);
+
+if (siteConfig.author.orcid)
+  sameAsLinks.push(`https://orcid.org/${siteConfig.author.orcid}`);
+
+const personSchema = {
+  '@type': 'Person',
+  name: siteConfig.author.name,
+  url: siteBase,
+  image: resolvedImage,
+  jobTitle: siteConfig.author.employer,
+  description: siteConfig.author.bio,
+  sameAs: sameAsLinks.length > 0 ? sameAsLinks : undefined,
+};
+
+const webSiteSchema = {
+  '@type': 'WebSite',
+  name: siteConfig.title,
+  url: siteBase,
+  description: siteConfig.description,
+};
+
+const scholarlyArticleSchema = citation?.title
+  ? {
+      '@type': 'ScholarlyArticle',
+      headline: citation.title,
+      author: {
+        '@type': 'Person',
+        name: citation.author || siteConfig.author.name,
+      },
+      datePublished: citation.publicationDate,
+      isPartOf: citation.journalTitle
+        ? { '@type': 'PublicationIssue', name: citation.journalTitle }
+        : undefined,
+      url: canonicalUrl,
+    }
+  : null;
+
+const jsonLdGraph = [
+  webSiteSchema,
+  personSchema,
+  ...(scholarlyArticleSchema ? [scholarlyArticleSchema] : []),
+];
 ---
 
 <!-- Global Metadata -->
@@ -125,6 +173,14 @@ const resolvedImage = image.startsWith('http')
 )}
 {citation?.pdfUrl && <meta name="citation_pdf_url" content={citation.pdfUrl} />}
 
+<!-- Structured Data (JSON-LD) -->
+<script
+  type="application/ld+json"
+  set:html={JSON.stringify({
+    '@context': 'https://schema.org',
+    '@graph': jsonLdGraph,
+  })}
+></script>
 <!-- Dark Mode Initialization Script (Prevents flash of unstyled theme) -->
 <script is:inline>
   function applyTheme() {
