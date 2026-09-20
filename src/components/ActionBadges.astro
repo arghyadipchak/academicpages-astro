@@ -157,15 +157,35 @@ const hasBadges = Boolean(pdfUrl || slidesUrl || codeUrl || bibtex);
         await navigator.clipboard.writeText(text);
         copied = true;
       } catch {
-        // clipboard permission denied
+        // clipboard permission denied or unfocused tab
+      }
+    }
+
+    if (!copied) {
+      try {
+        const textarea = document.createElement('textarea');
+        textarea.value = text;
+        textarea.style.position = 'fixed';
+        textarea.style.opacity = '0';
+        document.body.appendChild(textarea);
+        textarea.select();
+        (
+          document as unknown as Record<string, (cmd: string) => boolean>
+        ).execCommand?.('copy');
+        document.body.removeChild(textarea);
+        copied = true;
+      } catch {
+        // ignore
       }
     }
 
     const label = this.querySelector('.copy-label');
     if (label && copied) {
       label.textContent = 'Copied!';
+      this.classList.add('copy-pop');
       setTimeout(() => {
         label.textContent = 'Copy';
+        this.classList.remove('copy-pop');
       }, 2000);
     }
   }

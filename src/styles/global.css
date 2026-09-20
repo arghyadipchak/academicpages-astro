@@ -957,6 +957,51 @@ dialog#search-modal[open]::backdrop {
   }
 }
 
+/* Copy Button Micro-Pop Animation */
+@keyframes copy-pop {
+  0% {
+    transform: scale(0.85);
+    opacity: 0.8;
+  }
+  50% {
+    transform: scale(1.1);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.copy-pop {
+  animation: copy-pop 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+/* Smooth Target Highlight for Headings & Footnotes */
+:target {
+  scroll-margin-top: 5rem;
+}
+
+.prose h2:target,
+.prose h3:target,
+.prose h4:target {
+  animation: target-highlight 1.5s ease-out;
+}
+
+@keyframes target-highlight {
+  0% {
+    background-color: color-mix(
+      in srgb,
+      var(--global-base-color) 16%,
+      transparent
+    );
+    border-radius: 0.25rem;
+  }
+  100% {
+    background-color: transparent;
+  }
+}
+
 /* Print Stylesheet for Academic Documents and CVs */
 @media print {
   header.sticky,
@@ -983,8 +1028,17 @@ dialog#search-modal[open]::backdrop {
   }
 }
 
-/* Accessibility & Reduced Motion for View Transitions */
+/* Accessibility & Reduced Motion Safety Net */
 @media (prefers-reduced-motion: reduce) {
+  *,
+  ::before,
+  ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
   ::view-transition-group(*),
   ::view-transition-old(*),
   ::view-transition-new(*) {
