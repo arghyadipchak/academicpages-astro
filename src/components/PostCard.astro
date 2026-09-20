@@ -3,7 +3,7 @@ import { Icon } from 'astro-icon/components';
 
 import { formatDate, toIsoDateString } from '@utils/date';
 import { parseInline } from '@utils/marked';
-import { getTitleTransitionName } from '@utils/url';
+import { getTitleTransitionName, resolveUrl } from '@utils/url';
 
 export interface Props {
   title: string;
@@ -11,9 +11,10 @@ export interface Props {
   description?: string;
   date?: Date;
   readTime?: string;
+  image?: string;
 }
 
-const { title, url, description, date, readTime } = Astro.props;
+const { title, url, description, date, readTime, image } = Astro.props;
 
 const formattedDate = formatDate(date);
 const transitionName = getTitleTransitionName(url);
@@ -53,6 +54,18 @@ const transitionName = getTitleTransitionName(url);
         itemprop="description"
         set:html={parseInline(description)}
       />
+    )}
+
+    {image && (
+      <div class="mt-3 overflow-hidden rounded-md">
+        <img
+          src={resolveUrl(image)}
+          alt={title}
+          class="h-auto max-h-60 w-full object-cover"
+          loading="lazy"
+          decoding="async"
+        />
+      </div>
     )}
   </article>
 </div>
