@@ -57,8 +57,34 @@
           pre.textContent ||
           '';
 
-        try {
-          await navigator.clipboard.writeText(textToCopy);
+        let copied = false;
+        if (navigator.clipboard) {
+          try {
+            await navigator.clipboard.writeText(textToCopy);
+            copied = true;
+          } catch {
+            // fallback if document not focused
+          }
+        }
+        if (!copied) {
+          try {
+            const textarea = document.createElement('textarea');
+            textarea.value = textToCopy;
+            textarea.style.position = 'fixed';
+            textarea.style.opacity = '0';
+            document.body.appendChild(textarea);
+            textarea.select();
+            (
+              document as unknown as Record<string, (cmd: string) => boolean>
+            ).execCommand?.('copy');
+            document.body.removeChild(textarea);
+            copied = true;
+          } catch {
+            // ignore
+          }
+        }
+
+        if (copied) {
           copyBtn.innerHTML = `
             <svg class="check-icon w-3.5 h-3.5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
@@ -73,8 +99,6 @@
               <span class="copy-text text-[10px]">Copy</span>
             `;
           }, 2000);
-        } catch {
-          // Fallback
         }
       });
 
