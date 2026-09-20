@@ -25,6 +25,8 @@ const config: Config = {
     '',
     '<TYPES>^@data/(.*)$',
     '^@data/(.*)$',
+    '<TYPES>^@plugins/(.*)$',
+    '^@plugins/(.*)$',
     '<TYPES>^@utils/(.*)$',
     '^@utils/(.*)$',
     '',
