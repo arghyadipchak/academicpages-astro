@@ -21,7 +21,23 @@ import { Icon } from 'astro-icon/components';
 </button>
 
 <script>
+  import { announce } from '@utils/a11y';
+
+  function updateThemeToggleLabels(theme: string) {
+    const isDark = theme === 'dark';
+    const label = isDark ? 'Switch to light theme' : 'Switch to dark theme';
+    document.querySelectorAll('.theme-toggle-btn').forEach((btn) => {
+      btn.setAttribute('aria-label', label);
+      btn.setAttribute('title', label);
+    });
+  }
+
   function setupThemeToggle() {
+    const currentTheme =
+      document.documentElement.getAttribute('data-theme') ||
+      (document.documentElement.classList.contains('dark') ? 'dark' : 'light');
+    updateThemeToggleLabels(currentTheme);
+
     const buttons = document.querySelectorAll('.theme-toggle-btn');
     buttons.forEach((btn) => {
       btn.addEventListener('click', () => {
@@ -35,6 +51,8 @@ import { Icon } from 'astro-icon/components';
         else document.documentElement.classList.remove('dark');
 
         localStorage.setItem('theme', nextTheme);
+        updateThemeToggleLabels(nextTheme);
+        announce(`Color theme set to ${nextTheme}`);
 
         document
           .querySelectorAll<HTMLMetaElement>('meta[name="theme-color"]')

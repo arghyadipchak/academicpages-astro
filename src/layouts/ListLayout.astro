@@ -19,7 +19,7 @@ const { title, description, authorProfile = true } = Astro.props;
     <div class="grid grid-cols-1 gap-8 lg:grid-cols-12">
       <!-- Left Sidebar: Author Profile -->
       {authorProfile && (
-        <aside class="lg:col-span-3">
+        <aside class="lg:col-span-3" aria-label="Author profile">
           <div class="sticky top-24">
             <AuthorProfile />
           </div>

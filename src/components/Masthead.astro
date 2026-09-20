@@ -57,7 +57,7 @@ function isSelected(url: string): boolean {
     <!-- Desktop Navigation Links & Theme Toggle -->
     <nav
       class="hidden h-full items-center gap-6 md:flex"
-      aria-label="Main Navigation"
+      aria-label="Primary navigation"
     >
       <ul class="flex h-full items-center gap-1 text-sm font-medium">
         {navigation.map((item) => {
@@ -163,11 +163,11 @@ function isSelected(url: string): boolean {
                 'flex items-center rounded-md border-l-4 px-3 py-2 text-base font-bold transition-colors',
                 selected
                   ? 'border-(--global-base-color) bg-(--global-footer-bg-color) text-(--global-base-color)'
-                  : 'border-transparent text-(--global-masthead-link-color) hover:bg-(--global-footer-bg-color) hover:text-(--global-base-color)',
+                  : 'border-transparent font-medium text-(--global-text-color) hover:bg-(--global-footer-bg-color) hover:text-(--global-base-color)',
               ]}
               aria-current={selected ? 'page' : undefined}
             >
-              <span>{item.title}</span>
+              {item.title}
             </a>
           </li>
         );

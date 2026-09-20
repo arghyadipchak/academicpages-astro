@@ -40,6 +40,10 @@ const categories = siteConfig.publicationCategories;
   >
     <button
       type="button"
+      role="tab"
+      aria-selected="true"
+      aria-controls="publications-container"
+      tabindex="0"
       data-filter="all"
       class="pub-filter-btn active inline-flex cursor-pointer items-center gap-1.5 rounded-full border border-(--global-base-color) bg-(--global-base-color) px-3.5 py-1.5 text-xs leading-none font-semibold text-white shadow-xs transition"
     >
@@ -55,6 +59,10 @@ const categories = siteConfig.publicationCategories;
       return (
         <button
           type="button"
+          role="tab"
+          aria-selected="false"
+          aria-controls="publications-container"
+          tabindex="-1"
           data-filter={catKey}
           class="pub-filter-btn inline-flex cursor-pointer items-center gap-1.5 rounded-full border border-(--global-border-color) bg-(--global-bg-color) px-3.5 py-1.5 text-xs leading-none font-medium text-(--global-text-color) shadow-2xs transition hover:border-(--global-link-color) hover:text-(--global-link-color)"
         >
@@ -67,7 +75,12 @@ const categories = siteConfig.publicationCategories;
     })}
   </div>
 
-  <div id="publications-container" class="space-y-8">
+  <div
+    id="publications-container"
+    role="tabpanel"
+    aria-label="Publications list"
+    class="space-y-8"
+  >
     {allPubs.length > 0 ? (
       Object.entries(categories).map(([catKey, catInfo]) => {
         const catPubs = allPubs.filter((p) => p.data.category === catKey);
@@ -106,6 +119,8 @@ const categories = siteConfig.publicationCategories;
 </ListLayout>
 
 <script>
+  import { announce } from '@utils/a11y';
+
   function setupPubFilters() {
     const filterButtons =
       document.querySelectorAll<HTMLButtonElement>('.pub-filter-btn');
@@ -138,6 +153,7 @@ const categories = siteConfig.publicationCategories;
             countSpan.classList.remove('text-(--global-text-color-light)');
           }
           btn.setAttribute('aria-selected', 'true');
+          btn.tabIndex = 0;
         } else {
           btn.classList.remove(
             'bg-(--global-base-color)',
@@ -156,6 +172,7 @@ const categories = siteConfig.publicationCategories;
             countSpan.classList.add('text-(--global-text-color-light)');
           }
           btn.setAttribute('aria-selected', 'false');
+          btn.tabIndex = -1;
         }
       });
 
@@ -172,6 +189,9 @@ const categories = siteConfig.publicationCategories;
           null,
           '',
           filterKey === 'all' ? window.location.pathname : `#${filterKey}`
+        );
+        announce(
+          `Showing ${filterKey === 'all' ? 'all' : filterKey} publications`
         );
       }
     }

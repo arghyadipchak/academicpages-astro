@@ -5,6 +5,7 @@ import { Icon } from 'astro-icon/components';
 <dialog
   id="search-modal"
   class="fixed inset-0 z-50 m-auto w-full max-w-2xl rounded-xl border border-(--global-border-color) bg-(--global-bg-color) p-0 text-(--global-text-color) shadow-2xl backdrop:bg-black/50 backdrop:backdrop-blur-xs"
+  aria-label="Site search"
 >
   <div class="flex flex-col overflow-hidden">
     {/* Search Input Bar */}
@@ -16,6 +17,11 @@ import { Icon } from 'astro-icon/components';
       <input
         type="text"
         id="search-input"
+        role="combobox"
+        aria-expanded="false"
+        aria-autocomplete="list"
+        aria-controls="search-list"
+        aria-haspopup="listbox"
         placeholder="Search articles, publications, talks, courses..."
         class="w-full bg-transparent text-sm text-(--global-text-color) placeholder-(--global-text-color-light) outline-none"
         autocomplete="off"
@@ -44,7 +50,12 @@ import { Icon } from 'astro-icon/components';
       >
         No results found.
       </div>
-      <ul id="search-list" class="space-y-1"></ul>
+      <ul
+        id="search-list"
+        role="listbox"
+        aria-label="Search suggestions"
+        class="space-y-1"
+      ></ul>
     </div>
 
     {/* Footer Navigation Help */}
@@ -66,6 +77,8 @@ import { Icon } from 'astro-icon/components';
 </dialog>
 
 <script>
+  import { announce } from '@utils/a11y';
+
   interface RawSearchItem {
     title: string;
     url: string;
@@ -83,6 +96,7 @@ import { Icon } from 'astro-icon/components';
   let searchData: IndexedSearchItem[] | null = null;
   let searchFetchPromise: Promise<IndexedSearchItem[]> | null = null;
   let selectedIndex = -1;
+  let triggerElement: HTMLElement | null = null;
   let openModalFn: (() => void) | null = null;
   let closeModalFn: (() => void) | null = null;
 
@@ -184,6 +198,7 @@ import { Icon } from 'astro-icon/components';
 
     function openModal() {
       if (!modal) return;
+      triggerElement = document.activeElement as HTMLElement | null;
       modal.showModal();
       loadSearchData();
       input?.focus();
@@ -193,11 +208,17 @@ import { Icon } from 'astro-icon/components';
     function closeModal() {
       if (!modal) return;
       modal.close();
-      if (input) input.value = '';
+      if (input) {
+        input.value = '';
+        input.setAttribute('aria-expanded', 'false');
+        input.removeAttribute('aria-activedescendant');
+      }
       if (searchList) searchList.innerHTML = '';
       if (placeholder) placeholder.classList.remove('hidden');
       if (noResults) noResults.classList.add('hidden');
       selectedIndex = -1;
+      triggerElement?.focus();
+      triggerElement = null;
     }
 
     openModalFn = openModal;
@@ -239,11 +260,13 @@ import { Icon } from 'astro-icon/components';
     input.addEventListener('input', async () => {
       const rawQuery = input.value.trim().toLowerCase();
       selectedIndex = -1;
+      input.removeAttribute('aria-activedescendant');
 
       if (!rawQuery) {
         searchList.innerHTML = '';
         placeholder?.classList.remove('hidden');
         noResults?.classList.add('hidden');
+        input.setAttribute('aria-expanded', 'false');
 
         return;
       }
@@ -271,6 +294,8 @@ import { Icon } from 'astro-icon/components';
       if (matchingItems.length === 0) {
         searchList.innerHTML = '';
         noResults?.classList.remove('hidden');
+        input.setAttribute('aria-expanded', 'false');
+        announce(`No results found for ${rawQuery}`);
 
         return;
       }
@@ -279,10 +304,16 @@ import { Icon } from 'astro-icon/components';
       const results = matchingItems.slice(0, 10).map((m) => m.item);
 
       noResults?.classList.add('hidden');
+      input.setAttribute('aria-expanded', 'true');
+      announce(`${results.length} results found for ${rawQuery}`);
+
       searchList.innerHTML = results
         .map(
           (item, idx) => `
           <li
+            id="search-result-${idx}"
+            role="option"
+            aria-selected="false"
             data-url="${escapeHtml(item.url)}"
             data-index="${idx}"
             class="search-result-item group flex cursor-pointer items-center justify-between rounded-lg px-3 py-2 text-sm transition hover:bg-neutral-100 dark:hover:bg-neutral-800"
@@ -343,6 +374,8 @@ import { Icon } from 'astro-icon/components';
             'ring-1',
             'ring-(--global-link-color)'
           );
+          item.setAttribute('aria-selected', 'true');
+          input?.setAttribute('aria-activedescendant', item.id);
           item.scrollIntoView({ block: 'nearest' });
         } else {
           item.classList.remove(
@@ -351,8 +384,11 @@ import { Icon } from 'astro-icon/components';
             'ring-1',
             'ring-(--global-link-color)'
           );
+          item.setAttribute('aria-selected', 'false');
         }
       });
+
+      if (selectedIndex < 0) input?.removeAttribute('aria-activedescendant');
     }
   }
 

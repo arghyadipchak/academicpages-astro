@@ -15,7 +15,7 @@ const todayDate = toIsoDateString(new Date()) ?? '';
 >
   <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
     <!-- Social follow & RSS links -->
-    <div class="mb-4">
+    <nav class="mb-4" aria-label="Social links and feed">
       <ul class="flex flex-wrap items-center gap-4 text-xs font-semibold tracking-wider uppercase">
         <li class="inline-flex items-center leading-none text-(--global-text-color)">
           Follow:
@@ -57,7 +57,7 @@ const todayDate = toIsoDateString(new Date()) ?? '';
           </a>
         </li>
       </ul>
-    </div>
+    </nav>
 
     <!-- Copyright and credit text (template attribution must be preserved) -->
     <div class="space-y-1 text-xs text-(--global-text-color-light)">
