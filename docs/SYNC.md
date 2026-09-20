@@ -52,6 +52,7 @@ You can apply the generated patch using an AI coding assistant or the Git CLI:
 
 - **Intelligent Merging (AI Assistant)**: Prompt your AI assistant to apply `template-update.patch`. The assistant analyzes semantic changes across all layers (UI engine, styles, agent skills, documentation, configs, and dependencies) while preserving your custom content and profile identity
 - **CLI 3-Way Apply**: Apply directly in your terminal:
+
   ```bash
   git apply --3way --ignore-whitespace template-update.patch
   rm template-update.patch
@@ -65,6 +66,7 @@ You can apply the generated patch using an AI coding assistant or the Git CLI:
 
 1. In `package.json`, update `"version"` to match the new template release (e.g. `"version": "0.3.0"`)
 2. Run the verification pipeline to ensure zero type errors or regressions:
+
    ```bash
    # Install any new or updated dependencies
    pnpm install
@@ -75,7 +77,9 @@ You can apply the generated patch using an AI coding assistant or the Git CLI:
    # Build static production site
    pnpm build
    ```
+
 3. Commit the upgrade:
+
    ```bash
    git commit -am "chore(template): sync updates from upstream $LATEST_TAG"
    ```

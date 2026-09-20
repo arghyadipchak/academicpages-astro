@@ -60,9 +60,11 @@ Once your site is personalized and verified, remove starter tooling to keep your
 Once your custom icons are generated in `public/`:
 
 - [ ] **Delete Script Directory**:
+
   ```bash
   rm -rf scripts/
   ```
+
 - [ ] **Remove Generator Dependency & Script**: In `package.json`, remove `"generate:favicons": "node --experimental-strip-types scripts/generate-favicons.ts"`
 
 ### B. Retire Starter Tests & Test Scaffolding (Optional)
@@ -70,18 +72,22 @@ Once your custom icons are generated in `public/`:
 Once initial onboarding is verified, template browser tests targeting demo content can be removed:
 
 - [ ] **Delete Test Directory**:
+
   ```bash
   rm -rf tests/
   rm playwright.config.ts
   ```
+
 - [ ] **Remove Test Scripts & Dependencies**: In `package.json`, remove `"test": "playwright test"` and `@playwright/test` from `devDependencies`
 
 ### C. Retire CI Upstream Tracking (Optional)
 
 - [ ] **Remove Upstream Submodule**: If you cloned without submodules or have no need for Jekyll reference tracking:
+
   ```bash
   git rm -f academicpages-jekyll 2>/dev/null || true
   ```
+
 - [ ] **Simplify GitHub Actions Workflow**: In `.github/workflows/deploy.yml`, remove any submodule recursive checkout steps
 
 ### D. Clean Up Documentation & README
@@ -123,8 +129,10 @@ Replace the starter template `README.md` with a clean personal website README:
 Once all steps are verified with `pnpm verify` and `pnpm build`:
 
 - [ ] **Delete Onboarding Artifacts**:
+
   ```bash
   rm docs/ONBOARDING.md
   rm -rf .agents/skills/onboarding/
   ```
+
 - [ ] **Retain Ongoing Maintenance Guides**: Keep [`docs/CONFIG.md`](CONFIG.md), [`docs/CONTENT.md`](CONTENT.md), [`docs/MARKDOWN.md`](MARKDOWN.md), [`docs/SYNC.md`](SYNC.md), [`.agents/skills/content-operations/`](../.agents/skills/content-operations/SKILL.md), and [`.agents/skills/template-sync/`](../.agents/skills/template-sync/SKILL.md) for long-term site authoring and template upgrades

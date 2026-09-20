@@ -228,6 +228,7 @@ Static markdown pages for institutional requirements, legal disclaimers, or stan
    ```
 
 2. Create the corresponding Astro route in `src/pages/<slug>.astro`:
+
    ```astro
    ---
    import { getEntry, render } from 'astro:content';

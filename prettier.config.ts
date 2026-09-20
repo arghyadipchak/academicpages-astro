@@ -1,15 +1,15 @@
 import type { Config } from 'prettier';
 
 const config: Config = {
-  semi: true,
   singleQuote: true,
-  tabWidth: 2,
   trailingComma: 'es5',
   plugins: [
     '@ianvs/prettier-plugin-sort-imports',
     'prettier-plugin-astro',
     'prettier-plugin-tailwindcss',
   ],
+  tailwindAttributes: ['class:list'],
+  tailwindStylesheet: './src/styles/global.css',
   importOrder: [
     '<TYPES>^(node:.*|node$)',
     '^(node:.*|node$)',
@@ -37,12 +37,12 @@ const config: Config = {
     '\\.css$',
   ],
   importOrderTypeScriptVersion: '5.0.0',
-  importOrderParserPlugins: ['typescript', 'jsx', 'decorators-legacy'],
   overrides: [
     {
-      files: '*.astro',
+      files: ['.markdownlint.jsonc'],
       options: {
-        parser: 'astro',
+        parser: 'jsonc',
+        trailingComma: 'none',
       },
     },
   ],

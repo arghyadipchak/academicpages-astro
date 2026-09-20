@@ -52,14 +52,18 @@ If requested by the user, execute **Section 5** of [`docs/ONBOARDING.md`](../../
 ### Phase 5: Verification & Onboarding Self-Destruction
 
 1. Execute the verification quality gate from repository root:
+
    ```bash
    pnpm format
    pnpm verify
    pnpm build
    ```
+
 2. Once verification passes with 0 errors, retire the onboarding checklist and skill directory:
+
    ```bash
    rm docs/ONBOARDING.md
    rm -rf .agents/skills/onboarding/
    ```
+
 3. Direct subsequent content authoring to `.agents/skills/content-operations/` and template upgrades to `.agents/skills/template-sync/`

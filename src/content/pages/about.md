@@ -27,13 +27,17 @@ Getting started
 
 1. Fork [this template on GitHub](https://github.com/arghyadipchak/academicpages-astro) by clicking the **"Use this template"** button
 2. Clone your repository locally and install dependencies:
+
    ```bash
    pnpm install
    ```
+
 3. Start the local development server:
+
    ```bash
    pnpm dev
    ```
+
 4. Customize your information in `src/data/siteConfig.ts` and navigation items in `src/data/navigation.ts`
 5. Add your publications and talks in `src/content/publications/` and `src/content/talks/`
 6. Push to GitHub — the built-in GitHub Actions workflow will automatically build and deploy your site to GitHub Pages

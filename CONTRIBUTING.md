@@ -53,7 +53,7 @@ This project uses **Conventional Commits** to generate automated changelogs and 
 
 Format your commit messages as:
 
-```
+```text
 <type>(<optional scope>): <description>
 ```
 

@@ -31,7 +31,7 @@ Guidelines and runbook for AI coding assistants (Antigravity, Cursor, Claude Cod
 
 ## Directory Structure
 
-```
+```text
 academicpages-astro/
 ├── src/
 │   ├── components/         # UI components (Masthead, Footer, AuthorProfile, ActionBadges, etc.)
@@ -61,7 +61,7 @@ academicpages-astro/
 
 The repository follows a structured 3-phase operational lifecycle for both human maintainers and AI assistants:
 
-```
+```text
 ┌────────────────────────────────────────────────────────────────────────┐
 │  Phase 1: Initial Onboarding & Personalization (One-Time)              │
 │  - Ingest user profile & scholarly handles (docs/CONFIG.md)            │

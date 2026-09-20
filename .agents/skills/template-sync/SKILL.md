@@ -39,6 +39,7 @@ Follow [`docs/SYNC.md#5-step-4-bump-version--verify`](../../../docs/SYNC.md#5-st
 1. Update `"version"` in `package.json` to match the target release
 2. Delete `template-update.patch`
 3. Run verification quality gate:
+
    ```bash
    pnpm install
    pnpm verify
