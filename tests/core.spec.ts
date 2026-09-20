@@ -70,6 +70,10 @@ test.describe('Core UI, SEO & Page Integrity Tests', () => {
 
   test('semantic landmarks and accessibility checks', async ({ page }) => {
     await page.goto(toUrl('/'));
+    await expect(page.locator('a[href="#main-content"]')).toHaveText(
+      'Skip to content'
+    );
+    await expect(page.locator('#main-content')).toBeAttached();
     await expect(page.locator('header').first()).toBeVisible();
     await expect(page.locator('main')).toBeVisible();
     await expect(page.locator('footer')).toBeVisible();
@@ -185,6 +189,8 @@ test.describe('Core UI, SEO & Page Integrity Tests', () => {
       await expect(link).toHaveAttribute('target', '_blank');
       const rel = await link.getAttribute('rel');
       expect(rel).toBeNull();
+      const srCue = link.locator('.sr-only');
+      await expect(srCue).toContainText('(opens in a new tab)');
     }
   });
 

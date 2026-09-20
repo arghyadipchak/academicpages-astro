@@ -107,7 +107,7 @@ In order to render a Plotly plot via Markdown the relevant plot data need to be 
 ```
 
 <div class="notice notice--warning">
-  <strong>Important!</strong> Since the data is parsed as JSON <em>all</em> of the keys will need to be quoted for the plot to render. The use of a tool like <a href="https://jsonlint.com/" target="_blank">JSONLint</a> to check syntax is highly recommended
+  <strong>Important!</strong> Since the data is parsed as JSON <em>all</em> of the keys will need to be quoted for the plot to render. The use of a tool like <a href="https://jsonlint.com/" target="_blank">JSONLint<span class="sr-only"> (opens in a new tab)</span></a> to check syntax is highly recommended
 </div>
 
 Which produces the following:

@@ -121,6 +121,8 @@ const hasBadges = Boolean(pdfUrl || slidesUrl || codeUrl || bibtex);
 )}
 
 <script>
+  import { announce } from '@utils/a11y';
+
   function setupBibtexToggles() {
     document.querySelectorAll('.bibtex-toggle-btn').forEach((btn) => {
       btn.removeEventListener('click', handleBibtexToggle);
@@ -139,7 +141,8 @@ const hasBadges = Boolean(pdfUrl || slidesUrl || codeUrl || bibtex);
     if (!id) return;
     const box = document.getElementById(`bibtex-box-${id}`);
     if (!box) return;
-    box.classList.toggle('hidden');
+    const isHidden = box.classList.toggle('hidden');
+    this.setAttribute('aria-expanded', String(!isHidden));
   }
 
   async function handleBibtexCopy(this: HTMLElement, e: Event) {
@@ -181,6 +184,7 @@ const hasBadges = Boolean(pdfUrl || slidesUrl || codeUrl || bibtex);
 
     const label = this.querySelector('.copy-label');
     if (label && copied) {
+      announce('BibTeX citation copied to clipboard');
       label.textContent = 'Copied!';
       this.classList.add('copy-pop');
       setTimeout(() => {

@@ -100,6 +100,12 @@ a:hover {
   text-decoration: underline;
 }
 
+/* Universal Focus Visible Rings for Keyboard Accessibility (WCAG 2.2 AA) */
+:focus-visible {
+  outline: 2px solid var(--global-base-color);
+  outline-offset: 2px;
+}
+
 /* Custom typography & prose styling adjustments matching Academic Pages */
 .prose {
   color: var(--global-text-color);
@@ -326,6 +332,17 @@ sup {
 }
 
 /* Enhanced Academic Tables */
+.table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  margin: 1.5rem 0;
+}
+
+.table-wrapper > table {
+  margin: 0 !important;
+}
+
 .prose table {
   width: 100%;
   border-collapse: separate;

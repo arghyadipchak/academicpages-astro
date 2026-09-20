@@ -73,14 +73,19 @@ test.describe('Typography, Lists & Mathematical Layout Tests', () => {
     await expect(katexDisplay).toBeVisible();
 
     // 2. Syntax-highlighted code blocks with copy buttons
-    const astroCode = page.locator('pre.astro-code:visible').first();
+    const astroCode = page
+      .locator('pre.astro-code:not([data-language="mermaid"]):visible')
+      .first();
     await expect(astroCode).toBeVisible();
     const copyBtn = astroCode.locator('.code-copy-btn');
     if (!isMobile) {
+      await astroCode.scrollIntoViewIfNeeded();
       await astroCode.hover();
       await expect(copyBtn).toBeVisible();
       await copyBtn.click();
       await expect(copyBtn).toContainText('Copied!');
+      const announcer = page.locator('#a11y-announcer');
+      await expect(announcer).toContainText('Code copied to clipboard');
     } else await expect(copyBtn).toBeAttached();
 
     // 3. Notice Callouts and first/last child margin containment

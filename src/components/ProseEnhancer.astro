@@ -2,6 +2,8 @@
 ---
 
 <script>
+  import { announce } from '@utils/a11y';
+
   interface MermaidModule {
     default: {
       initialize: (config: Record<string, unknown>) => void;
@@ -31,14 +33,19 @@
   function enhanceProse() {
     // 1. Code Block Copy Buttons
     document.querySelectorAll('.prose pre').forEach((pre) => {
-      if (pre.querySelector('.code-copy-btn')) return;
+      if (
+        pre.querySelector('.code-copy-btn') ||
+        pre.getAttribute('data-language') === 'mermaid' ||
+        Boolean(pre.querySelector('code.language-mermaid'))
+      )
+        return;
 
       pre.classList.add('relative', 'group');
 
       const copyBtn = document.createElement('button');
       copyBtn.type = 'button';
       copyBtn.className =
-        'code-copy-btn absolute top-2 right-2 hidden group-hover:flex items-center gap-1 px-2 py-1 text-xs font-mono rounded bg-neutral-800/80 hover:bg-neutral-700 text-neutral-200 border border-neutral-600 transition shadow-xs cursor-pointer z-10';
+        'code-copy-btn absolute top-2 right-2 flex opacity-0 group-hover:opacity-100 focus:opacity-100 items-center gap-1 px-2 py-1 text-xs font-mono rounded bg-neutral-800/80 hover:bg-neutral-700 text-neutral-200 border border-neutral-600 transition-opacity shadow-xs cursor-pointer z-10';
       copyBtn.setAttribute('aria-label', 'Copy code to clipboard');
       copyBtn.innerHTML = `
         <svg class="copy-icon w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -85,6 +92,7 @@
         }
 
         if (copied) {
+          announce('Code copied to clipboard');
           copyBtn.classList.add('copy-pop');
           copyBtn.innerHTML = `
             <svg class="check-icon w-3.5 h-3.5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -105,6 +113,26 @@
       });
 
       pre.appendChild(copyBtn);
+
+      // Language Badge
+      const lang =
+        pre.getAttribute('data-language') ||
+        pre.getAttribute('data-lang') ||
+        pre
+          .querySelector('code')
+          ?.className.match(/language-([a-zA-Z0-9_-]+)/)?.[1];
+
+      if (
+        lang &&
+        lang !== 'plaintext' &&
+        !pre.querySelector('.code-lang-badge')
+      ) {
+        const langBadge = document.createElement('span');
+        langBadge.className =
+          'code-lang-badge pointer-events-none absolute top-2.5 right-16 select-none font-mono text-[10px] font-semibold uppercase tracking-wider text-neutral-400 opacity-60 transition group-hover:opacity-100';
+        langBadge.textContent = lang;
+        pre.appendChild(langBadge);
+      }
     });
 
     // 2. Heading Anchor '#' Links
@@ -142,12 +170,22 @@
           const url = new URL(window.location.href);
           url.hash = id;
           navigator.clipboard?.writeText(url.toString());
+          announce('Heading permalink copied to clipboard');
         });
 
         heading.appendChild(anchor);
       });
 
-    // 3. Kramdown IAL Notice Box Enhancement
+    // 3. Responsive Table Scroll Wrappers
+    document.querySelectorAll('.prose table').forEach((table) => {
+      if (table.parentElement?.classList.contains('table-wrapper')) return;
+      const wrapper = document.createElement('div');
+      wrapper.className = 'table-wrapper overflow-x-auto my-5';
+      table.parentNode?.insertBefore(wrapper, table);
+      wrapper.appendChild(table);
+    });
+
+    // 4. Kramdown IAL Notice Box Enhancement
     document.querySelectorAll('.prose p').forEach((p) => {
       const text = p.textContent || '';
       const noticeMatch = text.match(/\{:\s*\.(notice(?:--[a-z]+)?)\s*\}/);
@@ -160,7 +198,7 @@
       }
     });
 
-    // 4. Mermaid Diagrams Dynamic Auto-Rendering
+    // 5. Mermaid Diagrams Dynamic Auto-Rendering
     const mermaidBlocks = document.querySelectorAll<HTMLElement>(
       '.prose pre[data-language="mermaid"], .prose pre code.language-mermaid, .prose .mermaid'
     );
