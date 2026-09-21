@@ -70,40 +70,42 @@ html[data-theme='dark'],
   --global-text-color-light: #9ca3af;
 }
 
-html {
-  position: relative;
-  min-height: 100%;
-  scroll-behavior: smooth;
-  scrollbar-gutter: stable;
-}
+@layer base {
+  html {
+    position: relative;
+    min-height: 100%;
+    scroll-behavior: smooth;
+    scrollbar-gutter: stable;
+  }
 
-body {
-  color: var(--global-text-color);
-  background-color: var(--global-bg-color);
-  font-family: var(--font-sans);
-  line-height: 1.6;
-  margin: 0;
-  padding: 0;
-  transition:
-    background-color 0.2s ease-in-out,
-    color 0.2s ease-in-out;
-}
+  body {
+    color: var(--global-text-color);
+    background-color: var(--global-bg-color);
+    font-family: var(--font-sans);
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+    transition:
+      background-color 0.2s ease-in-out,
+      color 0.2s ease-in-out;
+  }
 
-a {
-  color: var(--global-link-color);
-  text-decoration: none;
-  transition: color 0.15s ease-in-out;
-}
+  a {
+    color: var(--global-link-color);
+    text-decoration: none;
+    transition: color 0.15s ease-in-out;
+  }
 
-a:hover {
-  color: var(--global-link-color-hover);
-  text-decoration: underline;
-}
+  a:hover {
+    color: var(--global-link-color-hover);
+    text-decoration: underline;
+  }
 
-/* Universal Focus Visible Rings for Keyboard Accessibility (WCAG 2.2 AA) */
-:focus-visible {
-  outline: 2px solid var(--global-base-color);
-  outline-offset: 2px;
+  /* Universal Focus Visible Rings for Keyboard Accessibility (WCAG 2.2 AA) */
+  :focus-visible {
+    outline: 2px solid var(--global-base-color);
+    outline-offset: 2px;
+  }
 }
 
 dialog:focus,
