@@ -5,13 +5,10 @@ import ListLayout from '@layouts/ListLayout.astro';
 import PublicationCard from '@components/PublicationCard.astro';
 
 import { siteConfig } from '@data/siteConfig';
+import { sortByDateDesc } from '@utils/date';
 import { getPublicationUrl, resolveExternalUrl } from '@utils/url';
 
-const allPubs = await getCollection('publications');
-allPubs.sort(
-  (a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime()
-);
-
+const allPubs = sortByDateDesc(await getCollection('publications'));
 const categories = siteConfig.publicationCategories;
 ---
 

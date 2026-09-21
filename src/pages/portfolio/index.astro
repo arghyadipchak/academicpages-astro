@@ -4,9 +4,10 @@ import { getCollection } from 'astro:content';
 import ListLayout from '@layouts/ListLayout.astro';
 import PortfolioCard from '@components/PortfolioCard.astro';
 
+import { sortByDateDesc } from '@utils/date';
 import { getPortfolioUrl } from '@utils/url';
 
-const allPortfolio = await getCollection('portfolio');
+const allPortfolio = sortByDateDesc(await getCollection('portfolio'));
 ---
 
 <ListLayout title="Portfolio">

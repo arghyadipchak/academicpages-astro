@@ -94,3 +94,14 @@ export function sortTeaching<
     (a, b) => getTeachingSortWeight(b) - getTeachingSortWeight(a)
   );
 }
+
+/**
+ * Sorts collection items with a date field in reverse chronological order (newest first)
+ */
+export function sortByDateDesc<
+  T extends { data: { date: Date | string | number } },
+>(items: T[]): T[] {
+  return items.sort(
+    (a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime()
+  );
+}

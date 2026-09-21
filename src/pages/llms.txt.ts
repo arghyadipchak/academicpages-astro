@@ -3,6 +3,7 @@ import { getCollection } from 'astro:content';
 
 import { navigation } from '@data/navigation';
 import { siteConfig } from '@data/siteConfig';
+import { sortByDateDesc, sortTeaching } from '@utils/date';
 import {
   getPortfolioUrl,
   getPostUrl,
@@ -58,12 +59,7 @@ export const GET: APIRoute = async ({ site }) => {
   const publications = await getCollection('publications');
   if (publications.length > 0) {
     lines.push('', '## Publications', '');
-    const sorted = publications
-      .sort(
-        (a, b) =>
-          new Date(b.data.date).getTime() - new Date(a.data.date).getTime()
-      )
-      .slice(0, 10);
+    const sorted = sortByDateDesc(publications).slice(0, 10);
     for (const pub of sorted) {
       const url = `${origin}${getPublicationUrl(pub)}`;
       const year = new Date(pub.data.date).getFullYear();
@@ -76,12 +72,7 @@ export const GET: APIRoute = async ({ site }) => {
   const talks = await getCollection('talks');
   if (talks.length > 0) {
     lines.push('', '## Talks & Presentations', '');
-    const sorted = talks
-      .sort(
-        (a, b) =>
-          new Date(b.data.date).getTime() - new Date(a.data.date).getTime()
-      )
-      .slice(0, 10);
+    const sorted = sortByDateDesc(talks).slice(0, 10);
     for (const talk of sorted) {
       const url = `${origin}${getTalkUrl(talk)}`;
       const year = new Date(talk.data.date).getFullYear();
@@ -94,7 +85,8 @@ export const GET: APIRoute = async ({ site }) => {
   const teaching = await getCollection('teaching');
   if (teaching.length > 0) {
     lines.push('', '## Teaching & Courses', '');
-    for (const course of teaching.slice(0, 10)) {
+    const sorted = sortTeaching(teaching).slice(0, 10);
+    for (const course of sorted) {
       const url = `${origin}${getTeachingUrl(course)}`;
       const type = course.data.type ? `${course.data.type}, ` : '';
       const venue = course.data.venue || '';
@@ -106,7 +98,8 @@ export const GET: APIRoute = async ({ site }) => {
   const portfolio = await getCollection('portfolio');
   if (portfolio.length > 0) {
     lines.push('', '## Portfolio & Projects', '');
-    for (const project of portfolio.slice(0, 10)) {
+    const sorted = sortByDateDesc(portfolio).slice(0, 10);
+    for (const project of sorted) {
       const url = `${origin}${getPortfolioUrl(project)}`;
       const desc = project.data.description || '';
       lines.push(`- [${project.data.title}](${url}): ${desc}`);
@@ -114,15 +107,10 @@ export const GET: APIRoute = async ({ site }) => {
   }
 
   // Blog Posts
-  const posts = await getCollection('blog');
+  const posts = await getCollection('blog', ({ data }) => !data.draft);
   if (posts.length > 0) {
     lines.push('', '## Blog Posts', '');
-    const sorted = posts
-      .sort(
-        (a, b) =>
-          new Date(b.data.date).getTime() - new Date(a.data.date).getTime()
-      )
-      .slice(0, 10);
+    const sorted = sortByDateDesc(posts).slice(0, 10);
     for (const post of sorted) {
       const url = `${origin}${getPostUrl(post)}`;
       const year = new Date(post.data.date).getFullYear();

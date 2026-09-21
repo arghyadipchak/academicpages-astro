@@ -3,6 +3,7 @@ import { getCollection } from 'astro:content';
 
 import PageLayout from '@layouts/PageLayout.astro';
 
+import { sortByDateDesc, sortTeaching } from '@utils/date';
 import { parseInline } from '@utils/marked';
 import {
   getPortfolioUrl,
@@ -13,11 +14,13 @@ import {
   resolveUrl,
 } from '@utils/url';
 
-const posts = await getCollection('blog', ({ data }) => !data.draft);
-const publications = await getCollection('publications');
-const talks = await getCollection('talks');
-const teaching = await getCollection('teaching');
-const portfolio = await getCollection('portfolio');
+const posts = sortByDateDesc(
+  await getCollection('blog', ({ data }) => !data.draft)
+);
+const publications = sortByDateDesc(await getCollection('publications'));
+const talks = sortByDateDesc(await getCollection('talks'));
+const teaching = sortTeaching(await getCollection('teaching'));
+const portfolio = sortByDateDesc(await getCollection('portfolio'));
 ---
 
 <PageLayout title="Sitemap">

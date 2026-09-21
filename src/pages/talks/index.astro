@@ -4,12 +4,10 @@ import { getCollection } from 'astro:content';
 import ListLayout from '@layouts/ListLayout.astro';
 import TalkCard from '@components/TalkCard.astro';
 
+import { sortByDateDesc } from '@utils/date';
 import { getTalkUrl } from '@utils/url';
 
-const allTalks = await getCollection('talks');
-allTalks.sort(
-  (a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime()
-);
+const allTalks = sortByDateDesc(await getCollection('talks'));
 ---
 
 <ListLayout title="Talks and Presentations">
