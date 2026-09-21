@@ -57,11 +57,11 @@
         "validate": true,
         "lint": {
           "invalidApply": "error",
-          "invalidScreen": "error",
-          "invalidVariant": "error",
-          "invalidConfigPath": "error",
-          "invalidTailwindDirective": "error",
-          "recommendedVariantOrder": "warning"
+          "invalidScreen": "ignore",
+          "invalidVariant": "ignore",
+          "invalidConfigPath": "ignore",
+          "invalidTailwindDirective": "ignore",
+          "recommendedVariantOrder": "ignore"
         }
       }
     }
