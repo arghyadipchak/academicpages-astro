@@ -172,7 +172,7 @@ export const siteConfig: SiteConfig = {
   author: {
     avatar: '/images/profile.png',
     name: 'Your Name',
-    bio: 'Short biography',
+    bio: 'Role / Title · Department · Research Focus',
     location: 'City, State / Country',
     employer: 'Your University or Organization',
     website: 'https://example.org',
