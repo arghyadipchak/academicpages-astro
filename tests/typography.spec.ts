@@ -13,6 +13,16 @@ test.describe('Typography, Lists & Mathematical Layout Tests', () => {
     await expect(breadcrumbs).toBeVisible();
     await expect(breadcrumbs).toContainText('CV');
 
+    // Breadcrumbs on blog post format hyphens/underscores to spaces and capitalize words
+    await page.goto(toUrl('/posts/blog-post-1/'));
+    const postBreadcrumbs = page.locator('nav[aria-label="Breadcrumbs"]');
+    await expect(postBreadcrumbs).toBeVisible();
+    await expect(postBreadcrumbs).toContainText('Home');
+    await expect(postBreadcrumbs).toContainText('Posts');
+    await expect(postBreadcrumbs).toContainText('Blog Post 1');
+
+    await page.goto(toUrl('/cv/'));
+
     // Top-level lists render with disc markers
     const topUl = page.locator('.cv-content section ul').first();
     await expect(topUl).toBeVisible();
@@ -119,10 +129,12 @@ test.describe('Typography, Lists & Mathematical Layout Tests', () => {
     const mermaidDetails = page.locator('.mermaid-wrapper details').first();
     await expect(mermaidDetails).toBeAttached();
 
-    const plotlyContainer = page.locator('.plotly-container').first();
-    await expect(plotlyContainer).toBeVisible();
-    const plotlyDetails = page.locator('.plotly-wrapper details').first();
-    await expect(plotlyDetails).toBeAttached();
+    const plotlyBlock = page
+      .locator(
+        '.prose pre[data-language="plotly"], .prose pre code.language-plotly, .plotly-wrapper'
+      )
+      .first();
+    await expect(plotlyBlock).toBeAttached();
 
     // 6. Responsive .table-wrapper around markdown tables
     const tableWrapper = page.locator('.table-wrapper').first();
@@ -220,7 +232,7 @@ test.describe('Typography, Lists & Mathematical Layout Tests', () => {
     await expect(pubWithMath).toBeVisible();
     await expect(pubWithMath.locator('.katex')).toBeVisible();
 
-    await page.goto(toUrl('/publications/2025-11-17-paper-4/'));
+    await page.goto(toUrl('/publications/paper-4/'));
     const h1 = page.locator('h1[itemprop="headline"]');
     await expect(h1).toBeVisible();
     await expect(h1.locator('.katex')).toBeVisible();

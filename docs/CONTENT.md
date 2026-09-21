@@ -8,14 +8,21 @@ This guide details how to write, structure, name, and organize content across al
 
 All content collections live in `src/content/`. Astro Content Layer validates every entry against schemas defined in [`src/content.config.ts`](../src/content.config.ts).
 
-| Collection       | Directory                   | Recommended Naming             | URL Route                    |
-| :--------------- | :-------------------------- | :----------------------------- | :--------------------------- |
-| **Publications** | `src/content/publications/` | `YYYY-MM-DD-paper-title.md`    | `/publications/[...slug]/`   |
-| **Talks**        | `src/content/talks/`        | `YYYY-MM-DD-talk-title.md`     | `/talks/[...slug]/`          |
-| **Teaching**     | `src/content/teaching/`     | `YYYY-semester-course-name.md` | `/teaching/[...slug]/`       |
-| **Portfolio**    | `src/content/portfolio/`    | `project-name.md`              | `/portfolio/[...slug]/`      |
-| **Blog Posts**   | `src/content/blog/`         | `YYYY-MM-DD-post-title.md`     | `/posts/[...slug]/`          |
-| **Pages**        | `src/content/pages/`        | `page-slug.md`                 | Rendered on dedicated routes |
+| Collection       | Directory                   | Recommended Naming | URL Route                    |
+| :--------------- | :-------------------------- | :----------------- | :--------------------------- |
+| **Publications** | `src/content/publications/` | `paper-title.md`   | `/publications/[...slug]/`   |
+| **Talks**        | `src/content/talks/`        | `talk-title.md`    | `/talks/[...slug]/`          |
+| **Teaching**     | `src/content/teaching/`     | `course-name.md`   | `/teaching/[...slug]/`       |
+| **Portfolio**    | `src/content/portfolio/`    | `project-name.md`  | `/portfolio/[...slug]/`      |
+| **Blog Posts**   | `src/content/blog/`         | `post-title.md`    | `/posts/[...slug]/`          |
+| **Pages**        | `src/content/pages/`        | `page-slug.md`     | Rendered on dedicated routes |
+
+### URL Slugs & Breadcrumbs Generation
+
+- **URL Slugs**: The Markdown filename directly determines the route URL (e.g. `src/content/blog/neural-networks.md` $\rightarrow$ `/posts/neural-networks/`)
+- **Permalink Override**: You can optionally specify `permalink: /custom/path/` in the frontmatter to override the default route
+- **Breadcrumbs Hierarchy**: When `breadcrumbs: true` is enabled in `src/data/siteConfig.ts`, breadcrumbs dynamically parse the URL path (e.g. `Home / Posts / Neural Networks`)
+- **Segment Formatting**: Slug delimiters (hyphens `-` and underscores `_`) are converted to spaces, each word is capitalized in Title Case (`neural-networks` $\rightarrow$ `Neural Networks`), and known acronyms (`CV`, `API`, `RSS`, `FAQ`, `PDF`) are automatically capitalized in uppercase
 
 ---
 

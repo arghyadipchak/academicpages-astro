@@ -113,14 +113,11 @@ test.describe('Core UI, SEO & Page Integrity Tests', () => {
   }
 
   const singleRoutes = [
-    toUrl('/posts/2024/08/blog-post-1/'),
-    toUrl('/posts/2026/08/first-post/'),
+    toUrl('/posts/blog-post-1/'),
     toUrl('/posts/first-post/'),
-    toUrl('/publications/2024-03-15-paper-1/'),
     toUrl('/publications/paper-1/'),
-    toUrl('/talks/2024-03-01-talk-1/'),
     toUrl('/talks/talk-1/'),
-    toUrl('/teaching/2025-spring-teaching-1/'),
+    toUrl('/teaching/teaching-1/'),
     toUrl('/portfolio/portfolio-1/'),
   ];
 
@@ -214,7 +211,7 @@ test.describe('Core UI, SEO & Page Integrity Tests', () => {
   test('Google Scholar and Highwire Press academic meta tags render on publication pages', async ({
     page,
   }) => {
-    await page.goto(toUrl('/publications/2024-03-15-paper-1/'));
+    await page.goto(toUrl('/publications/paper-1/'));
     const citationTitle = page.locator('meta[name="citation_title"]');
     await expect(citationTitle).toHaveAttribute(
       'content',
@@ -252,7 +249,7 @@ test.describe('Core UI, SEO & Page Integrity Tests', () => {
   });
 
   test('OpenGraph metadata standards are fully rendered', async ({ page }) => {
-    await page.goto(toUrl('/publications/2024-03-15-paper-1/'));
+    await page.goto(toUrl('/publications/paper-1/'));
 
     const ogSiteName = page.locator('meta[property="og:site_name"]');
     await expect(ogSiteName).toHaveAttribute('content', siteConfig.title);
@@ -283,7 +280,7 @@ test.describe('Core UI, SEO & Page Integrity Tests', () => {
     expect(homeTypes).toContain('ProfilePage');
 
     // 2. Publication contains ScholarlyArticle
-    await page.goto(toUrl('/publications/2024-03-15-paper-1/'));
+    await page.goto(toUrl('/publications/paper-1/'));
     const pubJsonLdText = await page
       .locator('script[type="application/ld+json"]')
       .first()
@@ -295,7 +292,7 @@ test.describe('Core UI, SEO & Page Integrity Tests', () => {
     expect(pubTypes).toContain('ScholarlyArticle');
 
     // 3. Talk contains EducationEvent
-    await page.goto(toUrl('/talks/2024-03-01-talk-1/'));
+    await page.goto(toUrl('/talks/talk-1/'));
     const talkJsonLdText = await page
       .locator('script[type="application/ld+json"]')
       .first()
@@ -307,7 +304,7 @@ test.describe('Core UI, SEO & Page Integrity Tests', () => {
     expect(talkTypes).toContain('EducationEvent');
 
     // 4. Teaching contains Course
-    await page.goto(toUrl('/teaching/2025-spring-teaching-1/'));
+    await page.goto(toUrl('/teaching/teaching-1/'));
     const teachJsonLdText = await page
       .locator('script[type="application/ld+json"]')
       .first()
@@ -319,7 +316,7 @@ test.describe('Core UI, SEO & Page Integrity Tests', () => {
     expect(teachTypes).toContain('Course');
 
     // 5. Blog Post contains BlogPosting
-    await page.goto(toUrl('/posts/2024/08/blog-post-1/'));
+    await page.goto(toUrl('/posts/blog-post-1/'));
     const postJsonLdText = await page
       .locator('script[type="application/ld+json"]')
       .first()

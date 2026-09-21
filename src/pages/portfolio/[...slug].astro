@@ -9,7 +9,7 @@ import { siteConfig } from '@data/siteConfig';
 import { formatDate } from '@utils/date';
 import { parseInline } from '@utils/marked';
 import { buildCreativeWorkSchema } from '@utils/seo';
-import { getFileSlug, getShortSlug } from '@utils/url';
+import { getFileSlug } from '@utils/url';
 
 export async function getStaticPaths() {
   const items = await getCollection('portfolio');
@@ -17,10 +17,7 @@ export async function getStaticPaths() {
 
   for (const item of items) {
     const fileSlug = getFileSlug(item.id);
-    const shortSlug = getShortSlug(item.id);
-
     pathMap.set(fileSlug, item);
-    if (shortSlug !== fileSlug) pathMap.set(shortSlug, item);
 
     if (item.data.permalink) {
       const cleanPermalink = item.data.permalink

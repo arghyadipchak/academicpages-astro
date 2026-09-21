@@ -8,7 +8,7 @@ import PageLayout from '@layouts/PageLayout.astro';
 import { siteConfig } from '@data/siteConfig';
 import { formatDate } from '@utils/date';
 import { buildEventSchema } from '@utils/seo';
-import { getFileSlug, getShortSlug } from '@utils/url';
+import { getFileSlug } from '@utils/url';
 
 export async function getStaticPaths() {
   const talks = await getCollection('talks');
@@ -16,10 +16,7 @@ export async function getStaticPaths() {
 
   for (const talk of talks) {
     const fileSlug = getFileSlug(talk.id);
-    const shortSlug = getShortSlug(talk.id);
-
     pathMap.set(fileSlug, talk);
-    if (shortSlug !== fileSlug) pathMap.set(shortSlug, talk);
 
     if (talk.data.permalink) {
       const cleanPermalink = talk.data.permalink

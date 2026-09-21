@@ -5,7 +5,7 @@ import PageLayout from '@layouts/PageLayout.astro';
 
 import { siteConfig } from '@data/siteConfig';
 import { buildCourseSchema } from '@utils/seo';
-import { getFileSlug, getShortSlug } from '@utils/url';
+import { getFileSlug } from '@utils/url';
 
 export async function getStaticPaths() {
   const teaching = await getCollection('teaching');
@@ -13,10 +13,7 @@ export async function getStaticPaths() {
 
   for (const item of teaching) {
     const fileSlug = getFileSlug(item.id);
-    const shortSlug = getShortSlug(item.id);
-
     pathMap.set(fileSlug, item);
-    if (shortSlug !== fileSlug) pathMap.set(shortSlug, item);
 
     if (item.data.permalink) {
       const cleanPermalink = item.data.permalink

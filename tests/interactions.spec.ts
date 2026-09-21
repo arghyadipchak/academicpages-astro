@@ -49,7 +49,7 @@ test.describe('Client-Side Interactive Components Tests', () => {
 
       // Keyboard navigation via Enter
       await page.keyboard.press('Enter');
-      await expect(page).toHaveURL(/publications\/2024-03-15-paper-1/);
+      await expect(page).toHaveURL(/publications\/paper-1/);
     } else {
       // Close modal on mobile
       await page.keyboard.press('Escape');

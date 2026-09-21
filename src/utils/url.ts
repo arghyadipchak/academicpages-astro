@@ -95,27 +95,15 @@ export function getFileSlug(id: string): string {
 }
 
 /**
- * Extracts the short slug stripped of YYYY-MM-DD- date prefix
- */
-export function getShortSlug(id: string): string {
-  return getFileSlug(id).replace(/^\d{4}-\d{2}-\d{2}-/, '');
-}
-
-/**
  * Resolves the canonical internal URL for a blog post
  */
 export function getPostUrl(post: {
   id: string;
-  data: { permalink?: string; date: Date };
+  data: { permalink?: string };
 }): string {
   if (post.data.permalink) return resolveUrl(post.data.permalink);
 
-  const date = new Date(post.data.date);
-  const year = date.getFullYear();
-  const month = String(date.getMonth() + 1).padStart(2, '0');
-  const slug = getShortSlug(post.id);
-
-  return resolveUrl(`/posts/${year}/${month}/${slug}/`);
+  return resolveUrl(`/posts/${getFileSlug(post.id)}/`);
 }
 
 /**

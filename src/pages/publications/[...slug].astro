@@ -5,7 +5,7 @@ import PageLayout from '@layouts/PageLayout.astro';
 
 import { siteConfig } from '@data/siteConfig';
 import { formatYear, toIsoDateString } from '@utils/date';
-import { getFileSlug, getShortSlug, resolveUrl } from '@utils/url';
+import { getFileSlug, resolveUrl } from '@utils/url';
 
 export async function getStaticPaths() {
   const publications = await getCollection('publications');
@@ -13,10 +13,7 @@ export async function getStaticPaths() {
 
   for (const pub of publications) {
     const fileSlug = getFileSlug(pub.id);
-    const shortSlug = getShortSlug(pub.id);
-
     pathMap.set(fileSlug, pub);
-    if (shortSlug !== fileSlug) pathMap.set(shortSlug, pub);
 
     if (pub.data.permalink) {
       const cleanPermalink = pub.data.permalink

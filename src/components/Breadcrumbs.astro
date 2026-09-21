@@ -43,7 +43,10 @@ const breadcrumbs =
           const cleanSeg = seg.toLowerCase();
           const formatted =
             acronyms[cleanSeg] ||
-            seg.replace(/-/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase());
+            seg
+              .replace(/[-_]+/g, ' ')
+              .trim()
+              .replace(/\b\w/g, (c) => c.toUpperCase());
 
           return { title: formatted, href: isLast ? undefined : href };
         }),

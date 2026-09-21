@@ -9,31 +9,22 @@ import { siteConfig } from '@data/siteConfig';
 import { formatDate } from '@utils/date';
 import { calculateReadingTime } from '@utils/readingTime';
 import { buildBlogPostingSchema } from '@utils/seo';
-import { getShortSlug } from '@utils/url';
+import { getFileSlug } from '@utils/url';
 
 export async function getStaticPaths() {
   const posts = await getCollection('blog');
   const pathMap = new Map<string, (typeof posts)[0]>();
 
   for (const post of posts) {
-    const shortSlug = getShortSlug(post.id);
-    const date = new Date(post.data.date);
-    const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const fileSlug = getFileSlug(post.id);
+    pathMap.set(fileSlug, post);
 
-    // Canonical date route: YYYY/MM/slug
-    pathMap.set(`${year}/${month}/${shortSlug}`, post);
-
-    // Explicit permalink if configured
     if (post.data.permalink) {
       const cleanPermalink = post.data.permalink
         .replace(/^\/?posts\//, '')
         .replace(/\/$/, '')
         .replace(/^\//, '');
       pathMap.set(cleanPermalink, post);
-    } else {
-      // Direct short slug alias
-      pathMap.set(shortSlug, post);
     }
   }
 
