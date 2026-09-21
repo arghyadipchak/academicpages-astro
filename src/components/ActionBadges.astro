@@ -25,100 +25,102 @@ const pdfUrl = rawPdfUrl ?? paperUrl;
 const hasBadges = Boolean(pdfUrl || slidesUrl || codeUrl || bibtex);
 ---
 
-{hasBadges && (
-  <div class="action-badges-container mt-3">
-    {/* Action Badges Row */}
-    <div class="flex flex-wrap items-center gap-2">
-      {pdfUrl && (
-        <a
-          href={resolveUrl(pdfUrl)}
-          target="_blank"
-          class="inline-flex items-center gap-1.5 rounded-md border border-(--global-border-color) bg-(--global-bg-color) px-2.5 py-1 text-xs leading-none font-medium text-(--global-text-color) shadow-xs transition hover:border-(--global-link-color) hover:text-(--global-link-color)"
-        >
-          <Icon
-            name="fa6-solid:file-pdf"
-            class="h-3.5 w-3.5 shrink-0 text-red-500"
-          />
-          <span class="leading-none">PDF</span>
-        </a>
-      )}
+{
+  hasBadges && (
+    <div class="action-badges-container mt-3">
+      {/* Action Badges Row */}
+      <div class="flex flex-wrap items-center gap-2">
+        {pdfUrl && (
+          <a
+            href={resolveUrl(pdfUrl)}
+            target="_blank"
+            class="inline-flex items-center gap-1.5 rounded-md border border-(--global-border-color) bg-(--global-bg-color) px-2.5 py-1 text-xs leading-none font-medium text-(--global-text-color) shadow-xs transition hover:border-(--global-link-color) hover:text-(--global-link-color)"
+          >
+            <Icon
+              name="fa6-solid:file-pdf"
+              class="h-3.5 w-3.5 shrink-0 text-red-500"
+            />
+            <span class="leading-none">PDF</span>
+          </a>
+        )}
 
-      {slidesUrl && (
-        <a
-          href={resolveUrl(slidesUrl)}
-          target="_blank"
-          class="inline-flex items-center gap-1.5 rounded-md border border-(--global-border-color) bg-(--global-bg-color) px-2.5 py-1 text-xs leading-none font-medium text-(--global-text-color) shadow-xs transition hover:border-(--global-link-color) hover:text-(--global-link-color)"
-        >
-          <Icon
-            name="fa6-solid:file-powerpoint"
-            class="h-3.5 w-3.5 shrink-0 text-amber-500"
-          />
-          <span class="leading-none">Slides</span>
-        </a>
-      )}
+        {slidesUrl && (
+          <a
+            href={resolveUrl(slidesUrl)}
+            target="_blank"
+            class="inline-flex items-center gap-1.5 rounded-md border border-(--global-border-color) bg-(--global-bg-color) px-2.5 py-1 text-xs leading-none font-medium text-(--global-text-color) shadow-xs transition hover:border-(--global-link-color) hover:text-(--global-link-color)"
+          >
+            <Icon
+              name="fa6-solid:file-powerpoint"
+              class="h-3.5 w-3.5 shrink-0 text-amber-500"
+            />
+            <span class="leading-none">Slides</span>
+          </a>
+        )}
 
-      {codeUrl && (
-        <a
-          href={resolveUrl(codeUrl)}
-          target="_blank"
-          class="inline-flex items-center gap-1.5 rounded-md border border-(--global-border-color) bg-(--global-bg-color) px-2.5 py-1 text-xs leading-none font-medium text-(--global-text-color) shadow-xs transition hover:border-(--global-link-color) hover:text-(--global-link-color)"
-        >
-          <Icon name="fa6-brands:github" class="h-3.5 w-3.5 shrink-0" />
-          <span class="leading-none">Code</span>
-        </a>
-      )}
+        {codeUrl && (
+          <a
+            href={resolveUrl(codeUrl)}
+            target="_blank"
+            class="inline-flex items-center gap-1.5 rounded-md border border-(--global-border-color) bg-(--global-bg-color) px-2.5 py-1 text-xs leading-none font-medium text-(--global-text-color) shadow-xs transition hover:border-(--global-link-color) hover:text-(--global-link-color)"
+          >
+            <Icon name="fa6-brands:github" class="h-3.5 w-3.5 shrink-0" />
+            <span class="leading-none">Code</span>
+          </a>
+        )}
 
+        {bibtex && (
+          <button
+            type="button"
+            data-bibtex-trigger={id}
+            class="bibtex-toggle-btn inline-flex cursor-pointer items-center gap-1.5 rounded-md border border-(--global-border-color) bg-(--global-bg-color) px-2.5 py-1 text-xs leading-none font-medium text-(--global-text-color) shadow-xs transition hover:border-(--global-link-color) hover:text-(--global-link-color)"
+            aria-expanded="false"
+            aria-controls={`bibtex-box-${id}`}
+          >
+            <Icon
+              name="fa6-solid:quote-right"
+              class="h-3.5 w-3.5 shrink-0 text-blue-500"
+            />
+            <span class="leading-none">BibTeX</span>
+          </button>
+        )}
+      </div>
+
+      {/* Expandable BibTeX Box */}
       {bibtex && (
-        <button
-          type="button"
-          data-bibtex-trigger={id}
-          class="bibtex-toggle-btn inline-flex cursor-pointer items-center gap-1.5 rounded-md border border-(--global-border-color) bg-(--global-bg-color) px-2.5 py-1 text-xs leading-none font-medium text-(--global-text-color) shadow-xs transition hover:border-(--global-link-color) hover:text-(--global-link-color)"
-          aria-expanded="false"
-          aria-controls={`bibtex-box-${id}`}
+        <div
+          id={`bibtex-box-${id}`}
+          class="bibtex-box mt-3 hidden rounded-md border border-(--global-border-color) bg-neutral-50 p-3 dark:bg-neutral-900"
         >
-          <Icon
-            name="fa6-solid:quote-right"
-            class="h-3.5 w-3.5 shrink-0 text-blue-500"
-          />
-          <span class="leading-none">BibTeX</span>
-        </button>
+          <div class="mb-2 flex items-center justify-between">
+            <span class="text-xs font-semibold text-(--global-text-color-light)">
+              BibTeX Citation
+            </span>
+            <div class="flex items-center gap-2">
+              <a
+                href={`data:text/plain;charset=utf-8,${encodeURIComponent(bibtex.trim())}`}
+                download="citation.bib"
+                class="text-xs text-(--global-link-color) hover:underline"
+              >
+                Download .bib
+              </a>
+              <button
+                type="button"
+                data-copy-bibtex={id}
+                class="copy-bibtex-btn inline-flex items-center gap-1 rounded bg-(--global-link-color) px-2 py-0.5 text-xs font-medium text-white transition hover:opacity-90"
+              >
+                <Icon name="fa6-solid:copy" class="h-3 w-3" />
+                <span class="copy-label">Copy</span>
+              </button>
+            </div>
+          </div>
+          {/* prettier-ignore */}
+          <pre class="overflow-x-auto rounded bg-neutral-100 p-2.5 font-mono text-xs text-neutral-800 dark:bg-neutral-950 dark:text-neutral-200"><code id={`bibtex-code-${id}`}>{bibtex.trim()}</code></pre>
+        </div>
       )}
     </div>
-
-    {/* Expandable BibTeX Box */}
-    {bibtex && (
-      <div
-        id={`bibtex-box-${id}`}
-        class="bibtex-box mt-3 hidden rounded-md border border-(--global-border-color) bg-neutral-50 p-3 dark:bg-neutral-900"
-      >
-        <div class="mb-2 flex items-center justify-between">
-          <span class="text-xs font-semibold text-(--global-text-color-light)">
-            BibTeX Citation
-          </span>
-          <div class="flex items-center gap-2">
-            <a
-              href={`data:text/plain;charset=utf-8,${encodeURIComponent(bibtex.trim())}`}
-              download="citation.bib"
-              class="text-xs text-(--global-link-color) hover:underline"
-            >
-              Download .bib
-            </a>
-            <button
-              type="button"
-              data-copy-bibtex={id}
-              class="copy-bibtex-btn inline-flex items-center gap-1 rounded bg-(--global-link-color) px-2 py-0.5 text-xs font-medium text-white transition hover:opacity-90"
-            >
-              <Icon name="fa6-solid:copy" class="h-3 w-3" />
-              <span class="copy-label">Copy</span>
-            </button>
-          </div>
-        </div>
-        {/* prettier-ignore */}
-        <pre class="overflow-x-auto rounded bg-neutral-100 p-2.5 font-mono text-xs text-neutral-800 dark:bg-neutral-950 dark:text-neutral-200"><code id={`bibtex-code-${id}`}>{bibtex.trim()}</code></pre>
-      </div>
-    )}
-  </div>
-)}
+  )
+}
 
 <script>
   import { announce } from '@utils/a11y';

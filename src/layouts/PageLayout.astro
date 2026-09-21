@@ -65,13 +65,15 @@ const pdfUrl = rawPdfUrl ?? paperUrl;
   <div class="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
     <div class="grid grid-cols-1 gap-8 lg:grid-cols-12">
       <!-- Left Sidebar: Author Profile -->
-      {authorProfile && (
-        <aside class="lg:col-span-3" aria-label="Author profile">
-          <div class="sticky top-24">
-            <AuthorProfile />
-          </div>
-        </aside>
-      )}
+      {
+        authorProfile && (
+          <aside class="lg:col-span-3" aria-label="Author profile">
+            <div class="sticky top-24">
+              <AuthorProfile />
+            </div>
+          </aside>
+        )
+      }
 
       <!-- Main Content Column -->
       <main
@@ -88,17 +90,19 @@ const pdfUrl = rawPdfUrl ?? paperUrl;
           itemscope
           itemtype="http://schema.org/CreativeWork"
         >
-          {image && (
-            <div class="page__hero mb-6 overflow-hidden rounded-lg">
-              <img
-                src={resolvePath(image)}
-                alt={title}
-                class="h-auto max-h-96 w-full object-cover"
-                loading="eager"
-                decoding="async"
-              />
-            </div>
-          )}
+          {
+            image && (
+              <div class="page__hero mb-6 overflow-hidden rounded-lg">
+                <img
+                  src={resolvePath(image)}
+                  alt={title}
+                  class="h-auto max-h-96 w-full object-cover"
+                  loading="eager"
+                  decoding="async"
+                />
+              </div>
+            )
+          }
 
           <header class="mb-6">
             <h1
@@ -117,36 +121,40 @@ const pdfUrl = rawPdfUrl ?? paperUrl;
           </Prose>
 
           <!-- Citation and downloads for publications -->
-          {(citation || pdfUrl || slidesUrl || codeUrl || bibtex) && (
-            <div class="mt-6 border-t border-(--global-border-color) pt-4 text-xs text-(--global-text-color-light)">
-              {citation && (
-                <p class="mb-2">
-                  <strong>Recommended citation:</strong>{' '}
-                  <span set:html={parseInline(citation)} />
-                </p>
-              )}
-              <ActionBadges
-                pdfUrl={pdfUrl}
-                slidesUrl={slidesUrl}
-                codeUrl={codeUrl}
-                bibtex={bibtex}
-              />
-            </div>
-          )}
+          {
+            (citation || pdfUrl || slidesUrl || codeUrl || bibtex) && (
+              <div class="mt-6 border-t border-(--global-border-color) pt-4 text-xs text-(--global-text-color-light)">
+                {citation && (
+                  <p class="mb-2">
+                    <strong>Recommended citation:</strong>{' '}
+                    <span set:html={parseInline(citation)} />
+                  </p>
+                )}
+                <ActionBadges
+                  pdfUrl={pdfUrl}
+                  slidesUrl={slidesUrl}
+                  codeUrl={codeUrl}
+                  bibtex={bibtex}
+                />
+              </div>
+            )
+          }
 
           {/* Tags footer */}
-          {tags.length > 0 && (
-            <footer class="mt-8 border-t border-(--global-border-color) pt-4 text-xs text-(--global-text-color-light)">
-              <div class="flex flex-wrap items-center gap-2">
-                <span class="font-semibold">Tags:</span>
-                {tags.map((tag) => (
-                  <span class="rounded-sm bg-(--global-footer-bg-color) px-2 py-0.5">
-                    {tag}
-                  </span>
-                ))}
-              </div>
-            </footer>
-          )}
+          {
+            tags.length > 0 && (
+              <footer class="mt-8 border-t border-(--global-border-color) pt-4 text-xs text-(--global-text-color-light)">
+                <div class="flex flex-wrap items-center gap-2">
+                  <span class="font-semibold">Tags:</span>
+                  {tags.map((tag) => (
+                    <span class="rounded-sm bg-(--global-footer-bg-color) px-2 py-0.5">
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+              </footer>
+            )
+          }
         </article>
       </main>
     </div>

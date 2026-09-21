@@ -128,9 +128,14 @@ const jsonLdGraph: SchemaOrgNode[] = [
 <meta property="og:image" content={resolvedImage} />
 <meta property="og:image:alt" content={pageTitle} />
 <meta property="og:locale" content={siteConfig.locale.replace('-', '_')} />
-{articleDate && (
-  <meta property="article:published_time" content={articleDate.toISOString()} />
-)}
+{
+  articleDate && (
+    <meta
+      property="article:published_time"
+      content={articleDate.toISOString()}
+    />
+  )
+}
 
 <!-- Twitter -->
 <meta property="twitter:card" content="summary_large_image" />
@@ -138,30 +143,40 @@ const jsonLdGraph: SchemaOrgNode[] = [
 <meta property="twitter:title" content={pageTitle} />
 <meta property="twitter:description" content={description} />
 <meta property="twitter:image" content={resolvedImage} />
-{xHandle && (
-  <>
-    <meta property="twitter:creator" content={`@${xHandle}`} />
-    <meta property="twitter:site" content={`@${xHandle}`} />
-  </>
-)}
+{
+  xHandle && (
+    <>
+      <meta property="twitter:creator" content={`@${xHandle}`} />
+      <meta property="twitter:site" content={`@${xHandle}`} />
+    </>
+  )
+}
 
 <!-- Google Scholar / Highwire Press Academic Meta Tags -->
 {citation?.title && <meta name="citation_title" content={citation.title} />}
-{(citation?.author || (citation?.title && siteConfig.author.name)) && (
-  <meta
-    name="citation_author"
-    content={citation?.author || siteConfig.author.name}
-  />
-)}
-{citation?.publicationDate && (
-  <meta name="citation_publication_date" content={citation.publicationDate} />
-)}
-{citation?.journalTitle && (
-  <meta name="citation_journal_title" content={citation.journalTitle} />
-)}
-{citation?.conferenceTitle && (
-  <meta name="citation_conference_title" content={citation.conferenceTitle} />
-)}
+{
+  (citation?.author || (citation?.title && siteConfig.author.name)) && (
+    <meta
+      name="citation_author"
+      content={citation?.author || siteConfig.author.name}
+    />
+  )
+}
+{
+  citation?.publicationDate && (
+    <meta name="citation_publication_date" content={citation.publicationDate} />
+  )
+}
+{
+  citation?.journalTitle && (
+    <meta name="citation_journal_title" content={citation.journalTitle} />
+  )
+}
+{
+  citation?.conferenceTitle && (
+    <meta name="citation_conference_title" content={citation.conferenceTitle} />
+  )
+}
 {citation?.pdfUrl && <meta name="citation_pdf_url" content={citation.pdfUrl} />}
 
 <!-- Structured Data (JSON-LD) -->
@@ -171,7 +186,7 @@ const jsonLdGraph: SchemaOrgNode[] = [
     '@context': 'https://schema.org',
     '@graph': jsonLdGraph,
   })}
-></script>
+/>
 <!-- Dark Mode Initialization Script (Prevents flash of unstyled theme) -->
 <script is:inline>
   function applyTheme() {

@@ -26,7 +26,9 @@ const { containerSelector = '.prose, .cv-content' } = Astro.props;
         name="fa6-solid:list"
         class="h-3.5 w-3.5 shrink-0 text-(--global-link-color) transition-colors group-hover:text-(--global-base-color)"
       />
-      <span class="inline-flex items-center leading-none transition-colors group-hover:text-(--global-base-color)">
+      <span
+        class="inline-flex items-center leading-none transition-colors group-hover:text-(--global-base-color)"
+      >
         Table of Contents
       </span>
     </div>
@@ -44,7 +46,8 @@ const { containerSelector = '.prose, .cv-content' } = Astro.props;
       <ul
         id="toc-list"
         class="space-y-1.5 border-l border-(--global-border-color) pl-3 text-xs text-(--global-text-color-light)"
-      ></ul>
+      >
+      </ul>
     </nav>
   </div>
 </div>

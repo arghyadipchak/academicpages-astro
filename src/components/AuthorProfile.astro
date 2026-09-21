@@ -345,7 +345,9 @@ const AUTHOR_SERVICES: AuthorServiceDef[] = [
   itemscope
   itemtype="http://schema.org/Person"
 >
-  <div class="flex flex-row items-center gap-4 lg:flex-col lg:items-start lg:gap-0">
+  <div
+    class="flex flex-row items-center gap-4 lg:flex-col lg:items-start lg:gap-0"
+  >
     <!-- Avatar -->
     <div class="author__avatar shrink-0">
       <img
@@ -367,17 +369,21 @@ const AUTHOR_SERVICES: AuthorServiceDef[] = [
       >
         {author.name}
       </h3>
-      {author.pronouns && (
-        <p class="text-xs text-(--global-text-color-light)">
-          {author.pronouns}
-        </p>
-      )}
-      {author.bio && (
-        <p
-          class="mt-1 text-sm text-(--global-text-color-light) lg:mt-2"
-          set:html={parseInline(author.bio)}
-        />
-      )}
+      {
+        author.pronouns && (
+          <p class="text-xs text-(--global-text-color-light)">
+            {author.pronouns}
+          </p>
+        )
+      }
+      {
+        author.bio && (
+          <p
+            class="mt-1 text-sm text-(--global-text-color-light) lg:mt-2"
+            set:html={parseInline(author.bio)}
+          />
+        )
+      }
     </div>
 
     <!-- Mobile Follow Button -->
@@ -400,82 +406,92 @@ const AUTHOR_SERVICES: AuthorServiceDef[] = [
     class="author__urls hidden pt-4 text-sm lg:block lg:pt-4"
   >
     <ul class="space-y-2 text-sm text-(--global-text-color)">
-      {author.location && (
-        <li class="flex items-center gap-2.5">
-          <Icon
-            name="fa6-solid:location-dot"
-            class="h-4 w-4 shrink-0 text-(--global-text-color-light)"
-          />
-          <span itemprop="address">{author.location}</span>
-        </li>
-      )}
-      {author.employer && (
-        <li class="flex items-center gap-2.5">
-          <Icon
-            name="fa6-solid:building-columns"
-            class="h-4 w-4 shrink-0 text-(--global-text-color-light)"
-          />
-          <span itemprop="worksFor">{author.employer}</span>
-        </li>
-      )}
-      {author.website && (
-        <li class="flex items-center gap-2.5">
-          <Icon
-            name="fa6-solid:link"
-            class="h-4 w-4 shrink-0 text-(--global-text-color-light)"
-          />
-          <a
-            href={author.website}
-            target="_blank"
-            class="truncate hover:text-(--global-base-color)"
-          >
-            Website
-          </a>
-        </li>
-      )}
-      {author.email && (
-        <li class="flex items-center gap-2.5">
-          <Icon
-            name="fa6-solid:envelope"
-            class="h-4 w-4 shrink-0 text-(--global-text-color-light)"
-          />
-          <a
-            href={`mailto:${author.email}`}
-            class="truncate hover:text-(--global-base-color)"
-          >
-            Email
-          </a>
-        </li>
-      )}
-
-      {/* Dynamic Services List */}
-      {AUTHOR_SERVICES.map(({ key, label, icon, emoji, prefix, suffix }) => {
-        const val = author[key];
-        if (!val || typeof val !== 'string') return null;
-        const href = prefix ? resolveUrl(val, prefix, suffix) : val;
-
-        return (
+      {
+        author.location && (
           <li class="flex items-center gap-2.5">
-            {icon ? (
-              <Icon
-                name={icon}
-                class="h-4 w-4 shrink-0 text-(--global-text-color-light)"
-              />
-            ) : emoji ? (
-              <span class="inline-flex h-4 w-4 shrink-0 items-center justify-center text-xs">
-                {emoji}
-              </span>
-            ) : null}
+            <Icon
+              name="fa6-solid:location-dot"
+              class="h-4 w-4 shrink-0 text-(--global-text-color-light)"
+            />
+            <span itemprop="address">{author.location}</span>
+          </li>
+        )
+      }
+      {
+        author.employer && (
+          <li class="flex items-center gap-2.5">
+            <Icon
+              name="fa6-solid:building-columns"
+              class="h-4 w-4 shrink-0 text-(--global-text-color-light)"
+            />
+            <span itemprop="worksFor">{author.employer}</span>
+          </li>
+        )
+      }
+      {
+        author.website && (
+          <li class="flex items-center gap-2.5">
+            <Icon
+              name="fa6-solid:link"
+              class="h-4 w-4 shrink-0 text-(--global-text-color-light)"
+            />
             <a
-              href={href}
+              href={author.website}
               target="_blank"
-              class="hover:text-(--global-base-color)"
+              class="truncate hover:text-(--global-base-color)"
             >
-              {label}
+              Website
             </a>
           </li>
-        );
-      })}
+        )
+      }
+      {
+        author.email && (
+          <li class="flex items-center gap-2.5">
+            <Icon
+              name="fa6-solid:envelope"
+              class="h-4 w-4 shrink-0 text-(--global-text-color-light)"
+            />
+            <a
+              href={`mailto:${author.email}`}
+              class="truncate hover:text-(--global-base-color)"
+            >
+              Email
+            </a>
+          </li>
+        )
+      }
+
+      {/* Dynamic Services List */}
+      {
+        AUTHOR_SERVICES.map(({ key, label, icon, emoji, prefix, suffix }) => {
+          const val = author[key];
+          if (!val || typeof val !== 'string') return null;
+          const href = prefix ? resolveUrl(val, prefix, suffix) : val;
+
+          return (
+            <li class="flex items-center gap-2.5">
+              {icon ? (
+                <Icon
+                  name={icon}
+                  class="h-4 w-4 shrink-0 text-(--global-text-color-light)"
+                />
+              ) : emoji ? (
+                <span class="inline-flex h-4 w-4 shrink-0 items-center justify-center text-xs">
+                  {emoji}
+                </span>
+              ) : null}
+              <a
+                href={href}
+                target="_blank"
+                class="hover:text-(--global-base-color)"
+              >
+                {label}
+              </a>
+            </li>
+          );
+        })
+      }
     </ul>
   </div>
 </div>

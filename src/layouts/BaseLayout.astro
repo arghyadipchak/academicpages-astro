@@ -51,7 +51,9 @@ const {
     />
     <ClientRouter fallback="swap" />
   </head>
-  <body class="flex min-h-screen flex-col bg-(--global-bg-color) text-(--global-text-color) antialiased transition-colors duration-200">
+  <body
+    class="flex min-h-screen flex-col bg-(--global-bg-color) text-(--global-text-color) antialiased transition-colors duration-200"
+  >
     <a
       href="#main-content"
       class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50 focus:rounded-md focus:bg-(--global-base-color) focus:px-4 focus:py-2 focus:text-sm focus:font-bold focus:text-white focus:shadow-lg focus:outline-none"
@@ -62,7 +64,8 @@ const {
       id="reading-progress"
       class="fixed top-0 left-0 z-60 h-0.75 w-0 bg-(--global-base-color) transition-[width] duration-75 ease-out"
       aria-hidden="true"
-    ></div>
+    >
+    </div>
     <Masthead />
     <div id="main-content" class="flex-1">
       <slot />
@@ -77,6 +80,7 @@ const {
       aria-live="polite"
       aria-atomic="true"
       transition:persist="a11y-announcer"
-    ></div>
+    >
+    </div>
   </body>
 </html>

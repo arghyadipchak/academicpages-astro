@@ -20,13 +20,15 @@ const { title, description, authorProfile = true } = Astro.props;
   <div class="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
     <div class="grid grid-cols-1 gap-8 lg:grid-cols-12">
       <!-- Left Sidebar: Author Profile -->
-      {authorProfile && (
-        <aside class="lg:col-span-3" aria-label="Author profile">
-          <div class="sticky top-24">
-            <AuthorProfile />
-          </div>
-        </aside>
-      )}
+      {
+        authorProfile && (
+          <aside class="lg:col-span-3" aria-label="Author profile">
+            <div class="sticky top-24">
+              <AuthorProfile />
+            </div>
+          </aside>
+        )
+      }
 
       <!-- Main Content Column -->
       <main
@@ -43,12 +45,14 @@ const { title, description, authorProfile = true } = Astro.props;
             class="text-2xl font-bold tracking-tight text-(--global-text-color) sm:text-3xl"
             set:html={parseInline(title)}
           />
-          {description && (
-            <p
-              class="mt-2 text-sm text-(--global-text-color-light)"
-              set:html={parseInline(description)}
-            />
-          )}
+          {
+            description && (
+              <p
+                class="mt-2 text-sm text-(--global-text-color-light)"
+                set:html={parseInline(description)}
+              />
+            )
+          }
         </header>
 
         <section class="archive-content">

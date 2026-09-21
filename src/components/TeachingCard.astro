@@ -19,7 +19,9 @@ const termDisplay =
     : semester || (year ? `${year}` : '');
 ---
 
-<div class="archive__item border-b border-(--global-border-color) py-4 first:pt-0 last:border-b-0">
+<div
+  class="archive__item border-b border-(--global-border-color) py-4 first:pt-0 last:border-b-0"
+>
   <article itemscope itemtype="http://schema.org/CreativeWork">
     <h3 class="text-lg font-bold tracking-tight" itemprop="headline">
       <a
@@ -29,20 +31,24 @@ const termDisplay =
       />
     </h3>
 
-    {(type || venue || termDisplay) && (
-      <p class="mt-1 text-sm text-(--global-text-color-light)">
-        {type ? `${type}, ` : ''}
-        {venue ? <em>{venue}</em> : ''}
-        {termDisplay ? `, ${termDisplay}` : ''}
-      </p>
-    )}
+    {
+      (type || venue || termDisplay) && (
+        <p class="mt-1 text-sm text-(--global-text-color-light)">
+          {type ? `${type}, ` : ''}
+          {venue ? <em>{venue}</em> : ''}
+          {termDisplay ? `, ${termDisplay}` : ''}
+        </p>
+      )
+    }
 
-    {description && (
-      <p
-        class="mt-2 text-sm text-(--global-text-color)"
-        itemprop="description"
-        set:html={parseInline(description)}
-      />
-    )}
+    {
+      description && (
+        <p
+          class="mt-2 text-sm text-(--global-text-color)"
+          itemprop="description"
+          set:html={parseInline(description)}
+        />
+      )
+    }
   </article>
 </div>

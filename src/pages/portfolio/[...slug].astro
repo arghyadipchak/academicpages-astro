@@ -72,19 +72,21 @@ const creativeWorkSchema = buildCreativeWorkSchema(
   toc={item.data.toc}
   image={item.data.image}
 >
-  {(item.data.venue || item.data.timeline || formattedDate) && (
-    <div
-      slot="header-metadata"
-      class="mt-2 space-y-1 text-sm text-(--global-text-color-light)"
-    >
-      {(item.data.timeline || formattedDate) && (
-        <p class="archive-date-line inline-flex items-center gap-1.5 leading-none font-medium">
-          <Icon name="fa6-solid:calendar" class="h-3.5 w-3.5 shrink-0" />
-          <span>{item.data.timeline || `Date: ${formattedDate}`}</span>
-        </p>
-      )}
-      {item.data.venue && <p set:html={parseInline(item.data.venue)} />}
-    </div>
-  )}
+  {
+    (item.data.venue || item.data.timeline || formattedDate) && (
+      <div
+        slot="header-metadata"
+        class="mt-2 space-y-1 text-sm text-(--global-text-color-light)"
+      >
+        {(item.data.timeline || formattedDate) && (
+          <p class="archive-date-line inline-flex items-center gap-1.5 leading-none font-medium">
+            <Icon name="fa6-solid:calendar" class="h-3.5 w-3.5 shrink-0" />
+            <span>{item.data.timeline || `Date: ${formattedDate}`}</span>
+          </p>
+        )}
+        {item.data.venue && <p set:html={parseInline(item.data.venue)} />}
+      </div>
+    )
+  }
   <Content />
 </PageLayout>

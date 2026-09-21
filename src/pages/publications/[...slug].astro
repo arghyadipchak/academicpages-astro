@@ -74,14 +74,16 @@ const citationMetadata = {
   toc={pub.data.toc}
   image={pub.data.image}
 >
-  {pub.data.venue && (
-    <p
-      slot="header-metadata"
-      class="mt-2 text-sm text-(--global-text-color-light)"
-    >
-      Published in <em>{pub.data.venue}</em>
-      {formattedYear ? `, ${formattedYear}` : ''}
-    </p>
-  )}
+  {
+    pub.data.venue && (
+      <p
+        slot="header-metadata"
+        class="mt-2 text-sm text-(--global-text-color-light)"
+      >
+        Published in <em>{pub.data.venue}</em>
+        {formattedYear ? `, ${formattedYear}` : ''}
+      </p>
+    )
+  }
   <Content />
 </PageLayout>

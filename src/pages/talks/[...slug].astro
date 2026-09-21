@@ -68,25 +68,27 @@ const eventSchema = buildEventSchema(
   toc={talk.data.toc}
   image={talk.data.image}
 >
-  {(formattedDate || talk.data.type || talk.data.venue) && (
-    <div
-      slot="header-metadata"
-      class="mt-2 space-y-1 text-sm text-(--global-text-color-light)"
-    >
-      {formattedDate && (
-        <p class="archive-date-line inline-flex items-center gap-1.5 leading-none font-medium">
-          <Icon name="fa6-solid:calendar" class="h-3.5 w-3.5 shrink-0" />
-          <span>Date: {formattedDate}</span>
-        </p>
-      )}
-      {(talk.data.type || talk.data.venue) && (
-        <p>
-          {talk.data.type && talk.data.venue
-            ? `${talk.data.type} at ${talk.data.venue}`
-            : talk.data.type || talk.data.venue}
-        </p>
-      )}
-    </div>
-  )}
+  {
+    (formattedDate || talk.data.type || talk.data.venue) && (
+      <div
+        slot="header-metadata"
+        class="mt-2 space-y-1 text-sm text-(--global-text-color-light)"
+      >
+        {formattedDate && (
+          <p class="archive-date-line inline-flex items-center gap-1.5 leading-none font-medium">
+            <Icon name="fa6-solid:calendar" class="h-3.5 w-3.5 shrink-0" />
+            <span>Date: {formattedDate}</span>
+          </p>
+        )}
+        {(talk.data.type || talk.data.venue) && (
+          <p>
+            {talk.data.type && talk.data.venue
+              ? `${talk.data.type} at ${talk.data.venue}`
+              : talk.data.type || talk.data.venue}
+          </p>
+        )}
+      </div>
+    )
+  }
   <Content />
 </PageLayout>

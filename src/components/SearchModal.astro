@@ -4,12 +4,14 @@ import { Icon } from 'astro-icon/components';
 
 <dialog
   id="search-modal"
-  class="fixed inset-0 z-50 m-auto w-full max-w-2xl rounded-xl border border-(--global-border-color) bg-(--global-bg-color) p-0 text-(--global-text-color) shadow-2xl backdrop:bg-black/50 backdrop:backdrop-blur-xs outline-none focus:outline-none"
+  class="fixed inset-0 z-50 m-auto w-full max-w-2xl rounded-xl border border-(--global-border-color) bg-(--global-bg-color) p-0 text-(--global-text-color) shadow-2xl outline-none backdrop:bg-black/50 backdrop:backdrop-blur-xs focus:outline-none"
   aria-label="Site search"
 >
   <div class="flex flex-col overflow-hidden">
     {/* Search Input Bar */}
-    <div class="flex items-center gap-3 border-b border-(--global-border-color) px-4 py-3">
+    <div
+      class="flex items-center gap-3 border-b border-(--global-border-color) px-4 py-3"
+    >
       <Icon
         name="fa6-solid:magnifying-glass"
         class="h-4 w-4 text-(--global-text-color-light)"
@@ -23,7 +25,7 @@ import { Icon } from 'astro-icon/components';
         aria-controls="search-list"
         aria-haspopup="listbox"
         placeholder="Search articles, publications, talks, courses..."
-        class="w-full border-none bg-transparent text-sm text-(--global-text-color) placeholder-(--global-text-color-light) outline-none focus:border-none focus:outline-none focus:ring-0 focus-visible:outline-none focus-visible:ring-0"
+        class="w-full border-none bg-transparent text-sm text-(--global-text-color) placeholder-(--global-text-color-light) outline-none focus:border-none focus:ring-0 focus:outline-none focus-visible:ring-0 focus-visible:outline-none"
         autocomplete="off"
       />
       <button
@@ -58,11 +60,14 @@ import { Icon } from 'astro-icon/components';
         role="listbox"
         aria-label="Search suggestions"
         class="space-y-1"
-      ></ul>
+      >
+      </ul>
     </div>
 
     {/* Footer Navigation Help */}
-    <div class="flex items-center justify-between border-t border-(--global-border-color) bg-neutral-50 px-4 py-2 text-[11px] text-(--global-text-color-light) dark:bg-neutral-900">
+    <div
+      class="flex items-center justify-between border-t border-(--global-border-color) bg-neutral-50 px-4 py-2 text-[11px] text-(--global-text-color-light) dark:bg-neutral-900"
+    >
       <div class="flex items-center gap-3">
         <span>
           <kbd class="font-mono">↑↓</kbd> to navigate

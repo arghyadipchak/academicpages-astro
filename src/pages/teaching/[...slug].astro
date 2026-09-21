@@ -66,15 +66,17 @@ const courseSchema = buildCourseSchema(
   toc={item.data.toc}
   image={item.data.image}
 >
-  {(item.data.venue || termDisplay || item.data.type) && (
-    <p
-      slot="header-metadata"
-      class="mt-2 text-sm text-(--global-text-color-light)"
-    >
-      {item.data.type ? `${item.data.type}, ` : ''}
-      {item.data.venue ? <em>{item.data.venue}</em> : ''}
-      {termDisplay ? `, ${termDisplay}` : ''}
-    </p>
-  )}
+  {
+    (item.data.venue || termDisplay || item.data.type) && (
+      <p
+        slot="header-metadata"
+        class="mt-2 text-sm text-(--global-text-color-light)"
+      >
+        {item.data.type ? `${item.data.type}, ` : ''}
+        {item.data.venue ? <em>{item.data.venue}</em> : ''}
+        {termDisplay ? `, ${termDisplay}` : ''}
+      </p>
+    )
+  }
   <Content />
 </PageLayout>
