@@ -1,4 +1,6 @@
 ---
+import { fade } from 'astro:transitions';
+
 import BaseLayout from '@layouts/BaseLayout.astro';
 import ActionBadges from '@components/ActionBadges.astro';
 import AuthorProfile from '@components/AuthorProfile.astro';
@@ -77,6 +79,7 @@ const pdfUrl = rawPdfUrl ?? paperUrl;
           authorProfile ? 'lg:col-span-9' : 'lg:col-span-12',
           'min-w-0',
         ]}
+        transition:animate={fade({ duration: '0.08s' })}
       >
         <Breadcrumbs />
 
