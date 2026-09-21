@@ -1,4 +1,6 @@
 ---
+import { Image } from 'astro:assets';
+
 import { Icon } from 'astro-icon/components';
 
 import { formatDate, toIsoDateString } from '@utils/date';
@@ -66,9 +68,11 @@ const displayTime = timeline || formatDate(date);
     {
       image && (
         <div class="mt-3 overflow-hidden rounded-md">
-          <img
+          <Image
             src={resolveUrl(image)}
             alt={title}
+            width={800}
+            height={400}
             class="h-auto max-h-60 w-full object-cover"
             loading="lazy"
             decoding="async"

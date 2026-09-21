@@ -1,4 +1,6 @@
 ---
+import { Image } from 'astro:assets';
+
 import { Icon } from 'astro-icon/components';
 
 import type { AuthorConfig } from '@data/siteConfig';
@@ -350,11 +352,11 @@ const AUTHOR_SERVICES: AuthorServiceDef[] = [
   >
     <!-- Avatar -->
     <div class="author__avatar shrink-0">
-      <img
+      <Image
         src={resolvePath(author.avatar)}
         alt={author.name}
-        width="144"
-        height="144"
+        width={144}
+        height={144}
         class="h-16 w-16 rounded-full border border-(--global-border-color) object-cover sm:h-20 sm:w-20 lg:h-36 lg:w-36 lg:p-1"
         loading="eager"
         decoding="async"

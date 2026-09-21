@@ -24,7 +24,7 @@ const {
   description = siteConfig.description,
   articleDate,
   canonicalUrl: propCanonicalUrl,
-  image = siteConfig.author.avatar,
+  image,
   citation,
   schemaNodes = [],
   ogType = articleDate ? 'article' : 'website',
@@ -50,14 +50,22 @@ const pageTitle = title
   ? `${title} ${siteConfig.titleSeparator} ${siteConfig.title}`
   : siteConfig.title;
 
-const resolvedImage = image.startsWith('http')
-  ? image
-  : new URL(resolveUrl(image), siteBase).toString();
+const pathname = Astro.url.pathname.replace(/^\/|\/$/g, '');
+const ogFallback = pathname ? `/og/${pathname}.svg` : '/og/default.svg';
+const effectiveImage = image || ogFallback;
+
+const resolvedImage = effectiveImage.startsWith('http')
+  ? effectiveImage
+  : new URL(resolveUrl(effectiveImage), siteBase).toString();
+
+const resolvedAvatar = siteConfig.author.avatar.startsWith('http')
+  ? siteConfig.author.avatar
+  : new URL(resolveUrl(siteConfig.author.avatar), siteBase).toString();
 
 const personSchema = buildPersonSchema(
   siteBase,
   siteConfig.author,
-  resolvedImage
+  resolvedAvatar
 );
 const webSiteSchema = buildWebSiteSchema(siteBase);
 

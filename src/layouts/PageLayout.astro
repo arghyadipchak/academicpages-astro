@@ -1,4 +1,5 @@
 ---
+import { Image } from 'astro:assets';
 import { fade } from 'astro:transitions';
 
 import BaseLayout from '@layouts/BaseLayout.astro';
@@ -93,9 +94,11 @@ const pdfUrl = rawPdfUrl ?? paperUrl;
           {
             image && (
               <div class="page__hero mb-6 overflow-hidden rounded-lg">
-                <img
+                <Image
                   src={resolvePath(image)}
                   alt={title}
+                  width={1200}
+                  height={630}
                   class="h-auto max-h-96 w-full object-cover"
                   loading="eager"
                   decoding="async"

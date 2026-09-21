@@ -1,6 +1,6 @@
 import { unified } from '@astrojs/markdown-remark';
 import sitemap from '@astrojs/sitemap';
-import { defineConfig, svgoOptimizer } from 'astro/config';
+import { defineConfig, envField, svgoOptimizer } from 'astro/config';
 
 import tailwindcss from '@tailwindcss/vite';
 import icon from 'astro-icon';
@@ -27,6 +27,15 @@ export default defineConfig({
   integrations: [icon(), sitemap()],
   prefetch: { prefetchAll: true, defaultStrategy: 'viewport' },
   build: { inlineStylesheets: 'auto' },
+  env: {
+    schema: {
+      ASTRO_URL: envField.string({
+        context: 'client',
+        access: 'public',
+        optional: true,
+      }),
+    },
+  },
   experimental: {
     svgOptimizer: svgoOptimizer({ multipass: true, floatPrecision: 2 }),
   },
