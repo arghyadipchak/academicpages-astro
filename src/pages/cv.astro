@@ -3,8 +3,10 @@ import { getCollection } from 'astro:content';
 
 import PageLayout from '@layouts/PageLayout.astro';
 
+import { siteConfig } from '@data/siteConfig';
 import { sortTeaching } from '@utils/date';
 import { parseInline } from '@utils/marked';
+import { buildProfilePageSchema } from '@utils/seo';
 import {
   getPublicationUrl as getPubUrl,
   getTalkUrl,
@@ -22,9 +24,28 @@ talks.sort(
 );
 
 const teaching = sortTeaching(await getCollection('teaching'));
+
+const siteBase = Astro.site
+  ? Astro.site.toString()
+  : siteConfig.url
+    ? new URL(siteConfig.url).origin
+    : Astro.url.origin;
+const canonicalUrl = new URL(Astro.url.pathname, siteBase).toString();
+
+const profilePageSchema = buildProfilePageSchema(
+  canonicalUrl,
+  siteBase,
+  'Curriculum Vitae',
+  'Curriculum Vitae of ' + siteConfig.author.name
+);
 ---
 
-<PageLayout title="CV">
+<PageLayout
+  title="CV"
+  description={`Curriculum Vitae of ${siteConfig.author.name}`}
+  schemaNodes={[profilePageSchema]}
+  ogType="profile"
+>
   <div class="cv-content space-y-8">
     <section>
       <h2 class="mb-3 border-b border-(--global-border-color) pb-1 text-xl font-bold text-(--global-text-color)">

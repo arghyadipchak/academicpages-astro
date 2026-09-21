@@ -6,6 +6,7 @@ import Breadcrumbs from '@components/Breadcrumbs.astro';
 import Prose from '@components/Prose.astro';
 import TableOfContents from '@components/TableOfContents.astro';
 
+import type { CitationMetadata, SchemaOrgNode } from '@utils/seo';
 import { parseInline } from '@utils/marked';
 import { resolveUrl as resolvePath } from '@utils/url';
 
@@ -15,13 +16,9 @@ export interface Props {
   date?: Date;
   tags?: string[];
   citation?: string;
-  citationMetadata?: {
-    title?: string;
-    author?: string;
-    publicationDate?: string;
-    journalTitle?: string;
-    pdfUrl?: string;
-  };
+  citationMetadata?: CitationMetadata;
+  schemaNodes?: SchemaOrgNode[];
+  ogType?: 'website' | 'article' | 'profile';
   pdfUrl?: string;
   paperUrl?: string;
   slidesUrl?: string;
@@ -39,6 +36,8 @@ const {
   tags = [],
   citation,
   citationMetadata,
+  schemaNodes,
+  ogType,
   pdfUrl: rawPdfUrl,
   paperUrl,
   slidesUrl,
@@ -58,6 +57,8 @@ const pdfUrl = rawPdfUrl ?? paperUrl;
   articleDate={date}
   image={image}
   citation={citationMetadata}
+  schemaNodes={schemaNodes}
+  ogType={ogType}
 >
   <div class="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
     <div class="grid grid-cols-1 gap-8 lg:grid-cols-12">
@@ -197,6 +198,14 @@ const pdfUrl = rawPdfUrl ?? paperUrl;
 
     window.addEventListener('scroll', onScroll, { passive: true });
     requestAnimationFrame(updateProgress);
+
+    document.addEventListener(
+      'astro:before-swap',
+      () => {
+        window.removeEventListener('scroll', onScroll);
+      },
+      { once: true }
+    );
   }
 
   document.addEventListener('astro:page-load', setupReadingProgress);

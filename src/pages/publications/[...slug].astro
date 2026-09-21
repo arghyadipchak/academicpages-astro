@@ -43,6 +43,7 @@ const citationMetadata = {
   author: siteConfig.author.name,
   publicationDate: toIsoDateString(pub.data.date),
   journalTitle: pub.data.venue,
+  venue: pub.data.venue,
   pdfUrl: pdfUrl
     ? pdfUrl.startsWith('http')
       ? pdfUrl
@@ -64,6 +65,7 @@ const citationMetadata = {
   date={pub.data.date}
   citation={pub.data.citation}
   citationMetadata={citationMetadata}
+  ogType="article"
   pdfUrl={pdfUrl}
   slidesUrl={pub.data.slides_url}
   codeUrl={pub.data.code_url}

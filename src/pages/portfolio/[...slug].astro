@@ -5,8 +5,10 @@ import { Icon } from 'astro-icon/components';
 
 import PageLayout from '@layouts/PageLayout.astro';
 
+import { siteConfig } from '@data/siteConfig';
 import { formatDate } from '@utils/date';
 import { parseInline } from '@utils/marked';
+import { buildCreativeWorkSchema } from '@utils/seo';
 import { getFileSlug, getShortSlug } from '@utils/url';
 
 export async function getStaticPaths() {
@@ -38,12 +40,31 @@ export async function getStaticPaths() {
 const { item } = Astro.props;
 const { Content } = await render(item);
 const formattedDate = formatDate(item.data.date);
+
+const siteBase = Astro.site
+  ? Astro.site.toString()
+  : siteConfig.url
+    ? new URL(siteConfig.url).origin
+    : Astro.url.origin;
+const canonicalUrl = new URL(Astro.url.pathname, siteBase).toString();
+
+const creativeWorkSchema = buildCreativeWorkSchema(
+  canonicalUrl,
+  siteBase,
+  item.data.title,
+  item.data.description,
+  item.data.date,
+  item.data.image,
+  item.data.code_url
+);
 ---
 
 <PageLayout
   title={item.data.title}
   description={item.data.description}
   date={item.data.date}
+  schemaNodes={[creativeWorkSchema]}
+  ogType="article"
   pdfUrl={item.data.pdf_url}
   slidesUrl={item.data.slides_url}
   codeUrl={item.data.code_url}

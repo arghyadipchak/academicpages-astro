@@ -11,6 +11,7 @@ import ProseEnhancer from '@components/ProseEnhancer.astro';
 import SearchModal from '@components/SearchModal.astro';
 
 import { siteConfig } from '@data/siteConfig';
+import type { CitationMetadata, SchemaOrgNode } from '@utils/seo';
 
 export interface Props {
   title?: string;
@@ -18,17 +19,21 @@ export interface Props {
   articleDate?: Date;
   canonicalUrl?: string;
   image?: string;
-  citation?: {
-    title?: string;
-    author?: string;
-    publicationDate?: string;
-    journalTitle?: string;
-    pdfUrl?: string;
-  };
+  citation?: CitationMetadata;
+  schemaNodes?: SchemaOrgNode[];
+  ogType?: 'website' | 'article' | 'profile';
 }
 
-const { title, description, articleDate, canonicalUrl, image, citation } =
-  Astro.props;
+const {
+  title,
+  description,
+  articleDate,
+  canonicalUrl,
+  image,
+  citation,
+  schemaNodes,
+  ogType,
+} = Astro.props;
 ---
 
 <!doctype html>
@@ -41,6 +46,8 @@ const { title, description, articleDate, canonicalUrl, image, citation } =
       canonicalUrl={canonicalUrl}
       image={image}
       citation={citation}
+      schemaNodes={schemaNodes}
+      ogType={ogType}
     />
     <ClientRouter fallback="swap" />
   </head>

@@ -5,8 +5,10 @@ import { Icon } from 'astro-icon/components';
 
 import PageLayout from '@layouts/PageLayout.astro';
 
+import { siteConfig } from '@data/siteConfig';
 import { formatDate } from '@utils/date';
 import { calculateReadingTime } from '@utils/readingTime';
+import { buildBlogPostingSchema } from '@utils/seo';
 import { getShortSlug } from '@utils/url';
 
 export async function getStaticPaths() {
@@ -47,6 +49,23 @@ const formattedDate = formatDate(post.data.date);
 const readTime = post.data.read_time
   ? calculateReadingTime(post.body)
   : undefined;
+
+const siteBase = Astro.site
+  ? Astro.site.toString()
+  : siteConfig.url
+    ? new URL(siteConfig.url).origin
+    : Astro.url.origin;
+const canonicalUrl = new URL(Astro.url.pathname, siteBase).toString();
+
+const blogPostingSchema = buildBlogPostingSchema(
+  canonicalUrl,
+  siteBase,
+  post.data.title,
+  post.data.date,
+  post.data.modified,
+  post.data.description,
+  post.data.image
+);
 ---
 
 <PageLayout
@@ -54,6 +73,8 @@ const readTime = post.data.read_time
   description={post.data.description}
   date={post.data.date}
   tags={post.data.tags}
+  schemaNodes={[blogPostingSchema]}
+  ogType="article"
   authorProfile={post.data.author_profile}
   toc={post.data.toc}
   image={post.data.image}

@@ -3,6 +3,8 @@ import { getCollection, render } from 'astro:content';
 
 import PageLayout from '@layouts/PageLayout.astro';
 
+import { siteConfig } from '@data/siteConfig';
+import { buildCourseSchema } from '@utils/seo';
 import { getFileSlug, getShortSlug } from '@utils/url';
 
 export async function getStaticPaths() {
@@ -38,11 +40,28 @@ const termDisplay =
   item.data.semester && item.data.year
     ? `${item.data.semester} ${item.data.year}`
     : item.data.semester || (item.data.year ? `${item.data.year}` : '');
+
+const siteBase = Astro.site
+  ? Astro.site.toString()
+  : siteConfig.url
+    ? new URL(siteConfig.url).origin
+    : Astro.url.origin;
+const canonicalUrl = new URL(Astro.url.pathname, siteBase).toString();
+
+const courseSchema = buildCourseSchema(
+  canonicalUrl,
+  siteBase,
+  item.data.title,
+  item.data.description,
+  item.data.venue,
+  termDisplay
+);
 ---
 
 <PageLayout
   title={item.data.title}
   description={item.data.description}
+  schemaNodes={[courseSchema]}
   authorProfile={item.data.author_profile}
   toc={item.data.toc}
   image={item.data.image}

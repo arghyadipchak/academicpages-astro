@@ -5,7 +5,9 @@ import { Icon } from 'astro-icon/components';
 
 import PageLayout from '@layouts/PageLayout.astro';
 
+import { siteConfig } from '@data/siteConfig';
 import { formatDate } from '@utils/date';
+import { buildEventSchema } from '@utils/seo';
 import { getFileSlug, getShortSlug } from '@utils/url';
 
 export async function getStaticPaths() {
@@ -37,12 +39,30 @@ export async function getStaticPaths() {
 const { talk } = Astro.props;
 const { Content } = await render(talk);
 const formattedDate = formatDate(talk.data.date);
+
+const siteBase = Astro.site
+  ? Astro.site.toString()
+  : siteConfig.url
+    ? new URL(siteConfig.url).origin
+    : Astro.url.origin;
+const canonicalUrl = new URL(Astro.url.pathname, siteBase).toString();
+
+const eventSchema = buildEventSchema(
+  canonicalUrl,
+  siteBase,
+  talk.data.title,
+  talk.data.date,
+  talk.data.venue,
+  talk.data.description
+);
 ---
 
 <PageLayout
   title={talk.data.title}
   description={talk.data.description}
   date={talk.data.date}
+  schemaNodes={[eventSchema]}
+  ogType="article"
   slidesUrl={talk.data.slides_url}
   authorProfile={talk.data.author_profile}
   toc={talk.data.toc}
