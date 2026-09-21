@@ -251,6 +251,101 @@ test.describe('Core UI, SEO & Page Integrity Tests', () => {
     );
   });
 
+  test('OpenGraph metadata standards are fully rendered', async ({ page }) => {
+    await page.goto(toUrl('/publications/2024-03-15-paper-1/'));
+
+    const ogSiteName = page.locator('meta[property="og:site_name"]');
+    await expect(ogSiteName).toHaveAttribute('content', siteConfig.title);
+
+    const ogLocale = page.locator('meta[property="og:locale"]');
+    await expect(ogLocale).toHaveAttribute(
+      'content',
+      siteConfig.locale.replace('-', '_')
+    );
+  });
+
+  test('JSON-LD schema.org graphs render expected entities across content types', async ({
+    page,
+  }) => {
+    // 1. Homepage contains ProfilePage, Person, WebSite
+    await page.goto(toUrl('/'));
+    const homeJsonLdText = await page
+      .locator('script[type="application/ld+json"]')
+      .first()
+      .textContent();
+    expect(homeJsonLdText).toBeTruthy();
+    const homeJsonLd = JSON.parse(homeJsonLdText!);
+    const homeTypes = (homeJsonLd['@graph'] as { '@type': string }[]).map(
+      (n) => n['@type']
+    );
+    expect(homeTypes).toContain('WebSite');
+    expect(homeTypes).toContain('Person');
+    expect(homeTypes).toContain('ProfilePage');
+
+    // 2. Publication contains ScholarlyArticle
+    await page.goto(toUrl('/publications/2024-03-15-paper-1/'));
+    const pubJsonLdText = await page
+      .locator('script[type="application/ld+json"]')
+      .first()
+      .textContent();
+    const pubJsonLd = JSON.parse(pubJsonLdText!);
+    const pubTypes = (pubJsonLd['@graph'] as { '@type': string }[]).map(
+      (n) => n['@type']
+    );
+    expect(pubTypes).toContain('ScholarlyArticle');
+
+    // 3. Talk contains EducationEvent
+    await page.goto(toUrl('/talks/2024-03-01-talk-1/'));
+    const talkJsonLdText = await page
+      .locator('script[type="application/ld+json"]')
+      .first()
+      .textContent();
+    const talkJsonLd = JSON.parse(talkJsonLdText!);
+    const talkTypes = (talkJsonLd['@graph'] as { '@type': string }[]).map(
+      (n) => n['@type']
+    );
+    expect(talkTypes).toContain('EducationEvent');
+
+    // 4. Teaching contains Course
+    await page.goto(toUrl('/teaching/2025-spring-teaching-1/'));
+    const teachJsonLdText = await page
+      .locator('script[type="application/ld+json"]')
+      .first()
+      .textContent();
+    const teachJsonLd = JSON.parse(teachJsonLdText!);
+    const teachTypes = (teachJsonLd['@graph'] as { '@type': string }[]).map(
+      (n) => n['@type']
+    );
+    expect(teachTypes).toContain('Course');
+
+    // 5. Blog Post contains BlogPosting
+    await page.goto(toUrl('/posts/2024/08/blog-post-1/'));
+    const postJsonLdText = await page
+      .locator('script[type="application/ld+json"]')
+      .first()
+      .textContent();
+    const postJsonLd = JSON.parse(postJsonLdText!);
+    const postTypes = (postJsonLd['@graph'] as { '@type': string }[]).map(
+      (n) => n['@type']
+    );
+    expect(postTypes).toContain('BlogPosting');
+
+    // 6. Portfolio contains CreativeWork or SoftwareSourceCode
+    await page.goto(toUrl('/portfolio/portfolio-1/'));
+    const portJsonLdText = await page
+      .locator('script[type="application/ld+json"]')
+      .first()
+      .textContent();
+    const portJsonLd = JSON.parse(portJsonLdText!);
+    const portTypes = (portJsonLd['@graph'] as { '@type': string }[]).map(
+      (n) => n['@type']
+    );
+    expect(
+      portTypes.includes('CreativeWork') ||
+        portTypes.includes('SoftwareSourceCode')
+    ).toBe(true);
+  });
+
   test('static route redirects work properly (/guide, /md -> /markdown/)', async ({
     page,
   }) => {

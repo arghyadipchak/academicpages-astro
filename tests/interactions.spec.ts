@@ -72,6 +72,39 @@ test.describe('Client-Side Interactive Components Tests', () => {
     await expect(modal).not.toBeVisible();
   });
 
+  test('search modal traps focus within dialog when open', async ({
+    page,
+    isMobile,
+  }) => {
+    test.skip(isMobile, 'Desktop focus trapping test');
+
+    await page.goto(toUrl('/'));
+    const searchBtn = page.locator('.search-trigger-btn:visible').first();
+    await searchBtn.click();
+
+    const modal = page.locator('#search-modal');
+    await expect(modal).toBeVisible();
+
+    const searchInput = page.locator('#search-input');
+    await expect(searchInput).toBeFocused();
+
+    // Tab to next focusable element (close button)
+    await page.keyboard.press('Tab');
+    const closeBtn = page.locator('#search-close-btn');
+    await expect(closeBtn).toBeFocused();
+
+    // Tab again should wrap around to first focusable element (searchInput)
+    await page.keyboard.press('Tab');
+    await expect(searchInput).toBeFocused();
+
+    // Shift+Tab should wrap in reverse to close button
+    await page.keyboard.press('Shift+Tab');
+    await expect(closeBtn).toBeFocused();
+
+    await page.keyboard.press('Escape');
+    await expect(modal).not.toBeVisible();
+  });
+
   test('Table of contents renders on CV and guide pages and is retractable', async ({
     page,
   }) => {
