@@ -1030,8 +1030,20 @@ dialog#search-modal[open]::backdrop {
   }
 }
 
-/* Print Stylesheet for Academic Documents and CVs */
+/* Print Stylesheet for Academic Documents, CVs, and Preprints */
+@page {
+  margin: 1.5cm;
+}
+
 @media print {
+  *,
+  *::before,
+  *::after {
+    background: transparent !important;
+    box-shadow: none !important;
+    text-shadow: none !important;
+  }
+
   header.sticky,
   header:has(nav),
   footer,
@@ -1039,30 +1051,61 @@ dialog#search-modal[open]::backdrop {
   #back-to-top,
   #reading-progress,
   #a11y-announcer,
+  #mobile-menu,
   .theme-toggle-btn,
   .search-trigger-btn,
   #search-modal,
   .code-copy-btn,
+  .code-lang-badge,
   .bibtex-toggle-btn,
+  .bibtex-box,
+  .pub-filter-btn,
   .heading-anchor {
     display: none !important;
   }
 
   body {
     background-color: #fff !important;
+    color: #111 !important;
+    font-size: 11pt;
+    line-height: 1.5;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
     color: #000 !important;
+    page-break-after: avoid;
+    break-after: avoid;
+  }
+
+  .archive__item,
+  .cv-content section,
+  .table-wrapper,
+  .prose pre,
+  .prose blockquote,
+  article.page {
+    page-break-inside: avoid;
+    break-inside: avoid;
   }
 
   a {
-    color: #000 !important;
+    color: #111 !important;
     text-decoration: underline !important;
   }
 
-  .prose a[href^='http']:not([href*='localhost'])::after {
+  .prose a[href^='http']:not([href*='localhost']):not([href^='#'])::after {
     content: ' (' attr(href) ')';
     font-size: 0.85em;
     font-weight: normal;
     word-break: break-all;
+  }
+
+  p,
+  article {
+    orphans: 3;
+    widows: 3;
   }
 }
 

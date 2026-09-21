@@ -249,6 +249,30 @@ import { Icon } from 'astro-icon/components';
       if (!isInDialog) closeModal();
     });
 
+    // Focus trap inside modal
+    modal.addEventListener('keydown', (e) => {
+      if (e.key === 'Tab') {
+        const focusable = modal.querySelectorAll<HTMLElement>(
+          'input, button, a[href], [tabindex="0"]'
+        );
+        const focusableArr = Array.from(focusable).filter(
+          (el) => el.offsetParent !== null
+        );
+        if (focusableArr.length === 0) return;
+
+        const first = focusableArr[0];
+        const last = focusableArr[focusableArr.length - 1];
+
+        if (e.shiftKey && document.activeElement === first) {
+          e.preventDefault();
+          last.focus();
+        } else if (!e.shiftKey && document.activeElement === last) {
+          e.preventDefault();
+          first.focus();
+        }
+      }
+    });
+
     // Handle clicks on result items (while allowing nested <a> tags in description to work)
     searchList.addEventListener('click', (e) => {
       const target = e.target as HTMLElement;
@@ -258,88 +282,93 @@ import { Icon } from 'astro-icon/components';
       if (item && item.dataset.url) window.location.href = item.dataset.url;
     });
 
+    let debounceTimer: ReturnType<typeof setTimeout> | null = null;
+
     // Handle Search Input Filtering with Token Matching & Relevance Sorting
-    input.addEventListener('input', async () => {
-      const rawQuery = input.value.trim().toLowerCase();
-      selectedIndex = -1;
-      input.removeAttribute('aria-activedescendant');
+    input.addEventListener('input', () => {
+      if (debounceTimer) clearTimeout(debounceTimer);
+      debounceTimer = setTimeout(async () => {
+        const rawQuery = input.value.trim().toLowerCase();
+        selectedIndex = -1;
+        input.removeAttribute('aria-activedescendant');
 
-      if (!rawQuery) {
-        searchList.innerHTML = '';
-        placeholder?.classList.remove('hidden');
-        noResults?.classList.add('hidden');
-        input.setAttribute('aria-expanded', 'false');
+        if (!rawQuery) {
+          searchList.innerHTML = '';
+          placeholder?.classList.remove('hidden');
+          noResults?.classList.add('hidden');
+          input.setAttribute('aria-expanded', 'false');
 
-        return;
-      }
-
-      placeholder?.classList.add('hidden');
-      const data = await loadSearchData();
-      const queryTokens = rawQuery.split(/\s+/).filter(Boolean);
-
-      const matchingItems: { item: IndexedSearchItem; score: number }[] = [];
-      for (const item of data) {
-        const matchesAllTokens = queryTokens.every(
-          (t) =>
-            item.cleanTitle.includes(t) ||
-            item.cleanDescription.includes(t) ||
-            item.cleanType.includes(t)
-        );
-        if (matchesAllTokens) {
-          matchingItems.push({
-            item,
-            score: scoreItem(item, rawQuery, queryTokens),
-          });
+          return;
         }
-      }
 
-      if (matchingItems.length === 0) {
-        searchList.innerHTML = '';
-        noResults?.classList.remove('hidden');
-        input.setAttribute('aria-expanded', 'false');
-        announce(`No results found for ${rawQuery}`);
+        placeholder?.classList.add('hidden');
+        const data = await loadSearchData();
+        const queryTokens = rawQuery.split(/\s+/).filter(Boolean);
 
-        return;
-      }
+        const matchingItems: { item: IndexedSearchItem; score: number }[] = [];
+        for (const item of data) {
+          const matchesAllTokens = queryTokens.every(
+            (t) =>
+              item.cleanTitle.includes(t) ||
+              item.cleanDescription.includes(t) ||
+              item.cleanType.includes(t)
+          );
+          if (matchesAllTokens) {
+            matchingItems.push({
+              item,
+              score: scoreItem(item, rawQuery, queryTokens),
+            });
+          }
+        }
 
-      matchingItems.sort((a, b) => b.score - a.score);
-      const results = matchingItems.slice(0, 10).map((m) => m.item);
+        if (matchingItems.length === 0) {
+          searchList.innerHTML = '';
+          noResults?.classList.remove('hidden');
+          input.setAttribute('aria-expanded', 'false');
+          announce(`No results found for ${rawQuery}`);
 
-      noResults?.classList.add('hidden');
-      input.setAttribute('aria-expanded', 'true');
-      announce(`${results.length} results found for ${rawQuery}`);
+          return;
+        }
 
-      searchList.innerHTML = results
-        .map(
-          (item, idx) => `
-          <li
-            id="search-result-${idx}"
-            role="option"
-            aria-selected="false"
-            data-url="${escapeHtml(item.url)}"
-            data-index="${idx}"
-            class="search-result-item group flex cursor-pointer items-center justify-between rounded-lg px-3 py-2 text-sm transition hover:bg-neutral-100 dark:hover:bg-neutral-800"
-          >
-            <div class="min-w-0 flex-1 pr-3">
-              <a
-                href="${escapeHtml(item.url)}"
-                class="search-result-title font-medium text-(--global-text-color) group-hover:text-(--global-link-color) block truncate"
-              >
-                ${item.title}
-              </a>
-              ${
-                item.description
-                  ? `<div class="search-result-desc text-xs text-(--global-text-color-light) truncate mt-0.5 [&_a]:text-(--global-link-color) [&_a]:underline">${item.description}</div>`
-                  : ''
-              }
-            </div>
-            <span class="rounded bg-neutral-200 dark:bg-neutral-700 px-2 py-0.5 text-[10px] font-semibold text-(--global-text-color) shrink-0">
-              ${escapeHtml(item.type)}
-            </span>
-          </li>
-        `
-        )
-        .join('');
+        matchingItems.sort((a, b) => b.score - a.score);
+        const results = matchingItems.slice(0, 10).map((m) => m.item);
+
+        noResults?.classList.add('hidden');
+        input.setAttribute('aria-expanded', 'true');
+        announce(`${results.length} results found for ${rawQuery}`);
+
+        searchList.innerHTML = results
+          .map(
+            (item, idx) => `
+            <li
+              id="search-result-${idx}"
+              role="option"
+              aria-selected="false"
+              data-url="${escapeHtml(item.url)}"
+              data-index="${idx}"
+              class="search-result-item group flex cursor-pointer items-center justify-between rounded-lg px-3 py-2 text-sm transition hover:bg-neutral-100 dark:hover:bg-neutral-800"
+            >
+              <div class="min-w-0 flex-1 pr-3">
+                <a
+                  href="${escapeHtml(item.url)}"
+                  class="search-result-title font-medium text-(--global-text-color) group-hover:text-(--global-link-color) block truncate"
+                >
+                  ${item.title}
+                </a>
+                ${
+                  item.description
+                    ? `<div class="search-result-desc text-xs text-(--global-text-color-light) truncate mt-0.5 [&_a]:text-(--global-link-color) [&_a]:underline">${item.description}</div>`
+                    : ''
+                }
+              </div>
+              <span class="rounded bg-neutral-200 dark:bg-neutral-700 px-2 py-0.5 text-[10px] font-semibold text-(--global-text-color) shrink-0">
+                ${escapeHtml(item.type)}
+              </span>
+            </li>
+          `
+          )
+          .join('');
+      }, 50);
     });
 
     // Arrow keys & Enter key navigation inside search results
@@ -405,6 +434,10 @@ import { Icon } from 'astro-icon/components';
       if (modal.open) closeModalFn?.();
       else openModalFn?.();
     }
+  });
+
+  document.addEventListener('astro:before-swap', () => {
+    closeModalFn?.();
   });
 
   document.addEventListener('astro:page-load', () => {

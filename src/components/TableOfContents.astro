@@ -50,7 +50,14 @@ const { containerSelector = '.prose, .cv-content' } = Astro.props;
 </div>
 
 <script>
+  let activeTocObserver: IntersectionObserver | null = null;
+
   function setupToC() {
+    if (activeTocObserver) {
+      activeTocObserver.disconnect();
+      activeTocObserver = null;
+    }
+
     const tocWrapper = document.getElementById('toc-wrapper');
     const tocList = document.getElementById('toc-list');
     const tocToggle = document.getElementById('toc-toggle-btn');
@@ -121,7 +128,7 @@ const { containerSelector = '.prose, .cv-content' } = Astro.props;
     };
 
     // Scrollspy with IntersectionObserver
-    const observer = new IntersectionObserver(
+    activeTocObserver = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
@@ -142,8 +149,15 @@ const { containerSelector = '.prose, .cv-content' } = Astro.props;
       { rootMargin: '0px 0px -70% 0px' }
     );
 
-    headings.forEach((h) => observer.observe(h));
+    headings.forEach((h) => activeTocObserver!.observe(h));
   }
+
+  document.addEventListener('astro:before-swap', () => {
+    if (activeTocObserver) {
+      activeTocObserver.disconnect();
+      activeTocObserver = null;
+    }
+  });
 
   document.addEventListener('astro:page-load', setupToC);
 </script>
