@@ -72,101 +72,60 @@ export function resolveHtmlUrls(html?: string): string {
 }
 
 /**
- * Generates a clean URL-friendly slug from text
- */
-export function slugify(text: string): string {
-  return text
-    .toString()
-    .toLowerCase()
-    .trim()
-    .replace(/\s+/g, '-')
-    .replace(/&/g, '-and-')
-    .replace(/[^\w-]+/g, '')
-    .replace(/--+/g, '-')
-    .replace(/^-+/, '')
-    .replace(/-+$/, '');
-}
-
-/**
  * Extracts the filename slug without extension
  */
 export function getFileSlug(id: string): string {
-  return id.replace(/\.md$/, '');
+  return id.replace(/\.(md|mdx)$/, '');
+}
+
+/**
+ * Internal helper to resolve canonical URL for collection entries
+ */
+function getCollectionItemUrl(
+  collection: string,
+  item: { id: string; data: { permalink?: string } }
+): string {
+  if (item.data.permalink) return resolveUrl(item.data.permalink);
+
+  return resolveUrl(`/${collection}/${getFileSlug(item.id)}/`);
 }
 
 /**
  * Resolves the canonical internal URL for a blog post
  */
-export function getPostUrl(post: {
+export const getPostUrl = (post: {
   id: string;
   data: { permalink?: string };
-}): string {
-  if (post.data.permalink) return resolveUrl(post.data.permalink);
-
-  return resolveUrl(`/posts/${getFileSlug(post.id)}/`);
-}
+}): string => getCollectionItemUrl('posts', post);
 
 /**
  * Resolves the canonical internal URL for a publication
  */
-export function getPublicationUrl(pub: {
+export const getPublicationUrl = (pub: {
   id: string;
   data: { permalink?: string };
-}): string {
-  if (pub.data.permalink) return resolveUrl(pub.data.permalink);
-
-  return resolveUrl(`/publications/${getFileSlug(pub.id)}/`);
-}
+}): string => getCollectionItemUrl('publications', pub);
 
 /**
  * Resolves the canonical internal URL for a talk
  */
-export function getTalkUrl(talk: {
+export const getTalkUrl = (talk: {
   id: string;
   data: { permalink?: string };
-}): string {
-  if (talk.data.permalink) return resolveUrl(talk.data.permalink);
-
-  return resolveUrl(`/talks/${getFileSlug(talk.id)}/`);
-}
+}): string => getCollectionItemUrl('talks', talk);
 
 /**
  * Resolves the canonical internal URL for a teaching entry
  */
-export function getTeachingUrl(item: {
+export const getTeachingUrl = (item: {
   id: string;
   data: { permalink?: string };
-}): string {
-  if (item.data.permalink) return resolveUrl(item.data.permalink);
-
-  return resolveUrl(`/teaching/${getFileSlug(item.id)}/`);
-}
+}): string => getCollectionItemUrl('teaching', item);
 
 /**
  * Resolves the canonical internal URL for a portfolio item
  */
-export function getPortfolioUrl(item: {
+export const getPortfolioUrl = (item: {
   id: string;
   data: { permalink?: string };
-}): string {
-  if (item.data.permalink) return resolveUrl(item.data.permalink);
-
-  return resolveUrl(`/portfolio/${getFileSlug(item.id)}/`);
-}
-
-/**
- * Generates a CSS view-transition-name for title morphing from an internal URL
- */
-export function getTitleTransitionName(url?: string): string | undefined {
-  if (
-    !url ||
-    url.startsWith('http://') ||
-    url.startsWith('https://') ||
-    url.startsWith('//')
-  )
-    return undefined;
-
-  const clean = url.replace(/[^a-zA-Z0-9_-]/g, '-').replace(/^-+|-+$/g, '');
-
-  return clean ? `title-${clean}` : undefined;
-}
+}): string => getCollectionItemUrl('portfolio', item);
