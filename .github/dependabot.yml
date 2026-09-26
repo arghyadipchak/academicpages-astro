@@ -5,47 +5,33 @@ updates:
     schedule:
       interval: weekly
       day: saturday
-      time: '08:00'
-      timezone: Asia/Kolkata
     commit-message:
       prefix: build
       prefix-development: chore
       include: scope
-    labels:
-      - dependencies
-      - javascript
     open-pull-requests-limit: 10
+    ignore:
+      - dependency-name: prettier-plugin-astro
+        versions: ['>= 1.0.0']
     groups:
       npm-packages:
         dependency-type: production
-        patterns:
-          - '*'
-        update-types:
-          - minor
-          - patch
+        patterns: ['*']
+        update-types: ['minor', 'patch']
       npm-dev-packages:
         dependency-type: development
-        patterns:
-          - '*'
-        update-types:
-          - minor
-          - patch
+        patterns: ['*']
+        update-types: ['minor', 'patch']
 
   - package-ecosystem: github-actions
     directory: /
     schedule:
       interval: weekly
       day: saturday
-      time: '08:00'
-      timezone: Asia/Kolkata
     commit-message:
       prefix: ci
       include: scope
-    labels:
-      - dependencies
-      - github-actions
     open-pull-requests-limit: 10
     groups:
       github-actions:
-        patterns:
-          - '*'
+        patterns: ['*']
