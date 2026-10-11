@@ -2,7 +2,7 @@
 @plugin '@tailwindcss/typography';
 @import 'katex/dist/katex.min.css';
 
-@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *, .dark, .dark *));
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
 
 @theme {
   --font-sans:
@@ -10,64 +10,6 @@
     'Lucida Grande', Arial, sans-serif;
   --font-serif: Georgia, Times, serif;
   --font-mono: Monaco, Consolas, 'Lucida Console', Menlo, monospace;
-
-  --color-brand-primary: #2f7f93;
-  --color-brand-primary-dark: #0ea1c5;
-  --color-brand-link: #2b7c91;
-  --color-brand-link-hover: #235f6e;
-
-  --color-academic-gray: #7a8288;
-  --color-academic-dark-gray: #494e52;
-  --color-academic-darker-gray: #313436;
-  --color-academic-light-gray: #bdc1c4;
-  --color-academic-lighter-gray: #f2f3f3;
-
-  --color-global-base: var(--global-base-color);
-  --color-global-bg: var(--global-bg-color);
-  --color-global-footer-bg: var(--global-footer-bg-color);
-  --color-global-border: var(--global-border-color);
-  --color-global-dark-border: var(--global-dark-border-color);
-  --color-global-code-bg: var(--global-code-background-color);
-  --color-global-code-text: var(--global-code-text-color);
-  --color-global-link: var(--global-link-color);
-  --color-global-link-hover: var(--global-link-color-hover);
-  --color-global-masthead-link: var(--global-masthead-link-color);
-  --color-global-masthead-link-hover: var(--global-masthead-link-color-hover);
-  --color-global-text: var(--global-text-color);
-  --color-global-text-light: var(--global-text-color-light);
-}
-
-:root {
-  --global-base-color: #2f7f93;
-  --global-bg-color: #ffffff;
-  --global-footer-bg-color: #f2f3f3;
-  --global-border-color: #f2f3f3;
-  --global-dark-border-color: #bdc1c4;
-  --global-code-background-color: #fafafa;
-  --global-code-text-color: #313436;
-  --global-link-color: #2b7c91;
-  --global-link-color-hover: #235f6e;
-  --global-masthead-link-color: #494e52;
-  --global-masthead-link-color-hover: #235f6e;
-  --global-text-color: #494e52;
-  --global-text-color-light: #7a8288;
-}
-
-html[data-theme='dark'],
-.dark {
-  --global-base-color: #0ea1c5;
-  --global-bg-color: #282c34;
-  --global-footer-bg-color: #21252b;
-  --global-border-color: #3e4451;
-  --global-dark-border-color: #4b5263;
-  --global-code-background-color: #21252b;
-  --global-code-text-color: #abb2bf;
-  --global-link-color: #0ea1c5;
-  --global-link-color-hover: #61afef;
-  --global-masthead-link-color: #e5e7eb;
-  --global-masthead-link-color-hover: #0ea1c5;
-  --global-text-color: #e5e7eb;
-  --global-text-color-light: #9ca3af;
 }
 
 @layer base {
@@ -220,6 +162,7 @@ dialog:focus-visible,
 
 /* Shiki code blocks */
 .prose pre.astro-code {
+  background-color: var(--global-code-background-color) !important;
   padding: 1rem 1.25rem;
   border: 1px solid var(--global-border-color);
   border-radius: 6px;
@@ -237,11 +180,8 @@ dialog:focus-visible,
 
 /* Shiki Dual Theme Light/Dark Synchronization */
 html[data-theme='dark'] .astro-code,
-html[data-theme='dark'] .astro-code span,
-.dark .astro-code,
-.dark .astro-code span {
+html[data-theme='dark'] .astro-code span {
   color: var(--shiki-dark) !important;
-  background-color: var(--shiki-dark-bg) !important;
   font-style: var(--shiki-dark-font-style) !important;
   font-weight: var(--shiki-dark-font-weight) !important;
   text-decoration: var(--shiki-dark-text-decoration) !important;
@@ -392,21 +332,19 @@ sup {
 }
 
 .prose tbody tr:nth-child(even) {
-  background-color: rgba(0, 0, 0, 0.02);
-}
-
-html[data-theme='dark'] .prose tbody tr:nth-child(even),
-.dark .prose tbody tr:nth-child(even) {
-  background-color: rgba(255, 255, 255, 0.025);
+  background-color: color-mix(
+    in srgb,
+    var(--global-text-color) 3%,
+    transparent
+  );
 }
 
 .prose tbody tr:hover {
-  background-color: rgba(0, 0, 0, 0.04);
-}
-
-html[data-theme='dark'] .prose tbody tr:hover,
-.dark .prose tbody tr:hover {
-  background-color: rgba(255, 255, 255, 0.05);
+  background-color: color-mix(
+    in srgb,
+    var(--global-text-color) 6%,
+    transparent
+  );
 }
 
 .prose tbody td {
@@ -802,6 +740,9 @@ html[data-theme='dark'] .prose tbody tr:hover,
   background-color: var(--global-base-color);
   color: #ffffff !important;
 }
+html[data-theme='dark'] .btn--primary {
+  color: var(--global-bg-color) !important;
+}
 .btn--primary:hover {
   opacity: 0.9;
 }
@@ -816,35 +757,35 @@ html[data-theme='dark'] .prose tbody tr:hover,
 }
 
 .btn--info {
-  background-color: #3b82f6;
+  background-color: #2563eb;
   color: #ffffff !important;
 }
 .btn--info:hover {
-  background-color: #2563eb;
+  background-color: #1d4ed8;
 }
 
 .btn--warning {
-  background-color: #f59e0b;
+  background-color: #b45309;
   color: #ffffff !important;
 }
 .btn--warning:hover {
-  background-color: #d97706;
+  background-color: #92400e;
 }
 
 .btn--danger {
-  background-color: #ef4444;
+  background-color: #dc2626;
   color: #ffffff !important;
 }
 .btn--danger:hover {
-  background-color: #dc2626;
+  background-color: #b91c1c;
 }
 
 .btn--success {
-  background-color: #10b981;
+  background-color: #047857;
   color: #ffffff !important;
 }
 .btn--success:hover {
-  background-color: #059669;
+  background-color: #065f46;
 }
 
 /* Optical Icon and Text Vertical Alignment */

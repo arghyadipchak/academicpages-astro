@@ -1,11 +1,68 @@
 import { expect, test } from '@playwright/test';
 
+import { siteConfig } from '@data/siteConfig';
+import { darkThemes, lightThemes, resolveThemes } from '@data/themes';
+
 import { toUrl } from './fixtures/test-utils';
+
+function hexLuminance(hex: string): number {
+  const n = parseInt(hex.replace('#', ''), 16);
+  const channels = [(n >> 16) & 255, (n >> 8) & 255, n & 255].map((v) => {
+    const s = v / 255;
+
+    return s <= 0.04045 ? s / 12.92 : ((s + 0.055) / 1.055) ** 2.4;
+  });
+
+  return 0.2126 * channels[0] + 0.7152 * channels[1] + 0.0722 * channels[2];
+}
+
+function contrastRatio(hex1: string, hex2: string): number {
+  const l1 = hexLuminance(hex1);
+  const l2 = hexLuminance(hex2);
+
+  return (Math.max(l1, l2) + 0.05) / (Math.min(l1, l2) + 0.05);
+}
 
 test.describe('Client-Side Interactive Components Tests', () => {
   test('theme toggle changes data-theme attribute and persists', async ({
     page,
   }) => {
+    const resolved = resolveThemes({
+      light: { base: '#8c1515' },
+      dark: 'catppuccin-mocha',
+    });
+    expect(resolved.light.base).toBe('#8c1515');
+    expect(resolved.light.bg).toBe('#ffffff');
+    expect(resolved.dark.bg).toBe('#1e1e2e');
+    expect(resolved.css).toContain('--global-link-color:#8c1515');
+    expect(resolved.css).toContain('color-mix(in srgb');
+
+    for (const [name, p] of Object.entries(lightThemes)) {
+      expect(contrastRatio(p.text, p.bg), `${name} text/bg`).toBeGreaterThan(
+        4.5
+      );
+      expect(
+        contrastRatio(p.textLight, p.bg),
+        `${name} textLight/bg`
+      ).toBeGreaterThan(3);
+      expect(contrastRatio(p.base, p.bg), `${name} base/bg`).toBeGreaterThan(
+        2.7
+      );
+    }
+    for (const [name, p] of Object.entries(darkThemes)) {
+      expect(contrastRatio(p.text, p.bg), `${name} text/bg`).toBeGreaterThan(
+        4.5
+      );
+      expect(
+        contrastRatio(p.textLight, p.bg),
+        `${name} textLight/bg`
+      ).toBeGreaterThan(2.9);
+      expect(contrastRatio(p.base, p.bg), `${name} base/bg`).toBeGreaterThan(
+        4.5
+      );
+    }
+
+    const activeThemes = resolveThemes(siteConfig.theme);
     await page.goto(toUrl('/'));
     const initialTheme =
       (await page.locator('html').getAttribute('data-theme')) || 'light';
@@ -18,10 +75,29 @@ test.describe('Client-Side Interactive Components Tests', () => {
     );
 
     const newTheme = await page.locator('html').getAttribute('data-theme');
+    const expectedBg =
+      newTheme === 'dark' ? activeThemes.dark.bg : activeThemes.light.bg;
+    const metaThemeColor = await page
+      .locator('meta[name="theme-color"]')
+      .first()
+      .getAttribute('content');
+    expect(metaThemeColor).toBe(expectedBg);
 
-    // Reload page to verify persistence in localStorage
+    const activeCssBg = await page.evaluate(() =>
+      getComputedStyle(document.documentElement)
+        .getPropertyValue('--global-bg-color')
+        .trim()
+    );
+    expect(activeCssBg).toBe(expectedBg);
+
+    // Reload page to verify persistence in localStorage and meta theme-color
     await page.reload();
     await expect(page.locator('html')).toHaveAttribute('data-theme', newTheme!);
+    const reloadedMetaColor = await page
+      .locator('meta[name="theme-color"]')
+      .first()
+      .getAttribute('content');
+    expect(reloadedMetaColor).toBe(expectedBg);
   });
 
   test('search modal opens with Cmd+K, supports ArrowDown/Up selection, and navigates with Enter', async ({

@@ -44,7 +44,8 @@ academicpages-astro/
 │   │   └── teaching/       # Courses and teaching materials
 │   ├── data/
 │   │   ├── navigation.ts   # Top navigation bar links
-│   │   └── siteConfig.ts   # Author profile, site title, links, and category definitions
+│   │   ├── siteConfig.ts   # Author profile, site title, theme, links, and category definitions
+│   │   └── themes.ts       # Built-in light/dark color theme presets and token resolver
 │   ├── layouts/            # BaseLayout, PageLayout, ListLayout
 │   ├── pages/              # Astro routing pages (/cv, /publications, /talks, /posts, etc.)
 │   └── styles/

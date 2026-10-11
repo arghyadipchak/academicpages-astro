@@ -4,7 +4,7 @@ import { Icon } from 'astro-icon/components';
 
 <button
   type="button"
-  class="theme-toggle-btn inline-flex cursor-pointer items-center justify-center p-1.5 text-neutral-600 transition-colors hover:text-neutral-900 focus:outline-none dark:text-neutral-300 dark:hover:text-white"
+  class="theme-toggle-btn inline-flex cursor-pointer items-center justify-center p-1.5 text-(--global-text-color-light) transition-colors hover:text-(--global-text-color) focus:outline-none"
   aria-label="Toggle theme"
   title="Toggle theme"
 >
@@ -34,41 +34,26 @@ import { Icon } from 'astro-icon/components';
 
   function setupThemeToggle() {
     const currentTheme =
-      document.documentElement.getAttribute('data-theme') ||
-      (document.documentElement.classList.contains('dark') ? 'dark' : 'light');
+      document.documentElement.getAttribute('data-theme') || 'light';
     updateThemeToggleLabels(currentTheme);
 
-    const buttons = document.querySelectorAll('.theme-toggle-btn');
-    buttons.forEach((btn) => {
-      btn.addEventListener('click', () => {
-        const isDark =
-          document.documentElement.getAttribute('data-theme') === 'dark';
-        const nextTheme = isDark ? 'light' : 'dark';
-
-        document.documentElement.setAttribute('data-theme', nextTheme);
-        if (nextTheme === 'dark')
-          document.documentElement.classList.add('dark');
-        else document.documentElement.classList.remove('dark');
-
-        localStorage.setItem('theme', nextTheme);
-        updateThemeToggleLabels(nextTheme);
-        announce(`Color theme set to ${nextTheme}`);
-
-        document
-          .querySelectorAll<HTMLMetaElement>('meta[name="theme-color"]')
-          .forEach((meta) => {
-            meta.setAttribute(
-              'content',
-              nextTheme === 'dark' ? '#282c34' : '#ffffff'
-            );
-          });
-
-        document.dispatchEvent(
-          new CustomEvent('theme-change', { detail: { theme: nextTheme } })
-        );
+    document
+      .querySelectorAll<HTMLButtonElement>('.theme-toggle-btn')
+      .forEach((btn) => {
+        btn.onclick = () => {
+          const isDark =
+            document.documentElement.getAttribute('data-theme') === 'dark';
+          const nextTheme = isDark ? 'light' : 'dark';
+          (
+            window as Window & { __applyTheme?: (t: string) => string }
+          ).__applyTheme?.(nextTheme);
+          announce(`Color theme set to ${nextTheme}`);
+        };
       });
-    });
   }
 
+  document.addEventListener('theme-change', (e) => {
+    updateThemeToggleLabels((e as CustomEvent<{ theme: string }>).detail.theme);
+  });
   document.addEventListener('astro:page-load', setupThemeToggle);
 </script>

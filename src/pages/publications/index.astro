@@ -44,10 +44,12 @@ const categories = siteConfig.publicationCategories;
       aria-controls="publications-container"
       tabindex="0"
       data-filter="all"
-      class="pub-filter-btn active inline-flex cursor-pointer items-center gap-1.5 rounded-full border border-(--global-base-color) bg-(--global-base-color) px-3.5 py-1.5 text-xs leading-none font-semibold text-white shadow-xs transition"
+      class="pub-filter-btn active inline-flex cursor-pointer items-center gap-1.5 rounded-full border border-(--global-base-color) bg-(--global-base-color) px-3.5 py-1.5 text-xs leading-none font-semibold text-white shadow-xs transition dark:text-(--global-bg-color)"
     >
       <span>All</span>
-      <span class="pub-count font-normal text-white opacity-80">
+      <span
+        class="pub-count font-normal text-white opacity-80 dark:text-(--global-bg-color)"
+      >
         ({allPubs.length})
       </span>
     </button>
@@ -142,6 +144,7 @@ const categories = siteConfig.publicationCategories;
           btn.classList.add(
             'bg-(--global-base-color)',
             'text-white',
+            'dark:text-(--global-bg-color)',
             'border-(--global-base-color)',
             'font-semibold'
           );
@@ -152,7 +155,11 @@ const categories = siteConfig.publicationCategories;
             'font-medium'
           );
           if (countSpan) {
-            countSpan.classList.add('opacity-80', 'text-white');
+            countSpan.classList.add(
+              'opacity-80',
+              'text-white',
+              'dark:text-(--global-bg-color)'
+            );
             countSpan.classList.remove('text-(--global-text-color-light)');
           }
           btn.setAttribute('aria-selected', 'true');
@@ -161,6 +168,7 @@ const categories = siteConfig.publicationCategories;
           btn.classList.remove(
             'bg-(--global-base-color)',
             'text-white',
+            'dark:text-(--global-bg-color)',
             'border-(--global-base-color)',
             'font-semibold'
           );
@@ -171,7 +179,11 @@ const categories = siteConfig.publicationCategories;
             'font-medium'
           );
           if (countSpan) {
-            countSpan.classList.remove('opacity-80', 'text-white');
+            countSpan.classList.remove(
+              'opacity-80',
+              'text-white',
+              'dark:text-(--global-bg-color)'
+            );
             countSpan.classList.add('text-(--global-text-color-light)');
           }
           btn.setAttribute('aria-selected', 'false');

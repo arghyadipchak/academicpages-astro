@@ -1,3 +1,5 @@
+import type { ThemeConfig } from './themes';
+
 /**
  * Site & Author Configuration
  *
@@ -154,6 +156,8 @@ export interface SiteConfig {
    * Subpath deployment is supported automatically if a path is included (e.g. 'https://user.github.io/my-repo')
    */
   url: string;
+  /** Light and dark color theme presets or custom palettes */
+  theme?: ThemeConfig;
   /** Left sidebar author profile details */
   author: AuthorConfig;
   /** Enable or disable breadcrumb navigation trails */
@@ -168,6 +172,12 @@ export const siteConfig: SiteConfig = {
   titleSeparator: '-',
   description: "Your Name's Academic Portfolio",
   url: 'https://username.github.io',
+  theme: {
+    // Light: 'default' | 'github-light' | 'catppuccin-latte' | 'solarized-light' | 'rose-pine-dawn' | 'gruvbox-light' | 'nord-light' | 'flexoki-light' | 'everforest-light' | 'tokyo-night-day' | 'alucard' | 'one-light' | 'ayu-light' | 'kanagawa-lotus' | 'light-owl' | 'monokai-light'
+    light: 'default',
+    // Dark: 'default' | 'github-dark' | 'catppuccin-mocha' | 'solarized-dark' | 'rose-pine' | 'gruvbox-dark' | 'nord' | 'flexoki-dark' | 'everforest-dark' | 'tokyo-night' | 'dracula' | 'one-dark' | 'ayu-dark' | 'kanagawa-wave' | 'night-owl' | 'monokai'
+    dark: 'default',
+  },
   breadcrumbs: true,
   author: {
     avatar: '/images/profile.png',

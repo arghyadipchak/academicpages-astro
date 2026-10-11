@@ -17,7 +17,7 @@ A modern, high-performance academic personal website and portfolio template buil
 ## ✨ Features
 
 - ⚡ **Blazing Fast**: 100% static HTML generation with sub-second page loads and zero client-side JavaScript framework bloat
-- 🎨 **Modern Aesthetic & Dark Mode**: Classic Academic Pages aesthetic modernized with clean light/dark themes and automatic OS preference fallback
+- 🎨 **Modern Aesthetic & Dark Mode**: Classic Academic Pages aesthetic modernized with 32 built-in light/dark theme presets, custom 5-token palettes, and automatic OS preference fallback
 - 📚 **Strict Content Collections**: Zod-validated schemas for publications (with 1-click BibTeX), talks, teaching, portfolio projects, and KaTeX blog posts
 - 🔍 **Instant Search (`Cmd + K`)**: Fast, lightweight client-side fuzzy search across all publications, talks, and blog posts
 - 📐 **Mathematical Rigor ($\LaTeX$ / KaTeX)**: Fast, static server-side math rendering across Markdown content, frontmatter titles, and archive listings via KaTeX

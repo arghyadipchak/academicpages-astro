@@ -2,6 +2,7 @@ import type { APIRoute } from 'astro';
 import { getCollection } from 'astro:content';
 
 import { siteConfig } from '@data/siteConfig';
+import { resolveThemes } from '@data/themes';
 import { formatDate } from '@utils/date';
 import { buildCollectionPaths, getFileSlug } from '@utils/url';
 
@@ -212,16 +213,18 @@ export const GET: APIRoute = async ({ props }) => {
     )
     .join('');
 
+  const { light, dark } = resolveThemes(siteConfig.theme);
+
   const svg = `
 <svg width="1200" height="630" viewBox="0 0 1200 630" xmlns="http://www.w3.org/2000/svg">
   <defs>
     <linearGradient id="bg-grad" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0%" stop-color="#1e222b"/>
-      <stop offset="100%" stop-color="#12151a"/>
+      <stop offset="0%" stop-color="${dark.bg}"/>
+      <stop offset="100%" stop-color="${dark.surface}"/>
     </linearGradient>
     <linearGradient id="brand-grad" x1="0" y1="0" x2="1" y2="0">
-      <stop offset="0%" stop-color="#0ea1c5"/>
-      <stop offset="100%" stop-color="#2f7f93"/>
+      <stop offset="0%" stop-color="${dark.base}"/>
+      <stop offset="100%" stop-color="${light.base}"/>
     </linearGradient>
   </defs>
 
@@ -232,21 +235,21 @@ export const GET: APIRoute = async ({ props }) => {
   <rect x="0" y="0" width="1200" height="8" fill="url(#brand-grad)"/>
 
   <!-- Decorative Grid / Glow -->
-  <circle cx="1080" cy="120" r="300" fill="#0ea1c5" opacity="0.08" filter="blur(80px)"/>
-  <circle cx="100" cy="530" r="250" fill="#2f7f93" opacity="0.06" filter="blur(60px)"/>
+  <circle cx="1080" cy="120" r="300" fill="${dark.base}" opacity="0.08" filter="blur(80px)"/>
+  <circle cx="100" cy="530" r="250" fill="${light.base}" opacity="0.06" filter="blur(60px)"/>
 
   <!-- Category Badge -->
   ${
     item.category
       ? `
-  <rect x="80" y="80" width="${item.category.length * 12 + 32}" height="36" rx="18" fill="#2f7f93" opacity="0.25"/>
-  <text x="96" y="103" font-family="-apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', Roboto, sans-serif" font-size="14" font-weight="600" fill="#0ea1c5" letter-spacing="0.05em">${escapeXml(item.category.toUpperCase())}</text>
+  <rect x="80" y="80" width="${item.category.length * 12 + 32}" height="36" rx="18" fill="${light.base}" opacity="0.25"/>
+  <text x="96" y="103" font-family="-apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', Roboto, sans-serif" font-size="14" font-weight="600" fill="${dark.base}" letter-spacing="0.05em">${escapeXml(item.category.toUpperCase())}</text>
   `
       : ''
   }
 
   <!-- Title -->
-  <text x="80" y="220" font-family="-apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', Roboto, sans-serif" font-size="46" font-weight="800" fill="#ffffff" letter-spacing="-0.02em">
+  <text x="80" y="220" font-family="-apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', Roboto, sans-serif" font-size="46" font-weight="800" fill="${dark.text}" letter-spacing="-0.02em">
     ${titleTspans}
   </text>
 
@@ -254,7 +257,7 @@ export const GET: APIRoute = async ({ props }) => {
   ${
     subtitle
       ? `
-  <text x="80" y="440" font-family="-apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', Roboto, sans-serif" font-size="20" font-weight="500" fill="#9ca3af">
+  <text x="80" y="440" font-family="-apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', Roboto, sans-serif" font-size="20" font-weight="500" fill="${dark.textLight}">
     ${escapeXml(subtitle)}
   </text>
   `
@@ -262,13 +265,13 @@ export const GET: APIRoute = async ({ props }) => {
   }
 
   <!-- Footer Divider -->
-  <line x1="80" y1="480" x2="1120" y2="480" stroke="#374151" stroke-width="1"/>
+  <line x1="80" y1="480" x2="1120" y2="480" stroke="${dark.textLight}" stroke-opacity="0.25" stroke-width="1"/>
 
   <!-- Author & Site Branding -->
-  <text x="80" y="540" font-family="-apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', Roboto, sans-serif" font-size="22" font-weight="700" fill="#ffffff">
+  <text x="80" y="540" font-family="-apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', Roboto, sans-serif" font-size="22" font-weight="700" fill="${dark.text}">
     ${escapeXml(siteConfig.author.name)}
   </text>
-  <text x="80" y="568" font-family="-apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', Roboto, sans-serif" font-size="15" font-weight="400" fill="#9ca3af">
+  <text x="80" y="568" font-family="-apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', Roboto, sans-serif" font-size="15" font-weight="400" fill="${dark.textLight}">
     ${escapeXml(siteConfig.title)}
   </text>
 </svg>

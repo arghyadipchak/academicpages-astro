@@ -15,6 +15,10 @@ export const siteConfig: SiteConfig = {
   titleSeparator: '-',
   description: "Your Name's Academic Portfolio",
   url: 'https://username.github.io',
+  theme: {
+    light: 'default',
+    dark: 'default',
+  },
   breadcrumbs: true,
   author: {
     avatar: '/images/profile.png',
@@ -40,15 +44,24 @@ export const siteConfig: SiteConfig = {
 
 ### Core Site Settings
 
-| Property                | Type                                | Default    | Description                                                                                           |
-| :---------------------- | :---------------------------------- | :--------- | :---------------------------------------------------------------------------------------------------- |
-| `locale`                | `string`                            | `'en-US'`  | Site language/locale code used in HTML `lang` attributes and RSS feeds                                |
-| `title`                 | `string`                            | Required   | Brand name displayed in masthead and SEO head tags                                                    |
-| `titleSeparator`        | `string`                            | `'-'`      | Separator between page title and brand in browser tabs (e.g. `CV - Jane Doe`)                         |
-| `description`           | `string`                            | Required   | Default fallback description for OpenGraph, Twitter cards, and search engine snippets                 |
-| `url`                   | `string`                            | Required   | Production deployment URL (e.g. `https://username.github.io` or `https://username.github.io/my-site`) |
-| `breadcrumbs`           | `boolean`                           | `true`     | Toggles breadcrumb trail navigation at the top of archive and single pages                            |
-| `publicationCategories` | `Record<string, { title: string }>` | Standard 3 | Defines category filter tabs on `/publications/` (`books`, `journals`, `conferences`)                 |
+| Property                | Type                                | Default                                 | Description                                                                                                    |
+| :---------------------- | :---------------------------------- | :-------------------------------------- | :------------------------------------------------------------------------------------------------------------- |
+| `locale`                | `string`                            | `'en-US'`                               | Site language/locale code used in HTML `lang` attributes and RSS feeds                                         |
+| `title`                 | `string`                            | Required                                | Brand name displayed in masthead and SEO head tags                                                             |
+| `titleSeparator`        | `string`                            | `'-'`                                   | Separator between page title and brand in browser tabs (e.g. `CV - Jane Doe`)                                  |
+| `description`           | `string`                            | Required                                | Default fallback description for OpenGraph, Twitter cards, and search engine snippets                          |
+| `url`                   | `string`                            | Required                                | Production deployment URL (e.g. `https://username.github.io` or `https://username.github.io/my-site`)          |
+| `theme`                 | `ThemeConfig`                       | `{ light: 'default', dark: 'default' }` | Independent light and dark presets or partial custom palette objects (see [Color Themes](#color-themes-theme)) |
+| `breadcrumbs`           | `boolean`                           | `true`                                  | Toggles breadcrumb trail navigation at the top of archive and single pages                                     |
+| `publicationCategories` | `Record<string, { title: string }>` | Standard 3                              | Defines category filter tabs on `/publications/` (`books`, `journals`, `conferences`)                          |
+
+### Color Themes (`theme`)
+
+Defined in [`src/data/themes.ts`](../src/data/themes.ts), `theme.light` and `theme.dark` can be configured independently using a built-in preset name or a partial custom palette (`Partial<ThemePalette>`):
+
+- **Light Presets**: `'default'` | `'github-light'` | `'catppuccin-latte'` | `'solarized-light'` | `'rose-pine-dawn'` | `'gruvbox-light'` | `'nord-light'` | `'flexoki-light'` | `'everforest-light'` | `'tokyo-night-day'` | `'alucard'` | `'one-light'` | `'ayu-light'` | `'kanagawa-lotus'` | `'light-owl'` | `'monokai-light'`
+- **Dark Presets**: `'default'` | `'github-dark'` | `'catppuccin-mocha'` | `'solarized-dark'` | `'rose-pine'` | `'gruvbox-dark'` | `'nord'` | `'flexoki-dark'` | `'everforest-dark'` | `'tokyo-night'` | `'dracula'` | `'one-dark'` | `'ayu-dark'` | `'kanagawa-wave'` | `'night-owl'` | `'monokai'`
+- **Custom Overrides**: Pass any subset of the 5 core tokens (`{ base, bg, surface, text, textLight }`); omitted fields inherit from `'default'` and secondary tokens (borders, code blocks, links) auto-derive via CSS `color-mix()`
 
 ### Author Profile Fields (`author`)
 

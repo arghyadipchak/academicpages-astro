@@ -8,7 +8,7 @@ Follow this itemized roadmap to convert the starter template into your personal 
 
 ## 1. Site Identity & Author Profile
 
-- [ ] **Site Configuration**: Edit `src/data/siteConfig.ts` to update `title`, `description`, and `url` (see [`docs/CONFIG.md`](CONFIG.md))
+- [ ] **Site Configuration**: Edit `src/data/siteConfig.ts` to update `title`, `description`, `url`, and optional `theme` presets (see [`docs/CONFIG.md`](CONFIG.md))
 - [ ] **Author Bio & Details**: In `src/data/siteConfig.ts`, update `author.name`, `author.bio`, `author.location`, `author.employer`, and `author.email`
 - [ ] **Academic & Social Handles**: In `src/data/siteConfig.ts`, add your usernames or profile URLs for `googlescholar`, `orcid`, `github`, `linkedin`, `x`, etc.
 - [ ] **Profile Photo**: Replace `public/images/profile.png` with your personal square headshot (~500x500px)

@@ -31,7 +31,7 @@ import { Icon } from 'astro-icon/components';
       <button
         type="button"
         id="search-close-btn"
-        class="rounded p-1 text-(--global-text-color-light) hover:bg-neutral-100 hover:text-(--global-text-color) dark:hover:bg-neutral-800"
+        class="rounded p-1 text-(--global-text-color-light) hover:bg-(--global-footer-bg-color) hover:text-(--global-text-color)"
         aria-label="Close search"
       >
         <kbd class="text-xs">ESC</kbd>
@@ -66,7 +66,7 @@ import { Icon } from 'astro-icon/components';
 
     {/* Footer Navigation Help */}
     <div
-      class="flex items-center justify-between border-t border-(--global-border-color) bg-neutral-50 px-4 py-2 text-[11px] text-(--global-text-color-light) dark:bg-neutral-900"
+      class="flex items-center justify-between border-t border-(--global-border-color) bg-(--global-footer-bg-color) px-4 py-2 text-[11px] text-(--global-text-color-light)"
     >
       <div class="flex items-center gap-3">
         <span>
@@ -351,7 +351,7 @@ import { Icon } from 'astro-icon/components';
               aria-selected="false"
               data-url="${escapeHtml(item.url)}"
               data-index="${idx}"
-              class="search-result-item group flex cursor-pointer items-center justify-between rounded-lg px-3 py-2 text-sm transition hover:bg-neutral-100 dark:hover:bg-neutral-800"
+              class="search-result-item group flex cursor-pointer items-center justify-between rounded-lg px-3 py-2 text-sm transition hover:bg-(--global-footer-bg-color)"
             >
               <div class="min-w-0 flex-1 pr-3">
                 <a
@@ -366,7 +366,7 @@ import { Icon } from 'astro-icon/components';
                     : ''
                 }
               </div>
-              <span class="rounded bg-neutral-200 dark:bg-neutral-700 px-2 py-0.5 text-[10px] font-semibold text-(--global-text-color) shrink-0">
+              <span class="rounded border border-(--global-border-color) bg-(--global-bg-color) px-2 py-0.5 text-[10px] font-semibold text-(--global-text-color) shrink-0">
                 ${escapeHtml(item.type)}
               </span>
             </li>
@@ -405,8 +405,7 @@ import { Icon } from 'astro-icon/components';
       items.forEach((item, idx) => {
         if (idx === selectedIndex) {
           item.classList.add(
-            'bg-neutral-100',
-            'dark:bg-neutral-800',
+            'bg-(--global-footer-bg-color)',
             'ring-1',
             'ring-(--global-link-color)'
           );
@@ -415,8 +414,7 @@ import { Icon } from 'astro-icon/components';
           item.scrollIntoView({ block: 'nearest' });
         } else {
           item.classList.remove(
-            'bg-neutral-100',
-            'dark:bg-neutral-800',
+            'bg-(--global-footer-bg-color)',
             'ring-1',
             'ring-(--global-link-color)'
           );

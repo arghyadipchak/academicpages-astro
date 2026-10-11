@@ -49,7 +49,10 @@ const breadcrumbs =
 
 {
   siteConfig.breadcrumbs && breadcrumbs.length > 1 && (
-    <nav aria-label="Breadcrumbs" class="mb-4 text-xs text-neutral-500">
+    <nav
+      aria-label="Breadcrumbs"
+      class="mb-4 text-xs text-(--global-text-color-light)"
+    >
       <ol
         class="flex flex-wrap items-center gap-1.5"
         itemscope
@@ -81,7 +84,9 @@ const breadcrumbs =
                   <span itemprop="name">{crumb.title}</span>
                 </a>
               )}
-              {!isLast && <span class="text-neutral-400">/</span>}
+              {!isLast && (
+                <span class="text-(--global-text-color-light)/60">/</span>
+              )}
               <meta itemprop="position" content={(idx + 1).toString()} />
             </li>
           );

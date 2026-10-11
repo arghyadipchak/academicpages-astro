@@ -1,5 +1,6 @@
 ---
 import { siteConfig } from '@data/siteConfig';
+import { resolveThemes } from '@data/themes';
 import type { CitationMetadata, SchemaOrgNode } from '@utils/seo';
 import {
   buildPersonSchema,
@@ -78,21 +79,19 @@ const jsonLdGraph: SchemaOrgNode[] = [
   ...(scholarlyArticleSchema ? [scholarlyArticleSchema] : []),
   ...schemaNodes,
 ];
+
+const {
+  light: lightTheme,
+  dark: darkTheme,
+  css: themeCss,
+} = resolveThemes(siteConfig.theme);
 ---
 
 <!-- Global Metadata -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<meta
-  name="theme-color"
-  content="#ffffff"
-  media="(prefers-color-scheme: light)"
-/>
-<meta
-  name="theme-color"
-  content="#282c34"
-  media="(prefers-color-scheme: dark)"
-/>
+<meta name="theme-color" content={lightTheme.bg} />
+<style is:inline set:html={themeCss}></style>
 <link rel="icon" type="image/x-icon" href={resolveUrl('/favicon.ico')} />
 <link rel="icon" type="image/svg+xml" href={resolveUrl('/favicon.svg')} />
 <link
@@ -189,21 +188,32 @@ const jsonLdGraph: SchemaOrgNode[] = [
   })}
 />
 <!-- Dark Mode Initialization Script (Prevents flash of unstyled theme) -->
-<script is:inline>
-  function applyTheme() {
-    const storedTheme = localStorage.getItem('theme');
-    const prefersDark = window.matchMedia(
-      '(prefers-color-scheme: dark)'
-    ).matches;
-    if (storedTheme === 'dark' || (!storedTheme && prefersDark)) {
-      document.documentElement.setAttribute('data-theme', 'dark');
-      document.documentElement.classList.add('dark');
-    } else {
-      document.documentElement.setAttribute('data-theme', 'light');
-      document.documentElement.classList.remove('dark');
+<script is:inline define:vars={{ lightBg: lightTheme.bg, darkBg: darkTheme.bg }}
+>
+  const darkQuery = window.matchMedia('(prefers-color-scheme: dark)');
+  function applyTheme(explicitTheme, notify) {
+    if (explicitTheme) localStorage.setItem('theme', explicitTheme);
+    const storedTheme = explicitTheme || localStorage.getItem('theme');
+    const isDark =
+      storedTheme === 'dark' || (!storedTheme && darkQuery.matches);
+    const theme = isDark ? 'dark' : 'light';
+    document.documentElement.setAttribute('data-theme', theme);
+    document
+      .querySelector('meta[name="theme-color"]')
+      ?.setAttribute('content', isDark ? darkBg : lightBg);
+    if (explicitTheme || notify) {
+      document.dispatchEvent(
+        new CustomEvent('theme-change', { detail: { theme } })
+      );
     }
+
+    return theme;
   }
 
+  window.__applyTheme = applyTheme;
   applyTheme();
-  document.addEventListener('astro:after-swap', applyTheme);
+  darkQuery.addEventListener('change', () => {
+    if (!localStorage.getItem('theme')) applyTheme(undefined, true);
+  });
+  document.addEventListener('astro:after-swap', () => applyTheme());
 </script>
