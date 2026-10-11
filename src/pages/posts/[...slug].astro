@@ -5,30 +5,15 @@ import { Icon } from 'astro-icon/components';
 
 import PageLayout from '@layouts/PageLayout.astro';
 
-import { siteConfig } from '@data/siteConfig';
 import { formatDate } from '@utils/date';
 import { calculateReadingTime } from '@utils/readingTime';
 import { buildBlogPostingSchema } from '@utils/seo';
-import { getFileSlug } from '@utils/url';
+import { buildCollectionPaths, getSiteUrls } from '@utils/url';
 
 export async function getStaticPaths() {
-  const posts = await getCollection('blog');
-  const pathMap = new Map<string, (typeof posts)[0]>();
+  const posts = await getCollection('blog', ({ data }) => !data.draft);
 
-  for (const post of posts) {
-    const fileSlug = getFileSlug(post.id);
-    pathMap.set(fileSlug, post);
-
-    if (post.data.permalink) {
-      const cleanPermalink = post.data.permalink
-        .replace(/^\/?posts\//, '')
-        .replace(/\/$/, '')
-        .replace(/^\//, '');
-      pathMap.set(cleanPermalink, post);
-    }
-  }
-
-  return Array.from(pathMap.entries()).map(([slug, post]) => ({
+  return buildCollectionPaths('posts', posts).map(({ slug, item: post }) => ({
     params: { slug },
     props: { post },
   }));
@@ -41,12 +26,7 @@ const readTime = post.data.read_time
   ? calculateReadingTime(post.body)
   : undefined;
 
-const siteBase = Astro.site
-  ? Astro.site.toString()
-  : siteConfig.url
-    ? new URL(siteConfig.url).origin
-    : Astro.url.origin;
-const canonicalUrl = new URL(Astro.url.pathname, siteBase).toString();
+const { siteBase, canonicalUrl } = getSiteUrls(Astro.url, Astro.site);
 
 const blogPostingSchema = buildBlogPostingSchema(
   canonicalUrl,

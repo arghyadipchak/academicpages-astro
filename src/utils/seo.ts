@@ -1,6 +1,6 @@
 import type { AuthorConfig } from '@data/siteConfig';
 import { siteConfig } from '@data/siteConfig';
-import { resolveUrl } from '@utils/url';
+import { resolveExternalUrl, resolveUrl } from '@utils/url';
 
 export type SchemaOrgNode = Record<string, unknown>;
 
@@ -14,9 +14,15 @@ export interface CitationMetadata {
   venue?: string;
 }
 
-export interface BreadcrumbItem {
-  title: string;
-  href?: string;
+function resolveSchemaImage(
+  siteBase: string,
+  imageUrl?: string
+): string | undefined {
+  if (!imageUrl) return undefined;
+
+  return imageUrl.startsWith('http')
+    ? imageUrl
+    : new URL(resolveUrl(imageUrl), siteBase).toString();
 }
 
 /**
@@ -28,40 +34,50 @@ export function buildPersonSchema(
   avatarUrl?: string
 ): SchemaOrgNode {
   const sameAsLinks: string[] = [];
-  if (author.github) sameAsLinks.push(`https://github.com/${author.github}`);
-  if (author.linkedin)
-    sameAsLinks.push(`https://www.linkedin.com/in/${author.linkedin}`);
-  if (author.orcid) sameAsLinks.push(`https://orcid.org/${author.orcid}`);
-  if (author.googlescholar) {
+  if (author.github)
+    sameAsLinks.push(resolveExternalUrl(author.github, 'https://github.com/'));
+  if (author.linkedin) {
     sameAsLinks.push(
-      `https://scholar.google.com/citations?user=${author.googlescholar}`
+      resolveExternalUrl(author.linkedin, 'https://www.linkedin.com/in/')
     );
   }
-  if (author.arxiv) sameAsLinks.push(`https://arxiv.org/a/${author.arxiv}`);
-  if (author.dblp) sameAsLinks.push(`https://dblp.org/pid/${author.dblp}`);
+  if (author.orcid)
+    sameAsLinks.push(resolveExternalUrl(author.orcid, 'https://orcid.org/'));
+  if (author.googlescholar) {
+    sameAsLinks.push(
+      resolveExternalUrl(
+        author.googlescholar,
+        'https://scholar.google.com/citations?user='
+      )
+    );
+  }
+  if (author.arxiv)
+    sameAsLinks.push(resolveExternalUrl(author.arxiv, 'https://arxiv.org/a/'));
+  if (author.dblp)
+    sameAsLinks.push(resolveExternalUrl(author.dblp, 'https://dblp.org/pid/'));
   if (author.researchgate) {
     sameAsLinks.push(
-      `https://www.researchgate.net/profile/${author.researchgate}`
+      resolveExternalUrl(
+        author.researchgate,
+        'https://www.researchgate.net/profile/'
+      )
     );
   }
   if (author.semantic) {
     sameAsLinks.push(
-      `https://www.semanticscholar.org/author/${author.semantic}`
+      resolveExternalUrl(
+        author.semantic,
+        'https://www.semanticscholar.org/author/'
+      )
     );
   }
-
-  const resolvedAvatar = avatarUrl
-    ? avatarUrl.startsWith('http')
-      ? avatarUrl
-      : new URL(resolveUrl(avatarUrl), siteBase).toString()
-    : undefined;
 
   return {
     '@type': 'Person',
     '@id': `${siteBase}#author`,
     name: author.name,
     url: siteBase,
-    image: resolvedAvatar,
+    image: resolveSchemaImage(siteBase, avatarUrl),
     jobTitle: author.employer,
     description: author.bio,
     sameAs: sameAsLinks.length > 0 ? sameAsLinks : undefined,
@@ -123,7 +139,7 @@ export function buildScholarlyArticleSchema(
     author: { '@type': 'Person', name: authorName },
     datePublished: citation.publicationDate,
     description,
-    image: imageUrl,
+    image: resolveSchemaImage(siteBase, imageUrl),
     url: canonicalUrl,
     isPartOf:
       citation.journalTitle || citation.venue
@@ -226,7 +242,7 @@ export function buildBlogPostingSchema(
     headline: title,
     name: title,
     description,
-    image: imageUrl,
+    image: resolveSchemaImage(siteBase, imageUrl),
     datePublished: publishedIso,
     dateModified: modifiedIso,
     url: canonicalUrl,
@@ -263,33 +279,9 @@ export function buildCreativeWorkSchema(
     name: title,
     description,
     dateCreated: isoDate,
-    image: imageUrl,
+    image: resolveSchemaImage(siteBase, imageUrl),
     url: canonicalUrl,
     codeRepository: codeUrl,
     creator: { '@id': `${siteBase}#author` },
-  };
-}
-
-/**
- * Builds BreadcrumbList schema
- */
-export function buildBreadcrumbListSchema(
-  canonicalUrl: string,
-  siteBase: string,
-  items: BreadcrumbItem[]
-): SchemaOrgNode {
-  return {
-    '@type': 'BreadcrumbList',
-    '@id': `${canonicalUrl}#breadcrumbs`,
-    itemListElement: items.map((item, idx) => ({
-      '@type': 'ListItem',
-      position: idx + 1,
-      name: item.title,
-      item: item.href
-        ? item.href.startsWith('http')
-          ? item.href
-          : new URL(item.href, siteBase).toString()
-        : undefined,
-    })),
   };
 }

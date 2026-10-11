@@ -6,7 +6,7 @@ import {
   buildScholarlyArticleSchema,
   buildWebSiteSchema,
 } from '@utils/seo';
-import { resolveUrl } from '@utils/url';
+import { getSiteUrls, resolveUrl, stripBasePath } from '@utils/url';
 
 export interface Props {
   title?: string;
@@ -37,20 +37,17 @@ const xHandle = siteConfig.author.x
       .split('/')[0]
   : undefined;
 
-const siteBase = Astro.site
-  ? Astro.site.toString()
-  : siteConfig.url
-    ? new URL(siteConfig.url).origin
-    : Astro.url.origin;
-
-const canonicalUrl =
-  propCanonicalUrl || new URL(Astro.url.pathname, siteBase).toString();
+const { siteBase, canonicalUrl: defaultCanonicalUrl } = getSiteUrls(
+  Astro.url,
+  Astro.site
+);
+const canonicalUrl = propCanonicalUrl || defaultCanonicalUrl;
 
 const pageTitle = title
   ? `${title} ${siteConfig.titleSeparator} ${siteConfig.title}`
   : siteConfig.title;
 
-const pathname = Astro.url.pathname.replace(/^\/|\/$/g, '');
+const pathname = stripBasePath(Astro.url.pathname).replace(/^\/|\/$/g, '');
 const ogFallback = pathname ? `/og/${pathname}.svg` : '/og/default.svg';
 const effectiveImage = image || ogFallback;
 
@@ -58,14 +55,10 @@ const resolvedImage = effectiveImage.startsWith('http')
   ? effectiveImage
   : new URL(resolveUrl(effectiveImage), siteBase).toString();
 
-const resolvedAvatar = siteConfig.author.avatar.startsWith('http')
-  ? siteConfig.author.avatar
-  : new URL(resolveUrl(siteConfig.author.avatar), siteBase).toString();
-
 const personSchema = buildPersonSchema(
   siteBase,
   siteConfig.author,
-  resolvedAvatar
+  siteConfig.author.avatar
 );
 const webSiteSchema = buildWebSiteSchema(siteBase);
 

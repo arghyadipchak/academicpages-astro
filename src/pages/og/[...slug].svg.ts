@@ -3,6 +3,7 @@ import { getCollection } from 'astro:content';
 
 import { siteConfig } from '@data/siteConfig';
 import { formatDate } from '@utils/date';
+import { buildCollectionPaths, getFileSlug } from '@utils/url';
 
 interface OgItem {
   title: string;
@@ -12,29 +13,58 @@ interface OgItem {
 }
 
 export async function getStaticPaths() {
-  const blog = await getCollection('blog');
-  const publications = await getCollection('publications');
-  const talks = await getCollection('talks');
-  const portfolio = await getCollection('portfolio');
-  const pages = await getCollection('pages');
+  const [blog, publications, talks, teaching, portfolio, pages] =
+    await Promise.all([
+      getCollection('blog', ({ data }) => !data.draft),
+      getCollection('publications'),
+      getCollection('talks'),
+      getCollection('teaching'),
+      getCollection('portfolio'),
+      getCollection('pages'),
+    ]);
 
   const items: { params: { slug: string }; props: { item: OgItem } }[] = [];
 
-  // Home / default
-  items.push({
-    params: { slug: 'default' },
-    props: {
-      item: {
-        title: siteConfig.title,
-        category: 'Academic Portfolio',
-        venue: siteConfig.author.name,
-      },
+  const staticRoutes: { slug: string; title: string; category: string }[] = [
+    {
+      slug: 'default',
+      title: siteConfig.title,
+      category: 'Academic Portfolio',
     },
-  });
+    {
+      slug: 'publications',
+      title: 'Publications',
+      category: 'Academic Portfolio',
+    },
+    {
+      slug: 'talks',
+      title: 'Talks and Presentations',
+      category: 'Academic Portfolio',
+    },
+    { slug: 'teaching', title: 'Teaching', category: 'Academic Portfolio' },
+    { slug: 'portfolio', title: 'Portfolio', category: 'Academic Portfolio' },
+    { slug: 'posts', title: 'Blog Posts', category: 'Academic Portfolio' },
+    { slug: 'cv', title: 'CV', category: 'Curriculum Vitae' },
+    { slug: 'sitemap', title: 'Sitemap', category: 'Page' },
+    { slug: '404', title: 'Page Not Found', category: 'Page' },
+  ];
 
-  for (const post of blog) {
+  for (const route of staticRoutes) {
     items.push({
-      params: { slug: `posts/${post.id}` },
+      params: { slug: route.slug },
+      props: {
+        item: {
+          title: route.title,
+          category: route.category,
+          venue: siteConfig.author.name,
+        },
+      },
+    });
+  }
+
+  for (const { slug, item: post } of buildCollectionPaths('posts', blog)) {
+    items.push({
+      params: { slug: `posts/${slug}` },
       props: {
         item: {
           title: post.data.title,
@@ -45,9 +75,12 @@ export async function getStaticPaths() {
     });
   }
 
-  for (const pub of publications) {
+  for (const { slug, item: pub } of buildCollectionPaths(
+    'publications',
+    publications
+  )) {
     items.push({
-      params: { slug: `publications/${pub.id}` },
+      params: { slug: `publications/${slug}` },
       props: {
         item: {
           title: pub.data.title,
@@ -59,9 +92,9 @@ export async function getStaticPaths() {
     });
   }
 
-  for (const talk of talks) {
+  for (const { slug, item: talk } of buildCollectionPaths('talks', talks)) {
     items.push({
-      params: { slug: `talks/${talk.id}` },
+      params: { slug: `talks/${slug}` },
       props: {
         item: {
           title: talk.data.title,
@@ -73,9 +106,28 @@ export async function getStaticPaths() {
     });
   }
 
-  for (const project of portfolio) {
+  for (const { slug, item: course } of buildCollectionPaths(
+    'teaching',
+    teaching
+  )) {
     items.push({
-      params: { slug: `portfolio/${project.id}` },
+      params: { slug: `teaching/${slug}` },
+      props: {
+        item: {
+          title: course.data.title,
+          category: course.data.type || 'Teaching',
+          venue: course.data.venue,
+        },
+      },
+    });
+  }
+
+  for (const { slug, item: project } of buildCollectionPaths(
+    'portfolio',
+    portfolio
+  )) {
+    items.push({
+      params: { slug: `portfolio/${slug}` },
       props: {
         item: {
           title: project.data.title,
@@ -88,8 +140,21 @@ export async function getStaticPaths() {
   }
 
   for (const page of pages) {
+    const pageSlug = getFileSlug(page.id);
+    if (pageSlug !== 'about') {
+      items.push({
+        params: { slug: pageSlug },
+        props: {
+          item: {
+            title: page.data.title,
+            category: 'Page',
+            venue: siteConfig.author.name,
+          },
+        },
+      });
+    }
     items.push({
-      params: { slug: `pages/${page.id}` },
+      params: { slug: `pages/${pageSlug}` },
       props: { item: { title: page.data.title, category: 'Page' } },
     });
   }
