@@ -2,8 +2,38 @@
  * URL and path resolution utilities for Astro base path support
  */
 
+import { siteConfig } from '@data/siteConfig';
+
 const RAW_BASE = import.meta.env.BASE_URL ?? '/';
 const BASE_PATH = RAW_BASE.replace(/\/+$/, '');
+
+/**
+ * Strips the configured Astro base path from a pathname
+ */
+export function stripBasePath(pathname: string): string {
+  const clean = pathname.replace(/\/$/, '');
+  if (BASE_PATH && clean.startsWith(BASE_PATH))
+    return clean.slice(BASE_PATH.length);
+
+  return clean;
+}
+
+/**
+ * Resolves the canonical site origin and page URL
+ */
+export function getSiteUrls(
+  url: URL,
+  site?: URL
+): { siteBase: string; canonicalUrl: string } {
+  const siteBase = site
+    ? site.toString()
+    : siteConfig.url
+      ? new URL(siteConfig.url).origin
+      : url.origin;
+  const canonicalUrl = new URL(url.pathname, siteBase).toString();
+
+  return { siteBase, canonicalUrl };
+}
 
 /**
  * Resolves an internal path or URL with the configured Astro base path
@@ -41,18 +71,18 @@ export function resolveUrl(path?: string): string {
 /**
  * Resolves a social or academic platform handle/ID or URL
  * - If already an HTTP/HTTPS URL, returns as-is
- * - If handle or username, prefixes with platform baseUrl and optional prefix
+ * - If handle or username, prefixes with platform baseUrl and appends optional suffix
  * - Strips leading '@' if present
  */
 export function resolveExternalUrl(
   val: string | undefined,
   baseUrl: string,
-  prefix = ''
+  suffix = ''
 ): string {
   if (!val) return '';
   if (val.startsWith('http://') || val.startsWith('https://')) return val;
 
-  return `${baseUrl}${prefix}${val.replace(/^@/, '')}`;
+  return `${baseUrl}${val.replace(/^@/, '')}${suffix}`;
 }
 
 /**
@@ -79,13 +109,55 @@ export function getFileSlug(id: string): string {
 }
 
 /**
+ * Normalizes a custom frontmatter permalink relative to its collection route prefix
+ */
+export function cleanCollectionPermalink(
+  collection: string,
+  permalink: string
+): string {
+  const prefixPattern =
+    collection === 'publications'
+      ? /^\/?publications?\//
+      : new RegExp(`^\\/?${collection}\\/`);
+
+  return permalink
+    .replace(prefixPattern, '')
+    .replace(/\/$/, '')
+    .replace(/^\//, '');
+}
+
+/**
+ * Builds deduplicated static route entries for a content collection,
+ * supporting both filename slugs and custom frontmatter permalinks
+ */
+export function buildCollectionPaths<
+  T extends { id: string; data: { permalink?: string } },
+>(collection: string, items: T[]): { slug: string; item: T }[] {
+  const pathMap = new Map<string, T>();
+
+  for (const item of items) {
+    pathMap.set(getFileSlug(item.id), item);
+
+    if (item.data.permalink) {
+      const clean = cleanCollectionPermalink(collection, item.data.permalink);
+      if (clean) pathMap.set(clean, item);
+    }
+  }
+
+  return Array.from(pathMap.entries()).map(([slug, item]) => ({ slug, item }));
+}
+
+/**
  * Internal helper to resolve canonical URL for collection entries
  */
 function getCollectionItemUrl(
   collection: string,
   item: { id: string; data: { permalink?: string } }
 ): string {
-  if (item.data.permalink) return resolveUrl(item.data.permalink);
+  if (item.data.permalink) {
+    const clean = cleanCollectionPermalink(collection, item.data.permalink);
+    if (clean) return resolveUrl(`/${collection}/${clean}/`);
+  }
 
   return resolveUrl(`/${collection}/${getFileSlug(item.id)}/`);
 }

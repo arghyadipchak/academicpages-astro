@@ -1,6 +1,6 @@
 ---
 import { siteConfig } from '@data/siteConfig';
-import { resolveUrl } from '@utils/url';
+import { resolveUrl, stripBasePath } from '@utils/url';
 
 export interface Props {
   crumbs?: { title: string; href?: string }[];
@@ -9,13 +9,7 @@ export interface Props {
 const { crumbs = [] } = Astro.props;
 
 // If crumbs not explicitly provided, deduce from current path relative to base
-const baseUrl = (import.meta.env.BASE_URL ?? '/').replace(/\/+$/, '');
-const pathname = Astro.url.pathname.replace(/\/$/, '');
-const relativePath =
-  baseUrl && pathname.startsWith(baseUrl)
-    ? pathname.slice(baseUrl.length)
-    : pathname;
-const segments = relativePath.split('/').filter(Boolean);
+const segments = stripBasePath(Astro.url.pathname).split('/').filter(Boolean);
 
 const breadcrumbs =
   crumbs.length > 0

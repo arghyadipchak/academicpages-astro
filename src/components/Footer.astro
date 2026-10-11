@@ -3,7 +3,7 @@ import { Icon } from 'astro-icon/components';
 
 import { siteConfig } from '@data/siteConfig';
 import { formatYear, toIsoDateString } from '@utils/date';
-import { resolveUrl } from '@utils/url';
+import { resolveExternalUrl, resolveUrl } from '@utils/url';
 
 const currentYear = formatYear(new Date());
 const todayDate = toIsoDateString(new Date()) ?? '';
@@ -28,7 +28,10 @@ const todayDate = toIsoDateString(new Date()) ?? '';
           siteConfig.author.github && (
             <li class="inline-flex items-center leading-none">
               <a
-                href={`https://github.com/${siteConfig.author.github}`}
+                href={resolveExternalUrl(
+                  siteConfig.author.github,
+                  'https://github.com/'
+                )}
                 target="_blank"
                 class="inline-flex items-center gap-1.5 leading-none text-(--global-text-color-light) hover:text-(--global-base-color)"
               >
@@ -44,7 +47,10 @@ const todayDate = toIsoDateString(new Date()) ?? '';
           siteConfig.author.bitbucket && (
             <li class="inline-flex items-center leading-none">
               <a
-                href={`https://bitbucket.org/${siteConfig.author.bitbucket}`}
+                href={resolveExternalUrl(
+                  siteConfig.author.bitbucket,
+                  'https://bitbucket.org/'
+                )}
                 target="_blank"
                 class="inline-flex items-center gap-1.5 leading-none text-(--global-text-color-light) hover:text-(--global-base-color)"
               >
