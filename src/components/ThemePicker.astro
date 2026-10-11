@@ -62,7 +62,7 @@ const defaultDark =
 
     <div
       data-panel-mode="light"
-      class="theme-picker-panel grid max-h-[65vh] [scrollbar-width:thin] [scrollbar-color:var(--global-dark-border-color)_transparent] grid-cols-2 gap-1.5 overflow-y-auto [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-(--global-dark-border-color) [&::-webkit-scrollbar-track]:bg-transparent"
+      class="theme-picker-panel grid max-h-[65vh] scrollbar-thin [scrollbar-color:var(--global-dark-border-color)_transparent] grid-cols-2 gap-1.5 overflow-y-auto [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-(--global-dark-border-color) [&::-webkit-scrollbar-track]:bg-transparent"
     >
       {
         Object.entries(lightThemes).map(([name, p]) => (
@@ -97,7 +97,7 @@ const defaultDark =
 
     <div
       data-panel-mode="dark"
-      class="theme-picker-panel hidden max-h-[65vh] [scrollbar-width:thin] [scrollbar-color:var(--global-dark-border-color)_transparent] grid-cols-2 gap-1.5 overflow-y-auto [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-(--global-dark-border-color) [&::-webkit-scrollbar-track]:bg-transparent"
+      class="theme-picker-panel hidden max-h-[65vh] scrollbar-thin [scrollbar-color:var(--global-dark-border-color)_transparent] grid-cols-2 gap-1.5 overflow-y-auto [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-(--global-dark-border-color) [&::-webkit-scrollbar-track]:bg-transparent"
     >
       {
         Object.entries(darkThemes).map(([name, p]) => (
@@ -154,94 +154,78 @@ const defaultDark =
   </div>
 </div>
 
-<script>
-  import { announce, copyToClipboard } from '@utils/a11y';
+<script is:inline>
+  if (!window.__themePickerInit) {
+    window.__themePickerInit = true;
 
-  function getActivePresets(picker: HTMLElement) {
-    const defLight = picker.dataset.defaultLight || 'default';
-    const defDark = picker.dataset.defaultDark || 'default';
+    const getActivePresets = (picker) => ({
+      light:
+        localStorage.getItem('theme-light-preset') ||
+        picker.dataset.defaultLight ||
+        'default',
+      dark:
+        localStorage.getItem('theme-dark-preset') ||
+        picker.dataset.defaultDark ||
+        'default',
+    });
 
-    return {
-      light: localStorage.getItem('theme-light-preset') || defLight,
-      dark: localStorage.getItem('theme-dark-preset') || defDark,
-    };
-  }
+    const syncPickerState = (activeTabMode) => {
+      const currentTheme =
+        document.documentElement.getAttribute('data-theme') === 'dark'
+          ? 'dark'
+          : 'light';
+      const tabMode = activeTabMode || currentTheme;
 
-  function syncPickerState(activeTabMode?: string) {
-    const currentTheme =
-      document.documentElement.getAttribute('data-theme') === 'dark'
-        ? 'dark'
-        : 'light';
-    const tabMode = activeTabMode || currentTheme;
-
-    document
-      .querySelectorAll<HTMLElement>('.theme-picker')
-      .forEach((picker) => {
+      document.querySelectorAll('.theme-picker').forEach((picker) => {
         const { light, dark } = getActivePresets(picker);
 
-        picker
-          .querySelectorAll<HTMLButtonElement>('.theme-picker-tab')
-          .forEach((tab) => {
-            const isSelected = tab.dataset.tabMode === tabMode;
-            tab.setAttribute('aria-selected', String(isSelected));
-            tab.classList.toggle('bg-(--global-bg-color)', isSelected);
-            tab.classList.toggle('text-(--global-text-color)', isSelected);
-            tab.classList.toggle('shadow-2xs', isSelected);
-            tab.classList.toggle(
-              'text-(--global-text-color-light)',
-              !isSelected
-            );
-          });
+        picker.querySelectorAll('.theme-picker-tab').forEach((tab) => {
+          const isSelected = tab.dataset.tabMode === tabMode;
+          tab.setAttribute('aria-selected', String(isSelected));
+          tab.classList.toggle('bg-(--global-bg-color)', isSelected);
+          tab.classList.toggle('text-(--global-text-color)', isSelected);
+          tab.classList.toggle('shadow-2xs', isSelected);
+          tab.classList.toggle('text-(--global-text-color-light)', !isSelected);
+        });
 
-        picker
-          .querySelectorAll<HTMLElement>('.theme-picker-panel')
-          .forEach((panel) => {
-            const isActive = panel.dataset.panelMode === tabMode;
-            panel.classList.toggle('hidden', !isActive);
-            panel.classList.toggle('grid', isActive);
-          });
+        picker.querySelectorAll('.theme-picker-panel').forEach((panel) => {
+          const isActive = panel.dataset.panelMode === tabMode;
+          panel.classList.toggle('hidden', !isActive);
+          panel.classList.toggle('grid', isActive);
+        });
 
-        picker
-          .querySelectorAll<HTMLButtonElement>('.theme-preset-option')
-          .forEach((opt) => {
-            const mode = opt.dataset.presetMode;
-            const name = opt.dataset.presetName;
-            const isCurrent =
-              (mode === 'light' && name === light) ||
-              (mode === 'dark' && name === dark);
-            opt.setAttribute('aria-pressed', String(isCurrent));
-            opt.classList.toggle('border-(--global-base-color)', isCurrent);
-            opt.classList.toggle('bg-(--global-footer-bg-color)', isCurrent);
-            opt.classList.toggle('border-(--global-border-color)', !isCurrent);
-          });
+        picker.querySelectorAll('.theme-preset-option').forEach((opt) => {
+          const mode = opt.dataset.presetMode;
+          const name = opt.dataset.presetName;
+          const isCurrent =
+            (mode === 'light' && name === light) ||
+            (mode === 'dark' && name === dark);
+          opt.setAttribute('aria-pressed', String(isCurrent));
+          opt.classList.toggle('border-(--global-base-color)', isCurrent);
+          opt.classList.toggle('bg-(--global-footer-bg-color)', isCurrent);
+          opt.classList.toggle('border-(--global-border-color)', !isCurrent);
+        });
 
         const summary = picker.querySelector('.theme-picker-summary');
         if (summary) summary.textContent = `${light} / ${dark}`;
       });
-  }
+    };
 
-  function closeAllPickers() {
-    document
-      .querySelectorAll<HTMLElement>('.theme-picker')
-      .forEach((picker) => {
+    const closeAllPickers = () => {
+      document.querySelectorAll('.theme-picker').forEach((picker) => {
         picker.querySelector('.theme-picker-popover')?.classList.add('hidden');
         picker
           .querySelector('.theme-picker-btn')
           ?.setAttribute('aria-expanded', 'false');
       });
-  }
+    };
 
-  function setupThemePicker() {
-    syncPickerState();
+    const setupThemePicker = () => {
+      syncPickerState();
 
-    document
-      .querySelectorAll<HTMLElement>('.theme-picker')
-      .forEach((picker) => {
-        const btn =
-          picker.querySelector<HTMLButtonElement>('.theme-picker-btn');
-        const popover = picker.querySelector<HTMLElement>(
-          '.theme-picker-popover'
-        );
+      document.querySelectorAll('.theme-picker').forEach((picker) => {
+        const btn = picker.querySelector('.theme-picker-btn');
+        const popover = picker.querySelector('.theme-picker-popover');
         if (!btn || !popover) return;
 
         btn.onclick = (e) => {
@@ -257,71 +241,58 @@ const defaultDark =
 
         popover.onclick = (e) => e.stopPropagation();
 
-        picker
-          .querySelectorAll<HTMLButtonElement>('.theme-picker-tab')
-          .forEach((tab) => {
-            tab.onclick = () => {
-              syncPickerState(tab.dataset.tabMode);
-            };
-          });
+        picker.querySelectorAll('.theme-picker-tab').forEach((tab) => {
+          tab.onclick = () => syncPickerState(tab.dataset.tabMode);
+        });
 
-        picker
-          .querySelectorAll<HTMLButtonElement>('.theme-preset-option')
-          .forEach((opt) => {
-            opt.onclick = () => {
-              const mode = opt.dataset.presetMode;
-              const name = opt.dataset.presetName;
-              if (!mode || !name) return;
-              localStorage.setItem(`theme-${mode}-preset`, name);
-              (
-                window as Window & { __applyTheme?: (t: string) => string }
-              ).__applyTheme?.(mode);
-              syncPickerState(mode);
-              announce(`${mode} theme preset set to ${name}`);
-            };
-          });
+        picker.querySelectorAll('.theme-preset-option').forEach((opt) => {
+          opt.onclick = () => {
+            const mode = opt.dataset.presetMode;
+            const name = opt.dataset.presetName;
+            if (!mode || !name) return;
+            localStorage.setItem(`theme-${mode}-preset`, name);
+            window.__applyTheme?.(mode);
+            syncPickerState(mode);
+          };
+        });
 
-        const resetBtn = picker.querySelector<HTMLButtonElement>(
-          '.theme-picker-reset'
-        );
+        const resetBtn = picker.querySelector('.theme-picker-reset');
         if (resetBtn) {
           resetBtn.onclick = () => {
             localStorage.removeItem('theme-light-preset');
             localStorage.removeItem('theme-dark-preset');
             const current =
               document.documentElement.getAttribute('data-theme') || 'light';
-            (
-              window as Window & { __applyTheme?: (t: string) => string }
-            ).__applyTheme?.(current);
+            window.__applyTheme?.(current);
             syncPickerState();
-            announce('Theme presets reset to default');
           };
         }
 
-        const copyBtn =
-          picker.querySelector<HTMLButtonElement>('.theme-picker-copy');
+        const copyBtn = picker.querySelector('.theme-picker-copy');
         if (copyBtn) {
           copyBtn.onclick = async () => {
             const { light, dark } = getActivePresets(picker);
             const snippet = `theme: {\n  light: '${light}',\n  dark: '${dark}',\n},`;
-            const ok = await copyToClipboard(snippet);
-            if (ok) {
+            try {
+              await navigator.clipboard.writeText(snippet);
               const prev = copyBtn.textContent;
               copyBtn.textContent = 'Copied!';
-              announce('Theme config copied to clipboard');
               setTimeout(() => {
                 copyBtn.textContent = prev;
               }, 1500);
+            } catch {
+              // Ignore clipboard errors in non-secure contexts
             }
           };
         }
       });
-  }
+    };
 
-  document.addEventListener('click', closeAllPickers);
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') closeAllPickers();
-  });
-  document.addEventListener('theme-change', () => syncPickerState());
-  document.addEventListener('astro:page-load', setupThemePicker);
+    document.addEventListener('click', closeAllPickers);
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeAllPickers();
+    });
+    document.addEventListener('theme-change', () => syncPickerState());
+    document.addEventListener('astro:page-load', setupThemePicker);
+  }
 </script>
