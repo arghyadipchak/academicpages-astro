@@ -276,6 +276,8 @@ export interface ThemeConfig {
   light?: LightThemeName | Partial<ThemePalette>;
   /** Built-in dark theme preset name or partial custom palette overrides */
   dark?: DarkThemeName | Partial<ThemePalette>;
+  /** Enable interactive theme preset picker in the masthead (for template demos) */
+  picker?: boolean;
 }
 
 function paletteToCssVars(p: ThemePalette): string {
@@ -328,7 +330,23 @@ export function resolveThemes(config?: ThemeConfig): {
 } {
   const light = resolvePalette(lightThemes, lightThemes.default, config?.light);
   const dark = resolvePalette(darkThemes, darkThemes.default, config?.dark);
-  const css = `:root{${paletteToCssVars(light)}}html[data-theme='dark']{${paletteToCssVars(dark)}}`;
+  let css = `:root{${paletteToCssVars(light)}}html[data-theme='dark']{${paletteToCssVars(dark)}}`;
+
+  if (config?.picker) {
+    const lightRules = Object.entries(lightThemes)
+      .map(
+        ([k, p]) =>
+          `html:not([data-theme='dark'])[data-light-preset='${k}']{${paletteToCssVars(p)}}`
+      )
+      .join('');
+    const darkRules = Object.entries(darkThemes)
+      .map(
+        ([k, p]) =>
+          `html[data-theme='dark'][data-dark-preset='${k}']{${paletteToCssVars(p)}}`
+      )
+      .join('');
+    css += lightRules + darkRules;
+  }
 
   return { light, dark, css };
 }

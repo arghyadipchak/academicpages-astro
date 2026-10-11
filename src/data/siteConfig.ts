@@ -177,6 +177,8 @@ export const siteConfig: SiteConfig = {
     light: 'default',
     // Dark: 'default' | 'github-dark' | 'catppuccin-mocha' | 'solarized-dark' | 'rose-pine' | 'gruvbox-dark' | 'nord' | 'flexoki-dark' | 'everforest-dark' | 'tokyo-night' | 'dracula' | 'one-dark' | 'ayu-dark' | 'kanagawa-wave' | 'night-owl' | 'monokai'
     dark: 'default',
+    // Set to false or remove on personal sites to disable the live masthead theme picker
+    picker: true,
   },
   breadcrumbs: true,
   author: {

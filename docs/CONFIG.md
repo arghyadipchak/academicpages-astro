@@ -62,6 +62,7 @@ Defined in [`src/data/themes.ts`](../src/data/themes.ts), `theme.light` and `the
 - **Light Presets**: `'default'` | `'github-light'` | `'catppuccin-latte'` | `'solarized-light'` | `'rose-pine-dawn'` | `'gruvbox-light'` | `'nord-light'` | `'flexoki-light'` | `'everforest-light'` | `'tokyo-night-day'` | `'alucard'` | `'one-light'` | `'ayu-light'` | `'kanagawa-lotus'` | `'light-owl'` | `'monokai-light'`
 - **Dark Presets**: `'default'` | `'github-dark'` | `'catppuccin-mocha'` | `'solarized-dark'` | `'rose-pine'` | `'gruvbox-dark'` | `'nord'` | `'flexoki-dark'` | `'everforest-dark'` | `'tokyo-night'` | `'dracula'` | `'one-dark'` | `'ayu-dark'` | `'kanagawa-wave'` | `'night-owl'` | `'monokai'`
 - **Custom Overrides**: Pass any subset of the 5 core tokens (`{ base, bg, surface, text, textLight }`); omitted fields inherit from `'default'` and secondary tokens (borders, code blocks, links) auto-derive via CSS `color-mix()`
+- **Interactive Theme Picker (`theme.picker`)**: Enabled (`true`) in the starter template so visitors can preview all 32 presets in the masthead; set to `false` or remove `picker` on personal sites so only your configured `light` and `dark` palettes are shipped
 
 ### Author Profile Fields (`author`)
 

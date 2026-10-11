@@ -1,6 +1,7 @@
 ---
 import { Icon } from 'astro-icon/components';
 
+import ThemePicker from '@components/ThemePicker.astro';
 import ThemeToggle from '@components/ThemeToggle.astro';
 
 import { navigation } from '@data/navigation';
@@ -117,6 +118,7 @@ function isSelected(url: string): boolean {
             ⌘K
           </kbd>
         </button>
+        {siteConfig.theme?.picker && <ThemePicker />}
         <ThemeToggle />
       </div>
     </nav>
@@ -130,6 +132,7 @@ function isSelected(url: string): boolean {
       >
         <Icon name="fa6-solid:magnifying-glass" class="h-4 w-4" />
       </button>
+      {siteConfig.theme?.picker && <ThemePicker />}
       <ThemeToggle />
       <button
         id="mobile-nav-toggle"

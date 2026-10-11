@@ -36,6 +36,11 @@ test.describe('Client-Side Interactive Components Tests', () => {
     expect(resolved.dark.bg).toBe('#1e1e2e');
     expect(resolved.css).toContain('--global-link-color:#8c1515');
     expect(resolved.css).toContain('color-mix(in srgb');
+    expect(resolved.css).not.toContain('data-light-preset');
+
+    const withPicker = resolveThemes({ picker: true });
+    expect(withPicker.css).toContain("data-light-preset='alucard'");
+    expect(withPicker.css).toContain("data-dark-preset='dracula'");
 
     for (const [name, p] of Object.entries(lightThemes)) {
       expect(contrastRatio(p.text, p.bg), `${name} text/bg`).toBeGreaterThan(
@@ -98,6 +103,28 @@ test.describe('Client-Side Interactive Components Tests', () => {
       .first()
       .getAttribute('content');
     expect(reloadedMetaColor).toBe(expectedBg);
+
+    // Verify Masthead ThemePicker popover switches presets and persists
+    const pickerBtn = page.locator('.theme-picker-btn:visible').first();
+    await expect(pickerBtn).toBeVisible();
+    await pickerBtn.click();
+    const popover = page.locator('.theme-picker-popover:visible').first();
+    await expect(popover).toBeVisible();
+    await popover.locator('[data-tab-mode="dark"]').click();
+    await popover
+      .locator('[data-preset-mode="dark"][data-preset-name="dracula"]')
+      .click();
+    await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark');
+    await expect(page.locator('html')).toHaveAttribute(
+      'data-dark-preset',
+      'dracula'
+    );
+    const draculaBg = await page.evaluate(() =>
+      getComputedStyle(document.documentElement)
+        .getPropertyValue('--global-bg-color')
+        .trim()
+    );
+    expect(draculaBg).toBe(darkThemes.dracula.bg);
   });
 
   test('search modal opens with Cmd+K, supports ArrowDown/Up selection, and navigates with Enter', async ({

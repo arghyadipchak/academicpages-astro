@@ -188,7 +188,13 @@ const {
   })}
 />
 <!-- Dark Mode Initialization Script (Prevents flash of unstyled theme) -->
-<script is:inline define:vars={{ lightBg: lightTheme.bg, darkBg: darkTheme.bg }}
+<script
+  is:inline
+  define:vars={{
+    lightBg: lightTheme.bg,
+    darkBg: darkTheme.bg,
+    hasPicker: Boolean(siteConfig.theme?.picker),
+  }}
 >
   const darkQuery = window.matchMedia('(prefers-color-scheme: dark)');
   function applyTheme(explicitTheme, notify) {
@@ -197,10 +203,22 @@ const {
     const isDark =
       storedTheme === 'dark' || (!storedTheme && darkQuery.matches);
     const theme = isDark ? 'dark' : 'light';
-    document.documentElement.setAttribute('data-theme', theme);
+    const root = document.documentElement;
+    root.setAttribute('data-theme', theme);
+    if (hasPicker) {
+      const lp = localStorage.getItem('theme-light-preset');
+      const dp = localStorage.getItem('theme-dark-preset');
+      if (lp) root.setAttribute('data-light-preset', lp);
+      else root.removeAttribute('data-light-preset');
+      if (dp) root.setAttribute('data-dark-preset', dp);
+      else root.removeAttribute('data-dark-preset');
+    }
+    const activeBg = hasPicker
+      ? getComputedStyle(root).getPropertyValue('--global-bg-color').trim()
+      : '';
     document
       .querySelector('meta[name="theme-color"]')
-      ?.setAttribute('content', isDark ? darkBg : lightBg);
+      ?.setAttribute('content', activeBg || (isDark ? darkBg : lightBg));
     if (explicitTheme || notify) {
       document.dispatchEvent(
         new CustomEvent('theme-change', { detail: { theme } })

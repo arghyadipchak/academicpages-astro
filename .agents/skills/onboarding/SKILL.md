@@ -32,7 +32,7 @@ Follow these sequential phases when personalizing the website for a user:
 
 Execute **Section 1 & Section 4** of [`docs/ONBOARDING.md`](../../../docs/ONBOARDING.md) following [`docs/CONFIG.md`](../../../docs/CONFIG.md):
 
-- Update `src/data/siteConfig.ts` with profile information and verified handles
+- Update `src/data/siteConfig.ts` with profile information, verified handles, chosen `theme.light` / `theme.dark` presets, and remove `picker: true`
 - Update `src/data/navigation.ts` and `src/pages/sitemap.astro` for enabled sections
 - Update `LICENSE` copyright notice while preserving upstream MIT lines
 - **Rule**: Never remove, hide, or comment out the template attribution link in `src/components/Footer.astro` pointing to `academicpages-astro`
