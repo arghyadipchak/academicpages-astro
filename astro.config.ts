@@ -20,7 +20,6 @@ const base =
     ? parsedUrl.pathname.replace(/\/+$/, '')
     : undefined;
 
-// https://astro.build/config
 export default defineConfig({
   site,
   base,

@@ -8,12 +8,10 @@ test.describe('Typography, Lists & Mathematical Layout Tests', () => {
   }) => {
     await page.goto(toUrl('/cv/'));
 
-    // Breadcrumbs format acronyms like CV in uppercase
     const breadcrumbs = page.locator('nav[aria-label="Breadcrumbs"]');
     await expect(breadcrumbs).toBeVisible();
     await expect(breadcrumbs).toContainText('CV');
 
-    // Breadcrumbs on blog post format hyphens/underscores to spaces and capitalize words
     await page.goto(toUrl('/posts/blog-post-1/'));
     const postBreadcrumbs = page.locator('nav[aria-label="Breadcrumbs"]');
     await expect(postBreadcrumbs).toBeVisible();
@@ -23,7 +21,6 @@ test.describe('Typography, Lists & Mathematical Layout Tests', () => {
 
     await page.goto(toUrl('/cv/'));
 
-    // Top-level lists render with disc markers
     const topUl = page.locator('.cv-content section ul').first();
     await expect(topUl).toBeVisible();
     const topUlStyle = await topUl.evaluate(
@@ -31,7 +28,6 @@ test.describe('Typography, Lists & Mathematical Layout Tests', () => {
     );
     expect(topUlStyle).toBe('disc');
 
-    // Nested lists under work experience render with circle markers
     const nestedUl = page.locator('.cv-content ul ul').first();
     await expect(nestedUl).toBeVisible();
     const nestedUlStyle = await nestedUl.evaluate(
@@ -39,7 +35,6 @@ test.describe('Typography, Lists & Mathematical Layout Tests', () => {
     );
     expect(nestedUlStyle).toBe('circle');
 
-    // Publication citation has compact top margin and zero bottom margin
     const citationP = page
       .locator('.cv-content section:has-text("Publications") li p')
       .first();
@@ -55,7 +50,6 @@ test.describe('Typography, Lists & Mathematical Layout Tests', () => {
     expect(pMargin.marginTop).toBeLessThanOrEqual(6);
     expect(pMargin.marginBottom).toBe(0);
 
-    // Publication citation grouped closer to its title than to the next publication (> 2:1 ratio)
     const pubItems = page.locator(
       '.cv-content section:has-text("Publications") li'
     );
@@ -78,11 +72,9 @@ test.describe('Typography, Lists & Mathematical Layout Tests', () => {
   }) => {
     await page.goto(toUrl('/markdown/'));
 
-    // 1. KaTeX Math equations rendered server-side
     const katexDisplay = page.locator('.katex-display').first();
     await expect(katexDisplay).toBeVisible();
 
-    // 2. Syntax-highlighted code blocks with copy buttons
     const astroCode = page
       .locator('pre.astro-code:not([data-language="mermaid"]):visible')
       .first();
@@ -98,7 +90,6 @@ test.describe('Typography, Lists & Mathematical Layout Tests', () => {
       await expect(announcer).toContainText('Code copied to clipboard');
     } else await expect(copyBtn).toBeAttached();
 
-    // 3. Notice Callouts and first/last child margin containment
     const notice = page.locator('.notice').first();
     await expect(notice).toBeVisible();
     const noticeChildMargins = await notice.evaluate((el) => {
@@ -134,13 +125,11 @@ test.describe('Typography, Lists & Mathematical Layout Tests', () => {
       '{: .notice--info}'
     );
 
-    // 4. Semantic HTML tags
     await expect(page.locator('blockquote').first()).toBeVisible();
     await expect(page.locator('q').first()).toBeVisible();
     await expect(page.locator('cite').first()).toBeVisible();
     await expect(page.locator('abbr').first()).toBeVisible();
 
-    // 5. Mermaid diagrams and Plotly charts
     const mermaidDiagram = page.locator('.mermaid-diagram').first();
     await expect(mermaidDiagram).toBeVisible();
     const mermaidDetails = page.locator('.mermaid-wrapper details').first();
@@ -153,12 +142,10 @@ test.describe('Typography, Lists & Mathematical Layout Tests', () => {
       .first();
     await expect(plotlyBlock).toBeAttached();
 
-    // 6. Responsive .table-wrapper around markdown tables
     const tableWrapper = page.locator('.table-wrapper').first();
     await expect(tableWrapper).toBeVisible();
     await expect(tableWrapper.locator('table')).toBeVisible();
 
-    // 7. Definition lists indentation
     const dd = page.locator('.prose dd').first();
     await expect(dd).toBeVisible();
     const ddStyles = await dd.evaluate((el) => {
@@ -172,7 +159,6 @@ test.describe('Typography, Lists & Mathematical Layout Tests', () => {
     expect(ddStyles.marginLeft).toBeLessThanOrEqual(24);
     expect(ddStyles.paddingLeft).toBe(0);
 
-    // 8. Unordered list multi-level markers: disc -> circle -> square
     const l1Ul = page.locator('.prose ul').first();
     await expect(l1Ul).toBeVisible();
     expect(
@@ -191,7 +177,6 @@ test.describe('Typography, Lists & Mathematical Layout Tests', () => {
       await l3Ul.evaluate((el) => window.getComputedStyle(el).listStyleType)
     ).toBe('square');
 
-    // 9. Ordered list multi-level markers: decimal -> lower-alpha -> lower-roman
     const l1Ol = page.locator('.prose ol').first();
     await expect(l1Ol).toBeVisible();
     expect(
@@ -210,7 +195,6 @@ test.describe('Typography, Lists & Mathematical Layout Tests', () => {
       await l3Ol.evaluate((el) => window.getComputedStyle(el).listStyleType)
     ).toBe('lower-roman');
 
-    // 10. Heading scales (h4, h5, h6)
     const h4 = page.locator('.prose h4').first();
     await expect(h4).toBeVisible();
     const h4Styles = await h4.evaluate((el) => ({
@@ -272,7 +256,6 @@ test.describe('Typography, Lists & Mathematical Layout Tests', () => {
   }) => {
     await page.goto(toUrl('/markdown/'));
 
-    // 1. In-text footnote references enclosed in brackets [1]
     const ref1 = page.locator('a[data-footnote-ref]').first();
     await expect(ref1).toBeVisible();
     const refStyles = await ref1.evaluate((el) => {
@@ -290,7 +273,6 @@ test.describe('Typography, Lists & Mathematical Layout Tests', () => {
     expect(refStyles.beforeContent).toContain('[');
     expect(refStyles.afterContent).toContain(']');
 
-    // 2. Footnotes section container and uppercase visible header
     const fnSection = page.locator('.footnotes, [data-footnotes]');
     await expect(fnSection).toBeVisible();
     const fnLabel = fnSection.locator('#footnote-label');
@@ -306,7 +288,6 @@ test.describe('Typography, Lists & Mathematical Layout Tests', () => {
     expect(fnLabelStyles.textTransform).toBe('uppercase');
     expect(fnLabelStyles.fontSize).toBeLessThanOrEqual(15);
 
-    // 3. Footnote list item sizing and backreference return link
     const fnItem = fnSection.locator('li').first();
     await expect(fnItem).toBeVisible();
     const fnItemStyles = await fnItem.evaluate((el) => ({
@@ -321,7 +302,6 @@ test.describe('Typography, Lists & Mathematical Layout Tests', () => {
     }));
     expect(backrefStyles.marginLeft).toBeGreaterThanOrEqual(4);
 
-    // 4. Two-way jump navigation
     await ref1.click();
     expect(page.url()).toContain('#user-content-fn-1');
 

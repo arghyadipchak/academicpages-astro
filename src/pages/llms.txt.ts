@@ -55,7 +55,6 @@ export const GET: APIRoute = async ({ site }) => {
     lines.push(`- [${item.title}](${origin}${resolveUrl(item.url)}): ${desc}`);
   }
 
-  // Publications
   const publications = await getCollection('publications');
   if (publications.length > 0) {
     lines.push('', '## Publications', '');
@@ -68,7 +67,6 @@ export const GET: APIRoute = async ({ site }) => {
     }
   }
 
-  // Talks & Presentations
   const talks = await getCollection('talks');
   if (talks.length > 0) {
     lines.push('', '## Talks & Presentations', '');
@@ -81,7 +79,6 @@ export const GET: APIRoute = async ({ site }) => {
     }
   }
 
-  // Teaching & Courses
   const teaching = await getCollection('teaching');
   if (teaching.length > 0) {
     lines.push('', '## Teaching & Courses', '');
@@ -94,7 +91,6 @@ export const GET: APIRoute = async ({ site }) => {
     }
   }
 
-  // Portfolio & Projects
   const portfolio = await getCollection('portfolio');
   if (portfolio.length > 0) {
     lines.push('', '## Portfolio & Projects', '');
@@ -106,7 +102,6 @@ export const GET: APIRoute = async ({ site }) => {
     }
   }
 
-  // Blog Posts
   const posts = await getCollection('blog', ({ data }) => !data.draft);
   if (posts.length > 0) {
     lines.push('', '## Blog Posts', '');
@@ -118,7 +113,7 @@ export const GET: APIRoute = async ({ site }) => {
     }
   }
 
-  // Optional Section per llmstxt.org specification
+  // Optional section per llmstxt.org specification
   lines.push('', '## Optional', '');
   lines.push(
     `- [Sitemap](${origin}${resolveUrl('/sitemap/')}): Full site index`

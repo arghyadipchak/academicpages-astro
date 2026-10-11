@@ -61,7 +61,6 @@ const {
 >
   <div class="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
     <div class="grid grid-cols-1 gap-8 lg:grid-cols-12">
-      <!-- Left Sidebar: Author Profile -->
       {
         authorProfile && (
           <aside class="lg:col-span-3" aria-label="Author profile">
@@ -72,7 +71,6 @@ const {
         )
       }
 
-      <!-- Main Content Column -->
       <main
         class:list={[
           authorProfile ? 'lg:col-span-9' : 'lg:col-span-12',
@@ -114,12 +112,10 @@ const {
 
           {toc !== false && <TableOfContents />}
 
-          <!-- Main Article Body -->
           <Prose>
             <slot />
           </Prose>
 
-          <!-- Citation and downloads for publications -->
           {
             (citation || pdfUrl || slidesUrl || codeUrl || bibtex) && (
               <div class="mt-6 border-t border-(--global-border-color) pt-4 text-xs text-(--global-text-color-light)">
@@ -139,7 +135,6 @@ const {
             )
           }
 
-          {/* Tags footer */}
           {
             tags.length > 0 && (
               <footer class="mt-8 border-t border-(--global-border-color) pt-4 text-xs text-(--global-text-color-light)">

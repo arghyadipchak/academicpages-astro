@@ -47,7 +47,6 @@ export const compactObjectSingleLineRule: Rule.RuleModule = {
         )
           return;
 
-        // Check if all properties are single-line
         for (const prop of node.properties) {
           if (prop.type !== 'Property' && prop.type !== 'SpreadElement') return;
           if (prop.loc && prop.loc.start.line !== prop.loc.end.line) return;

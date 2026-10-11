@@ -95,7 +95,6 @@ test.describe('Client-Side Interactive Components Tests', () => {
     );
     expect(activeCssBg).toBe(expectedBg);
 
-    // Reload page to verify persistence in localStorage and meta theme-color
     await page.reload();
     await expect(page.locator('html')).toHaveAttribute('data-theme', newTheme!);
     const reloadedMetaColor = await page
@@ -104,7 +103,6 @@ test.describe('Client-Side Interactive Components Tests', () => {
       .getAttribute('content');
     expect(reloadedMetaColor).toBe(expectedBg);
 
-    // Verify Masthead ThemePicker popover switches presets and persists
     const pickerBtn = page.locator('.theme-picker-btn:visible').first();
     await expect(pickerBtn).toBeVisible();
     await pickerBtn.click();
@@ -133,7 +131,6 @@ test.describe('Client-Side Interactive Components Tests', () => {
   }) => {
     await page.goto(toUrl('/'));
 
-    // Open via Cmd+K / Ctrl+K
     await page.keyboard.press('ControlOrMeta+KeyK');
     const modal = page.locator('#search-modal');
     await expect(modal).toBeVisible();
@@ -146,15 +143,12 @@ test.describe('Client-Side Interactive Components Tests', () => {
     await expect(resultItem).toContainText('Paper Title Number 1');
 
     if (!isMobile) {
-      // Keyboard selection via ArrowDown
       await page.keyboard.press('ArrowDown');
       await expect(resultItem).toHaveClass(/ring-1/);
 
-      // Keyboard navigation via Enter
       await page.keyboard.press('Enter');
       await expect(page).toHaveURL(/publications\/paper-1/);
     } else {
-      // Close modal on mobile
       await page.keyboard.press('Escape');
       await expect(modal).not.toBeVisible();
     }
@@ -191,16 +185,13 @@ test.describe('Client-Side Interactive Components Tests', () => {
     const searchInput = page.locator('#search-input');
     await expect(searchInput).toBeFocused();
 
-    // Tab to next focusable element (close button)
     await page.keyboard.press('Tab');
     const closeBtn = page.locator('#search-close-btn');
     await expect(closeBtn).toBeFocused();
 
-    // Tab again should wrap around to first focusable element (searchInput)
     await page.keyboard.press('Tab');
     await expect(searchInput).toBeFocused();
 
-    // Shift+Tab should wrap in reverse to close button
     await page.keyboard.press('Shift+Tab');
     await expect(closeBtn).toBeFocused();
 
@@ -218,11 +209,9 @@ test.describe('Client-Side Interactive Components Tests', () => {
     const toggleBtn = page.locator('#toc-toggle-btn');
     const collapseWrapper = page.locator('#toc-collapse-wrapper');
 
-    // Initial state: collapsed by default
     await expect(toggleBtn).toHaveAttribute('aria-expanded', 'false');
     await expect(collapseWrapper).not.toBeVisible();
 
-    // Click to expand
     await toggleBtn.click();
     await expect(toggleBtn).toHaveAttribute('aria-expanded', 'true');
     await expect(collapseWrapper).toBeVisible();
@@ -233,7 +222,6 @@ test.describe('Client-Side Interactive Components Tests', () => {
     const count = await tocLinks.count();
     expect(count).toBeGreaterThanOrEqual(4);
 
-    // Click to retract / collapse
     await toggleBtn.click();
     await expect(toggleBtn).toHaveAttribute('aria-expanded', 'false');
     await expect(collapseWrapper).not.toBeVisible();
@@ -244,7 +232,6 @@ test.describe('Client-Side Interactive Components Tests', () => {
   }) => {
     await page.goto(toUrl('/publications/'));
 
-    // Verify publications with bibtex have the toggle button (paper 1 and book 1)
     const bibtexButtons = page.locator('.bibtex-toggle-btn');
     await expect(bibtexButtons).toHaveCount(2);
 
@@ -266,7 +253,6 @@ test.describe('Client-Side Interactive Components Tests', () => {
     const downloadLink = bibtexBox.locator('a[download="citation.bib"]');
     await expect(downloadLink).toBeVisible();
 
-    // Verify Code badge is rendered and links to code_url
     const codeBadge = page.locator('a:has-text("Code")').first();
     await expect(codeBadge).toBeVisible();
     await expect(codeBadge).toHaveAttribute(
@@ -283,14 +269,12 @@ test.describe('Client-Side Interactive Components Tests', () => {
     await expect(confFilterBtn).toBeVisible();
     await confFilterBtn.click();
 
-    // Verify Conferences section is visible, and Journals section is hidden
     const confSection = page.locator('section[data-category="conferences"]');
     await expect(confSection).toBeVisible();
 
     const journalsSection = page.locator('section[data-category="journals"]');
     await expect(journalsSection).toBeHidden();
 
-    // Click 'All' and verify all sections visible again
     const allBtn = page.locator('button[data-filter="all"]');
     await allBtn.click();
     await expect(journalsSection).toBeVisible();
@@ -323,7 +307,6 @@ test.describe('Client-Side Interactive Components Tests', () => {
     const progressBar = page.locator('#reading-progress');
     await expect(progressBar).toBeAttached();
 
-    // Scroll down to middle of page
     await page.evaluate(() =>
       window.scrollTo(0, document.body.scrollHeight / 2)
     );

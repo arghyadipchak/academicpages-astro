@@ -10,7 +10,6 @@ if (!existsSync(svgPath)) {
   process.exit(1);
 }
 
-// Verify resvg CLI availability
 try {
   execFileSync('resvg', ['--version'], { stdio: 'pipe' });
 } catch {

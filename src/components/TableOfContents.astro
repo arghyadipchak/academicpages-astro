@@ -81,7 +81,6 @@ const { containerSelector = '.prose, .cv-content' } = Astro.props;
       return;
     }
 
-    // Build ToC list items
     tocList.innerHTML = '';
     headings.forEach((heading, idx) => {
       let id = heading.id;
@@ -113,7 +112,6 @@ const { containerSelector = '.prose, .cv-content' } = Astro.props;
 
     tocWrapper.classList.remove('hidden');
 
-    // Retractable / Collapsible Toggle (Default: Collapsed)
     tocToggle.onclick = () => {
       const isExpanded = tocToggle.getAttribute('aria-expanded') === 'true';
       const newExpanded = !isExpanded;
@@ -130,7 +128,6 @@ const { containerSelector = '.prose, .cv-content' } = Astro.props;
       }
     };
 
-    // Scrollspy with IntersectionObserver
     activeTocObserver = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {

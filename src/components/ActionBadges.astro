@@ -25,7 +25,6 @@ const hasBadges = Boolean(pdfUrl || slidesUrl || codeUrl || bibtex);
 {
   hasBadges && (
     <div class="action-badges-container mt-3">
-      {/* Action Badges Row */}
       <div class="flex flex-wrap items-center gap-2">
         {pdfUrl && (
           <a
@@ -83,7 +82,6 @@ const hasBadges = Boolean(pdfUrl || slidesUrl || codeUrl || bibtex);
         )}
       </div>
 
-      {/* Expandable BibTeX Box */}
       {bibtex && (
         <div
           id={`bibtex-box-${id}`}

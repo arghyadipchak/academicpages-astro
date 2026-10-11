@@ -31,7 +31,6 @@ const categories = siteConfig.publicationCategories;
     )
   }
 
-  {/* Category Filter Pills */}
   <div
     class="mb-6 flex flex-wrap items-center gap-2 border-b border-(--global-border-color) pb-4"
     role="tablist"
@@ -136,7 +135,6 @@ const categories = siteConfig.publicationCategories;
     if (filterButtons.length === 0 || sections.length === 0) return;
 
     function applyFilter(filterKey: string, updateHash = true) {
-      // Update button active styles
       filterButtons.forEach((btn) => {
         const key = btn.getAttribute('data-filter');
         const countSpan = btn.querySelector('.pub-count');
@@ -191,7 +189,6 @@ const categories = siteConfig.publicationCategories;
         }
       });
 
-      // Filter sections
       sections.forEach((sec) => {
         const secCategory = sec.getAttribute('data-category');
         if (filterKey === 'all' || secCategory === filterKey)
@@ -218,7 +215,6 @@ const categories = siteConfig.publicationCategories;
       });
     });
 
-    // Check URL hash on load
     const currentHash = window.location.hash.replace(/^#/, '');
     if (currentHash) {
       const match = Array.from(filterButtons).some(

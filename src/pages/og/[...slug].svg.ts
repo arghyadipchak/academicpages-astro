@@ -228,17 +228,13 @@ export const GET: APIRoute = async ({ props }) => {
     </linearGradient>
   </defs>
 
-  <!-- Background -->
   <rect width="1200" height="630" fill="url(#bg-grad)"/>
 
-  <!-- Top Accent Bar -->
   <rect x="0" y="0" width="1200" height="8" fill="url(#brand-grad)"/>
 
-  <!-- Decorative Grid / Glow -->
   <circle cx="1080" cy="120" r="300" fill="${dark.base}" opacity="0.08" filter="blur(80px)"/>
   <circle cx="100" cy="530" r="250" fill="${light.base}" opacity="0.06" filter="blur(60px)"/>
 
-  <!-- Category Badge -->
   ${
     item.category
       ? `
@@ -248,12 +244,10 @@ export const GET: APIRoute = async ({ props }) => {
       : ''
   }
 
-  <!-- Title -->
   <text x="80" y="220" font-family="-apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', Roboto, sans-serif" font-size="46" font-weight="800" fill="${dark.text}" letter-spacing="-0.02em">
     ${titleTspans}
   </text>
 
-  <!-- Subtitle (Venue / Date) -->
   ${
     subtitle
       ? `
@@ -264,10 +258,8 @@ export const GET: APIRoute = async ({ props }) => {
       : ''
   }
 
-  <!-- Footer Divider -->
   <line x1="80" y1="480" x2="1120" y2="480" stroke="${dark.textLight}" stroke-opacity="0.25" stroke-width="1"/>
 
-  <!-- Author & Site Branding -->
   <text x="80" y="540" font-family="-apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', Roboto, sans-serif" font-size="22" font-weight="700" fill="${dark.text}">
     ${escapeXml(siteConfig.author.name)}
   </text>

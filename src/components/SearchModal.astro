@@ -8,7 +8,6 @@ import { Icon } from 'astro-icon/components';
   aria-label="Site search"
 >
   <div class="flex flex-col overflow-hidden">
-    {/* Search Input Bar */}
     <div
       class="flex items-center gap-3 border-b border-(--global-border-color) px-4 py-3"
     >
@@ -38,7 +37,6 @@ import { Icon } from 'astro-icon/components';
       </button>
     </div>
 
-    {/* Search Results List */}
     <div
       id="search-results"
       class="custom-scrollbar max-h-96 min-h-30 overflow-y-auto p-2"
@@ -64,7 +62,6 @@ import { Icon } from 'astro-icon/components';
       </ul>
     </div>
 
-    {/* Footer Navigation Help */}
     <div
       class="flex items-center justify-between border-t border-(--global-border-color) bg-(--global-footer-bg-color) px-4 py-2 text-[11px] text-(--global-text-color-light)"
     >
@@ -172,12 +169,10 @@ import { Icon } from 'astro-icon/components';
   ): number {
     let score = 0;
 
-    // Exact title match
     if (item.cleanTitle === query) score += 100;
     else if (item.cleanTitle.startsWith(query)) score += 60;
     else if (item.cleanTitle.includes(query)) score += 40;
 
-    // Individual token matches
     for (const token of tokens) {
       if (item.cleanTitle.startsWith(token)) score += 20;
       else if (item.cleanTitle.includes(token)) score += 10;
@@ -231,7 +226,6 @@ import { Icon } from 'astro-icon/components';
     openModalFn = openModal;
     closeModalFn = closeModal;
 
-    // Attach trigger buttons with click, hover, and focus prefetching
     document.querySelectorAll('.search-trigger-btn').forEach((btn) => {
       btn.removeEventListener('click', openModal);
       btn.addEventListener('click', openModal);
@@ -243,7 +237,6 @@ import { Icon } from 'astro-icon/components';
 
     closeBtn?.addEventListener('click', closeModal);
 
-    // Close when clicking dialog backdrop
     modal.addEventListener('click', (e) => {
       const rect = modal.getBoundingClientRect();
       const isInDialog =
@@ -278,7 +271,7 @@ import { Icon } from 'astro-icon/components';
       }
     });
 
-    // Handle clicks on result items (while allowing nested <a> tags in description to work)
+    // Allow direct clicks on markdown links inside result descriptions without triggering item navigation
     searchList.addEventListener('click', (e) => {
       const target = e.target as HTMLElement;
       if (target.closest('.search-result-desc a')) return;
@@ -289,7 +282,6 @@ import { Icon } from 'astro-icon/components';
 
     let debounceTimer: ReturnType<typeof setTimeout> | null = null;
 
-    // Handle Search Input Filtering with Token Matching & Relevance Sorting
     input.addEventListener('input', () => {
       if (debounceTimer) clearTimeout(debounceTimer);
       debounceTimer = setTimeout(async () => {
@@ -376,7 +368,6 @@ import { Icon } from 'astro-icon/components';
       }, 50);
     });
 
-    // Arrow keys & Enter key navigation inside search results
     input.addEventListener('keydown', (e) => {
       const items = modal.querySelectorAll('.search-result-item');
       if (items.length === 0) return;
@@ -426,7 +417,7 @@ import { Icon } from 'astro-icon/components';
     }
   }
 
-  // Register single global Cmd+K shortcut listener at module scope
+  // Global Cmd+K shortcut listener at module scope
   window.addEventListener('keydown', (e) => {
     if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
       e.preventDefault();

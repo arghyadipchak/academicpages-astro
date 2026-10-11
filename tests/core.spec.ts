@@ -286,7 +286,6 @@ test.describe('Core UI, SEO & Page Integrity Tests', () => {
   test('JSON-LD schema.org graphs render expected entities across content types', async ({
     page,
   }) => {
-    // 1. Homepage contains ProfilePage, Person, WebSite
     await page.goto(toUrl('/'));
     const homeJsonLdText = await page
       .locator('script[type="application/ld+json"]')
@@ -310,7 +309,6 @@ test.describe('Core UI, SEO & Page Integrity Tests', () => {
       expect(url).not.toMatch(/^https:\/\/.*https:\/\//);
     }
 
-    // 2. Publication contains ScholarlyArticle
     await page.goto(toUrl('/publications/paper-1/'));
     const pubJsonLdText = await page
       .locator('script[type="application/ld+json"]')
@@ -322,7 +320,6 @@ test.describe('Core UI, SEO & Page Integrity Tests', () => {
     );
     expect(pubTypes).toContain('ScholarlyArticle');
 
-    // 3. Talk contains EducationEvent
     await page.goto(toUrl('/talks/talk-1/'));
     const talkJsonLdText = await page
       .locator('script[type="application/ld+json"]')
@@ -334,7 +331,6 @@ test.describe('Core UI, SEO & Page Integrity Tests', () => {
     );
     expect(talkTypes).toContain('EducationEvent');
 
-    // 4. Teaching contains Course
     await page.goto(toUrl('/teaching/teaching-1/'));
     const teachJsonLdText = await page
       .locator('script[type="application/ld+json"]')
@@ -346,7 +342,6 @@ test.describe('Core UI, SEO & Page Integrity Tests', () => {
     );
     expect(teachTypes).toContain('Course');
 
-    // 5. Blog Post contains BlogPosting
     await page.goto(toUrl('/posts/blog-post-1/'));
     const postJsonLdText = await page
       .locator('script[type="application/ld+json"]')
@@ -358,7 +353,6 @@ test.describe('Core UI, SEO & Page Integrity Tests', () => {
     );
     expect(postTypes).toContain('BlogPosting');
 
-    // 6. Portfolio contains CreativeWork or SoftwareSourceCode
     await page.goto(toUrl('/portfolio/portfolio-1/'));
     const portJsonLdText = await page
       .locator('script[type="application/ld+json"]')

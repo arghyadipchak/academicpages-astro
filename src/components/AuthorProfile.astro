@@ -25,7 +25,6 @@ interface AuthorServiceDef {
 }
 
 const AUTHOR_SERVICES: AuthorServiceDef[] = [
-  // Academic Websites & Indices
   {
     key: 'googlescholar',
     label: 'Google Scholar',
@@ -134,8 +133,6 @@ const AUTHOR_SERVICES: AuthorServiceDef[] = [
     icon: 'academicons:philpapers',
     prefix: 'https://philpeople.org/profiles/',
   },
-
-  // Code & Repositories
   {
     key: 'github',
     label: 'GitHub',
@@ -184,8 +181,6 @@ const AUTHOR_SERVICES: AuthorServiceDef[] = [
     icon: 'fa6-brands:dribbble',
     prefix: 'https://dribbble.com/',
   },
-
-  // Social Media, Newsletters & Community
   {
     key: 'bluesky',
     label: 'Bluesky',
@@ -350,7 +345,6 @@ const AUTHOR_SERVICES: AuthorServiceDef[] = [
   <div
     class="flex flex-row items-center gap-4 lg:flex-col lg:items-start lg:gap-0"
   >
-    <!-- Avatar -->
     <div class="author__avatar shrink-0">
       <Image
         src={resolvePath(author.avatar)}
@@ -363,7 +357,6 @@ const AUTHOR_SERVICES: AuthorServiceDef[] = [
       />
     </div>
 
-    <!-- Name & Bio -->
     <div class="author__content flex-1 lg:mt-3 lg:w-full">
       <h3
         class="text-lg font-bold text-(--global-text-color) lg:text-xl"
@@ -388,7 +381,6 @@ const AUTHOR_SERVICES: AuthorServiceDef[] = [
       }
     </div>
 
-    <!-- Mobile Follow Button -->
     <div class="lg:hidden">
       <button
         id="author-urls-toggle"
@@ -402,7 +394,6 @@ const AUTHOR_SERVICES: AuthorServiceDef[] = [
     </div>
   </div>
 
-  <!-- Social & Academic Links -->
   <div
     id="author-urls-list"
     class="author__urls hidden pt-4 text-sm lg:block lg:pt-4"
@@ -464,7 +455,6 @@ const AUTHOR_SERVICES: AuthorServiceDef[] = [
         )
       }
 
-      {/* Dynamic Services List */}
       {
         AUTHOR_SERVICES.map(({ key, label, icon, emoji, prefix, suffix }) => {
           const val = author[key];

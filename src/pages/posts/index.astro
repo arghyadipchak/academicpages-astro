@@ -12,7 +12,6 @@ const allPosts = sortByDateDesc(
   await getCollection('blog', ({ data }) => !data.draft)
 );
 
-// Group posts by year
 const postsByYear = allPosts.reduce<Record<string, typeof allPosts>>(
   (acc, post) => {
     const year = new Date(post.data.date).getFullYear().toString();

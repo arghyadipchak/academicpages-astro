@@ -27,7 +27,6 @@ function isSelected(url: string): boolean {
   <div
     class="mx-auto flex h-full max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8"
   >
-    <!-- Site Brand Title -->
     {
       () => {
         const isHome = isSelected('/');
@@ -59,7 +58,6 @@ function isSelected(url: string): boolean {
       }
     }
 
-    <!-- Desktop Navigation Links & Theme Toggle -->
     <nav
       class="hidden h-full items-center gap-6 md:flex"
       aria-label="Primary navigation"
@@ -82,7 +80,6 @@ function isSelected(url: string): boolean {
                   aria-current={selected ? 'page' : undefined}
                 >
                   <span>{item.title}</span>
-                  {/* Floating Aesthetic Indicator Bar */}
                   <span
                     class:list={[
                       'absolute right-2 bottom-2.5 left-2 h-[2.5px] rounded-full transition-all duration-200',
@@ -123,7 +120,6 @@ function isSelected(url: string): boolean {
       </div>
     </nav>
 
-    <!-- Mobile Nav Controls -->
     <div class="flex items-center gap-2 md:hidden">
       <button
         type="button"
@@ -159,7 +155,6 @@ function isSelected(url: string): boolean {
     </div>
   </div>
 
-  <!-- Mobile Dropdown Menu -->
   <div
     id="mobile-menu"
     class="hidden border-t border-(--global-border-color) bg-(--global-bg-color) px-4 pt-2 pb-4 shadow-md md:hidden"
