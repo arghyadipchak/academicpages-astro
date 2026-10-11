@@ -228,8 +228,8 @@ Use standard HTML `<details>` and `<summary>` elements to create collapsible sec
 | `~~strikethrough~~`                | Deleted or struck-through text | ~~strikethrough~~              |
 | `` `inline code` ``                | Monospace code snippet         | `console.log()`                |
 | `[Link Text](https://example.org)` | Hyperlink                      | [Website](https://example.org) |
-| `Subscript ~H2O~`                  | Subscript text                 | H~~2~~O                        |
-| `Superscript ^2^`                  | Superscript text               | E = mc^2^                      |
+| `H<sub>2</sub>O`                   | Subscript text                 | H<sub>2</sub>O                 |
+| `E = mc<sup>2</sup>`               | Superscript text               | E = mc<sup>2</sup>             |
 
 ---
 

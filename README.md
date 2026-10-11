@@ -21,7 +21,7 @@ A modern, high-performance academic personal website and portfolio template buil
 - 📚 **Strict Content Collections**: Zod-validated schemas for publications (with 1-click BibTeX), talks, teaching, portfolio projects, and KaTeX blog posts
 - 🔍 **Instant Search (`Cmd + K`)**: Fast, lightweight client-side fuzzy search across all publications, talks, and blog posts
 - 📐 **Mathematical Rigor ($\LaTeX$ / KaTeX)**: Fast, static server-side math rendering across Markdown content, frontmatter titles, and archive listings via KaTeX
-- 🌐 **Scholarly SEO & Syndication**: Google Scholar and Highwire Press citation meta tags, RSS 2.0 (`/rss.xml`), Atom feed (`/feed.xml`), XML sitemaps, and crawlers index (`/robots.txt`)
+- 🌐 **Scholarly SEO & Syndication**: Google Scholar and Highwire Press citation meta tags, RSS 2.0 (`/rss.xml`), RSS feed alias (`/feed.xml`), XML sitemaps, and crawlers index (`/robots.txt`)
 - 🤖 **AI-Native & Agent Ready**: Pre-equipped with turnkey prompts, specialized agent skills (`.agents/skills/`), and machine-readable `/llms.txt` indexing
 - 📱 **Exhaustive Sidebar**: Sticky author profile on desktop supporting **50+ academic, code, and social platforms** with responsive mobile drawer
 - 🧪 **Comprehensive Test Suite**: Automated Playwright browser tests covering desktop and mobile viewports
