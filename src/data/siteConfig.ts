@@ -173,9 +173,9 @@ export const siteConfig: SiteConfig = {
   description: "Your Name's Academic Portfolio",
   url: 'https://username.github.io',
   theme: {
-    // Light: 'default' | 'github-light' | 'catppuccin-latte' | 'solarized-light' | 'rose-pine-dawn' | 'gruvbox-light' | 'nord-light' | 'flexoki-light' | 'everforest-light' | 'tokyo-night-day' | 'alucard' | 'one-light' | 'ayu-light' | 'kanagawa-lotus' | 'light-owl' | 'monokai-light'
+    // Light: 'default' | 'github-light' | 'one-light' | 'catppuccin-latte' | 'alucard' | 'tokyo-night-day' | 'solarized-light' | 'nord-light' | 'gruvbox-light' | 'monokai-light' | 'rose-pine-dawn' | 'light-owl' | 'ayu-light' | 'kanagawa-lotus' | 'everforest-light' | 'flexoki-light'
     light: 'default',
-    // Dark: 'default' | 'github-dark' | 'catppuccin-mocha' | 'solarized-dark' | 'rose-pine' | 'gruvbox-dark' | 'nord' | 'flexoki-dark' | 'everforest-dark' | 'tokyo-night' | 'dracula' | 'one-dark' | 'ayu-dark' | 'kanagawa-wave' | 'night-owl' | 'monokai'
+    // Dark: 'default' | 'github-dark' | 'one-dark' | 'catppuccin-mocha' | 'dracula' | 'tokyo-night' | 'solarized-dark' | 'nord' | 'gruvbox-dark' | 'monokai' | 'rose-pine' | 'night-owl' | 'ayu-dark' | 'kanagawa-wave' | 'everforest-dark' | 'flexoki-dark'
     dark: 'default',
     // Set to false or remove on personal sites to disable the live masthead theme picker
     picker: true,
