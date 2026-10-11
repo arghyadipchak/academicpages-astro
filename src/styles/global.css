@@ -350,6 +350,7 @@ sup {
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
   margin: 1.5rem 0;
+  border-radius: 8px;
 }
 
 .table-wrapper > table {
@@ -417,19 +418,6 @@ html[data-theme='dark'] .prose tbody tr:hover,
 
 .prose tbody tr:last-child td {
   border-bottom: none;
-}
-
-/* Responsive Table Wrapper with Horizontal Scroll */
-.table-wrapper {
-  width: 100%;
-  overflow-x: auto;
-  margin: 1.5rem 0;
-  border-radius: 8px;
-  -webkit-overflow-scrolling: touch;
-}
-
-.table-wrapper table {
-  margin: 0;
 }
 
 /* Semantic HTML Typography Styling */

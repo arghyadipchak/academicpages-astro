@@ -5,30 +5,15 @@ import { Icon } from 'astro-icon/components';
 
 import PageLayout from '@layouts/PageLayout.astro';
 
-import { siteConfig } from '@data/siteConfig';
 import { formatDate } from '@utils/date';
 import { parseInline } from '@utils/marked';
 import { buildCreativeWorkSchema } from '@utils/seo';
-import { getFileSlug } from '@utils/url';
+import { buildCollectionPaths, getSiteUrls } from '@utils/url';
 
 export async function getStaticPaths() {
   const items = await getCollection('portfolio');
-  const pathMap = new Map<string, (typeof items)[0]>();
 
-  for (const item of items) {
-    const fileSlug = getFileSlug(item.id);
-    pathMap.set(fileSlug, item);
-
-    if (item.data.permalink) {
-      const cleanPermalink = item.data.permalink
-        .replace(/^\/?portfolio\//, '')
-        .replace(/\/$/, '')
-        .replace(/^\//, '');
-      pathMap.set(cleanPermalink, item);
-    }
-  }
-
-  return Array.from(pathMap.entries()).map(([slug, item]) => ({
+  return buildCollectionPaths('portfolio', items).map(({ slug, item }) => ({
     params: { slug },
     props: { item },
   }));
@@ -38,12 +23,7 @@ const { item } = Astro.props;
 const { Content } = await render(item);
 const formattedDate = formatDate(item.data.date);
 
-const siteBase = Astro.site
-  ? Astro.site.toString()
-  : siteConfig.url
-    ? new URL(siteConfig.url).origin
-    : Astro.url.origin;
-const canonicalUrl = new URL(Astro.url.pathname, siteBase).toString();
+const { siteBase, canonicalUrl } = getSiteUrls(Astro.url, Astro.site);
 
 const creativeWorkSchema = buildCreativeWorkSchema(
   canonicalUrl,

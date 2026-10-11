@@ -12,7 +12,6 @@ export interface Props {
   venue?: string;
   citation?: string;
   pdfUrl?: string;
-  paperUrl?: string;
   slidesUrl?: string;
   codeUrl?: string;
   bibtex?: string;
@@ -25,14 +24,12 @@ const {
   date,
   venue,
   citation,
-  pdfUrl: rawPdfUrl,
-  paperUrl,
+  pdfUrl,
   slidesUrl,
   codeUrl,
   bibtex,
 } = Astro.props;
 
-const pdfUrl = rawPdfUrl ?? paperUrl;
 const formattedYear = formatYear(date);
 ---
 

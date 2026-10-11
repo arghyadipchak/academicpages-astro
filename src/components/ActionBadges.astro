@@ -5,7 +5,6 @@ import { resolveUrl } from '@utils/url';
 
 export interface Props {
   pdfUrl?: string;
-  paperUrl?: string;
   slidesUrl?: string;
   codeUrl?: string;
   bibtex?: string;
@@ -13,15 +12,13 @@ export interface Props {
 }
 
 const {
-  pdfUrl: rawPdfUrl,
-  paperUrl,
+  pdfUrl,
   slidesUrl,
   codeUrl,
   bibtex,
   id = Math.random().toString(36).substring(2, 9),
 } = Astro.props;
 
-const pdfUrl = rawPdfUrl ?? paperUrl;
 const hasBadges = Boolean(pdfUrl || slidesUrl || codeUrl || bibtex);
 ---
 
@@ -123,7 +120,7 @@ const hasBadges = Boolean(pdfUrl || slidesUrl || codeUrl || bibtex);
 }
 
 <script>
-  import { announce } from '@utils/a11y';
+  import { announce, copyToClipboard } from '@utils/a11y';
 
   function setupBibtexToggles() {
     document.querySelectorAll('.bibtex-toggle-btn').forEach((btn) => {
@@ -155,34 +152,7 @@ const hasBadges = Boolean(pdfUrl || slidesUrl || codeUrl || bibtex);
     if (!codeEl) return;
 
     const text = (codeEl.textContent || '').trim();
-    let copied = false;
-
-    if (navigator.clipboard) {
-      try {
-        await navigator.clipboard.writeText(text);
-        copied = true;
-      } catch {
-        // clipboard permission denied or unfocused tab
-      }
-    }
-
-    if (!copied) {
-      try {
-        const textarea = document.createElement('textarea');
-        textarea.value = text;
-        textarea.style.position = 'fixed';
-        textarea.style.opacity = '0';
-        document.body.appendChild(textarea);
-        textarea.select();
-        (
-          document as unknown as Record<string, (cmd: string) => boolean>
-        ).execCommand?.('copy');
-        document.body.removeChild(textarea);
-        copied = true;
-      } catch {
-        // ignore
-      }
-    }
+    const copied = await copyToClipboard(text);
 
     const label = this.querySelector('.copy-label');
     if (label && copied) {

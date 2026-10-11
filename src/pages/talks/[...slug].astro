@@ -5,29 +5,14 @@ import { Icon } from 'astro-icon/components';
 
 import PageLayout from '@layouts/PageLayout.astro';
 
-import { siteConfig } from '@data/siteConfig';
 import { formatDate } from '@utils/date';
 import { buildEventSchema } from '@utils/seo';
-import { getFileSlug } from '@utils/url';
+import { buildCollectionPaths, getSiteUrls } from '@utils/url';
 
 export async function getStaticPaths() {
   const talks = await getCollection('talks');
-  const pathMap = new Map<string, (typeof talks)[0]>();
 
-  for (const talk of talks) {
-    const fileSlug = getFileSlug(talk.id);
-    pathMap.set(fileSlug, talk);
-
-    if (talk.data.permalink) {
-      const cleanPermalink = talk.data.permalink
-        .replace(/^\/?talks\//, '')
-        .replace(/\/$/, '')
-        .replace(/^\//, '');
-      pathMap.set(cleanPermalink, talk);
-    }
-  }
-
-  return Array.from(pathMap.entries()).map(([slug, talk]) => ({
+  return buildCollectionPaths('talks', talks).map(({ slug, item: talk }) => ({
     params: { slug },
     props: { talk },
   }));
@@ -37,12 +22,7 @@ const { talk } = Astro.props;
 const { Content } = await render(talk);
 const formattedDate = formatDate(talk.data.date);
 
-const siteBase = Astro.site
-  ? Astro.site.toString()
-  : siteConfig.url
-    ? new URL(siteConfig.url).origin
-    : Astro.url.origin;
-const canonicalUrl = new URL(Astro.url.pathname, siteBase).toString();
+const { siteBase, canonicalUrl } = getSiteUrls(Astro.url, Astro.site);
 
 const eventSchema = buildEventSchema(
   canonicalUrl,

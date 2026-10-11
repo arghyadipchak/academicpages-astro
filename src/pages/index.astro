@@ -3,20 +3,15 @@ import { getEntry, render } from 'astro:content';
 
 import PageLayout from '@layouts/PageLayout.astro';
 
-import { siteConfig } from '@data/siteConfig';
 import { buildProfilePageSchema } from '@utils/seo';
+import { getSiteUrls } from '@utils/url';
 
 const aboutPage = await getEntry('pages', 'about');
 if (!aboutPage) throw new Error("Missing 'about' page in content/pages");
 
 const { Content } = await render(aboutPage);
 
-const siteBase = Astro.site
-  ? Astro.site.toString()
-  : siteConfig.url
-    ? new URL(siteConfig.url).origin
-    : Astro.url.origin;
-const canonicalUrl = new URL(Astro.url.pathname, siteBase).toString();
+const { siteBase, canonicalUrl } = getSiteUrls(Astro.url, Astro.site);
 
 const profilePageSchema = buildProfilePageSchema(
   canonicalUrl,

@@ -5,35 +5,22 @@ import PageLayout from '@layouts/PageLayout.astro';
 
 import { siteConfig } from '@data/siteConfig';
 import { formatYear, toIsoDateString } from '@utils/date';
-import { getFileSlug, resolveUrl } from '@utils/url';
+import { buildCollectionPaths, getSiteUrls, resolveUrl } from '@utils/url';
 
 export async function getStaticPaths() {
   const publications = await getCollection('publications');
-  const pathMap = new Map<string, (typeof publications)[0]>();
 
-  for (const pub of publications) {
-    const fileSlug = getFileSlug(pub.id);
-    pathMap.set(fileSlug, pub);
-
-    if (pub.data.permalink) {
-      const cleanPermalink = pub.data.permalink
-        .replace(/^\/?publications?\//, '')
-        .replace(/\/$/, '')
-        .replace(/^\//, '');
-      pathMap.set(cleanPermalink, pub);
-    }
-  }
-
-  return Array.from(pathMap.entries()).map(([slug, pub]) => ({
-    params: { slug },
-    props: { pub },
-  }));
+  return buildCollectionPaths('publications', publications).map(
+    ({ slug, item: pub }) => ({ params: { slug }, props: { pub } })
+  );
 }
 
 const { pub } = Astro.props;
 const { Content } = await render(pub);
 const formattedYear = formatYear(pub.data.date);
 const pdfUrl = pub.data.pdf_url ?? pub.data.paper_url;
+
+const { siteBase } = getSiteUrls(Astro.url, Astro.site);
 
 const citationMetadata = {
   title: pub.data.title,
@@ -44,14 +31,7 @@ const citationMetadata = {
   pdfUrl: pdfUrl
     ? pdfUrl.startsWith('http')
       ? pdfUrl
-      : new URL(
-          resolveUrl(pdfUrl),
-          Astro.site
-            ? Astro.site.toString()
-            : siteConfig.url
-              ? new URL(siteConfig.url).origin
-              : Astro.url.origin
-        ).toString()
+      : new URL(resolveUrl(pdfUrl), siteBase).toString()
     : undefined,
 };
 ---
