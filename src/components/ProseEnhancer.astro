@@ -3,7 +3,7 @@
 ---
 
 <script>
-  import { announce } from '@utils/a11y';
+  import { announce, copyToClipboard } from '@utils/a11y';
 
   interface MermaidModule {
     default: {
@@ -65,32 +65,7 @@
           pre.textContent ||
           '';
 
-        let copied = false;
-        if (navigator.clipboard) {
-          try {
-            await navigator.clipboard.writeText(textToCopy);
-            copied = true;
-          } catch {
-            // fallback if document not focused
-          }
-        }
-        if (!copied) {
-          try {
-            const textarea = document.createElement('textarea');
-            textarea.value = textToCopy;
-            textarea.style.position = 'fixed';
-            textarea.style.opacity = '0';
-            document.body.appendChild(textarea);
-            textarea.select();
-            (
-              document as unknown as Record<string, (cmd: string) => boolean>
-            ).execCommand?.('copy');
-            document.body.removeChild(textarea);
-            copied = true;
-          } catch {
-            // ignore
-          }
-        }
+        const copied = await copyToClipboard(textToCopy);
 
         if (copied) {
           announce('Code copied to clipboard');
@@ -179,16 +154,59 @@
 
     // 3. Kramdown IAL Notice Box Enhancement
     document.querySelectorAll('.prose p').forEach((p) => {
-      const text = p.textContent || '';
-      const noticeMatch = text.match(/\{:\s*\.(notice(?:--[a-z]+)?)\s*\}/);
+      const lastChild = p.lastChild;
+      if (!lastChild || lastChild.nodeType !== Node.TEXT_NODE) return;
+      const text = lastChild.textContent || '';
+      const noticeMatch = text.match(/\{:\s*\.(notice(?:--[a-z]+)?)\s*\}\s*$/);
       if (noticeMatch) {
         const noticeClass = noticeMatch[1];
-        p.innerHTML = p.innerHTML
-          .replace(/\{:\s*\.(notice(?:--[a-z]+)?)\s*\}/g, '')
-          .trim();
+        lastChild.textContent = text
+          .replace(/\{:\s*\.(notice(?:--[a-z]+)?)\s*\}\s*$/, '')
+          .trimEnd();
         p.classList.add('notice', noticeClass);
       }
     });
+
+    // 4. GitHub-Style Markdown Alerts (> [!NOTE], > [!TIP], etc.)
+    const alertClassMap: Record<string, { cls: string; label: string }> = {
+      NOTE: { cls: 'notice--info', label: 'Note' },
+      TIP: { cls: 'notice--success', label: 'Tip' },
+      IMPORTANT: { cls: 'notice--info', label: 'Important' },
+      WARNING: { cls: 'notice--warning', label: 'Warning' },
+      CAUTION: { cls: 'notice--danger', label: 'Caution' },
+    };
+
+    document
+      .querySelectorAll<HTMLElement>('.prose blockquote')
+      .forEach((bq) => {
+        const firstP = bq.querySelector('p');
+        if (!firstP) return;
+
+        const firstNode = firstP.firstChild;
+        if (!firstNode || firstNode.nodeType !== Node.TEXT_NODE) return;
+
+        const rawText = firstNode.textContent || '';
+        const match = rawText.match(
+          /^\s*\[!(NOTE|TIP|IMPORTANT|WARNING|CAUTION)\](?:\s*\n|\s+|$)/i
+        );
+        if (!match) return;
+
+        const alertKey = match[1].toUpperCase();
+        const alertInfo = alertClassMap[alertKey];
+        if (!alertInfo) return;
+
+        const remainder = rawText.slice(match[0].length);
+        firstNode.textContent = remainder ? ` ${remainder}` : '';
+
+        const strong = document.createElement('strong');
+        strong.textContent = `${alertInfo.label}:`;
+        firstP.insertBefore(strong, firstNode);
+
+        const div = document.createElement('div');
+        div.className = `notice ${alertInfo.cls}`;
+        while (bq.firstChild) div.appendChild(bq.firstChild);
+        bq.replaceWith(div);
+      });
 
     // 5. Mermaid Diagrams Dynamic Auto-Rendering
     const mermaidBlocks = document.querySelectorAll<HTMLElement>(
@@ -346,7 +364,7 @@
       return themedLayout;
     }
 
-    // 5. Plotly Graphs Dynamic Auto-Rendering
+    // 6. Plotly Graphs Dynamic Auto-Rendering
     const plotlyBlocks = document.querySelectorAll<HTMLElement>(
       '.prose pre[data-language="plotly"], .prose pre code.language-plotly'
     );
@@ -422,15 +440,6 @@
         document.head.appendChild(script);
       } else renderPlots();
     }
-
-    // 6. Responsive Table Horizontal Scroll Wrapping
-    document.querySelectorAll<HTMLElement>('.prose table').forEach((table) => {
-      if (table.parentElement?.classList.contains('table-wrapper')) return;
-      const wrapper = document.createElement('div');
-      wrapper.className = 'table-wrapper';
-      table.parentNode?.insertBefore(wrapper, table);
-      wrapper.appendChild(table);
-    });
   }
 
   // Reactive Theme Listener for Mermaid & Plotly

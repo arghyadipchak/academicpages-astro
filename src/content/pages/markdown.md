@@ -365,7 +365,10 @@ Make any link stand out more by applying the `.btn` utility classes:
 
 ## Notices
 
-Notices and callout boxes provide high-visibility callouts:
+Notices and callout boxes provide high-visibility callouts using HTML containers, GitHub-style Markdown alerts (`> [!NOTE]`), or Kramdown suffix attributes like `{: .notice--info}`
+
+> [!NOTE]
+> Useful information that readers should know, even when skimming
 
 <div class="notice">
   <strong>Default Notice:</strong> Standard callout box for general announcements and tips
