@@ -248,7 +248,10 @@ test.describe('Core UI, SEO & Page Integrity Tests', () => {
     );
   });
 
-  test('OpenGraph metadata standards are fully rendered', async ({ page }) => {
+  test('OpenGraph metadata standards are fully rendered', async ({
+    page,
+    request,
+  }) => {
     await page.goto(toUrl('/publications/paper-1/'));
 
     const ogSiteName = page.locator('meta[property="og:site_name"]');
@@ -259,6 +262,25 @@ test.describe('Core UI, SEO & Page Integrity Tests', () => {
       'content',
       siteConfig.locale.replace('-', '_')
     );
+
+    const ogRoutes = [
+      toUrl('/'),
+      toUrl('/publications/paper-1/'),
+      toUrl('/teaching/teaching-1/'),
+      toUrl('/cv/'),
+      toUrl('/markdown/'),
+    ];
+
+    for (const route of ogRoutes) {
+      await page.goto(route);
+      const ogImage = await page
+        .locator('meta[property="og:image"]')
+        .getAttribute('content');
+      expect(ogImage).toBeTruthy();
+      const ogPath = new URL(ogImage!).pathname;
+      const res = await request.get(ogPath);
+      expect(res.status(), `OG image at ${ogPath} should return 200`).toBe(200);
+    }
   });
 
   test('JSON-LD schema.org graphs render expected entities across content types', async ({
@@ -272,12 +294,21 @@ test.describe('Core UI, SEO & Page Integrity Tests', () => {
       .textContent();
     expect(homeJsonLdText).toBeTruthy();
     const homeJsonLd = JSON.parse(homeJsonLdText!);
-    const homeTypes = (homeJsonLd['@graph'] as { '@type': string }[]).map(
-      (n) => n['@type']
-    );
+    const homeGraph = homeJsonLd['@graph'] as {
+      '@type': string;
+      sameAs?: string[];
+    }[];
+    const homeTypes = homeGraph.map((n) => n['@type']);
     expect(homeTypes).toContain('WebSite');
     expect(homeTypes).toContain('Person');
     expect(homeTypes).toContain('ProfilePage');
+
+    const personNode = homeGraph.find((n) => n['@type'] === 'Person');
+    expect(personNode?.sameAs?.length).toBeGreaterThan(0);
+    for (const url of personNode?.sameAs ?? []) {
+      expect(url).toMatch(/^https:\/\//);
+      expect(url).not.toMatch(/^https:\/\/.*https:\/\//);
+    }
 
     // 2. Publication contains ScholarlyArticle
     await page.goto(toUrl('/publications/paper-1/'));

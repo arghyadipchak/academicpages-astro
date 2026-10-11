@@ -117,6 +117,23 @@ test.describe('Typography, Lists & Mathematical Layout Tests', () => {
     expect(noticeChildMargins.firstTop).toBe(0);
     expect(noticeChildMargins.lastBottom).toBe(0);
 
+    const githubNoteCallout = page.locator('.notice.notice--info', {
+      hasText: 'Useful information that readers should know',
+    });
+    await expect(githubNoteCallout).toBeVisible();
+    await expect(githubNoteCallout.locator('strong').first()).toHaveText(
+      'Note:'
+    );
+
+    const inlineCodeParagraph = page.locator('p', {
+      hasText: 'Kramdown suffix attributes like',
+    });
+    await expect(inlineCodeParagraph).toBeVisible();
+    await expect(inlineCodeParagraph).not.toHaveClass(/notice/);
+    await expect(inlineCodeParagraph.locator('code').last()).toHaveText(
+      '{: .notice--info}'
+    );
+
     // 4. Semantic HTML tags
     await expect(page.locator('blockquote').first()).toBeVisible();
     await expect(page.locator('q').first()).toBeVisible();
