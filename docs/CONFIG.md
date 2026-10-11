@@ -83,8 +83,8 @@ All platform handles accept either a bare username/ID or a complete URL (e.g. `'
 
 - `googlescholar`: Google Scholar user ID or full profile URL
 - `orcid`: ORCID 16-digit ID (e.g. `'0000-0000-0000-0000'`) or full URL
-- `arxiv`: arXiv author ID or search query
-- `dblp`: DBLP author PID (e.g. `'pid/123/4567'`) or URL
+- `arxiv`: arXiv author ID (e.g. `'doe_j_1'`) or full URL
+- `dblp`: DBLP author PID (e.g. `'123/4567'`) or full URL
 - `huggingface`: Hugging Face profile username or URL
 - `ieee`: IEEE Xplore author profile URL or ID
 - `acm`: ACM Digital Library author profile URL or ID
@@ -115,7 +115,7 @@ All platform handles accept either a bare username/ID or a complete URL (e.g. `'
 - `mastodon`: Full instance URL (e.g. `'https://mastodon.social/@username'`)
 - `medium`: Medium handle or publication URL
 - `substack`: Substack handle or publication URL
-- `discord`, `youtube`, `telegram`, `threads`, `facebook`, `instagram`, `keybase`, `reddit`, `weibo`, `wikipedia`, `zhihu`
+- `artstation`, `discord`, `facebook`, `flickr`, `foursquare`, `goodreads`, `instagram`, `keybase`, `lastfm`, `pinterest`, `soundcloud`, `steam`, `telegram`, `threads`, `tumblr`, `weibo`, `wikipedia`, `xing`, `youtube`, `zhihu`
 
 ---
 

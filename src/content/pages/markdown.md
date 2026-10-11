@@ -5,6 +5,7 @@ title: Markdown
 ## Locations of key files & directories
 
 - **Site Configuration & Author Profile**: `src/data/siteConfig.ts`
+- **Theme Presets & Palettes**: `src/data/themes.ts`
 - **Top Navigation Bar**: `src/data/navigation.ts`
 - **Global Design Tokens & Styles**: `src/styles/global.css`
 - **Content Collections**:
@@ -23,7 +24,7 @@ title: Markdown
 - Create `.md` or `.mdx` files inside `src/content/<collection>/` to automatically generate pages with strict type checking
 - Every commit pushed to GitHub automatically triggers the `.github/workflows/ci.yml` action to compile static assets and deploy to GitHub Pages
 - Standard GitHub Flavored Markdown (GFM), footnotes, task lists, and autolinks are natively supported by Astro
-- Your CV page is rendered from `src/pages/cv.astro` with an interactive, sticky Table of Contents
+- Your CV page is rendered from `src/pages/cv.astro` with an interactive, collapsible Table of Contents
 - This guide is also accessible via `/guide` and `/md` URL aliases
 
 ## KaTeX & LaTeX Math
@@ -85,7 +86,7 @@ graph TD;
 
 ## Plotly
 
-Academic Pages includes support for Plotly diagrams via a hook in the Markdown code elements, although those that are comfortable with HTML and JavaScript can also access it directly [via those routes](https://plotly.com/javascript/getting-started/). Plotly is included via an `npm` [package](https://www.npmjs.com/package/plotly.js?activeTab=readme) and is lazy loading is used in the template to retrieve the minimized JavaScript via a content delivery network (CDN) when a plot needs to be rendered on a page in the template.
+Academic Pages includes support for Plotly diagrams via a hook in the Markdown code elements, although those that are comfortable with HTML and JavaScript can also access it directly [via those routes](https://plotly.com/javascript/getting-started/). Plotly is lazy-loaded via a content delivery network (CDN) only when a `plotly` code block is present on a page.
 
 In order to render a Plotly plot via Markdown the relevant plot data need to be added as follows:
 
@@ -331,15 +332,15 @@ Every page supports instant, client-side full-text search:
 
 - **Keyboard Shortcut**: Press <kbd>Cmd</kbd> + <kbd>K</kbd> (Mac) or <kbd>Ctrl</kbd> + <kbd>K</kbd> (Windows/Linux) from anywhere on the site
 - **Search Header Button**: Click the search input in the top masthead navigation bar
-- **Live Filtering**: Searches across page titles, descriptions, tags, categories, and author metadata in real-time
+- **Live Filtering**: Searches across titles, descriptions, and content types across all collections and pages in real-time
 
 ## Theme & Dark Mode
 
 The site features built-in theme toggle persistence supporting:
 
 - **Automatic System Preference**: Matches your operating system's light or dark mode on first visit
-- **User Toggle**: Click the sun/moon icon in the masthead to toggle themes with zero page flicker
-- **Custom Design Tokens**: Easily customize brand colors, backgrounds, and fonts in `src/styles/global.css`
+- **User Toggle & Live Preset Picker**: Click the sun/moon icon in the masthead to toggle light/dark mode, or use the palette icon to preview all 32 built-in light and dark presets
+- **Configurable Palettes**: Choose from 16 light and 16 dark presets or pass custom 5-token palettes in `src/data/siteConfig.ts` (`src/data/themes.ts`)
 
 ## Buttons
 
@@ -517,7 +518,7 @@ Getting our science styling on with H<sub>2</sub>O, which should push the "2" do
 
 ### Superscript Tag
 
-Still sticking with science and Isaac Newton's E = mc<sup>2</sup>, which should lift the 2 up.
+Still sticking with science and Albert Einstein's E = mc<sup>2</sup>, which should lift the 2 up.
 
 ### Variable Tag
 

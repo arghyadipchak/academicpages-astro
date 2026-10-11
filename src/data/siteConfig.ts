@@ -32,7 +32,7 @@ export interface AuthorConfig {
   academia?: string;
   /** arXiv author identifier or full URL */
   arxiv?: string;
-  /** DBLP author PID or profile URL (e.g. 'pid/123/4567') */
+  /** DBLP author PID or profile URL (e.g. '123/4567') */
   dblp?: string;
   /** Google Scholar user ID or full profile URL */
   googlescholar?: string;

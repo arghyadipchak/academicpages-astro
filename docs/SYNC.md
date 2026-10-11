@@ -37,8 +37,8 @@ Read your current version from `package.json` (e.g. `"version": "0.2.0"` $\right
 # Return to your website repository directory
 cd /path/to/your-website
 
-# Generate patch across the entire template codebase
-git --git-dir=/tmp/academicpages-template diff v0.2.0 "$LATEST_TAG" > template-update.patch
+# Generate patch across template infrastructure (excluding demo content and one-time onboarding files)
+git --git-dir=/tmp/academicpages-template diff v0.2.0 "$LATEST_TAG" -- . ':!src/content' ':!public/files' ':!docs/ONBOARDING.md' ':!.agents/skills/onboarding' > template-update.patch
 
 # Delete ephemeral template clone immediately
 rm -rf /tmp/academicpages-template
@@ -51,10 +51,10 @@ rm -rf /tmp/academicpages-template
 You can apply the generated patch using an AI coding assistant or the Git CLI:
 
 - **Intelligent Merging (AI Assistant)**: Prompt your AI assistant to apply `template-update.patch`. The assistant analyzes semantic changes across all layers (UI engine, styles, agent skills, documentation, configs, and dependencies) while preserving your custom content and profile identity
-- **CLI 3-Way Apply**: Apply directly in your terminal:
+- **CLI 3-Way Apply**: Apply directly in your terminal (`--reject` skips any files you intentionally deleted during onboarding, such as `tests/` or governance files):
 
   ```bash
-  git apply --3way --ignore-whitespace template-update.patch
+  git apply --3way --ignore-whitespace --reject template-update.patch
   rm template-update.patch
   ```
 

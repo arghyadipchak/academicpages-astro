@@ -23,12 +23,12 @@ Follow these guidelines when adding or modifying site content:
 
 Follow the exact schemas and templates in [`docs/CONTENT.md`](../../../docs/CONTENT.md):
 
-- **Publications (`src/content/publications/`)**: Author entries using [`docs/CONTENT.md#2-publications`](../../../docs/CONTENT.md#2-publications-srccontentpublications). Populate action badges (`paperurl`, `code`, `slides`, `poster`, `bibtex`) and wrap math titles in `$...$`
-- **Talks (`src/content/talks/`)**: Author entries using [`docs/CONTENT.md#3-talks--presentations`](../../../docs/CONTENT.md#3-talks--presentations-srccontenttalks)
-- **Teaching (`src/content/teaching/`)**: Author entries using [`docs/CONTENT.md#4-teaching--courses`](../../../docs/CONTENT.md#4-teaching--courses-srccontentteaching)
-- **Portfolio (`src/content/portfolio/`)**: Author entries using [`docs/CONTENT.md#5-portfolio--projects`](../../../docs/CONTENT.md#5-portfolio-projects-srccontentportfolio)
-- **Blog Posts (`src/content/blog/`)**: Author entries using [`docs/CONTENT.md#6-blog-posts`](../../../docs/CONTENT.md#6-blog-posts-srccontentblog)
-- **Static Pages (`src/content/pages/`)**: Author custom pages using [`docs/CONTENT.md#8-static-pages`](../../../docs/CONTENT.md#8-static-pages-srccontentpages)
+- **Publications (`src/content/publications/`)**: Author entries using [`docs/CONTENT.md#3-publications-srccontentpublications`](../../../docs/CONTENT.md#3-publications-srccontentpublications). Populate action badges (`pdf_url`, `paper_url`, `slides_url`, `code_url`, `bibtex`) and wrap math titles in `$...$`
+- **Talks (`src/content/talks/`)**: Author entries using [`docs/CONTENT.md#4-talks--presentations-srccontenttalks`](../../../docs/CONTENT.md#4-talks--presentations-srccontenttalks)
+- **Teaching (`src/content/teaching/`)**: Author entries using [`docs/CONTENT.md#5-teaching-srccontentteaching`](../../../docs/CONTENT.md#5-teaching-srccontentteaching)
+- **Portfolio (`src/content/portfolio/`)**: Author entries using [`docs/CONTENT.md#6-portfolio-projects-srccontentportfolio`](../../../docs/CONTENT.md#6-portfolio-projects-srccontentportfolio)
+- **Blog Posts (`src/content/blog/`)**: Author entries using [`docs/CONTENT.md#7-blog-posts-srccontentblog`](../../../docs/CONTENT.md#7-blog-posts-srccontentblog)
+- **Static Pages (`src/content/pages/`)**: Author custom pages using [`docs/CONTENT.md#8-static-pages-srccontentpages`](../../../docs/CONTENT.md#8-static-pages-srccontentpages)
 
 ### Mathematical Typesetting & Markdown Formatting
 

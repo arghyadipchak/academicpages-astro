@@ -25,7 +25,7 @@ Guidelines and runbook for AI coding assistants (Antigravity, Cursor, Claude Cod
 - **Math**: Server-side KaTeX rendering (`remark-math` + `rehype-katex` for Markdown AST, `marked-katex-extension` for frontmatter and inline titles)
 - **Icons**: `astro-icon` with FontAwesome 6 brands/solid and Academicons
 - **Search**: Fast client-side modal search (`Cmd+K` / `Ctrl+K`) powered by `/api/search.json`
-- **Quality Gates**: ESLint 9 Flat Config, Prettier with Tailwind class sorter, and TypeScript strict mode (astro check)
+- **Quality Gates**: ESLint 10 Flat Config, Prettier with Tailwind class sorter, and TypeScript strict mode (astro check)
 
 ---
 
@@ -37,7 +37,7 @@ academicpages-astro/
 │   ├── components/         # UI components (Masthead, Footer, AuthorProfile, ActionBadges, etc.)
 │   ├── content/            # Markdown content collections
 │   │   ├── blog/           # Blog posts
-│   │   ├── pages/          # Static markdown pages (terms, sitemap, markdown guide)
+│   │   ├── pages/          # Static markdown pages (about, terms, markdown guide)
 │   │   ├── portfolio/      # Project and research portfolio items
 │   │   ├── publications/   # Academic papers, preprints, journal articles, books
 │   │   ├── talks/          # Conference talks, tutorials, presentations

@@ -41,13 +41,13 @@ Execute **Section 1 & Section 4** of [`docs/ONBOARDING.md`](../../../docs/ONBOAR
 
 Execute **Section 2 & Section 3** of [`docs/ONBOARDING.md`](../../../docs/ONBOARDING.md) following [`docs/CONTENT.md`](../../../docs/CONTENT.md):
 
-- Populate user research entries, biography (`src/pages/index.astro`), and CV (`src/pages/cv.astro`)
+- Populate user research entries, biography (`src/content/pages/about.md`), and CV (`src/pages/cv.astro`)
 - Customize `src/content/pages/terms.md` for institutional and hosting requirements
 - Purge all demo markdown files, starter PDFs/slides (`public/files/`), and unused starter images (`public/images/`)
 
-### Phase 4: Starter Tooling & Governance Retirement (Optional)
+### Phase 4: Starter Tooling & Governance Retirement
 
-If requested by the user, execute **Section 5** of [`docs/ONBOARDING.md`](../../../docs/ONBOARDING.md) to retire test suites, favicon generator scripts, and template governance files.
+Execute **Section 5** of [`docs/ONBOARDING.md`](../../../docs/ONBOARDING.md) to retire starter demo tests (`tests/`, `playwright.config.ts`, and the Playwright steps in `.github/workflows/ci.yml` that target demo content) along with optional favicon generator scripts and template governance files.
 
 ### Phase 5: Verification & Onboarding Self-Destruction
 

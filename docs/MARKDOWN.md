@@ -112,6 +112,8 @@ Legacy AcademicPages notice classes are also supported for inline HTML callouts:
 </div>
 ```
 
+Paragraphs ending with a Kramdown inline attribute suffix (`{: .notice}`, `{: .notice--info}`, `{: .notice--warning}`, `{: .notice--danger}`, `{: .notice--success}`) are also automatically styled as notice boxes.
+
 ---
 
 ## 3. Interactive Diagrams & Charts
@@ -161,11 +163,11 @@ Embed interactive Plotly scatter, line, contour, or subplot charts directly in c
 
 ## 4. Academic Publication Action Badges
 
-When authoring research entries in `src/content/publications/`, setting URLs (`pdf_url`, `slides_url`, `code_url`) and `bibtex` in frontmatter automatically renders interactive action badges (`[PDF]`, `[Slides]`, `[Code]`, `[BibTeX]`):
+When authoring research entries in `src/content/publications/`, setting URLs (`pdf_url` or fallback `paper_url`, `slides_url`, `code_url`) and `bibtex` in frontmatter automatically renders interactive action badges (`[PDF]`, `[Slides]`, `[Code]`, `[BibTeX]`):
 
-- **Interactive BibTeX**: Clicking the `[BibTeX]` badge triggers a 1-click citation copy modal
-- **Asset Links**: PDF and slide links open in a new tab with secure `target="_blank"` attributes
-- **Schema Details**: For full frontmatter schemas and publication fields, see [`docs/CONTENT.md`](CONTENT.md#2-publications-srccontentpublications)
+- **Interactive BibTeX**: Clicking the `[BibTeX]` badge triggers a 1-click citation copy and `.bib` download box
+- **Asset Links**: PDF (`pdf_url ?? paper_url`), slide, and code links open in a new tab with secure `target="_blank"` attributes
+- **Schema Details**: For full frontmatter schemas and publication fields, see [`docs/CONTENT.md`](CONTENT.md#3-publications-srccontentpublications)
 
 ---
 
@@ -214,8 +216,8 @@ Use standard HTML `<details>` and `<summary>` elements to create collapsible sec
 #### Heading Level 4 (Sub-subsection)
 ```
 
-- Each H2 and H3 automatically generates an anchor link
-- Enabling `toc: true` in frontmatter populates headings into the interactive Table of Contents sidebar
+- Each H2, H3, and H4 automatically generates a clickable `#` anchor link
+- Pages with 2 or more H2/H3 headings automatically render a collapsible Table of Contents (set `toc: false` in frontmatter to hide)
 
 ---
 

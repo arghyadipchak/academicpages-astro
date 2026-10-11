@@ -19,8 +19,8 @@ Features & Built-in Capabilities
 - 📋 **1-Click BibTeX Copy & Downloads**: Direct clipboard copy and badge links for papers, slide decks, and citation records
 - 🎓 **Google Scholar & Highwire Press SEO**: Automatic citation meta tags for instant indexing by academic search engines
 - 📐 **KaTeX Mathematical Typesetting**: Fast, server-rendered LaTeX math equations (e.g. $E = mc^2$ or $\int_{-\infty}^{\infty} e^{-x^2} dx = \sqrt{\pi}$)
-- 🔍 **Real-Time Client Search (`Cmd+K`)**: Keyboard-navigable modal search across all posts, papers, and talks
-- 🌓 **Dark & Light Mode**: Instant theme switching with zero flash of unstyled content
+- 🔍 **Real-Time Client Search (`Cmd+K`)**: Keyboard-navigable modal search across all publications, talks, teaching, portfolio items, blog posts, and pages
+- 🌓 **Dark & Light Mode**: Instant theme switching with 32 built-in presets and zero flash of unstyled content
 
 Getting started
 ======
@@ -52,7 +52,7 @@ Adding your content
 
 All content is organized into type-safe content directories inside `src/content/`:
 
-- **Publications**: `src/content/publications/*.md` (with fields for `venue`, `citation`, `pdf_url`, `slides_url`, `code_url`, `bibtex`)
+- **Publications**: `src/content/publications/*.md` (with fields for `category`, `venue`, `citation`, `pdf_url`, `paper_url`, `slides_url`, `code_url`, `bibtex`)
 - **Talks & Presentations**: `src/content/talks/*.md` (with fields for `venue`, `type`, `date`, `slides_url`)
 - **Teaching**: `src/content/teaching/*.md` (with fields for `venue`, `type`, `year`, `semester`)
 - **Blog Posts**: `src/content/blog/*.md`

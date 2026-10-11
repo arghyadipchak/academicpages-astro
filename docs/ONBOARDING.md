@@ -26,7 +26,7 @@ Follow this itemized roadmap to convert the starter template into your personal 
 - [ ] **Portfolio Projects**: Delete demo files in `src/content/portfolio/` or populate with your software/research projects
 - [ ] **Blog Posts**: Delete demo files in `src/content/blog/` or populate with your posts
 - [ ] **Markdown Guide**: Delete demo content `src/content/pages/markdown.md` and its route `src/pages/markdown.astro`
-- [ ] **Homepage Bio**: Update `src/pages/index.astro` with your biography and research interests
+- [ ] **Homepage Bio**: Update `src/content/pages/about.md` with your biography and research interests (rendered on `/` by `src/pages/index.astro`)
 - [ ] **CV**: Update `src/pages/cv.astro` (education, appointments, awards, service)
 - [ ] **Terms & Privacy Policy**: Review and customize `src/content/pages/terms.md` (institutional disclaimers, course reuse licensing, and hosting infrastructure references if deploying to platforms other than GitHub Pages such as Cloudflare Pages, Vercel, Netlify)
 
@@ -67,9 +67,9 @@ Once your custom icons are generated in `public/`:
 
 - [ ] **Remove Generator Dependency & Script**: In `package.json`, remove `"generate:favicons": "node --experimental-strip-types scripts/generate-favicons.ts"`
 
-### B. Retire Starter Tests & Test Scaffolding (Optional)
+### B. Retire Starter Tests & Test Scaffolding
 
-Once initial onboarding is verified, template browser tests targeting demo content can be removed:
+Because the starter browser tests in `tests/` assert against template demo routes (`/markdown/`, `/posts/blog-post-1/`, `/publications/paper-1/`) and `'Your Name'`, either update `tests/` to match your content or retire the starter test suite before pushing to GitHub Pages:
 
 - [ ] **Delete Test Directory**:
 
@@ -79,6 +79,7 @@ Once initial onboarding is verified, template browser tests targeting demo conte
   ```
 
 - [ ] **Remove Test Scripts & Dependencies**: In `package.json`, remove `"test": "playwright test"` and `@playwright/test` from `devDependencies`
+- [ ] **Update CI Workflow**: In `.github/workflows/ci.yml`, remove the `Install Playwright browsers` and `Run tests` steps so GitHub Pages deployments run `pnpm verify` and `pnpm build` directly
 
 ### C. Retire Template Governance & Release Tooling (Optional)
 
@@ -87,7 +88,7 @@ Starter template maintenance files, issue templates, and changelog tooling can b
 - [ ] **Delete Template Governance Files**:
 
   ```bash
-  rm -f cliff.toml CONTRIBUTING.md SECURITY.md AGENTS.md
+  rm -f cliff.toml CONTRIBUTING.md SECURITY.md
   rm -rf .github/ISSUE_TEMPLATE/ .github/pull_request_template.md .github/FUNDING.yml .github/workflows/release.yml .github/workflows/pr-lint.yml
   ```
 
@@ -136,4 +137,4 @@ Once all steps are verified with `pnpm verify` and `pnpm build`:
   rm -rf .agents/skills/onboarding/
   ```
 
-- [ ] **Retain Ongoing Maintenance Guides**: Keep [`docs/CONFIG.md`](CONFIG.md), [`docs/CONTENT.md`](CONTENT.md), [`docs/MARKDOWN.md`](MARKDOWN.md), [`docs/SYNC.md`](SYNC.md), [`.agents/skills/content-operations/`](../.agents/skills/content-operations/SKILL.md), and [`.agents/skills/template-sync/`](../.agents/skills/template-sync/SKILL.md) for long-term site authoring and template upgrades
+- [ ] **Retain Ongoing Maintenance Guides**: Keep [`AGENTS.md`](../AGENTS.md), [`docs/CONFIG.md`](CONFIG.md), [`docs/CONTENT.md`](CONTENT.md), [`docs/MARKDOWN.md`](MARKDOWN.md), [`docs/SYNC.md`](SYNC.md), [`.agents/skills/content-operations/`](../.agents/skills/content-operations/SKILL.md), and [`.agents/skills/template-sync/`](../.agents/skills/template-sync/SKILL.md) for long-term site authoring and template upgrades

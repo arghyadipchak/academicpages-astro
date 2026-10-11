@@ -22,7 +22,7 @@ All content collections live in `src/content/`. Astro Content Layer validates ev
 - **URL Slugs**: The Markdown filename directly determines the route URL (e.g. `src/content/blog/neural-networks.md` $\rightarrow$ `/posts/neural-networks/`)
 - **Permalink Override**: You can optionally specify `permalink: /custom/path/` in the frontmatter to override the default route
 - **Breadcrumbs Hierarchy**: When `breadcrumbs: true` is enabled in `src/data/siteConfig.ts`, breadcrumbs dynamically parse the URL path (e.g. `Home / Posts / Neural Networks`)
-- **Segment Formatting**: Slug delimiters (hyphens `-` and underscores `_`) are converted to spaces, each word is capitalized in Title Case (`neural-networks` $\rightarrow$ `Neural Networks`), and known acronyms (`CV`, `API`, `RSS`, `FAQ`, `PDF`) are automatically capitalized in uppercase
+- **Segment Formatting**: Slug delimiters (hyphens `-` and underscores `_`) are converted to spaces, each word is capitalized in Title Case (`neural-networks` $\rightarrow$ `Neural Networks`), and known acronyms (`CV`, `API`, `RSS`, `FAQ`, `PDF`, `HTML`, `JSON`, `XML`) are automatically capitalized in uppercase
 
 ---
 
@@ -30,15 +30,15 @@ All content collections live in `src/content/`. Astro Content Layer validates ev
 
 The following base properties are available across content collections and static pages (defined in `baseContentSchema` and `layoutSchema` in `src/content.config.ts`):
 
-| Field            | Type         | Required      | Description                                                                       |
-| :--------------- | :----------- | :------------ | :-------------------------------------------------------------------------------- |
-| `title`          | `string`     | **Yes**       | Item title (supports inline KaTeX math, e.g. `$E=mc^2$`)                          |
-| `description`    | `string`     | No            | Short summary for SEO meta tags, social cards, and live search (`Cmd+K`)          |
-| `date`           | `YYYY-MM-DD` | _Collections_ | Publication or event date (required on publications, talks, blog, portfolio)      |
-| `author_profile` | `boolean`    | No            | Shows author bio sidebar on desktop and follow toggle on mobile (default: `true`) |
-| `toc`            | `boolean`    | No            | Renders retractable Table of Contents on wide viewports (default: `false`)        |
-| `image`          | `string`     | No            | Optional hero or card preview banner path (e.g. `/images/project.png`)            |
-| `permalink`      | `string`     | No            | Custom URL slug override                                                          |
+| Field            | Type         | Required      | Description                                                                              |
+| :--------------- | :----------- | :------------ | :--------------------------------------------------------------------------------------- |
+| `title`          | `string`     | **Yes**       | Item title (supports inline KaTeX math, e.g. `$E=mc^2$`)                                 |
+| `description`    | `string`     | No            | Short summary for SEO meta tags, social cards, and live search (`Cmd+K`)                 |
+| `date`           | `YYYY-MM-DD` | _Collections_ | Publication or event date (required on publications, talks, blog, portfolio)             |
+| `author_profile` | `boolean`    | No            | Shows author bio sidebar on desktop and follow toggle on mobile (default: `true`)        |
+| `toc`            | `boolean`    | No            | Renders retractable Table of Contents when 2+ `h2`/`h3` headings exist (default: `true`) |
+| `image`          | `string`     | No            | Optional hero or card preview banner path (e.g. `/images/project.png`)                   |
+| `permalink`      | `string`     | No            | Custom URL slug override (supported on content collections in `baseContentSchema`)       |
 
 ---
 
@@ -48,15 +48,16 @@ Research papers, preprints, books, and conference articles.
 
 ### Unique Fields
 
-| Field        | Type     | Description                                                      |
-| :----------- | :------- | :--------------------------------------------------------------- |
-| `category`   | `enum`   | Category filter tab (`books`, `journals`, `conferences`)         |
-| `venue`      | `string` | Journal or conference name                                       |
-| `citation`   | `string` | Formatted academic citation (supports Markdown and math)         |
-| `pdf_url`    | `string` | Local download path (`/files/paper.pdf`) or external link        |
-| `slides_url` | `string` | Slides presentation link                                         |
-| `code_url`   | `string` | Code repository link                                             |
-| `bibtex`     | `string` | Raw BibTeX entry rendered with an interactive 1-click copy badge |
+| Field        | Type     | Description                                                                            |
+| :----------- | :------- | :------------------------------------------------------------------------------------- |
+| `category`   | `enum`   | Category filter tab (`books`, `journals`, `conferences`)                               |
+| `venue`      | `string` | Journal or conference name                                                             |
+| `citation`   | `string` | Formatted academic citation (supports Markdown and math)                               |
+| `pdf_url`    | `string` | Local download path (`/files/paper.pdf`) or external PDF link for the `[PDF]` badge    |
+| `paper_url`  | `string` | Fallback external publisher, DOI, or preprint link for `[PDF]` when `pdf_url` is unset |
+| `slides_url` | `string` | Slides presentation link                                                               |
+| `code_url`   | `string` | Code repository link                                                                   |
+| `bibtex`     | `string` | Raw BibTeX entry rendered with an interactive 1-click copy badge                       |
 
 ### Example
 
@@ -216,9 +217,9 @@ Post content with full Markdown, math equations, code blocks, and diagrams.
 
 ## 8. Static Pages (`src/content/pages/`)
 
-Static markdown pages for institutional requirements, legal disclaimers, or standalone pages:
+Static markdown pages for the homepage biography, institutional requirements, legal disclaimers, or standalone pages:
 
-- `about.md`: Legacy bio page (note: default homepage is `src/pages/index.astro`)
+- `about.md`: Homepage biography and research overview rendered on `/` by `src/pages/index.astro`
 - `terms.md`: Academic terms of use, content licensing, and privacy notices linked in the global footer (`/terms/`)
 
 ### Creating Custom Static Pages
@@ -240,14 +241,21 @@ Static markdown pages for institutional requirements, legal disclaimers, or stan
    ---
    import { getEntry, render } from 'astro:content';
 
-   import PageLayout from '../layouts/PageLayout.astro';
+   import PageLayout from '@layouts/PageLayout.astro';
 
    const entry = await getEntry('pages', '<slug>');
-   if (!entry) return Astro.redirect('/404');
+   if (!entry) throw new Error("Missing '<slug>' page in content/pages");
+
    const { Content } = await render(entry);
    ---
 
-   <PageLayout title={entry.data.title} description={entry.data.description}>
+   <PageLayout
+     title={entry.data.title}
+     description={entry.data.description}
+     authorProfile={entry.data.author_profile}
+     toc={entry.data.toc}
+     image={entry.data.image}
+   >
      <Content />
    </PageLayout>
    ```

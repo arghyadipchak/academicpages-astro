@@ -19,7 +19,7 @@ A modern, high-performance academic personal website and portfolio template buil
 - ⚡ **Blazing Fast**: 100% static HTML generation with sub-second page loads and zero client-side JavaScript framework bloat
 - 🎨 **Modern Aesthetic & Dark Mode**: Classic Academic Pages aesthetic modernized with 32 built-in light/dark theme presets, custom 5-token palettes, and automatic OS preference fallback
 - 📚 **Strict Content Collections**: Zod-validated schemas for publications (with 1-click BibTeX), talks, teaching, portfolio projects, and KaTeX blog posts
-- 🔍 **Instant Search (`Cmd + K`)**: Fast, lightweight client-side fuzzy search across all publications, talks, and blog posts
+- 🔍 **Instant Search (`Cmd + K`)**: Fast, lightweight client-side fuzzy search across all publications, talks, teaching, portfolio items, blog posts, and pages
 - 📐 **Mathematical Rigor ($\LaTeX$ / KaTeX)**: Fast, static server-side math rendering across Markdown content, frontmatter titles, and archive listings via KaTeX
 - 🌐 **Scholarly SEO & Syndication**: Google Scholar and Highwire Press citation meta tags, RSS 2.0 (`/rss.xml`), RSS feed alias (`/feed.xml`), XML sitemaps, and crawlers index (`/robots.txt`)
 - 🤖 **AI-Native & Agent Ready**: Pre-equipped with turnkey prompts, specialized agent skills (`.agents/skills/`), and machine-readable `/llms.txt` indexing
@@ -91,8 +91,8 @@ Visit `http://localhost:4321` in your browser
 | `pnpm test`         | Runs the Playwright automated browser test suite                 |
 | `pnpm format`       | Formats all code with Prettier and Tailwind class sorter         |
 | `pnpm format:check` | Checks code formatting without writing changes                   |
-| `pnpm lint`         | Runs ESLint 9 code quality checks                                |
-| `pnpm lint:fix`     | Runs ESLint 9 autofix                                            |
+| `pnpm lint`         | Runs ESLint 10 code quality checks                               |
+| `pnpm lint:fix`     | Runs ESLint 10 autofix                                           |
 
 ---
 
@@ -135,7 +135,7 @@ Please add a new publication to `src/content/publications/` following `.agents/s
 - Venue: [e.g. "NeurIPS 2025"]
 - Date: [YYYY-MM-DD]
 - Authors: [List of authors, with asterisks for co-first authors if applicable]
-- Links / Badges: [arXiv URL, GitHub code URL, PDF slide URL, poster URL]
+- Links / Badges: [PDF URL, publisher/arXiv paper URL, GitHub code URL, slides URL]
 - BibTeX: [Raw BibTeX snippet or leave blank to generate from metadata]
 - Abstract / Summary: [Paste paper abstract or notes]
 ```
@@ -149,12 +149,11 @@ Please add a new publication to `src/content/publications/` following `.agents/s
 Please add a new talk to `src/content/talks/` following `.agents/skills/content-operations/SKILL.md` and `docs/CONTENT.md`:
 
 - Title: [Talk title]
-- Type: [Keynote | Conference Talk | Tutorial | Seminar]
+- Type: [Keynote Talk | Conference Talk | Workshop Tutorial | Seminar]
 - Date: [YYYY-MM-DD]
-- Venue: [Conference or department name]
-- Location: [City, State / Country]
-- Links: [Slides PDF, recording URL, or conference link]
-- Abstract: [Brief description or talk outline]
+- Venue: [Event name, host institution, and location]
+- Slides URL: [Local `/files/slides.pdf` or external URL]
+- Abstract / Links: [Brief description, talk outline, or recording/event links for the page body]
 ```
 
 </details>
@@ -166,11 +165,11 @@ Please add a new talk to `src/content/talks/` following `.agents/skills/content-
 Please add a new course to `src/content/teaching/` following `.agents/skills/content-operations/SKILL.md` and `docs/CONTENT.md`:
 
 - Title: [Course title, e.g. "Introduction to Machine Learning"]
-- Semester: [e.g. "Fall 2025" or "Spring 2026"]
-- Role: [Instructor | Teaching Assistant | Guest Lecturer]
-- Institution: [Department or university name]
-- Links: [Syllabus URL, slides URL, course website]
-- Description: [Course description, office hours, syllabus outline]
+- Year: [e.g. 2026]
+- Semester: [Autumn | Fall | Spring | Summer | Winter]
+- Type: [Undergraduate Course | Graduate Course | Workshop]
+- Venue: [Department or university name]
+- Description: [Course description, office hours, syllabus outline, and links]
 ```
 
 </details>
