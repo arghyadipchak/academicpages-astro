@@ -98,10 +98,13 @@ Visit `http://localhost:4321` in your browser
 
 ## ⚙️ AI Prompt Playbook & Customization Guide
 
-This repository ships agent skills in `.agents/skills/` and rules in [`AGENTS.md`](AGENTS.md) for AI coding assistants (**Claude Code**, **Codex**, **Cursor**, **GitHub Copilot**, **Antigravity**). Ask in plain words, and the assistant picks the matching skill
+This repository ships agent skills in `.agents/skills/` and rules in [`AGENTS.md`](AGENTS.md) for AI coding assistants (**Claude Code**, **Codex**, **Cursor**, **GitHub Copilot**, **Gemini CLI**, **Antigravity**). Ask in plain words, and the assistant picks the matching skill
 
 > [!NOTE]
 > **Claude Code** loads the skills automatically through `.claude/skills/`. You can also invoke them directly: `/academicpages-onboarding`, `/academicpages-add-publication`, `/academicpages-content-operations` and `/academicpages-template-sync`. Codex, Antigravity and GitHub Copilot discover `.agents/skills/` on their own. If an assistant does not pick a skill up, name its path in the prompt, e.g. "following `.agents/skills/academicpages-onboarding/SKILL.md`"
+
+> [!TIP]
+> The [Astro docs MCP server](https://docs.astro.build/en/guides/build-with-ai/) is preconfigured for Claude Code (`.mcp.json`), Codex (`.codex/config.toml`), Cursor (`.cursor/mcp.json`), Gemini CLI (`.gemini/settings.json`) and VS Code (`.vscode/mcp.json`), so assistants check current Astro APIs instead of remembered ones. Antigravity, Windsurf and Zed only read global MCP settings, so add it there once by following the Astro guide
 
 ### 🚀 Onboarding & Personalization
 

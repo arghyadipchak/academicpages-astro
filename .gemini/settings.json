@@ -1,0 +1,10 @@
+{
+  "context": {
+    "fileName": "AGENTS.md"
+  },
+  "mcpServers": {
+    "astro-docs": {
+      "httpUrl": "https://mcp.docs.astro.build/mcp"
+    }
+  }
+}

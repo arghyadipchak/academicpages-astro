@@ -41,6 +41,7 @@ Thumbs.db
 !.vscode/extensions.json
 !.vscode/launch.json
 !.vscode/settings.json
+!.vscode/mcp.json
 !.vscode/tasks.json
 .zed/*
 !.zed/settings.json
