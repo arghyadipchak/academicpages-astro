@@ -6,3 +6,6 @@ overrides:
   # emnapi 2.0 betas break the 1.x WebAssembly builds astro check loads
   '@emnapi/core': ^1.11.3
   '@emnapi/runtime': ^1.11.3
+  # One KaTeX for Markdown math, and versions past pnpm audit advisories
+  katex: ^0.19.1
+  postcss-selector-parser: ^6.1.5
