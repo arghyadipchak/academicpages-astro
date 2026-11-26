@@ -46,6 +46,8 @@ pnpm test -g "search" --project="Desktop Chrome"  # tests matching a title, one 
 pnpm generate:favicons   # regenerate favicons from public/favicon.svg
 ```
 
+Under a coding agent, Astro 7 runs `pnpm dev` in the background and returns once it is ready, and a second start reuses the running server. Check it with `pnpm astro dev status`, read its output with `pnpm astro dev logs` and stop it with `pnpm astro dev stop`; `GET /_astro/status` answers `{"ok": true}` while it is up
+
 Playwright starts its own server: `pnpm dev` locally (reuses one already running), `pnpm preview` under `CI=1`, so run `pnpm build` first when testing CI-style. `TEST_PORT` overrides the port. `api.spec.ts` runs only on the desktop project
 
 ## Architecture Notes
