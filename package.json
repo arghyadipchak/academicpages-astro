@@ -6,7 +6,8 @@
   "license": "MIT",
   "type": "module",
   "engines": {
-    "node": ">=22.11.0"
+    "node": ">=22.11.0",
+    "pnpm": ">=11.0.0"
   },
   "scripts": {
     "dev": "astro dev",

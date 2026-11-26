@@ -36,7 +36,7 @@ Runbooks live in `.agents/skills/`. Read the matching one before starting these 
 
 ## Commands
 
-Package manager is pnpm (Node >= 22.11)
+Package manager is pnpm >= 11 (Node >= 22.11)
 
 ```bash
 pnpm dev                 # dev server on :4321

@@ -9,7 +9,7 @@ Thank you for your interest in contributing to Academic Pages Astro! This guide 
 ### Prerequisites
 
 - **Node.js**: `>= 22.11.0` (Node 22, 24, or 26+)
-- **Package Manager**: `pnpm` (`npm install -g pnpm`)
+- **Package Manager**: `pnpm` `>= 11.0.0` (`npm install -g pnpm`)
 
 ### Local Setup
 
