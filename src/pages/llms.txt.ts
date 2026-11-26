@@ -3,7 +3,7 @@ import { getCollection } from 'astro:content';
 
 import { navigation } from '@data/navigation';
 import { siteConfig } from '@data/siteConfig';
-import { sortByDateDesc, sortTeaching } from '@utils/date';
+import { formatYear, sortByDateDesc, sortTeaching } from '@utils/date';
 import {
   getPortfolioUrl,
   getPostUrl,
@@ -58,10 +58,10 @@ export const GET: APIRoute = async ({ site }) => {
   const publications = await getCollection('publications');
   if (publications.length > 0) {
     lines.push('', '## Publications', '');
-    const sorted = sortByDateDesc(publications).slice(0, 10);
+    const sorted = sortByDateDesc(publications);
     for (const pub of sorted) {
       const url = `${origin}${getPublicationUrl(pub)}`;
-      const year = new Date(pub.data.date).getFullYear();
+      const year = formatYear(pub.data.date);
       const venue = pub.data.venue ? `${pub.data.venue}, ` : '';
       lines.push(`- [${pub.data.title}](${url}): ${venue}${year}`);
     }
@@ -70,10 +70,10 @@ export const GET: APIRoute = async ({ site }) => {
   const talks = await getCollection('talks');
   if (talks.length > 0) {
     lines.push('', '## Talks & Presentations', '');
-    const sorted = sortByDateDesc(talks).slice(0, 10);
+    const sorted = sortByDateDesc(talks);
     for (const talk of sorted) {
       const url = `${origin}${getTalkUrl(talk)}`;
-      const year = new Date(talk.data.date).getFullYear();
+      const year = formatYear(talk.data.date);
       const venue = talk.data.venue ? `${talk.data.venue}, ` : '';
       lines.push(`- [${talk.data.title}](${url}): ${venue}${year}`);
     }
@@ -82,7 +82,7 @@ export const GET: APIRoute = async ({ site }) => {
   const teaching = await getCollection('teaching');
   if (teaching.length > 0) {
     lines.push('', '## Teaching & Courses', '');
-    const sorted = sortTeaching(teaching).slice(0, 10);
+    const sorted = sortTeaching(teaching);
     for (const course of sorted) {
       const url = `${origin}${getTeachingUrl(course)}`;
       const type = course.data.type ? `${course.data.type}, ` : '';
@@ -94,7 +94,7 @@ export const GET: APIRoute = async ({ site }) => {
   const portfolio = await getCollection('portfolio');
   if (portfolio.length > 0) {
     lines.push('', '## Portfolio & Projects', '');
-    const sorted = sortByDateDesc(portfolio).slice(0, 10);
+    const sorted = sortByDateDesc(portfolio);
     for (const project of sorted) {
       const url = `${origin}${getPortfolioUrl(project)}`;
       const desc = project.data.description || '';
@@ -105,10 +105,10 @@ export const GET: APIRoute = async ({ site }) => {
   const posts = await getCollection('blog', ({ data }) => !data.draft);
   if (posts.length > 0) {
     lines.push('', '## Blog Posts', '');
-    const sorted = sortByDateDesc(posts).slice(0, 10);
+    const sorted = sortByDateDesc(posts);
     for (const post of sorted) {
       const url = `${origin}${getPostUrl(post)}`;
-      const year = new Date(post.data.date).getFullYear();
+      const year = formatYear(post.data.date);
       lines.push(`- [${post.data.title}](${url}): Published ${year}`);
     }
   }
