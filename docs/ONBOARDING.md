@@ -12,7 +12,7 @@ Follow this itemized roadmap to convert the starter template into your personal 
 - [ ] **Author Bio & Details**: In `src/data/siteConfig.ts`, update `author.name`, `author.bio`, `author.location`, `author.employer`, and `author.email`
 - [ ] **Academic & Social Handles**: In `src/data/siteConfig.ts`, add your usernames or profile URLs for `googlescholar`, `orcid`, `github`, `linkedin`, `x`, etc.
 - [ ] **Profile Photo**: Replace `public/images/profile.png` with your personal square headshot (~500x500px)
-- [ ] **Favicon & Logo**: Replace `public/favicon.svg` with your personal or institution logo, then run `pnpm generate:favicons` to regenerate PNG and ICO formats (requires `resvg` CLI: `cargo install resvg` or package manager)
+- [ ] **Favicon & Logo**: Replace `public/favicon.svg` with your personal or institution logo, then run `pnpm generate:favicons` to regenerate the PNG and ICO formats. The script uses `sharp` by default and switches to the [`resvg`](https://github.com/linebender/resvg) CLI when it is installed (`cargo install resvg`, `pacman -S resvg` or `brew install resvg`), which renders more faithfully and produces smaller files
 - [ ] **License & Copyright**: In `LICENSE`, add your copyright notice (`Copyright (c) [Year] [Your Name]`) while preserving upstream attribution lines
 - [ ] **Preserve Footer Attribution**: Keep the template attribution credit in `src/components/Footer.astro` and global footer linking back to Academic Pages Astro (never remove, hide, or comment it out)
 

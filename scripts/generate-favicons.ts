@@ -2,6 +2,8 @@ import { execFileSync } from 'node:child_process';
 import { existsSync, writeFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 
+import sharp from 'sharp';
+
 const rootDir = resolve(import.meta.dirname, '..');
 const svgPath = resolve(rootDir, 'public/favicon.svg');
 
@@ -10,39 +12,43 @@ if (!existsSync(svgPath)) {
   process.exit(1);
 }
 
-try {
-  execFileSync('resvg', ['--version'], { stdio: 'pipe' });
-} catch {
-  console.error(
-    'Error: "resvg" CLI tool is not installed or not found on PATH.\n' +
-      'Please install resvg:\n' +
-      '  - Cargo: cargo install resvg\n' +
-      '  - Arch Linux: pacman -S resvg\n' +
-      '  - macOS: brew install resvg\n' +
-      '  - Binaries: https://github.com/linebender/resvg/releases'
-  );
-  process.exit(1);
+// Prefer resvg: more faithful and about 4x smaller PNGs
+function hasResvg(): boolean {
+  try {
+    execFileSync('resvg', ['--version'], { stdio: 'pipe' });
+
+    return true;
+  } catch {
+    return false;
+  }
 }
 
-function renderPng(size: number): Buffer {
-  return execFileSync(
-    'resvg',
-    [
-      '-w',
-      String(size),
-      '-h',
-      String(size),
-      '--shape-rendering',
-      'geometricPrecision',
-      '--text-rendering',
-      'optimizeLegibility',
-      '--image-rendering',
-      'optimizeQuality',
-      svgPath,
-      '-c',
-    ],
-    { maxBuffer: 10 * 1024 * 1024 }
-  );
+const useResvg = hasResvg();
+
+async function renderPng(size: number): Promise<Buffer> {
+  if (useResvg) {
+    return execFileSync(
+      'resvg',
+      [
+        '-w',
+        String(size),
+        '-h',
+        String(size),
+        '--shape-rendering',
+        'geometricPrecision',
+        '--text-rendering',
+        'optimizeLegibility',
+        '--image-rendering',
+        'optimizeQuality',
+        svgPath,
+        '-c',
+      ],
+      { maxBuffer: 10 * 1024 * 1024 }
+    );
+  }
+
+  // Render large, then downsample for crisp small sizes
+  return sharp(svgPath, { density: 1200 }).resize(size, size).png().toBuffer();
 }
 
 interface IcoImage {
@@ -90,13 +96,22 @@ const pngTargets: { filename: string; size: number }[] = [
   { filename: 'icon-512.png', size: 512 },
 ];
 
-console.log(
-  'Generating favicon assets from public/favicon.svg using resvg CLI...\n'
-);
+if (useResvg) {
+  console.log(
+    'Generating favicon assets from public/favicon.svg using resvg...\n'
+  );
+} else {
+  console.log(
+    'Generating favicon assets from public/favicon.svg using sharp...\n' +
+      'Tip: install the resvg CLI for more faithful, smaller icons ' +
+      '(cargo install resvg, pacman -S resvg, brew install resvg, or ' +
+      'https://github.com/linebender/resvg/releases)\n'
+  );
+}
 
 for (const target of pngTargets) {
   const outPath = resolve(rootDir, 'public', target.filename);
-  const png = renderPng(target.size);
+  const png = await renderPng(target.size);
   writeFileSync(outPath, png);
   console.log(
     `✓ public/${target.filename} (${target.size}×${target.size}) - ${png.length} bytes`
@@ -104,9 +119,9 @@ for (const target of pngTargets) {
 }
 
 const icoImages: IcoImage[] = [
-  { width: 16, height: 16, buffer: renderPng(16) },
-  { width: 32, height: 32, buffer: renderPng(32) },
-  { width: 48, height: 48, buffer: renderPng(48) },
+  { width: 16, height: 16, buffer: await renderPng(16) },
+  { width: 32, height: 32, buffer: await renderPng(32) },
+  { width: 48, height: 48, buffer: await renderPng(48) },
 ];
 
 const icoBuffer = createIco(icoImages);
