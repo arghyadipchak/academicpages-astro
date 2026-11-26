@@ -164,9 +164,15 @@ test.describe('Client-Side Interactive Components Tests', () => {
 
     const modal = page.locator('#search-modal');
     await expect(modal).toBeVisible();
+    await page.locator('#search-input').fill('paper');
+    await expect(page.locator('.search-result-item').first()).toBeVisible();
 
     await page.keyboard.press('Escape');
     await expect(modal).not.toBeVisible();
+
+    await searchBtn.click();
+    await expect(page.locator('#search-input')).toHaveValue('');
+    await expect(page.locator('.search-result-item')).toHaveCount(0);
   });
 
   test('search modal traps focus within dialog when open', async ({
@@ -233,7 +239,7 @@ test.describe('Client-Side Interactive Components Tests', () => {
     await page.goto(toUrl('/publications/'));
 
     const bibtexButtons = page.locator('.bibtex-toggle-btn');
-    await expect(bibtexButtons).toHaveCount(2);
+    await expect(bibtexButtons).toHaveCount(3);
 
     const bibtexBtn = bibtexButtons.first();
     await expect(bibtexBtn).toBeVisible();

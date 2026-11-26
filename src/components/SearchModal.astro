@@ -208,8 +208,11 @@ import { Icon } from 'astro-icon/components';
     }
 
     function closeModal() {
-      if (!modal) return;
-      modal.close();
+      if (modal?.open) modal.close();
+    }
+
+    // Called on close, so Escape resets too
+    function resetSearch() {
       if (input) {
         input.value = '';
         input.setAttribute('aria-expanded', 'false');
@@ -227,7 +230,6 @@ import { Icon } from 'astro-icon/components';
     closeModalFn = closeModal;
 
     document.querySelectorAll('.search-trigger-btn').forEach((btn) => {
-      btn.removeEventListener('click', openModal);
       btn.addEventListener('click', openModal);
       btn.addEventListener('pointerenter', () => loadSearchData(), {
         once: true,
@@ -235,6 +237,11 @@ import { Icon } from 'astro-icon/components';
       btn.addEventListener('focus', () => loadSearchData(), { once: true });
     });
 
+    // The dialog survives page transitions, so bind once
+    if (modal.dataset.bound) return;
+    modal.dataset.bound = 'true';
+
+    modal.addEventListener('close', resetSearch);
     closeBtn?.addEventListener('click', closeModal);
 
     modal.addEventListener('click', (e) => {
