@@ -1,6 +1,8 @@
 import type { APIRoute } from 'astro';
 import { getCollection } from 'astro:content';
 
+import sharp from 'sharp';
+
 import { siteConfig } from '@data/siteConfig';
 import { resolveThemes } from '@data/themes';
 import { formatDate } from '@utils/date';
@@ -269,10 +271,13 @@ export const GET: APIRoute = async ({ props }) => {
 </svg>
   `.trim();
 
-  return new Response(svg, {
+  // Social platforms ignore SVG previews
+  const png = await sharp(Buffer.from(svg)).png().toBuffer();
+
+  return new Response(new Uint8Array(png), {
     status: 200,
     headers: {
-      'Content-Type': 'image/svg+xml',
+      'Content-Type': 'image/png',
       'Cache-Control': 'public, max-age=31536000, immutable',
     },
   });

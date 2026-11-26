@@ -30,15 +30,15 @@ All content collections live in `src/content/`. Astro Content Layer validates ev
 
 The following base properties are available across content collections and static pages (defined in `baseContentSchema` and `layoutSchema` in `src/content.config.ts`):
 
-| Field            | Type         | Required      | Description                                                                              |
-| :--------------- | :----------- | :------------ | :--------------------------------------------------------------------------------------- |
-| `title`          | `string`     | **Yes**       | Item title (supports inline KaTeX math, e.g. `$E=mc^2$`)                                 |
-| `description`    | `string`     | No            | Short summary for SEO meta tags, social cards, and live search (`Cmd+K`)                 |
-| `date`           | `YYYY-MM-DD` | _Collections_ | Publication or event date (required on publications, talks, blog, portfolio)             |
-| `author_profile` | `boolean`    | No            | Shows author bio sidebar on desktop and follow toggle on mobile (default: `true`)        |
-| `toc`            | `boolean`    | No            | Renders retractable Table of Contents when 2+ `h2`/`h3` headings exist (default: `true`) |
-| `image`          | `string`     | No            | Optional hero or card preview banner path (e.g. `/images/project.png`)                   |
-| `permalink`      | `string`     | No            | Custom URL slug override (supported on content collections in `baseContentSchema`)       |
+| Field            | Type         | Required      | Description                                                                                                                                                                              |
+| :--------------- | :----------- | :------------ | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `title`          | `string`     | **Yes**       | Item title (supports inline KaTeX math, e.g. `$E=mc^2$`)                                                                                                                                 |
+| `description`    | `string`     | No            | Short summary for SEO meta tags, social cards, and live search (`Cmd+K`)                                                                                                                 |
+| `date`           | `YYYY-MM-DD` | _Collections_ | Publication or event date (required on publications, talks, blog, portfolio)                                                                                                             |
+| `author_profile` | `boolean`    | No            | Shows author bio sidebar on desktop and follow toggle on mobile (default: `true`)                                                                                                        |
+| `toc`            | `boolean`    | No            | Renders retractable Table of Contents when 2+ `h2`/`h3` headings exist (default: `true`)                                                                                                 |
+| `image`          | `string`     | No            | Hero, card and social preview image (e.g. `/images/project.png`). Use PNG or JPEG, since social platforms ignore SVG. Without it, the page shares a generated card from `/og/<slug>.png` |
+| `permalink`      | `string`     | No            | Custom URL slug override (supported on content collections in `baseContentSchema`)                                                                                                       |
 
 ---
 

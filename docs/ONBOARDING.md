@@ -2,7 +2,7 @@
 
 Follow this itemized roadmap to convert the starter template into your personal academic website.
 
-> ⚠️ **One-Time Lifecycle**: This onboarding guide and [`.agents/skills/onboarding/`](../.agents/skills/onboarding/SKILL.md) are intended solely for initial site setup. Once onboarding and verification are complete, follow [Section 5.E](#e-retire-onboarding-tooling) to delete them while retaining [`docs/CONFIG.md`](CONFIG.md), [`docs/CONTENT.md`](CONTENT.md), [`docs/MARKDOWN.md`](MARKDOWN.md), and [`docs/SYNC.md`](SYNC.md) for ongoing site maintenance.
+> ⚠️ **One-Time Lifecycle**: This onboarding guide and [`.agents/skills/onboarding/`](../.agents/skills/onboarding/SKILL.md) are intended solely for initial site setup. Once onboarding and verification are complete, follow [Section 5.D](#d-retire-onboarding-tooling) to delete them while retaining [`docs/CONFIG.md`](CONFIG.md), [`docs/CONTENT.md`](CONTENT.md), [`docs/MARKDOWN.md`](MARKDOWN.md), and [`docs/SYNC.md`](SYNC.md) for ongoing site maintenance.
 
 ---
 
@@ -55,19 +55,7 @@ Once your site is personalized and verified, remove starter tooling to keep your
 
 > ⚠️ **Template Attribution**: When personalizing the website or retiring starter files, the footer attribution credit in `src/components/Footer.astro` linking back to [Academic Pages Astro](https://github.com/arghyadipchak/academicpages-astro) must remain intact.
 
-### A. Retire Favicon Generator (Optional)
-
-Once your custom icons are generated in `public/`:
-
-- [ ] **Delete Script Directory**:
-
-  ```bash
-  rm -rf scripts/
-  ```
-
-- [ ] **Remove Generator Dependency & Script**: In `package.json`, remove `"generate:favicons": "node --experimental-strip-types scripts/generate-favicons.ts"`
-
-### B. Retire Starter Tests & Test Scaffolding
+### A. Retire Starter Tests & Test Scaffolding
 
 Because the starter browser tests in `tests/` assert against template demo routes (`/markdown/`, `/posts/blog-post-1/`, `/publications/paper-1/`) and `'Your Name'`, either update `tests/` to match your content or retire the starter test suite before pushing to GitHub Pages:
 
@@ -81,7 +69,7 @@ Because the starter browser tests in `tests/` assert against template demo route
 - [ ] **Remove Test Scripts & Dependencies**: In `package.json`, remove `"test": "playwright test"` and `@playwright/test` from `devDependencies`
 - [ ] **Update CI Workflow**: In `.github/workflows/ci.yml`, remove the `Install Playwright browsers` and `Run tests` steps so GitHub Pages deployments run `pnpm verify` and `pnpm build` directly
 
-### C. Retire Template Governance & Release Tooling (Optional)
+### B. Retire Template Governance & Release Tooling (Optional)
 
 Starter template maintenance files, issue templates, and changelog tooling can be safely deleted from a personal website repo:
 
@@ -92,7 +80,7 @@ Starter template maintenance files, issue templates, and changelog tooling can b
   rm -rf .github/ISSUE_TEMPLATE/ .github/pull_request_template.md .github/FUNDING.yml .github/workflows/release.yml .github/workflows/pr-lint.yml
   ```
 
-### D. Clean Up Documentation & README
+### C. Clean Up Documentation & README
 
 Replace the starter template `README.md` with a clean personal website README:
 
@@ -126,7 +114,7 @@ Replace the starter template `README.md` with a clean personal website README:
   Content © [Year] [Your Name]. Code based on [Academic Pages Astro](https://github.com/arghyadipchak/academicpages-astro) (MIT License)
   ````
 
-### E. Retire Onboarding Tooling
+### D. Retire Onboarding Tooling
 
 Once all steps are verified with `pnpm verify` and `pnpm build`:
 

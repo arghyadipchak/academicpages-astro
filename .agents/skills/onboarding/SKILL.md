@@ -47,7 +47,7 @@ Execute **Section 2 & Section 3** of [`docs/ONBOARDING.md`](../../../docs/ONBOAR
 
 ### Phase 4: Starter Tooling & Governance Retirement
 
-Execute **Section 5** of [`docs/ONBOARDING.md`](../../../docs/ONBOARDING.md) to retire starter demo tests (`tests/`, `playwright.config.ts`, and the Playwright steps in `.github/workflows/ci.yml` that target demo content) along with optional favicon generator scripts and template governance files.
+Execute **Section 5** of [`docs/ONBOARDING.md`](../../../docs/ONBOARDING.md) to retire starter demo tests (`tests/`, `playwright.config.ts`, and the Playwright steps in `.github/workflows/ci.yml` that target demo content) along with optional template governance files.
 
 ### Phase 5: Verification & Onboarding Self-Destruction
 
