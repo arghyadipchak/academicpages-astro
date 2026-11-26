@@ -1,3 +1,8 @@
 allowBuilds:
   esbuild: true
   sharp: true
+
+overrides:
+  # emnapi 2.0 betas break the 1.x WebAssembly builds astro check loads
+  '@emnapi/core': ^1.11.3
+  '@emnapi/runtime': ^1.11.3
