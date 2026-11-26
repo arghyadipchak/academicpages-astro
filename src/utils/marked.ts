@@ -4,16 +4,22 @@ import markedKatex from 'marked-katex-extension';
 
 import { resolveHtmlUrls } from '@utils/url';
 
+const escapeAttr = (value: string) =>
+  value.replace(/&/g, '&amp;').replace(/"/g, '&quot;');
+
 marked.use(markedKatex({ nonStandard: true }), {
   renderer: {
     link(token) {
       const isExternal = /^(https?:)?\/\//i.test(token.href);
       const text = this.parser.parseInline(token.tokens);
-      const titleAttr = token.title ? ` title="${token.title}"` : '';
+      const href = escapeAttr(token.href);
+      const titleAttr = token.title
+        ? ` title="${escapeAttr(token.title)}"`
+        : '';
       if (isExternal)
-        return `<a href="${token.href}"${titleAttr} target="_blank">${text}<span class="sr-only"> (opens in a new tab)</span></a>`;
+        return `<a href="${href}"${titleAttr} target="_blank">${text}<span class="sr-only"> (opens in a new tab)</span></a>`;
 
-      return `<a href="${token.href}"${titleAttr}>${text}</a>`;
+      return `<a href="${href}"${titleAttr}>${text}</a>`;
     },
   },
   extensions: [
