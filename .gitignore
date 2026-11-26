@@ -45,3 +45,6 @@ Thumbs.db
 .zed/*
 !.zed/settings.json
 !.zed/tasks.json
+
+# Claude Code personal settings
+.claude/settings.local.json

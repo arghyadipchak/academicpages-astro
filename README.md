@@ -34,7 +34,7 @@ A modern, high-performance academic personal website and portfolio template buil
 | Layer                  | Technologies                                                                                  |
 | :--------------------- | :-------------------------------------------------------------------------------------------- |
 | **Framework**          | [Astro 7](https://astro.build/)                                                               |
-| **Language**           | [TypeScript 5](https://www.typescriptlang.org/) (Strict mode)                                 |
+| **Language**           | [TypeScript 6](https://www.typescriptlang.org/) (Strict mode)                                 |
 | **Styling & Design**   | [Tailwind CSS v4](https://tailwindcss.com/)                                                   |
 | **Math Engine**        | [KaTeX](https://katex.org/) (via `remark-math`, `rehype-katex`, and `marked-katex-extension`) |
 | **Icons**              | [Astro Icon](https://www.astro-icon.dev/) (`academicons`, `fa6-brands`, `fa6-solid`)          |
@@ -98,109 +98,42 @@ Visit `http://localhost:4321` in your browser
 
 ## ⚙️ AI Prompt Playbook & Customization Guide
 
-If you use an AI coding assistant (**Antigravity**, **Cursor**, **Claude Code**, or **GitHub Copilot**), use these turnkey prompts across each stage of your site's lifecycle:
+This repository ships agent skills in `.agents/skills/` and rules in [`AGENTS.md`](AGENTS.md) for AI coding assistants (**Claude Code**, **Codex**, **Cursor**, **GitHub Copilot**, **Antigravity**). Ask in plain words, and the assistant picks the matching skill
 
-### 🚀 Stage 1: Initial Onboarding & Personalization (One-Time)
+> [!NOTE]
+> **Claude Code** loads the skills automatically through `.claude/skills/`. You can also invoke them directly: `/academicpages-onboarding`, `/academicpages-add-publication`, `/academicpages-content-operations` and `/academicpages-template-sync`. Codex, Antigravity and GitHub Copilot discover `.agents/skills/` on their own. If an assistant does not pick a skill up, name its path in the prompt, e.g. "following `.agents/skills/academicpages-onboarding/SKILL.md`"
 
-Copy and paste this prompt to personalize your entire website in one step:
+### 🚀 Onboarding & Personalization
 
-> [!TIP]
-> **Stage 1 Prompt — Site Onboarding**:
->
-> ```markdown
-> Please personalize this academic portfolio website for me by following `.agents/skills/onboarding/SKILL.md` and `docs/ONBOARDING.md`:
->
-> - CV / Resume: [Files in `cv/` (LaTeX `.tex`, Markdown, PDF, or text), or paste text/link]
-> - Google Scholar: [Profile URL or ID, or leave blank]
-> - GitHub: [Username or URL, or leave blank]
-> - LinkedIn: [Profile URL, or leave blank]
-> - Existing / Old Website: [URL or directory path of old Jekyll/Hugo/WordPress site, or leave blank]
-> - Other Profiles / Links: [e.g. ORCID, Twitter/X, ResearchGate, personal lab page]
-> ```
-
----
-
-### ✍️ Stage 2: Routine Content Authoring (Ongoing)
-
-Use these turnkey prompts to add new academic items into your collections:
-
-<details open>
-<summary><b>📄 Adding a Publication</b></summary>
+Have whatever you can of these ready: your CV (LaTeX, Markdown, PDF or text, e.g. in a `cv/` folder), Google Scholar, ORCID, GitHub and LinkedIn profiles, and your old website's URL or folder. Then ask:
 
 ```markdown
-Please add a new publication to `src/content/publications/` following `.agents/skills/content-operations/SKILL.md` and `docs/CONTENT.md`:
-
-- Title: [Paper title, e.g. "Deep Learning for Mathematical Reasoning $\mathcal{M}$"]
-- Category: [conferences | journals | books]
-- Venue: [e.g. "NeurIPS 2025"]
-- Date: [YYYY-MM-DD]
-- Authors: [List of authors, with asterisks for co-first authors if applicable]
-- Links / Badges: [PDF URL, publisher/arXiv paper URL, GitHub code URL, slides URL]
-- BibTeX: [Raw BibTeX snippet or leave blank to generate from metadata]
-- Abstract / Summary: [Paste paper abstract or notes]
+Set up this site for me from my CV in `cv/` and my Google Scholar profile [URL]
 ```
 
-</details>
-
-<details>
-<summary><b>🎤 Adding Talks & Presentations</b></summary>
+### ✍️ Content Authoring
 
 ```markdown
-Please add a new talk to `src/content/talks/` following `.agents/skills/content-operations/SKILL.md` and `docs/CONTENT.md`:
-
-- Title: [Talk title]
-- Type: [Keynote Talk | Conference Talk | Workshop Tutorial | Seminar]
-- Date: [YYYY-MM-DD]
-- Venue: [Event name, host institution, and location]
-- Slides URL: [Local `/files/slides.pdf` or external URL]
-- Abstract / Links: [Brief description, talk outline, or recording/event links for the page body]
+Add this paper to my site: https://arxiv.org/abs/2501.01234
 ```
-
-</details>
-
-<details>
-<summary><b>🎓 Adding Teaching & Courses</b></summary>
 
 ```markdown
-Please add a new course to `src/content/teaching/` following `.agents/skills/content-operations/SKILL.md` and `docs/CONTENT.md`:
-
-- Title: [Course title, e.g. "Introduction to Machine Learning"]
-- Year: [e.g. 2026]
-- Semester: [Autumn | Fall | Spring | Summer | Winter]
-- Type: [Undergraduate Course | Graduate Course | Workshop]
-- Venue: [Department or university name]
-- Description: [Course description, office hours, syllabus outline, and links]
+Add my invited talk "[Title]" at [Venue] on [YYYY-MM-DD], slides at `/files/slides.pdf`
 ```
-
-</details>
-
-<details>
-<summary><b>📝 Writing a Blog Post with Math</b></summary>
 
 ```markdown
-Please create a new blog post in `src/content/blog/` following `.agents/skills/content-operations/SKILL.md` and `docs/MARKDOWN.md`:
-
-- Title: [Post title, supports inline math like $E=mc^2$]
-- Date: [YYYY-MM-DD]
-- Tags: [List of tags]
-- Description: [Brief summary for SEO and feed]
-- Topic / Draft: [Topic outline, equations to typeset in KaTeX, and key takeaways]
+Add the course I taught in Spring 2026: CS 101 at [University], an undergraduate intro course
 ```
 
-</details>
+```markdown
+Write a blog post about [topic] with the key equations typeset in KaTeX
+```
 
----
+### 🔄 Template Upgrades
 
-### 🔄 Stage 3: Upstream Template Upgrades (Maintenance)
-
-When new releases are published in `academicpages-astro`, update your site with:
-
-> [!TIP]
-> **Stage 3 Prompt — Template Synchronization**:
->
-> ```markdown
-> Please upgrade my website with the latest template improvements from `academicpages-astro` following `.agents/skills/template-sync/SKILL.md` and `docs/SYNC.md`.
-> ```
+```markdown
+Upgrade my site to the latest academicpages-astro template release
+```
 
 ---
 
@@ -208,13 +141,14 @@ When new releases are published in `academicpages-astro`, update your site with:
 
 This repository is organized around a canonical **3-phase operational lifecycle** with dedicated reference guides and automated agent skills:
 
-| Lifecycle Phase              | Focus Area                              | Technical Reference                      | Operational Skill                                                                  |
-| :--------------------------- | :-------------------------------------- | :--------------------------------------- | :--------------------------------------------------------------------------------- |
-| **1. Onboarding (One-Time)** | Profile discovery, demo purge & setup   | [docs/ONBOARDING.md](docs/ONBOARDING.md) | [`.agents/skills/onboarding/`](.agents/skills/onboarding/SKILL.md)                 |
-| **2. Configuration**         | Site metadata, 50+ handles & navigation | [docs/CONFIG.md](docs/CONFIG.md)         | —                                                                                  |
-| **2. Content Authoring**     | Collections, frontmatter & BibTeX       | [docs/CONTENT.md](docs/CONTENT.md)       | [`.agents/skills/content-operations/`](.agents/skills/content-operations/SKILL.md) |
-| **2. Markdown & Math**       | KaTeX equations, callouts & Mermaid     | [docs/MARKDOWN.md](docs/MARKDOWN.md)     | —                                                                                  |
-| **3. Synchronization**       | Tag-to-tag whole-codebase upgrades      | [docs/SYNC.md](docs/SYNC.md)             | [`.agents/skills/template-sync/`](.agents/skills/template-sync/SKILL.md)           |
+| Lifecycle Phase            | Focus Area                              | Technical Reference                      | Operational Skill                                                                                              |
+| :------------------------- | :-------------------------------------- | :--------------------------------------- | :------------------------------------------------------------------------------------------------------------- |
+| **1. Onboarding**          | Profile discovery, demo purge & setup   | [docs/ONBOARDING.md](docs/ONBOARDING.md) | [`.agents/skills/academicpages-onboarding/`](.agents/skills/academicpages-onboarding/SKILL.md)                 |
+| **2. Configuration**       | Site metadata, 50+ handles & navigation | [docs/CONFIG.md](docs/CONFIG.md)         | —                                                                                                              |
+| **2. Content Authoring**   | Collections, frontmatter & BibTeX       | [docs/CONTENT.md](docs/CONTENT.md)       | [`.agents/skills/academicpages-content-operations/`](.agents/skills/academicpages-content-operations/SKILL.md) |
+| **2. Adding Publications** | Papers from arXiv, DOI or BibTeX        | [docs/CONTENT.md](docs/CONTENT.md)       | [`.agents/skills/academicpages-add-publication/`](.agents/skills/academicpages-add-publication/SKILL.md)       |
+| **2. Markdown & Math**     | KaTeX equations, callouts & Mermaid     | [docs/MARKDOWN.md](docs/MARKDOWN.md)     | —                                                                                                              |
+| **3. Synchronization**     | Tag-to-tag whole-codebase upgrades      | [docs/SYNC.md](docs/SYNC.md)             | [`.agents/skills/academicpages-template-sync/`](.agents/skills/academicpages-template-sync/SKILL.md)           |
 
 > 🤖 **Master AI Constitution**: For strict engineering standards, quality gate workflows, and agent rules, see [**AGENTS.md**](AGENTS.md)
 

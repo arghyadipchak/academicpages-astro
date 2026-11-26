@@ -4,5 +4,5 @@ contact_links:
     url: https://github.com/arghyadipchak/academicpages-astro/discussions
     about: Ask questions, share ideas, and showcase your site
   - name: 📖 Documentation & Customization Skill
-    url: https://github.com/arghyadipchak/academicpages-astro/blob/main/.agents/skills/customization/SKILL.md
+    url: https://github.com/arghyadipchak/academicpages-astro/blob/main/.agents/skills/academicpages-content-operations/SKILL.md
     about: Read the customization guide and content schemas

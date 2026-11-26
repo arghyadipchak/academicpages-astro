@@ -1,6 +1,6 @@
 ---
 name: academicpages-onboarding
-description: First-time personalization, profile discovery, demo content purge, and repository onboarding runbook for Academic Pages Astro
+description: Use when personalizing this Academic Pages Astro site for a user for the first time, from a CV, Google Scholar, GitHub or an old website, including purging the demo content
 ---
 
 # Academic Pages Astro Onboarding Skill 🚀
@@ -13,7 +13,7 @@ Operational runbook for AI coding assistants performing first-time personalizati
 > - **[Site Configuration (`docs/CONFIG.md`)](../../../docs/CONFIG.md)**: Profile fields, verified handles, navigation structure, and redirects
 > - **[Content Authoring (`docs/CONTENT.md`)](../../../docs/CONTENT.md)**: Frontmatter schemas and collection authoring templates
 
-> ⚠️ **One-Time Lifecycle**: This skill and [`docs/ONBOARDING.md`](../../../docs/ONBOARDING.md) are intended solely for initial site setup. Once onboarding and verification are complete, follow Step 5 to delete this skill directory and `docs/ONBOARDING.md` to keep the repository clean.
+> ♻️ **Safe to Re-Run**: Keep this skill and [`docs/ONBOARDING.md`](../../../docs/ONBOARDING.md) after setup. When re-running, check which steps are already done and skip them
 
 ---
 
@@ -41,29 +41,21 @@ Execute **Section 1 & Section 4** of [`docs/ONBOARDING.md`](../../../docs/ONBOAR
 
 Execute **Section 2 & Section 3** of [`docs/ONBOARDING.md`](../../../docs/ONBOARDING.md) following [`docs/CONTENT.md`](../../../docs/CONTENT.md):
 
-- Populate user research entries, biography (`src/content/pages/about.md`), and CV (`src/pages/cv.astro`)
+- Add each paper with [`.agents/skills/academicpages-add-publication/`](../academicpages-add-publication/SKILL.md), using DOIs or arXiv IDs from the CV or Scholar profile where available
+- Populate other research entries, biography (`src/content/pages/about.md`), and CV (`src/pages/cv.astro`)
 - Customize `src/content/pages/terms.md` for institutional and hosting requirements
 - Purge all demo markdown files, starter PDFs/slides (`public/files/`), and unused starter images (`public/images/`)
 
 ### Phase 4: Starter Tooling & Governance Retirement
 
-Execute **Section 5** of [`docs/ONBOARDING.md`](../../../docs/ONBOARDING.md) to retire starter demo tests (`tests/`, `playwright.config.ts`, and the Playwright steps in `.github/workflows/ci.yml` that target demo content) along with optional template governance files.
+Execute **Section 5** of [`docs/ONBOARDING.md`](../../../docs/ONBOARDING.md) to retire starter demo tests (`tests/`, `playwright.config.ts`, and the Playwright steps in `.github/workflows/ci.yml` that target demo content) along with optional template governance files, and update the matching commands and references in `AGENTS.md`
 
-### Phase 5: Verification & Onboarding Self-Destruction
+### Phase 5: Verification
 
-1. Execute the verification quality gate from repository root:
+Execute the verification quality gate from repository root and fix every error:
 
-   ```bash
-   pnpm format
-   pnpm verify
-   pnpm build
-   ```
-
-2. Once verification passes with 0 errors, retire the onboarding checklist and skill directory:
-
-   ```bash
-   rm docs/ONBOARDING.md
-   rm -rf .agents/skills/onboarding/
-   ```
-
-3. Direct subsequent content authoring to `.agents/skills/content-operations/` and template upgrades to `.agents/skills/template-sync/`
+```bash
+pnpm format
+pnpm verify
+pnpm build
+```
