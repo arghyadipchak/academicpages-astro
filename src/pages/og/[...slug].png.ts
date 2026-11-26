@@ -224,6 +224,14 @@ export const GET: APIRoute = async ({ props }) => {
       <stop offset="0%" stop-color="${dark.bg}"/>
       <stop offset="100%" stop-color="${dark.surface}"/>
     </linearGradient>
+    <radialGradient id="glow-dark">
+      <stop offset="0%" stop-color="${dark.base}" stop-opacity="0.08"/>
+      <stop offset="100%" stop-color="${dark.base}" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="glow-light">
+      <stop offset="0%" stop-color="${light.base}" stop-opacity="0.06"/>
+      <stop offset="100%" stop-color="${light.base}" stop-opacity="0"/>
+    </radialGradient>
     <linearGradient id="brand-grad" x1="0" y1="0" x2="1" y2="0">
       <stop offset="0%" stop-color="${dark.base}"/>
       <stop offset="100%" stop-color="${light.base}"/>
@@ -234,8 +242,8 @@ export const GET: APIRoute = async ({ props }) => {
 
   <rect x="0" y="0" width="1200" height="8" fill="url(#brand-grad)"/>
 
-  <circle cx="1080" cy="120" r="300" fill="${dark.base}" opacity="0.08" filter="blur(80px)"/>
-  <circle cx="100" cy="530" r="250" fill="${light.base}" opacity="0.06" filter="blur(60px)"/>
+  <circle cx="1080" cy="120" r="380" fill="url(#glow-dark)"/>
+  <circle cx="100" cy="530" r="310" fill="url(#glow-light)"/>
 
   ${
     item.category
