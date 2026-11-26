@@ -36,9 +36,10 @@ Read your current version from `package.json` (e.g. `"version": "0.2.0"` $\right
 ```bash
 # Return to your website repository directory
 cd /path/to/your-website
+CURRENT_TAG="v$(node -p "require('./package.json').version")"
 
-# Generate patch across template infrastructure (excluding demo content and one-time onboarding files)
-git --git-dir=/tmp/academicpages-template diff v0.2.0 "$LATEST_TAG" -- . ':!src/content' ':!public/files' ':!docs/ONBOARDING.md' ':!.agents/skills/onboarding' > template-update.patch
+# Generate patch across template infrastructure (excluding demo content and images)
+git --git-dir=/tmp/academicpages-template diff "$CURRENT_TAG" "$LATEST_TAG" -- . ':!src/content' ':!public/files' ':!public/images' > template-update.patch
 
 # Delete ephemeral template clone immediately
 rm -rf /tmp/academicpages-template
@@ -51,10 +52,10 @@ rm -rf /tmp/academicpages-template
 You can apply the generated patch using an AI coding assistant or the Git CLI:
 
 - **Intelligent Merging (AI Assistant)**: Prompt your AI assistant to apply `template-update.patch`. The assistant analyzes semantic changes across all layers (UI engine, styles, agent skills, documentation, configs, and dependencies) while preserving your custom content and profile identity
-- **CLI 3-Way Apply**: Apply directly in your terminal (`--reject` skips any files you intentionally deleted during onboarding, such as `tests/` or governance files):
+- **CLI Apply**: Apply directly in your terminal (`--reject` applies everything it can, writes a `.rej` file for each hunk that no longer fits, and reports changes to files you deleted during onboarding, such as `tests/`, as errors that are safe to ignore):
 
   ```bash
-  git apply --3way --ignore-whitespace --reject template-update.patch
+  git apply --reject --ignore-whitespace template-update.patch
   rm template-update.patch
   ```
 
@@ -64,7 +65,7 @@ You can apply the generated patch using an AI coding assistant or the Git CLI:
 
 ## 5. Step 4: Bump Version & Verify
 
-1. In `package.json`, update `"version"` to match the new template release (e.g. `"version": "0.3.0"`)
+1. In `package.json`, check that `"version"` matches the new template release (e.g. `"version": "0.3.0"`). The patch usually bumps it, so set it by hand only if that hunk was rejected
 2. Run the verification pipeline to ensure zero type errors or regressions:
 
    ```bash

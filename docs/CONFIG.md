@@ -131,6 +131,7 @@ export const navigation: NavItem[] = [
   { title: 'Portfolio', url: '/portfolio/' },
   { title: 'Blog Posts', url: '/posts/' },
   { title: 'CV', url: '/cv/' },
+  { title: 'Guide', url: '/markdown/' },
 ];
 ```
 
@@ -178,6 +179,8 @@ Redirects are managed under `redirects` in [`astro.config.ts`](../astro.config.t
 redirects: {
   '/about': '/',
   '/resume': '/cv/',
+  '/guide': '/markdown/',
+  '/md': '/markdown/',
 },
 ```
 
@@ -185,6 +188,7 @@ redirects: {
 
 - `'/about': '/'`: Redirects legacy `/about` requests to the homepage
 - `'/resume': '/cv/'`: Redirects `/resume` to `/cv/`
+- `'/guide'` and `'/md'` $\rightarrow$ `'/markdown/'`: Point to the demo Markdown guide; onboarding removes them together with the guide page and its `Guide` navigation link
 
 ### Legacy Jekyll & WordPress Redirects
 
