@@ -8,6 +8,7 @@ import rehypeKatex from 'rehype-katex';
 import remarkMath from 'remark-math';
 
 import { siteConfig } from '@data/siteConfig';
+import { rehypeCallouts } from '@plugins/rehype-callouts';
 import { rehypeExternalLinks } from '@plugins/rehype-external-links';
 import { rehypeTableWrapper } from '@plugins/rehype-table-wrapper';
 
@@ -52,7 +53,12 @@ export default defineConfig({
     },
     processor: unified({
       remarkPlugins: [remarkMath],
-      rehypePlugins: [rehypeKatex, rehypeExternalLinks, rehypeTableWrapper],
+      rehypePlugins: [
+        rehypeKatex,
+        rehypeCallouts,
+        rehypeExternalLinks,
+        rehypeTableWrapper,
+      ],
     }),
   },
   vite: { plugins: [tailwindcss()] },

@@ -152,63 +152,7 @@
         heading.appendChild(anchor);
       });
 
-    // 3. Kramdown IAL Notice Box Enhancement
-    document.querySelectorAll('.prose p').forEach((p) => {
-      const lastChild = p.lastChild;
-      if (!lastChild || lastChild.nodeType !== Node.TEXT_NODE) return;
-      const text = lastChild.textContent || '';
-      const noticeMatch = text.match(/\{:\s*\.(notice(?:--[a-z]+)?)\s*\}\s*$/);
-      if (noticeMatch) {
-        const noticeClass = noticeMatch[1];
-        lastChild.textContent = text
-          .replace(/\{:\s*\.(notice(?:--[a-z]+)?)\s*\}\s*$/, '')
-          .trimEnd();
-        p.classList.add('notice', noticeClass);
-      }
-    });
-
-    // 4. GitHub-Style Markdown Alerts (> [!NOTE], > [!TIP], etc.)
-    const alertClassMap: Record<string, { cls: string; label: string }> = {
-      NOTE: { cls: 'notice--info', label: 'Note' },
-      TIP: { cls: 'notice--success', label: 'Tip' },
-      IMPORTANT: { cls: 'notice--info', label: 'Important' },
-      WARNING: { cls: 'notice--warning', label: 'Warning' },
-      CAUTION: { cls: 'notice--danger', label: 'Caution' },
-    };
-
-    document
-      .querySelectorAll<HTMLElement>('.prose blockquote')
-      .forEach((bq) => {
-        const firstP = bq.querySelector('p');
-        if (!firstP) return;
-
-        const firstNode = firstP.firstChild;
-        if (!firstNode || firstNode.nodeType !== Node.TEXT_NODE) return;
-
-        const rawText = firstNode.textContent || '';
-        const match = rawText.match(
-          /^\s*\[!(NOTE|TIP|IMPORTANT|WARNING|CAUTION)\](?:\s*\n|\s+|$)/i
-        );
-        if (!match) return;
-
-        const alertKey = match[1].toUpperCase();
-        const alertInfo = alertClassMap[alertKey];
-        if (!alertInfo) return;
-
-        const remainder = rawText.slice(match[0].length);
-        firstNode.textContent = remainder ? ` ${remainder}` : '';
-
-        const strong = document.createElement('strong');
-        strong.textContent = `${alertInfo.label}:`;
-        firstP.insertBefore(strong, firstNode);
-
-        const div = document.createElement('div');
-        div.className = `notice ${alertInfo.cls}`;
-        while (bq.firstChild) div.appendChild(bq.firstChild);
-        bq.replaceWith(div);
-      });
-
-    // 5. Mermaid Diagrams Dynamic Auto-Rendering
+    // 3. Mermaid Diagrams Dynamic Auto-Rendering
     const mermaidBlocks = document.querySelectorAll<HTMLElement>(
       '.prose pre[data-language="mermaid"], .prose pre code.language-mermaid, .prose .mermaid'
     );
@@ -279,7 +223,7 @@
         .catch(() => {});
     }
 
-    // 6. Plotly Graphs Dynamic Auto-Rendering
+    // 4. Plotly Graphs Dynamic Auto-Rendering
     const plotlyBlocks = document.querySelectorAll<HTMLElement>(
       '.prose pre[data-language="plotly"], .prose pre code.language-plotly'
     );
