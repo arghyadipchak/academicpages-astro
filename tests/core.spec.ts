@@ -226,6 +226,17 @@ test.describe('Core UI, SEO & Page Integrity Tests', () => {
 
     const citationDate = page.locator('meta[name="citation_publication_date"]');
     await expect(citationDate).toHaveAttribute('content', '2024-03-15');
+
+    await page.goto(toUrl('/publications/paper-3/'));
+    const coAuthors = page.locator('meta[name="citation_author"]');
+    await expect(coAuthors).toHaveCount(2);
+    await expect(coAuthors.nth(1)).toHaveAttribute('content', 'Doe, Jane');
+    await expect(
+      page.locator('meta[name="citation_conference_title"]')
+    ).toHaveAttribute('content', 'Conference 1');
+    await expect(
+      page.locator('meta[name="citation_journal_title"]')
+    ).toHaveCount(0);
   });
 
   test('siteConfig locale, breadcrumbs, and Scholar profile link are properly wired', async ({

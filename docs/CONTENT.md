@@ -48,16 +48,16 @@ Research papers, preprints, books, and conference articles.
 
 ### Unique Fields
 
-| Field        | Type     | Description                                                                            |
-| :----------- | :------- | :------------------------------------------------------------------------------------- |
-| `category`   | `enum`   | Category filter tab (`books`, `journals`, `conferences`)                               |
-| `venue`      | `string` | Journal or conference name                                                             |
-| `citation`   | `string` | Formatted academic citation (supports Markdown and math)                               |
-| `pdf_url`    | `string` | Local download path (`/files/paper.pdf`) or external PDF link for the `[PDF]` badge    |
-| `paper_url`  | `string` | Fallback external publisher, DOI, or preprint link for `[PDF]` when `pdf_url` is unset |
-| `slides_url` | `string` | Slides presentation link                                                               |
-| `code_url`   | `string` | Code repository link                                                                   |
-| `bibtex`     | `string` | Raw BibTeX entry rendered with an interactive 1-click copy badge                       |
+| Field        | Type     | Description                                                                             |
+| :----------- | :------- | :-------------------------------------------------------------------------------------- |
+| `category`   | `enum`   | Category filter tab (`books`, `journals`, `conferences`)                                |
+| `venue`      | `string` | Journal or conference name                                                              |
+| `citation`   | `string` | Formatted academic citation (supports Markdown and math)                                |
+| `pdf_url`    | `string` | Local download path (`/files/paper.pdf`) or external PDF link for the `[PDF]` badge     |
+| `paper_url`  | `string` | Fallback external publisher, DOI, or preprint link for `[PDF]` when `pdf_url` is unset  |
+| `slides_url` | `string` | Slides presentation link                                                                |
+| `code_url`   | `string` | Code repository link                                                                    |
+| `bibtex`     | `string` | Raw BibTeX entry with a 1-click copy badge; its `author` list feeds Google Scholar tags |
 
 ### Example
 

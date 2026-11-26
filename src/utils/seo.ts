@@ -6,7 +6,7 @@ export type SchemaOrgNode = Record<string, unknown>;
 
 export interface CitationMetadata {
   title?: string;
-  author?: string;
+  authors?: string[];
   publicationDate?: string;
   journalTitle?: string;
   conferenceTitle?: string;
@@ -23,6 +23,30 @@ function resolveSchemaImage(
   return imageUrl.startsWith('http')
     ? imageUrl
     : new URL(resolveUrl(imageUrl), siteBase).toString();
+}
+
+/**
+ * Reads the author list from a BibTeX entry's `author` field
+ */
+export function parseBibtexAuthors(bibtex?: string): string[] {
+  const start = bibtex?.match(/\bauthor\s*=\s*[{"]/i);
+  if (!bibtex || start?.index === undefined) return [];
+
+  let depth = 1;
+  let i = start.index + start[0].length;
+  const open = start[0].endsWith('{');
+  const valueStart = i;
+  for (; i < bibtex.length && depth > 0; i++) {
+    if (bibtex[i] === '{') depth++;
+    else if (bibtex[i] === '}') depth--;
+    else if (!open && bibtex[i] === '"' && depth === 1) break;
+  }
+
+  return bibtex
+    .slice(valueStart, open ? i - 1 : i)
+    .split(/\s+and\s+/i)
+    .map((name) => name.replace(/[{}]/g, '').replace(/\s+/g, ' ').trim())
+    .filter(Boolean);
 }
 
 /**
@@ -129,14 +153,16 @@ export function buildScholarlyArticleSchema(
   description?: string,
   imageUrl?: string
 ): SchemaOrgNode {
-  const authorName = citation.author || siteConfig.author.name;
+  const authorNames = citation.authors?.length
+    ? citation.authors
+    : [siteConfig.author.name];
 
   return {
     '@type': 'ScholarlyArticle',
     '@id': `${canonicalUrl}#article`,
     headline: citation.title,
     name: citation.title,
-    author: { '@type': 'Person', name: authorName },
+    author: authorNames.map((name) => ({ '@type': 'Person', name })),
     datePublished: citation.publicationDate,
     description,
     image: resolveSchemaImage(siteBase, imageUrl),

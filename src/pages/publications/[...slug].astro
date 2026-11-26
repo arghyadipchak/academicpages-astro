@@ -3,8 +3,8 @@ import { getCollection, render } from 'astro:content';
 
 import PageLayout from '@layouts/PageLayout.astro';
 
-import { siteConfig } from '@data/siteConfig';
 import { formatYear, toIsoDateString } from '@utils/date';
+import { parseBibtexAuthors } from '@utils/seo';
 import { buildCollectionPaths, getSiteUrls, resolveUrl } from '@utils/url';
 
 export async function getStaticPaths() {
@@ -22,11 +22,16 @@ const pdfUrl = pub.data.pdf_url ?? pub.data.paper_url;
 
 const { siteBase } = getSiteUrls(Astro.url, Astro.site);
 
+const isConference =
+  pub.data.category === 'conferences' ||
+  /^\s*@inproceedings\b/i.test(pub.data.bibtex ?? '');
+
 const citationMetadata = {
   title: pub.data.title,
-  author: siteConfig.author.name,
+  authors: parseBibtexAuthors(pub.data.bibtex),
   publicationDate: toIsoDateString(pub.data.date),
-  journalTitle: pub.data.venue,
+  journalTitle: isConference ? undefined : pub.data.venue,
+  conferenceTitle: isConference ? pub.data.venue : undefined,
   venue: pub.data.venue,
   pdfUrl: pdfUrl
     ? pdfUrl.startsWith('http')

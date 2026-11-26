@@ -8,6 +8,13 @@ citation: 'Your Name, You. (2025). "Paper Title Number 3." *Conference 1*. 1(3).
 pdf_url: /files/paper3.pdf
 slides_url: /files/slides3.pdf
 code_url: https://github.com/arghyadipchak/academicpages-astro
+bibtex: |
+  @inproceedings{YourName2025paper3,
+    title     = {Paper Title Number 3},
+    author    = {Your Name and Doe, Jane},
+    booktitle = {Conference 1},
+    year      = {2025}
+  }
 ---
 
 The contents above will be part of a list of publications. If the user clicks the link for the publication, the contents of this section will be rendered as a full page, allowing you to provide more information about the paper for the reader. When publications are displayed as a single page, the contents of the above "citation" field will automatically be included below this section in a smaller font.

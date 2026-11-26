@@ -155,12 +155,11 @@ const {
 <!-- Google Scholar / Highwire Press Academic Meta Tags -->
 {citation?.title && <meta name="citation_title" content={citation.title} />}
 {
-  (citation?.author || (citation?.title && siteConfig.author.name)) && (
-    <meta
-      name="citation_author"
-      content={citation?.author || siteConfig.author.name}
-    />
-  )
+  citation?.title &&
+    (citation.authors?.length
+      ? citation.authors
+      : [siteConfig.author.name]
+    ).map((name) => <meta name="citation_author" content={name} />)
 }
 {
   citation?.publicationDate && (
